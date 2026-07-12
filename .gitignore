@@ -1,0 +1,113 @@
+# ==========================================
+# LangChain, LangGraph, & LLM Specifics
+# ==========================================
+# API keys and secrets (CRITICAL)
+.env
+.env.local
+.env.*
+!.env.example
+secrets.toml
+
+# LangChain / LangGraph local storage & tracking
+.langgraph_api/
+.langgraph/
+.langchain/
+langsmith/
+*.log
+
+# Local Vector Databases & Cache
+# (Prevents committing heavy local embedding/index files to GitHub)
+.chroma/
+chroma/
+faiss_index/
+.faiss/
+qdrant_storage/
+duckdb/
+*.db
+*.sqlite
+
+# Local LLM weights and downloaded models
+models/
+weights/
+*.bin
+*.gguf
+*.onnx
+
+# ==========================================
+# Standard Python Boilerplate
+# ==========================================
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+bin/
+build/
+develop-eggs/
+dist/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# pipenv
+# According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+# However, if you are ignoring virtualenvs inside the project, ensure this is set:
+.venv/
+
+# poetry
+# Poetry automatically creates virtualenvs outside the project, but if configured inside:
+.poetry/
+
+# MyPy / IDEs
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+papers/
