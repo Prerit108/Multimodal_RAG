@@ -1,0 +1,449 @@
+[
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models",
+    "text": "Francesca Paola Carli\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "Abstract",
+    "text": "Reciprocal processes are acausal generalizations of Markov processes introduced by Bernstein in 1932. In the literature, a significant amount of attention has been focused on developing dynamical models for reciprocal processes. In this paper, we provide a probabilistic graphical model for reciprocal processes. This leads to a principled solution of the smoothing problem via message passing algorithms . For the finite state space case, convergence analysis is revisited via the Hilbert metric .\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 1,
+    "page_end": 3,
+    "heading": "I. I ntroduction",
+    "text": "Non causal random processes arise in many areas of science and engineering. For these processes, the index set usually represents space instead of time. The class of non causal reciprocal processes was introduced by Bernstein in 1932 [3] and studied by many authors [20], [21], [22], [10], [26], [28], [25], [8], [9], [12], [40]. A R n -valued stochastic process X k defined over the interval I = [0 ; N ] is said to be reciprocal if for any subinterval [ K ; L ] I , the process in the interior of [ K ; L ] is conditionally independent of the process in I [ K ; L ] given X K and X L . Reciprocal processes are a natural generalization of Markov processes: from the definition it immediately follows that Markov processes are necessarily reciprocal, but the converse is not true [20]. Moreover multidimensional Markov random fields reduce in one dimension to a reciprocal process, not to a Markov process. To attest the relevance of reciprocal processes from an engineering point of view, note, for example, that the steady-state distribution\nFrancesca Paola Carli is with the Department of Engineering, University of Cambridge, United Kingdom, fpc23@cam.ac.uk\n1\nof the temperature along a heated ring or a beam subjected to random loads along its length can be modeled in terms of a reciprocal process. Applications to tracking of a ship-trajectory [13], estimation of arm movements [36], and synthesis of textured images [34] have also been considered in the literature.\nStarting with Krener's work [26], a significant amount of attention has been focused on developing dynamical models for reciprocal processes. Both the continuous and discrete-time case have been addressed. In this paper, our focus is on discrete-time reciprocal processes. In [28] it has been shown that a discrete-time Gaussian reciprocal process admits a second-order nearest-neighbor model driven by a locally correlated noise, where the noise correlation structure is specified by the model dynamics. This model recalls state-space models for Markov processes but is acausal (the system does not evolve recursively in the direction of increasing or decreasing values of k ) and the driving noise is not white. Second order state space models for discrete-time finite-state reciprocal processes have been derived in [12] (see also [11]).\nIn this paper, we provide a probabilistic graphical model for reciprocal processes with cyclic boundary conditions. In particular, it is shown that a reciprocal process with cyclic boundary conditions admits a single loop undirected graph as a perfect map. This approach is distributionindependent and leads to a principled solution of the smoothing problem via belief propagation (a.k.a. sum-product) algorithms. In this scheme, the estimated posteriors ('beliefs') are computed as the product of incoming messages at the corresponding node, messages being updated through local computations (every given node updates the outgoing messages on the basis of incoming messages at the previous iteration alone). For tree-structured graphs, the sum-product algorithm is guaranteed to converge to the correct posterior marginal [32]. Nevertheless, since message passing rules are purely local, the sum-product algorithm can also be applied to loopy networks as an approximation scheme. As mentioned above, the graphical model associated to a reciprocal process is a single-loop network, which is not a tree. Convergence of sum-product algorithms for single-loop networks has been studied in the literature (see [38], [39] and references therein). For the finite state space case, we revisit convergence analysis via the Hilbert metric. This approach is geometric in nature, leveraging on contraction properties of positive operators that map a quite generic cone into itself, and as such it can be extended to analyze convergence of message passing algorithms in more general settings (state-spaces, see the companion paper [7], and graph topologies), thus providing a unifying framework for the analysis of convergence of message passing algorithms for a single loop undirected graph, that has instead been treated via ad hoc arguments in the literature (see e.g. [38], [39] where di erent techniques has been employed for the Gaussian and the finite state space cases). To recap, the contribution of the paper is threefold: (i) providing a probabilistic graphical model for reciprocal processes; (ii) solving the smoothing problem via message passing algorithms; (iii) providing an alternative analysis of convergence of such algorithms leveraging on contraction properties of positive operators with respect to the Hilbert metric.\nThe paper is organized as follows. In Section II reciprocal processes are introduced. Secondorder nearest neighbor models for reciprocal processes are discussed in Section III. Section IV reviews relevant theory about probabilistic graphical models. The probabilistic graphical model associated to a reciprocal process with cyclic boundary conditions is derived in Section V where it is shown that a reciprocal process with cyclic boundary conditions admits a single-loop Markov network as perfect-map. The smoothing problem for reciprocal processes is solved in Section VI via loopy belief propagation. Sections VII and VIII introduce the Hilbert metric and discuss its relevance for stability analysis of linear positive systems. Contraction properties of positive operators with respect to the Hilbert metric are exploited to prove convergence of loopy belief propagation for finite state reciprocal processes in Section IX. Section X ends the paper.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 3,
+    "page_end": 4,
+    "heading": "II. R eciprocal P rocesses",
+    "text": "A stochastic process X t defined on a time interval I is said to be Markov if, for any t 0 2 I , the past and the future (with respect to t 0 ) are conditionally independent given X t 0 . A process is said to be reciprocal if, for each interval [ t 0 ; t 1 ] I , the process in the interior of [ t 0 ; t 1 ] and the process in I [ t 0 ; t 1 ] are conditionally independent given X t 0 and X t 1 . Formally [21]\nDefinition 2.1: A ( X ; )-valued stochastic process f X t g on the interval I with underlying probability space ( ; A ; P ) is said to be reciprocal if\n8 t 0 < t 1 , [ t 0 ; t 1 ] I , where A is the -field generated by the random variables f X r : r < [ t 0 ; t 1 ] g and B is the -field generated by f X r : r 2 ( t 0 ; t 1 ) g .\nFrom the definition we have that Markov processes are necessarily reciprocal, while the converse is generally not true [20]. The class of reciprocal processes is thus larger than the Markov class, and it naturally extends to the multidimensional case where the parameter set of the process is not linearly ordered. In fact multidimensional Markov random fields reduce in one dimension to a reciprocal process, not to a Markov process.\nIn this paper, we consider reciprocal processes defined on the discrete circle T with N + 1 elements f 0 ; 1 ; : : : ; N g (which corresponds to imposing the cyclic boundary conditions X 1 = X N , X N + 1 = X 0 , see [28], [35] and Section III below) so that the additional conditional independence relations\nhold.\nStarting with Krener's work [26], a significant amount of attention has been focused on developing dynamical models for reciprocal processes. In this paper, our focus is on discrete-time reciprocal processes. In the next Section we briefly review dynamical models for discrete-time reciprocal processes, that were first introduced in [28]. In Section V we provide a probabilistic graphical model representation of reciprocal processes.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 4,
+    "page_end": 6,
+    "heading": "III. S econd -order M odels of R eciprocal P rocesses",
+    "text": "Let X k be a zero-mean process defined over the finite interval I = [0 ; N ] and taking values in R n . It is well-known that if X k satisfies the recursion equation\nwhere W k is a zero-mean random process with\nand X 0 is a zero-mean random variable such that\nthen X k is Markov. If X k is Gaussian, then the converse is also true, namely it can be shown (see e.g. [1]) that a Gaussian process is Markov if and only if it satisfies (2) with noise structure (3), (4).\nFor a reciprocal process, the following holds. Let 1 k N 1, and consider the model\nwhere M 0 k , M + k , M k are such that\nand the driving noise E k satisfies\nwhere\nand is locally correlated with covariance e\nEquations (5)-(8) specify a second-order nearest-neighbor model. The model recalls standard first-order state-space models for Markov processes but it is acausal (the system does not evolve recursively in the direction of increasing or decreasing values of k ). Also, the driving noise E k is not white, but locally correlated. Notice that, in order to completely specify X k over the interval I = [0 ; N ], some boundary conditions must be provided. Following [28], in this paper we consider cyclic boundary conditions , namely we assume\nThese conditions are equivalent to extending cyclically the model (5) and the noise structure (7), (8) to the whole interval I = [0 ; N ], provided that, in these identities, k 1 and k + 1 are defined modulo N + 1. Equation (5) with cyclic boundary conditions (9) can be written in matrix form as\nand matrix M given by\nIt can be shown that a process f X k g satisfying (5)-(9) is reciprocal. Moreover, if the process is Gaussian, the converse is also true. To be more precise:\nTheorem 3.1: [28] Let X k be a zero-mean Gaussian process on T whose covariance x is nonsingular, i.e. x 0. Then X k is reciprocal if and only if it admits a well-posed second-order descriptor model of the form (5)-(9).\nState space modeling for fi nite state space reciprocal processes has been separately addressed in [12] (see also [11]). While di erent state space models have been proposed in the literature for the Gaussian [28] and finite state space [12] cases, the probabilistic graphical model we introduce in Section V is distribution independent. The following subsection provides a characterization of Gaussian reciprocal processes in terms of the sparsity pattern of their precision matrix.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 6,
+    "page_end": 7,
+    "heading": "Characterization via Covariance Matrix",
+    "text": "If the X k 's are normally distributed , an important characterization in terms of sparsity pattern of the inverse of the covariance matrix (a.k.a. the precision matrix) holds. To start, let's recall the following (see, e.g., [15], [27]):\nTheorem 3.2: The ( i ; j )-th (block)-entry of the inverse covariance matrix is zero if and only if the i -th and j -th (vector)-components of the underlying Gaussian random vector are conditionally independent given the other (vector)-components.\nNow, it is well known that x 0 is the covariance of a (vector-valued) Markov process if and only if 1 x is (block) tridiagonal (see [1]). In [28] the following characterization of nonsingular Gaussian reciprocal processes on a finite interval was obtained.\nTheorem 3.3: x 0 is the covariance matrix of the Gaussian reciprocal process (10) if and only if 1 x has the block tridiagonal structure\nIf the underlying process is wide-sense stationary, then the matrices n M 0 k o , n M + k o , n M k o do not depend on k and 1 x in (12) is block (tridiagonal and) circulant.\nBy combining the two characterizations (of reciprocal and Markov process), if one considers the equivalence class of reciprocal processes with dynamics (10), the subclass of Markov processes is such that the blocks in the upper northeast corner and lower southwest corner of 1 x are zero, i.e.\nTheorem 3.2 together with the characterization in Theorem 3.3 will be useful in the sequel to provide an alternative derivation in the Gaussian case of the probabilistic graphical model associated to a reciprocal process.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 7,
+    "page_end": 7,
+    "heading": "IV. P robabilistic G raphical M odels",
+    "text": "In this section, we briefly review some relevant theory about probabilistic graphical models needed in the sequel for the derivation of the probabilistic graphical model associated to a reciprocal process (see Section V). We refer the reader to [32], [27], [24], [5] for a thorough treatment of the subject.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 7,
+    "page_end": 8,
+    "heading": "Graph-related terminology and background",
+    "text": "Let G = ( V ; E ) be a graph where V denotes the set of vertices and E denotes the set of edges. An edge may be directed or undirected. In case of a directed edge from node i to node j , we say that i is a parent of its child j . Two nodes i and j are adjacent in G if the directed or undirected edge ( i ; j ) is contained in E . An undirected path is a sequence of distinct nodes f 1 ; : : : ; m g such that there exists a (directed or undirected) edge for each pair of nodes f l ; l + 1 g on the path. A graph is connected if every pair of points is joined by a path. A graph is singly-connected if there exists only one undirected path between any two nodes in the graph. If this is not the case, the graph is said to be multiply connected , or loopy . A (un)directed cycle is a path such that the beginning and ending nodes on the (un)directed path are the same.\nIf E contains only undirected edges then the graph G is an undirected graph (UG). If E contains only directed edges then the graph G is a directed graph (DG).\nTwo important classes of graphs for modeling probability distributions that we consider in this paper are UGs and directed acyclic graphs (DAGs), namely directed graphs having no directed cycles.\nA graph G is complete if there are edges between all pairs of nodes. A clique in an undirected graph is a fully connected set of nodes. A maximal clique is a clique that is not a strict subset of another clique. An undirected graph G is chordal if every cycle of length greater than three has an edge connecting nonconsecutive nodes, see e.g. [17]. The distance d ( u ; v ) between two vertices u and v in a graph G is the length of a shortest path between them. If there is no path connecting the two vertices d ( u ; v ) = 1 . A shortest path between any two vertices is often called a geodesic . The diameter of a (connected) graph G , d ( G ), is the length of any longest geodesic, i.e. d ( G ) = max f d ( u ; v ) : u ; v 2 V g .\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 8,
+    "page_end": 9,
+    "heading": "Probabilistic graphical models",
+    "text": "Now that we have introduced some terminology about graphs, we turn to the main object of this paper, namely probabilistic graphical models. Probabilistic graphical models are graph-based representations that compactly encode complex distributions over a high-dimensional space. In a probabilistic graphical model, each node represents a random variable and the links express probabilistic relationships between these variables. There are di erent types of graphical models. Two major classes are Bayesian networks , that use directed graphs, and Markov networks that are based on undirected graphs. A third class are factor graphs .\nThere are two ways of defining a graphical model: (i) as a representation of a set of independencies, and (ii) as a skeleton for factorizing a distribution. For Bayesian networks, the two definitions are equivalent, while for Markov networks additional assumptions, such as having a positive distribution, are needed to get factorization from independencies (Hammersely-Cli ord theorem). The primary definition of Markov networks will thus be in terms of (global) conditional independencies.\nThe two formalisms, Bayesian and Markov networks, can express di erent sets of conditional independencies and factorizations, and one or the other may be more appropriate, or even the only suitable, for a particular application. This will be discussed to some extent in the following. In this paper, we will be mainly interested in undirected graphical models, directed ones being mainly useful for expressing causal relationships between random variables.\nIn this Section, we first briefly introduce Markov and Bayesian networks and then describe relevant theory that allows one to go from a given set of conditional independencies (a distribution) to its graph representation. The graphical model associated to a reciprocal process will be derived in Section V.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 9,
+    "page_end": 9,
+    "heading": "Markov Networks",
+    "text": "The semantic of undirected graphical models is as follows.\na) Conditional independence property: An undirected graph defines a family of probability distributions which satisfy the following graph separation property.\nProperty 4.1 (Graph separation property): Let A , B , and C denote three disjoint sets of nodes in an undirected graphical model H and let us denote by X A , X B and X C the corresponding variables in the associated probability distribution P . Then we say that X A y X B j X C (in P ) ( X A and X B are conditionally independent given X C ) whenever (in H ) there is no path from a node in A to a node in B which does not pass through a node in C . An alternative way to view this conditional independence test is as follows: remove all nodes in set C from the graph together with any edge that connects to those nodes. If the resulting graph decomposes into multiple connected components such that A and B belong to di erent components, then X A y X B j X C .\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 9,
+    "page_end": 10,
+    "heading": "b) Factorization property:",
+    "text": "Property 4.2 (Factorization property): Let H be an undirected graphical model. Let C be a clique and let X C be the set of variables in that clique. Let C denote a set of maximal cliques. Define the following representation of the joint distribution\nwhere the functions C can be any nonnegative valued functions (i.e. do not need to sum to 1), and are sometimes referred to as potential functions or compatibility functions and Z , called the partition function , is a normalization constant chosen in such a way that the probabilities corresponding to all joint assignments sum up to 1. For discrete random variables, it is given by\nIf continuous variables are considered it su ces to replace the summation by an integral.\nFor positive distributions, the set of distributions that are consistent with the conditional independence statements that can be read from the graph using graph separation and the set of distributions that can be expressed as a factorization of the form (13) with respect to the maximal cliques of the graph are identical. This is the Hammersley-Cli ord theorem.\nNotice that, di erently to what happens for directed graphs, potential functions in undirected graphical models generally do not have a specific probabilistic interpretation as marginal or conditional distributions. Only in special cases, for instance when the undirected graph is constructed by starting with a directed graph, they can admit such interpretation.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 10,
+    "page_end": 10,
+    "heading": "Bayesian Networks",
+    "text": "A second class of probabilistic graphical models we shall briefly touch upon are Bayesian networks . The core of the Bayesian network representation are directed acyclic graphs (DAGs). Similarly to Markov networks, Bayesian networks can be defined both in terms of conditional independencies and factorization properties, but for Bayesian networks, the two definitions are equivalent with no need of additional assumptions. Reading the set of conditional independencies encoded by a Bayesian network again needs testing whether or not the paths connecting two sets of nodes are 'blocked', but the definition of 'blocked' is this time more involved than it was for undirected graphs. For what concerns the factorization property, in a Bayesian network, factors of the induced distribution represent the conditional distribution of a given variable conditioned on its parents. We do not enter here in further details about Bayesian networks models since, as we shall see, reciprocal processes do not admit a directed graph representation.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 10,
+    "page_end": 11,
+    "heading": "Factor graphs",
+    "text": "A third type of probabilistic graphical models are factor graphs. A factor graph F is an undirected graph containing two types of nodes: variable nodes and factor nodes . Suppose we have a function of several variables x = f x 1 ; x 2 ; : : : ; x N g and that this function factors into a product of several functions, each having some subset of f x 1 ; x 2 ; : : : ; x N g as arguments\nThis function can be represented by a factor graph having a variable node for each variable x i , a factor node (depicted by small squares) for each local function f s and an edge connecting the variable node x i to the factor node f s if and only if x i is an argument of f s .\nNotice that every undirected graph can be represented by an equivalent factor graph. The way to do this is to create a factor graph with the same set of variable nodes, and one factor node for each maximal clique in the graph.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 11,
+    "page_end": 11,
+    "heading": "From Models to Undirected Graphs",
+    "text": "So far, we have been addressing the problem of associating a distribution to a given graphical model via the set of conditional independencies / factorization properties that the graphical model encodes. In this paper, we are interested in finding the probabilistic graphical model associated to a reciprocal process. We are thus interested in the opposite question, and namely: given a process defined by a set of conditional independencies, find a graphical model that encodes such a set, possibly in an 'e cient' way. In other words, we want to find a graphical model that encodes all and only the conditional independencies implied by the distribution that we want to represent. Relevant to this aim are the notions of I-map, D-map and P-map, that we are now going to introduce.\nConsider a probability distribution P and a graphical model H . Let CI ( P ) denote the set of conditional independencies satisfied by P and let CI ( H ) denote the set of all conditional independencies implied by H .\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 11,
+    "page_end": 11,
+    "heading": "Definition 4.1 (I-map, D-map, P-map): We say that",
+    "text": "H is an independence map ( I-map ) for P if CI ( H ) CI ( P );\nH is a dependence map ( D-map ) for P if CI ( H ) CI ( P );\nH is a perfect map ( P-map ) for P if CI ( H ) = CI ( P ).\nIn other words, if H is an I-map for P , then every conditional independence statement implied by H is satisfied by P . If H is a D-map for P then every conditional independence statement satisfied by P is reflected by H . If it is the case that every conditional independence property of the distribution is reflected in the graph, and vice versa, then the graph is said to be a perfect map for that distribution. Clearly a fully connected graph will be a trivial I-map for any distribution because it implies no conditional independencies and a graph with no edges will be a trivial D-map for any distribution because it implies every conditional independence.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 12,
+    "page_end": 12,
+    "heading": "Generating Minimal I-maps",
+    "text": "Back to our original question, we have that an approach to finding a graph that represents a distribution P is simply to take any graph that is an I-map for P . Yet a complete graph is an I-map for any distribution, but there are redundant edges in it. What we are really interested in, are I-maps that represent a family of distributions in a 'minimal' way, as specified by the following definition.\nDefinition 4.2 (Minimal I-map): A minimal I-map is an I-map with the property that removing any single edge would cause the graph to no longer be an I-map.\nHow can we construct a minimal I-map for a distribution P? Here we mention two approaches for constructing a minimal I-map, one based on the pairwise Markov independencies, and the other based on the local independencies (see [32], [33]).\nTheorem 4.1: Let P be a positive distribution, and let H = ( V ; E ) be defined by introducing an edge ( X ; Y ) for all X , Y that do not satisfy X y Y j V f X ; Y g . Then the Markov network H is the unique minimal I-map for P .\nAn alternative approach that uses local independencies, is based on the notion of Markov blanket, that is defined as follows.\nDefinition 4.3: Consider a graph H = ( V ; E ). A set U is a Markov blanket of X in a distribution P if X < U and if U is a minimal set of nodes such that\nTheorem 4.2: Let P be a positive distribution. For each node X , let MBP ( X ) be a minimal set of nodes U satisfying (15). We define a graph H by introducing an edge ( X ; Y ) for all X and Y 2 MBP ( X ). Then the Markov network H is the unique minimal I-map for P .\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 12,
+    "page_end": 13,
+    "heading": "Nonchordal Markov networks do not admit a Bayesian network as a perfect map",
+    "text": "It turns out that some distributions can be perfectly represented by a directed graphical model while others can be perfectly represented by an undirected one. On the other hand, some sets\n1\nof independence assumptions can be perfectly represented both by a Bayesian network and by a Markov network. This is the case of undirected chordal graphs. The precise statement is as follows.\nTheorem 4.3: Let H be a Markov network. Then there is a Bayesian network G such that CI ( H ) = CI ( G ) if and only if H is chordal.\n",
+    "figures": [
+      {
+        "page": 13,
+        "bbox": [
+          145.94337463378906,
+          708.7927474975586,
+          467.0413513183594,
+          560.7559051513672
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_1.png",
+        "caption": "Fig. 1: Wrapped time line (on the left) and probabilistic graphical model (on the right) for a reciprocal process on I = [0 ; 4].",
+        "description": "Here's an analysis of the image based on a scientific/technical document perspective:\n\n**Image Description:**\n\nThe image consists of two diagrams depicting geometric shapes. Both diagrams represent a pentagon.\n\n**(a) Diagram (a)** shows a pentagon with five vertices labeled X₀, X₁, X₂, X₃, and X₄. The lines connecting the vertices form the sides of the pentagon.  The pentagon is filled in with a solid gray background.\n\n**(b) Diagram (b)** also represents a pentagon with five vertices labeled X₀, X₁, X₂, X₃, and X₄. However, in this diagram, only the edges connecting X₀ to X₁ and X₀ to X₂ are solid red lines. The remaining edges of the pentagon are represented by dashed gray lines.  The background is white.\n\n**Text:**\n\n*   (a) - Label for Diagram (a)\n*   (b) - Label for Diagram (b)\n*   X₀, X₁, X₂, X₃, X₄ - Labels for five vertices of the pentagon.\n\n**Data Points/Patterns:**\n\n*   Diagram (a) shows a fully connected pentagon where all edges are present and solid.\n*   Diagram (b) shows a partially connected pentagon where only specific edges (X₀-X₁ and X₀-X₂) are solid, while the remaining edges are dashed."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 13,
+    "page_end": 14,
+    "heading": "V. P robabilistic G raphical M odels of R eciprocal P rocesses",
+    "text": "We are now ready to state our main result, namely to find the graphical model associated to a reciprocal process. We first derive the minimal I-map associated to a reciprocal process (Theorem 5.1) and then show that this minimal I-map is indeed also a P-map (perfect map) for the reciprocal process (Theorem 5.2).\nTheorem 5.1: The undirected graphical model composed of the N + 1 nodes X 0 ; X 1 ; : : : ; X N arranged in a loop (see Figure 1b) is the unique minimal I-map for a reciprocal process on I = [0 ; N ] with cyclic boundary conditions.\nProof via Theorem 4.2: Let PR denote the distribution of a reciprocal process on I . A Markov blanket of X k in PR is the set UR = f X k 1 ; X k + 1 g (where for k = 0 and k = N , k 1 has to be read modulo N + 1). The undirected graphical model in Figure 1b thus follows by using the construction criterion in Theorem 4.2.\nFor Gaussian reciprocal processes, one can also exploit the characterization in terms of sparsity pattern of the inverse covariance matrix of Theorem 3.3 and proceed as follows.\nProof via Theorem 4.1: By Theorem 3.2, setting the ( i ; j )-th element of the inverse covariance matrix to zero has the probabilistic interpretation that the i -th and j -th components of the underlying Gaussian random vector are conditionally independent given the other components. The undirected graphical model in Figure 1b thus follows by the characterization of reciprocal processes in Theorem 3.3, using the construction criterion in Theorem 4.1.\nTheorem 5.2: The undirected graphical model composed of the N + 1 nodes X 0 ; X 1 ; : : : ; X N arranged in a loop (see Figure 1b) is a P-map for a reciprocal process on I = [0 ; N ] with cyclic boundary conditions.\nProof: Consider a reciprocal process on the interval I = [0 ; N ] with cyclic boundary conditions X 1 = X N , X N + 1 = X 0 . Because cyclic boundary conditions hold, one may think to the process as defined on the wrapped timeline in Figure 1a. The thesis follows from the definition of reciprocal process and the Separation Property 4.1 by noting that the extremes of each interval on the (wrapped) timeline define a set (pair) of nodes on the corresponding graphical model that decomposes the graph into multiple connected components such that nodes corresponding to the 'interior' and the 'exterior' of the interval belong to di erent components.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 14,
+    "page_end": 14,
+    "heading": "Reciprocal processes do not admit a directed graph as perfect map",
+    "text": "The Markov network in Figure 1b is not chordal, thus, by Theorem 4.3 reciprocal processes do not admit a directed graph as perfect map. This is in contrast with Markov processes that admit both a directed and an undirected graphical model as perfect map.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 14,
+    "page_end": 14,
+    "heading": "Factor graph representation of a Reciprocal Process",
+    "text": "As observed above, every undirected graph can be represented by an equivalent factor graph having the same set of variable nodes, and one factor node for each maximal clique in the graph. The factor graph corresponding to the undirected graph in Figure 1b is shown in Figure 2.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 14,
+    "page_end": 15,
+    "heading": "Link with the four nodes single loop undirected graphical model by Pearl",
+    "text": "The single loop undirected graphical model in Figure 1b has been considered in [32, p. 90] (see also [24]), where it has been used to model the spread of a disease or of a misconception among individuals who only engage in pairwise activities, and is used as a motivating example for the introduction of Markov networks, since, as observed above, the underlying set of conditional independencies does not admit a Bayesian network as a perfect map. Nevertheless, to the best of our knowledge, this is the first time that such graphical model is associated to a reciprocal process (distribution). This fills a gap in the Graphical Models literature, by bridging a wellknown graphical structure with the class of reciprocal processes studied in the Statistics and in the Control communities. Moreover it opens the way to new applications of reciprocal processes, e.g. to the study of the spread of certain diseases or in opinion formation in social networks, that do not seem to have been explored so far in the literature.\n1\n1\n",
+    "figures": [
+      {
+        "page": 15,
+        "bbox": [
+          224.8519287109375,
+          719.4014663696289,
+          384.7806396484375,
+          561.9242248535156
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_2.png",
+        "caption": "Fig. 2: Factor Graph associated with a reciprocal process on I = [0 ; 4].",
+        "description": "Here's an analysis of the image based solely on its visual content:\n\n**Image Description:**\n\nThe image depicts a circular diagram composed of interconnected nodes and lines. The diagram consists of eight circles (labeled X0, X1, X2, X3, X4, X5, X6, X7) arranged in a closed loop.  Each circle is filled with a solid red color. \n\nConnecting each circle to its immediate neighbors are red lines. Specifically:\n\n*   X0 is connected to X1 and X7.\n*   X1 is connected to X0, X2, and X6.\n*   X2 is connected to X1, X3, and X5.\n*   X3 is connected to X2 and X4.\n*   X4 is connected to X3 and X6.\n*   X5 is connected to X2 and X7.\n*   X6 is connected to X1, X4, and X5.\n*   X7 is connected to X0 and X5.\n\nWithin each circle, the text \"f00\", \"f01\", \"f12\", \"f13\", \"f20\", \"f21\", \"f22\", and \"f23\" are written in red. These labels appear within the circles. \n\nThe diagram is centered on a horizontal axis with no discernible scale or units indicated."
+      },
+      {
+        "page": 15,
+        "bbox": [
+          199.5117645263672,
+          299.3129577636719,
+          410.57318115234375,
+          156.7210693359375
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_3.png",
+        "caption": "Fig. 3: Probabilistic graphical model associated to a hidden reciprocal model on I = [0 ; 4].",
+        "description": "Here's an analysis of the image based on its visual content:\n\n**Image Description:**\n\nThe image depicts a graph represented by connected nodes and edges. The graph consists of seven distinct nodes labeled as follows:\n\n*   X₀ (Node at the top center)\n*   X₁ (Nodes at the top left and top right)\n*   X₂ (Node at the bottom center)\n*   X₃ (Node at the bottom left)\n*   Y₁ (Node at the bottom right)\n*   Y₂ (Node at the bottom center)\n*   Y₄ (Node at the bottom left)\n\nThe nodes are represented as circles.  Six of the nodes (X₀, X₁, X₂, X₃, Y₁, Y₂) are filled in with a solid color (likely red). The node Y₄ is unfilled.\n\nThere are six edges connecting the nodes. These edges are also colored red and appear to be lines connecting adjacent nodes. The connections form a hexagonal or honeycomb-like pattern.\n\n**Text:**\n\nThe text labels present on the nodes are:\n\n*   X₀\n*   X₁\n*   X₂\n*   X₃\n*   Y₁\n*   Y₂\n*   Y₄\n\n**Data Points/Patterns:**\n\n*   There are seven nodes in total.\n*   Six edges connect these nodes, forming a network topology.\n*   The node Y₄ is not connected to any other nodes within the depicted graph.\n*   The color of the lines (edges) connecting the nodes is red."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 16,
+    "page_end": 16,
+    "heading": "VI. S moothing of R eciprocal P rocesses via B elief P ropagation",
+    "text": "Consider a reciprocal process f X k g and a second process f Y k g , where, given the state sequence f X k g , the f Y k g are independent random variables, and, for all k , the conditional probability distribution of Y k depends only on X k . In applications, f X k g represents a 'hidden' process which is not directly observable, while the observable process f Y k g represents 'noisy observations' of the hidden process. We shall refer to the pair f X k ; Y k g as a hidden reciprocal model . The corresponding probabilistic graphical model is illustrated in Figure 3. The (fixed-interval) smoothing problem is to compute, for all k 2 [0 ; N ], the conditional distribution of X k given Y 0 ; : : : ; Y N . One of the most widespread algorithms for performing inference (solving the smoothing problem) in the graphical models literature is the belief propagation algorithm [32], [24], [5]. This is reviewed in Section VI-A and specialized for reciprocal processes in Section VI-B. Notice that this approach is distribution independent and holds indeed both for continuous and discretevalued random variables / reciprocal process (even if in the Gaussian case, it may result convenient to rewrite the iteration, which lives in the infinite dimensional space of nonnegative measurable functions, in the finite dimensional spaces of mean vectors and covariance matrices, see [7] for a particularization to reciprocal processes). In this Section, we state the algorithm for continuousvalued variables, the discrete variables case following immediately by replacing integrals with summations where appropriate.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 16,
+    "page_end": 18,
+    "heading": "A. Belief Propagation (a.k.a. sum-product) algorithm",
+    "text": "Let H = ( E ; V ) be an undirected graphical model over the variables f X 0 ; : : : ; X N g , X i 2 X , i = 0 ; : : : ; N . In Section IV, we have seen that the joint distribution associated with H can be factored as\nwhere C denotes a set of maximal cliques in the graph. In the following, we will be interested in pairwise Markov random fields - i.e. a Markov random field in which the joint probability factorizes into a product of bivariate potentials (potentials involving only two variables) - where each unobserved node X i has an associated observed node Y i . Factorization (16) then becomes\nwhere the i j ( x i ; x j )'s are often referred to as the edge potentials and the i ( x i ; y i )'s are often referred to as the node potentials . The problem we are interested in is finding posterior marginals of the type p ( x i j y 0: N ) for some hidden variable X i . The basic idea behind belief propagation is to exploit the factorization properties of the distribution to allow e cient computation of the marginals. Indeed, since the scope of the factors in (17) is limited, this allows us to 'push in' some of the integrals, performing them over a subset of variables at a time. To fix ideas, consider the graph in Figure 4 and suppose we want to compute the conditional marginal p ( x 0 j y 0:3 ). A naive application of the definition, would suggest that p ( x 0 j y 0:3 ) can be obtained by integrating the joint distribution over all variables except X 0 and then normalize\nNevertheless notice that the joint distribution can be factored as:\nBy plugging in factorization (19) into equation (18) and interchanging the integrals and products order, we obtain\nThis simple operation forms the basis of the belief propagation algorithm and it can be given an interpretation in terms of passing of local messages around the graph. Most importantly, notice that it allows to reduce the computational cost of the computation of the posterior marginal from exponential to linear in the number of nodes. Indeed for a tree structured graph with random variables taking values in a finite alphabet X , the computational cost passes from O ( jXj N ) (computational cost of the brute force marginalization in (18)) to O ( N jXj 2 ) (computational cost of the 'principled' marginalization in (20)), where jXj denotes the cardinality of the set X . In its general form, the belief propagation algorithm reads as follows.\nAlgorithm 1 (Belief propagation): Let X i and X j be two neighboring nodes in the graph. We denote by mij the message that node X i sends to node X j , by mii the message that Y i sends to X i , and by bi the 'belief' (estimated posterior marginal) at node X i . The belief propagation algorithm is as follows:\nwhere @ i denotes the set of neighbors of node X i and and are normalization constants so that messages and beliefs integrate to one.\nFor example, if one considers (20), setting mii ( x i ) : = i ( x i ) and applying definition (21a) for the messages, taking into account that i j ( x i ; x j ) = ji ( x j ; x i ), (20) becomes\nwhich is of the form (21b), where the posterior marginal p ( x 0 j y 0:3 ) is computed as the product of incoming messages at node X 0 .\nBefore going on, some observations about the belief propagation algorithm are in order. Observed nodes do not receive messages, and they always transmit the same message mii . The normalization of messages in equation (21a) is not theoretically necessary (whether the messages are normalized or not, the beliefs bi will be identical) but helps improving numerical stability of the algorithm. Equation (21a) does not specify the order in which the messages are updated. While a sequential scheduling policy is possible in tree-structured graphs, with messages sequentially computed starting from leaf nodes once incoming messages at a given node become available, this is not viable in a loopy network. In this paper, following [38], we assume that all nodes simultaneously update their messages in parallel. This naturally leads to loopy belief propagation , where the update rule (21a) is applied to graphs that are not a tree. This is the case of reciprocal processes, that we are going to treat in the next section.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 18,
+    "page_end": 19,
+    "heading": "B. Belief Propagation for Hidden Reciprocal Models",
+    "text": "If the considered graph is the single-loop hidden reciprocal model in Figure 3, expressions (21a) and (21b) for the message and belief updates simplify, each node having only two neighbors. Moreover we can distinguish between two classes of messages, one propagating in the direction of increasing indexes (clockwise) and one propagating in the direction of decreasing indexes (anticlockwise) in the loop. The overall algorithm with parallel scheduling policy is as follows:\n",
+    "figures": [
+      {
+        "page": 19,
+        "bbox": [
+          236.83566284179688,
+          719.9610824584961,
+          370.9825439453125,
+          578.6714477539062
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_4.png",
+        "caption": "Fig. 4: A graphical model with four unobserved nodes X 0 ; : : : ; X 3 and four observed nodes Y 0 ; : : : ; Y 3 .",
+        "description": "Here's an analysis of the image based on its visual content:\n\n**Image Description:**\n\nThe image depicts a directed graph represented by interconnected circles (nodes) connected by red lines (edges). The nodes are colored in shades of blue and red.\n\n**Node Labels:**\n\n*   There are six distinct nodes labeled as follows:\n    *   `X₀`\n    *   `Y₀`\n    *   `X₁`\n    *   `Y₁`\n    *   `X₂`\n    *   `Y₂`\n    *   `X₃`\n    *   `Y₃`\n\n**Edge Connections:**\n\n*   The edges connect the nodes in a specific directed manner. The connections are:\n    *   `X₀` is connected to `Y₀`.\n    *   `X₁` is connected to `Y₁`.\n    *   `X₁` is connected to `X₂`.\n    *   `X₂` is connected to `Y₂`.\n    *   `X₃` is connected to `Y₃`.\n\n**Coloring:**\n\n*   Nodes labeled with \"X\" are colored red.\n*   Nodes labeled with \"Y\" are colored blue.\n\n**Overall Structure:**\n\nThe graph forms a branching structure, starting with `X₀` and `X₁`, which then split into separate branches leading to `Y₀`, `Y₁`, `Y₂` and `Y₃`."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 19,
+    "page_end": 20,
+    "heading": "Algorithm 2 ((Parallel) loopy belief propagation algorithm for reciprocal processes): 1)",
+    "text": "Initialize all messages m (0) ks to some initial value ¯ m (0) ks .\nFor t 2 f 0 ; 1 ; : : : ; tmax g , for all k 2 f 0 ; 1 ; : : : ; N g\nFor each X k , k = 0 ; : : : ; N , compute the posterior marginals\nFor tree-structured graphs, when tmax is larger than the diameter of the tree (the length of the longest shortest path between any two vertices of the graph), the algorithm converges to the correct marginal. This is not the case for reciprocal processes, whose associated graph is the single loop network in Figure 3. Convergence of the iteration for a hidden reciprocal model will be discussed in Section IX. The argument we will use is based on contraction properties of positive operators with respect to the Hilbert metric, that we are now going to introduce.\n1\nand for x ; y 2 Knf 0 g , let\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 20,
+    "page_end": 21,
+    "heading": "VII. H ilbert metric",
+    "text": "The Hilbert metric was introduced in [18] and is defined as follows. Let B be a real Banach space and let K be a closed solid cone in B , that is a closed subset K with the properties that (i) K   K for all 0 (ii) the interior of K , K + , is non-empty; (iii) K + K   K ; (iv) K \\  K = f 0 g . Define the partial order\nThe Hilbert metric d H ( ; ) induced by K is defined by\nFor example, if B = R n and the cone K is the positive orthant, K = O : = ( x 1 ; : : : ; xn ) : xi 0 ; 1 i n , then M ( x ; y ) = max i ( xi = yj ) and m ( x ; y ) = min i ( xi = yi ) and the Hilbert metric can be expressed as\nOn the other hand, if B = S : = X = X > 2 R n n is the set of symmetric matrices and K = P : = f X 0 j X 2 Sg is the cone of positive semidefinite matrices, then for X ; Y 0, M ( X ; Y ) = max XY 1 and m ( X ; Y ) = min XY 1 . Hence the Hilbert metric is\nAn important property of the Hilbert metric is the following. The Hilbert metric is a projective metric on K i.e. it is nonnegative, symmetric, it satisfies the triangle inequality and is such that, for every x ; y 2 K , d H ( x ; y ) = 0 if and only if x = y for some > 0. It follows easily that d H ( x ; y ) is constant on rays, that is\nA second relevant property is in connection with positive operators. In [4] (see also [6]) it has been shown that linear positive operators contract the Hilbert metric. This can be used to provide a geometric proof of the Perron-Frobenius theorem and, in turn, to prove attractiveness properties of linear positive systems. This is the subject of the next section.\nand projective diameter\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 21,
+    "page_end": 21,
+    "heading": "VIII. P ositive systems",
+    "text": "A linear time invariant system x k + 1 = Ax k over the positive orthant O is positive if the mapping A takes O into itself. Positive systems have a long history in the literature, both because of the relevance of the property for applications (the positivity constraint arises quite naturally when modeling real systems whose state variables represent quantities that are intrinsically nonnegative, such as pressures, concentrations, population levels, etc) and because the property significantly restricts the behavior, as established by Perron-Frobenius theory: if the cone invariance is strict, that is, if the boundary of the cone is eventually mapped to the interior of the cone, then the asymptotic behavior of the system lies on a one dimensional object. In Section VIII-A, we briefly review contraction properties of positive linear operators as derived by Birkho [4] (see also [6]) and then show how they can be used to prove existence of a fixed point for a linear time invariant positive dynamical system which is also a global attractor (Section VIII-B).\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 21,
+    "page_end": 22,
+    "heading": "A. Positive linear operators contract the Hilbert metric",
+    "text": "Let ( X ; d ) be a metric space. We recall that a mapping f : X ! X is called a contraction with respect to d if there exists 0 K < 1 such that\nA map A from B to B is said to be non-negative if it takes K into itself, i.e.\nand positive if it takes the interior of K into itself, i.e.\nFor a positive map define its contraction ratio\nIt is easy to show that a non-negative linear map does not expand the Hilbert metric [23]. In [4] (see also [6]), Birkho showed that positivity of a linear mapping implies contraction in the Hilbert metric, a result that paved the way to many contraction-based results in the literature of positive operators. The formal statement is as follows.\nTheorem 8.1: If x ; y 2 K , then the following holds\n( i ) if A is a non-negative linear map on K , then d H ( Ax ; Ay ) d H ( x ; y ), i.e. the Hilbert metric contracts weakly under the action of a non-negative linear transformation.\n( ii ) [Birkho , 1957] If A is a positive linear map in B , then\nIn other words, if the diameter ( A ) is finite, then positivity of a mapping implies strict contraction of the Hilbert metric.\nIn the next section we will see how contraction properties of positive linear maps with respect to the Hilbert metric can be used to explain the asymptotic behavior of a positive time-invariant system.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 22,
+    "page_end": 23,
+    "heading": "B. Asymptotic Behavior of Positive Dynamical Systems via Contraction of the Hilbert metric",
+    "text": "Exploiting contraction properties of positive maps, in [4] (see also [6]) Birkho provided an alternative proof of the the Perron-Frobenius theorem as a special case of the Banach fixedpoint theorem. With respect to others fixed-point arguments used to prove the Perron-Frobenius theorem (see e.g. [14]), this proof has the advantage that not only it yields to the existence of a positive eigenvector x f , but also to convergence to this same eigenvector (for the latter, in the approach in [14], one still needs to show how positivity implies that the eigenvalue associated with x f dominates all the other eigenvalues). Along the same lines, we exploit contraction properties of positive maps with respect to the Hilbert metric to prove existence of a fixed point of the projective space for a linear time-invariant positive dynamical system which is a global attractor for the system. This will be used in the next section to prove convergence of loopy belief propagation for reciprocal processes, where we will show that the underlying iteration is indeed a positive system.\nTheorem 8.2: Consider the dynamical system x k + 1 = Ax k with A a D D matrix with nonnegative entries and suppose that A is such that there exists an integer h such that\n(i.e. the matrix A is primitive). Then there exists a unique positive eigenvector x f 2 O + such that for all non-negative x 0 2 On f 0 g , A n x 0 converges in direction to x f , i.e.\nand the rate of convergence is at least linear (i.e. the error decreases exponentially).\nTo prove Theorem 8.2 we need the two following lemmas.\nLemma 8.1: [6] Consider the cone K = O : = f ( x 1 ; : : : ; xD ) : xi 0 ; 1 i D g (positive orthant) and let U denote the unit sphere in B = R D . Then the metric space E : = fO + \\ U ; d Hg is complete.\nLemma 8.2: [4] Let A = ( aij ) be a D D matrix with aij > 0, for all i ; j . Then A is a positive map with finite projective diameter given by\nProof of Theorem 8.2: A h is a positive linear mapping in the interior of the positive orthant O + in R D with finite projective diameter (see Lemma 8.2). Then F ( x ) : = A h x k A h x k is a map from E : = fO + \\ U ; d Hg into E and is the composition of a strict contraction (see Theorem 8.1(ii)) and a normalizing isometry (see (25)). Since the metric space E is complete (Lemma 8.1), then, by the Banach fixed-point theorem, there exists a unique fixed point ¯ x f in E such that F ¯ x f = ¯ x f , i.e. ¯ x f is a strictly positive eigenvector of A h (and of A ), associated to a positive eigenvalue, that, starting from an arbitrary ¯ x 0 2 E (indeed for every ¯ x 0 2 O \\ U ) can be computed as the limit of the sequence ¯ x k = F (¯ x k 1 ) so that for every > 0, there exists a natural number ¯ k such that, for all k > ¯ k , d H (¯ x k ; ¯ x f ) = d H ( F k (¯ x 0 ) ; ¯ x f ) = d H A kh ¯ x 0 k A kh ¯ x 0 k ; ¯ x f = d H ( A kh ¯ x 0 ; ¯ x f ) = d H ( A kh x 0 ; x f ) < . That the rate of convergence is at least linear follows by the fact that A n is a contractive map. QED.\nWe are now ready to state our third contribution, namely to revisit convergence analysis of loopy belief propagation for a single loop network via contraction of the Hilbert metric. This is the subject of the next Section.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 23,
+    "page_end": 23,
+    "heading": "IX. C onvergence of L oopy B elief P ropagation for R eciprocal P rocesses",
+    "text": "When the graph is singly connected, local propagation rules are guaranteed to converge to the correct posterior probabilities [24]. For general graphs with loops, theoretical understanding of the performance of local propagation schemes is an active field of research (see [38], [39], [19], [31], [37], [30] and references therein). Convergence of loopy belief propagation for networks with a single loop has been studied in [38] where it has been shown that, for latent variables taking values in a finite alphabet, the estimated beliefs converge and accuracy of the approximation has been analyzed. A third contribution of this paper is to provide an alternative argument to explain convergence of loopy belief propagation that leverages on contraction properties of positive operators with respect to the Hilbert metric. This argument is geometric in nature and as such can be generalized, e.g. to the Gaussian case, where convergence of the iteration, which is this time a nonlinear map on the cone of positive semidefinite matrices, can again be traced back to contraction properties of the Hilbert metric (see [7] for details). The Section is organized as follows. In Section IX-A, we show that, for a single loop network, convergence analysis of belief propagation essentially boils down to the analysis of the asymptotic behavior of a linear positive dynamical system. Leveraging on results in Section VIII, convergence of the update is then derived as a consequence of contraction properties of positive linear operators with respect to the Hilbert metric (Section IX-B). Necessary and su cient conditions for convergence of loopy belief propagation borrowed from the theory of linear positive systems are introduced in Section IX-C. Following [38], accuracy of the approximated posterior is discussed in Section IX-D.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 24,
+    "page_end": 26,
+    "heading": "A. Belief propagation and positive systems",
+    "text": "In case of finite state space, the belief propagation algorithm can be written in matrix notation as follows. If one denotes with M i j the transition matrix associated with the edge potential i j ( x i ; x j ) and by m i j (resp., m ii ) the vector messages obtained by staking the mij ( x i )'s (resp., the mii ( x i )'s) for each value of X i in X = f 0 ; : : : ; D 1 g , namely\nterms of the form P xi i j ( x i ; x j ) mki ( x i ) can be expressed in matrix notation as M i j m ki . Moreover we denote\nand indicate by the Hadamard (entrywise) product between two vectors of the same size. Thus, for a reciprocal chain, the message updates (22a)-(22b) can be expressed in matrix notation as\nNow consider the hidden reciprocal model in Figure 3. Without loss of generality, consider the belief at node X 0 at a certain time t + N + 1, which is given by\nBy the message update equation (30), the message that X N sends to X 0 at time t + N + 1 depends on the message that X N received from X N 1 at time t + N\nSimilarly, the message that X N 1 sends to X N at time t + N depends on the message that X N 1 received from X N 2 at time t + N 1\nand so on. One can continue expressing each message in terms of the one received from the neighbor until we go back in the loop to X 0 : the message that X 0 sends to X 1 is a function of the message that X N sent to X 0\nBy putting together (34)-(36), one gets that the message that X N sends to X 0 at a given time step depends on the message that X N sent to X 0 N + 1 time steps ago. In particular, if we denote by C N 0 the matrix\nand the beliefs (23) as where the D i 's are the diagonal matrices whose diagonal elements are the entries of the constant messages m ii , the message that X N sends to X 0 satisfy the recursion\nIn a similar way, we can express the message that X 1 sends to X 0 at a given time step as a function of the message that X 1 sent to X 0 N + 1 time steps ago\nwhere the matrix C 10 is given by\nFurthermore, since for any two nodes X i , X j , M i j = M > ji , C 10 can be expressed in function of C N 0 as\nIn general, we will have two kinds of messages, traveling forward and backward in the loop, that can be written as a function of the message itself (same link and same direction) N + 1 time steps ago. For indices k 2 f 0 ; 1 ; : : : ; N g , with k 1 defined modulo N + 1, we have\nwhere the similarity transformation\nholds.\nwith\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 27,
+    "page_end": 27,
+    "heading": "B. Contraction-based Convergence Analysis",
+    "text": "From (32) we have that b ( t + n ( N + 1)) k n 2 N converges if the sequences m ( t + n ( N + 1)) k 1 ; k n 2 N , m ( t + n ( N + 1)) k + 1 ; k n 2 N in (42a) and (42b) converge. Now recall that the i j 's and i 's are nonnegative valued functions. It follows that the entries of C k 1 ; k and C k + 1 ; k are nonnegative. The following theorem is an immediate consequence of Theorem 8.2 and establishes convergence of belief propagation as a consequence of contraction of the Hilbert metric under the action of a positive linear operator.\nTheorem 9.1: Consider the hidden reciprocal model in Figure 3 with the X k 's taking values in the finite alphabet X = f 0 ; 1 ; : : : ; D 1 g and denote by v f and w f the principal eigenvector of C k 1 ; k and C k + 1 ; k , respectively. If the matrices C k 1 ; k and C k + 1 ; k are primitive, then the messages m k 1 ; k and m k + 1 ; k in (42a), (42b) converge in direction to v f and w f , respectively, and the belief at node X k converges to b k = m kk v f w f . The rate of convergence is at least linear.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 27,
+    "page_end": 27,
+    "heading": "C. Necessary and su cient conditions for convergence",
+    "text": "Many necessary and su cient conditions for asymptotic stability (e.g. the Jury criterion, the Lyapunov theorem) become simpler in the case of positive systems. From the theory of linear positive systems (see e.g. [29], [2], [16] for details), the following necessary and su cient conditions for convergence of belief propagation for reciprocal processes follow.\nTheorem 9.2: Consider the message update (42a) and denote by ( C k 1 ; k ) the spectrum of C k 1 ; k . The following are equivalent:\n( i ) the iteration (42a) converges ( j ( C k 1 ; k ) j < 1);\n( ii ) all the leading principal minors of the matrix I C k 1 ; k are positive;\n( iii ) the coe cients of the characteristic polynomial of C k 1 ; k I are positive;\n;\n( iv ) there exists a diagonal matrix P with positive diagonal elements such that the matrix C > k 1 k PC k 1 ; k P is negative definite.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 27,
+    "page_end": 29,
+    "heading": "D. Accuracy of the approximation",
+    "text": "So far, we have been dealing with convergence of the sequence of the beliefs b ( t + n ( N + 1)) k n 2 N . This Section is about accuracy of the approximation. The relationship between the posterior probabilities estimated via the belief propagation algorithm on a single loop network and the actual posteriors has been examined in [38], and the analysis is directly applicable to the case of reciprocal processes. In particular, it has been shown that the smaller is the ratio between the subdominant and the dominant eigenvalue, the smaller is the approximation error. The result is reported here for the sake of completeness.\nTheorem 9.3: [38] Consider the reciprocal chain in Figure 3 with the X k , k = 0 ; : : : ; N taking values in X = f 0 ; 1 ; : : : ; D 1 g . Denote by 1 ; 2 ; : : : ; D the eigenvalues of C k 1 ; k (equivalently, see (44), of C k + 1 ; k ) sorted by decreasing magnitude and denote by C k + 1 ; k = S S 1 the eigendecomposition of C k + 1 ; k . Then the steady-state belief b k , k = 0 ; : : : ; N is related to the correct posterior marginal p k by:\nwhere is the ratio of the largest eigenvalue of C k 1 ; k to the sum of all eigenvalues, = 1 = P D j = 1 j , and (the i -th component of the vector) q k is given by\nFollowing [38], we note the fundamental role played by the ratio between the subdominant and the dominant eigenvalue: when this ratio is small, loopy belief propagation converges rapidly and the approximation error is small. Indeed from (45) we have\ni.e. the error is small when the maximum eigenvalue dominates the eigenvalue spectrum.\nIn [38], local correction formulas that compute the correct posteriors on the basis of locally available information have also been provided. In particular, in the case of binary latent variables, it has been shown that\nso that\ni.e. pk ( x i ) pk ( x j ) is positive if and only if bk ( x i ) bk ( x j ) is positive, namely the calculated beliefs are guaranteed to be on the correct side of 0 : 5, and the correct posterior at node X k , p k , can be obtained from the estimated belief b k as\nwhere r : = 2 = 1 and all eigenvectors and eigenvalues can be calculated by performing operations on the messages that a node receives (see [38] for details). We refer the reader to [38, Section 4.2] for a simulation example where loopy belief propagation has been applied to a single loop network (the hidden reciprocal model in Figure 3).\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 29,
+    "page_end": 29,
+    "heading": "X. C onclusions",
+    "text": "In this paper, we have provided a probabilistic graphical model for reciprocal processes. In particular, it has been shown that a reciprocal process admits a single loop undirected graph as a perfect map. While in the literature a significant amount of attention has been focused on developing dynamical models for reciprocal processes, probabilistic graphical models for reciprocal processes have not been considered before. This approach is distribution independent and leads to a principled solution of the smoothing problem via message passing algorithms for graphical models. For the finite state space case, convergence analysis has been revisited leveraging on contraction properties of positive operators with respect to the Hilbert metric, an argument that is geometric in nature and as such can be extended to study convergence of message passing algorithms to more general settings (state-spaces and graph topologies, see the companion paper [7], where convergence of belief propagation for Gaussian reciprocal processes has been addressed).\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3]",
+    "filename": "Modeling and Estimation of Discrete-Time Reciprocal Processes via Probabilistic Graphical Models [arXiv 1603.04419v3].pdf",
+    "page_start": 29,
+    "page_end": 31,
+    "heading": "R eferences",
+    "text": "R. Ackner and T. Kailath. Discrete-time complementary models and smoothing. International Journal of Control , 49(5):1665-1682, 1989.\nA. Berman and R. J. Plemmons. Nonnegative matrices in the Mathematical Sciences . SIAM Press, Philadelphia, 1994.\nS Bernstein. Sur les liaisons entre les grandeurs al´ eatoires. Verh. Internat. Math.-Kongr., Zurich , pages 288-309, 1932.\nG. Birkho . Extensions of Jentzch's Theorem. Trans. Amer. Math. Soc. , 85:219-227, 1957.\nC. Bishop. Pattern recognition and machine learning . Springer, 2006.\nP.J. Bushell. Hilbert's metric and positive contraction mappings in a Banach space. Archive for Rational Mechanics and Analysis , 52(4):330-338, 1973.\nF. P. Carli. On the geometry of message passing algorithms for Gaussian reciprocal processes. arXiv:1603.09279 , 2016.\nF. P. Carli, A. Ferrante, M. Pavon, and G. Picci. A maximum entropy solution of the covariance extension problem for reciprocal processes. IEEE Trans. on Automatic Control , 56(9):1999-2012, 2011.\nF. P. Carli, A. Ferrante, M. Pavon, and G. Picci. An e cient algorithm for maximum entropy extension of block-circulant covariance matrices. Linear Algebra and its Applications , 439(8):2309-2329, 2013.\nJ-P. Carmichael, J-C. Mass´ e, and R. Theodorescu. Processus gaussiens stationnaires r´ eciproques sur un intervalle. CR Acad. Sci. Paris S´ er. I Math , 295(3):291-293, 1982.\nF. Carravetta. Nearest-neighbor modelling of reciprocal chains. Stochastics: An International Journal of Probability and Stochastics Processes , 80(6):525-584, 2008.\nF. Carravetta and L. B. White. Modelling and estimation for finite state reciprocal processes. IEEE Transactions on Automatic Control , 57(9):2190-2202, 2012.\nD. A. Casta˜ non, B.C. Levy, and A.S. Willsky. Algorithms for the incorporation of predictive information in surveillance theory. International journal of systems science , 16(3):367-382, 1985.\nG. Debreu and I.N. Herstein. Nonnegative square matrices. Econometrica , pages 597-607, 1953.\nA. P. Dempster. Covariance selection. Biometrics , 28:157-175, 1972.\nL. Farina and S. Rinaldi. Positive linear systems: theory and applications , volume 50. John Wiley & Sons, 2000.\nM. Golumbic. Algorithmic Graph Theory and Perfect Graphs . Academic Press, New York, 1980.\nD. Hilbert. ¨ Uber die gerade linie als k¨ urzeste verbindung zweier punkte. Mathematische Annalen , 46(1):91-96, 1895.\nA. T. Ihler, J. Fisher, and A. S. Willsky. Loopy belief propagation: Convergence and e ects of message errors. Journal of Machine Learning Research , 6:905-936, 2005.\nB. Jamison. Reciprocal Processes: The stationary Gaussian case. The Annals of Mathematical Statistics , 41:1624-1630, 1970.\nB. Jamison. Reciprocal processes. Probability Theory and Related Fields , 30(1):65-86, 1974.\nB. Jamison. The Markov processes of Schroedinger. Probability Theory and Related Fields , 32(4):323-331, 1975.\nE. Kohlberg and J.W. Pratt. The contraction mapping approach to the Perron-Frobenius theory: Why Hilbert's metric? Mathematics of Operations Research , 7(2):198-210, 1982.\nD. Koller and N. Friedman. Probabilistic graphical models: principles and techniques . MIT press, 2009.\nA. J. Krener, R. Frezza, and B. C. Levy. Gaussian reciprocal processes and self-adjoint stochastic di erential equations of second order. Stochastics and stochastic reports , 34(1-2):29-56, 1991.\nA.J. Krener. Reciprocal di usions and stochastic di erential equations of second order. Stochastics , 24(4):393-422, 1988.\nS.L. Lauritzen. Graphical models . Oxford University Press, 1996.\nB.C. Levy, R. Frezza, and A.J. Krener. Modeling and estimation of discrete-time gaussian reciprocal processes. IEEE Transactions on Automatic Control , 35(9):1013-1023, 1990.\nD. Luenberger. Introduction to dynamic systems: theory, models, and applications . Wiley, 1979.\nC. C. Moallemi and B. Van Roy. Convergence of min-sum message passing for quadratic optimization. IEEE Transactions on Information Theory , 55(5):2413-2423, 2009.\nJ. M. Mooij and H. J. Kappen. Su cient conditions for convergence of the sum-product algorithm. IEEE Transactions on Information Theory , 53(12):4422-4437, 2007.\nJ. Pearl. Probabilistic reasoning in intelligent systems: Networks of plausible reasoning . Morgan Kaufmann Publishers, 1988.\nJ. Pearl and A. Paz. Graphoids: A graph-based logic for reasoning about relevance relations. Technical report, University of California (Los Angeles), 1985.\nG. Picci and F. P. Carli. Modelling and simulation of images by reciprocal processes. In Proc. of the Tenth International Conference on Computer Modeling and Simulation, UKSIM 2008 , pages 513-518, 2008.\nJ. A. Sand. Reciprocal realizations on the circle. SIAM J. Control and Optimization , 34:507-520, 1996.\nL. Srinivasan, U.T. Eden, A.S. Willsky, and E.N. Brown. A state-space analysis for reconstruction of goal-directed movements using neural signals. Neural computation , 18(10):2465-2494, 2006.\nM. J. Wainwright and M. I. Jordan. Graphical models, exponential families, and variational inference. Foundations and Trends R in Machine Learning , 1(1-2):1-305, 2008.\nY. Weiss. Correctness of local probability propagation in graphical models with loops. Neural computation , 12(1):1-41, 2000.\nY. Weiss and W.T. Freeman. Correctness of belief propagation in gaussian graphical models of arbitrary topology. Neural computation , 13(10):2173-2200, 2001.\nL.B. White and F. Carravetta. Optimal smoothing for finite state hidden reciprocal processes. IEEE Transactions on Automatic Control , 56(9):2156-2161, 2011.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  }
+]

@@ -1,0 +1,168 @@
+[
+  {
+    "doc_id": "Chord Label Personalization through Deep Learning of Integrated Harmonic Interval-based Representations [arXiv 1706.09552v1]",
+    "filename": "Chord Label Personalization through Deep Learning of Integrated Harmonic Interval-based Representations [arXiv 1706.09552v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "Front Matter / Document Header",
+    "text": "œ\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Chord Label Personalization through Deep Learning of Integrated Harmonic Interval-based Representations [arXiv 1706.09552v1]",
+    "filename": "Chord Label Personalization through Deep Learning of Integrated Harmonic Interval-based Representations [arXiv 1706.09552v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "Chord Label Personalization through Deep Learning of Integrated Harmonic Interval-based Representations",
+    "text": "Hendrik Vincent Koops ∗ 1 , W. Bas de Haas † 2 , Jeroen Bransen ‡ 2 , and Anja Volk § 1\n1 Utrecht University, Utrecht, the Netherlands 2 Chordify, Utrecht, the Netherlands\nThe increasing accuracy of automatic chord estimation systems, the availability of vast amounts of heterogeneous reference annotations, and insights from annotator subjectivity research make chord label personalization increasingly important. Nevertheless, automatic chord estimation systems are historically exclusively trained and evaluated on a single reference annotation. We introduce a first approach to automatic chord label personalization by modeling subjectivity through deep learning of a harmonic interval-based chord label representation. After integrating these representations from multiple annotators, we can accurately personalize chord labels for individual annotators from a single model and the annotators' chord label vocabulary. Furthermore, we show that chord personalization using multiple reference annotations outperforms using a single reference annotation.\nKeywords: Automatic Chord Estimation, Annotator Subjectivity, Deep Learning\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Chord Label Personalization through Deep Learning of Integrated Harmonic Interval-based Representations [arXiv 1706.09552v1]",
+    "filename": "Chord Label Personalization through Deep Learning of Integrated Harmonic Interval-based Representations [arXiv 1706.09552v1].pdf",
+    "page_start": 1,
+    "page_end": 2,
+    "heading": "1 Introduction",
+    "text": "Annotator subjectivity makes it hard to derive one-size-fits-all chord labels. Annotators transcribing chords from a recording by ear can disagree because of personal preference, bias towards a particular instrument, and because harmony can be ambiguous perceptually as well as theoretically by definition [Schoenberg, 1978, Meyer, 1957]. These reasons contributed to annotators creating large amounts of heterogeneous chord label reference annotations. For example, on-line repositories for popular songs often contain multiple, heterogeneous versions.\nOne approach to the problem of finding the appropriate chord labels in a large number of heterogeneous chord label sequences for the same song is data fusion. Data fusion research shows that knowledge shared between sources can be integrated to produce a unified view that can outperform individual sources [Dong et al., 2009]. In a musical application, it was found that integrating the output of multiple Automatic Chord Estimation ( ace ) algorithms results in chord label sequences that outperform the individual sequences when compared to a single ground truth [Koops et al., 2016]. Nevertheless, this approach is built on the intuition that one single correct annotation exists that is best for everybody, on which ace systems are almost exclusively trained. Such reference annotation is either compiled by a single person [Mauch et al., 2009], or unified from multiple opinions [Burgoyne et al., 2011]. Although most of the creators of these datasets warn for subjectivity and ambiguity, they are in practice used as the de facto ground truth in MIR chord research and tasks (e.g. mirex ace ).\nOn the other hand, it can also be argued that there is no single best reference annotation, and that chord labels are correct with varying degrees of 'goodness-of-fit' depending on the target audience [Ni et al., 2013]. In particular for richly orchestrated, harmonically complex music, different chord labels can be chosen for a part, depending on the instrument, voicing or the annotators' chord label vocabulary.\nIn this paper, we propose a solution to the problem of finding appropriate chord labels in multiple, subjective heterogeneous reference annotations for the same song. We propose an automatic audio chord label estimation and personalization technique using the harmonic content shared between annotators. From deep learned shared harmonic interval profiles, we can create chord labels that match a particular annotator vocabulary , thereby providing an annotator with familiar, and personal chord labels. We test our approach on a 20-song dataset with multiple reference annotations, created by annotators who use different chord label vocabularies. We show that by taking into account annotator subjectivity while training our ace model, we can provide personalized chord labels for each annotator.\nContribution. The contribution of this paper is twofold. First, we introduce an approach to automatic chord label personalization by taking into account annotator subjectivity. Through this end, we introduce a harmonic interval-based mid-level representation that captures harmonic intervals found in chord labels. Secondly, we show that after integrating these features from multiple annotators and deep learning, we can accurately personalize chord labels for individual annotators. Finally, we show that chord label personalization using integrated features outperforms personalization from a commonly used reference annotation.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": [
+      {
+        "page": 1,
+        "text": "∗ h.v.koops@uu.nl"
+      },
+      {
+        "page": 1,
+        "text": "† bas@chordify.net"
+      },
+      {
+        "page": 1,
+        "text": "‡ jeroen@chordify.net"
+      },
+      {
+        "page": 1,
+        "text": "§ a.volk@uu.nl"
+      }
+    ]
+  },
+  {
+    "doc_id": "Chord Label Personalization through Deep Learning of Integrated Harmonic Interval-based Representations [arXiv 1706.09552v1]",
+    "filename": "Chord Label Personalization through Deep Learning of Integrated Harmonic Interval-based Representations [arXiv 1706.09552v1].pdf",
+    "page_start": 2,
+    "page_end": 3,
+    "heading": "2 Deep Learning Harmonic Interval Subjectivity",
+    "text": "For the goal of chord label personalization, we create an harmonic bird's-eye view from different reference annotations, by integrating their chord labels. More specifically, we introduce a new feature that captures the shared harmonic interval profile of multiple chord labels, which we deep learn from audio. First, we extract Constant Q ( cqt ) features from audio, then we calculate Shared Harmonic Interval Profile ( ship ) representations from multiple chord label reference annotations corresponding to the cqt frames. Finally, we train a deep neural network to associate a context window of cqt to ship features.\nFrom audio, we calculate a time-frequency representation where the frequency bins are geometrically spaced and ratios of the center frequencies to bandwidths of all bins are equal, called a Constant Q ( cqt ) spectral transform [Sch¨ orkhuber and Klapuri, 2010]. We calculate these cqt features with a hop length of 4096 samples, a minimum frequency of ≈ 32 . 7 Hz (C1 note), 24 × 8 = 192 bins, 24 bins per octave. This way we can capture pitches spanning from low notes to 8 octaves above C1. Two bins per semitone allows for slight tuning variations.\nTo personalize chord labels from an arbitrarily sized vocabulary for an arbitrary number of annotators, we need a chord representation that (i) is robust against label sparsity, and (ii) captures an integrated view of all annotators. We propose a new representation that captures a harmonic interval profile ( hip ) of chord labels, instead of directly learning a chord label classifier. The rationale behind the hip is that most chords can be reduced to the root note and the stacked triadic intervals, where the amount and combination of triadic interval determines the chord quality and possible extensions. The hip captures this intuition by reducing a chord label to its root and harmonic interval profile. hip is a concatenation of multiple one-hot vectors that denote a root note and additional harmonic intervals relative to the root that are expressed in the chord label.\nIn this paper, we use a concatenation of three one-hot vectors: roots, thirds and sevenths. The first vector is of size 13 and denotes the 12 chromatic root notes (C. . . B) + a 'no chord' (N) bin. The second vector is of size 3 and denotes if the chord denoted by the chord label contains a major third ( ♯ 3), minor third ( ♭ 3), or no third ( ⋆ 3) relative to the root note. The third vector, also of size 3, denotes the same, but for the seventh interval ( ♯ 7 , ♭ 7 , ⋆ 7). The hip can be extended to include other intervals as well. In Table 1 we show example chord labels and their hip equivalent. The last row shows the ship created from the hip s above it.\n",
+    "figures": [],
+    "tables": [
+      {
+        "page": 3,
+        "bbox": [
+          72.86054992675781,
+          772.1272048950195,
+          519.087646484375,
+          708.6434631347656
+        ],
+        "markdown": "Table 1: Interval profiles from root notes of hip s of different chord labels and their ship\n\n|           |   C |   C# |   D |   D# |   E |   F |   F# |   G |   G# |   A |   A# |   B |   N |   ♯ 3 |   ♭ 3 |   ⋆ 3 |   ♯ 7 |   ♭ 7 |   ⋆ 7 |\n|-----------|-----|------|-----|------|-----|-----|------|-----|------|-----|------|-----|-----|-------|-------|-------|-------|-------|-------|\n| G:maj7    |   0 |    0 |   0 |    0 |   0 |   0 |    0 |   1 |    0 |   0 |    0 |   0 |   0 |     1 |     0 |     0 |     1 |     0 |     0 |\n| G:maj     |   0 |    0 |   0 |    0 |   0 |   0 |    0 |   1 |    0 |   0 |    0 |   0 |   0 |     1 |     0 |     0 |     0 |     0 |     1 |\n| G:maj7    |   0 |    0 |   0 |    0 |   0 |   0 |    0 |   1 |    0 |   0 |    0 |   0 |   0 |     1 |     0 |     0 |     1 |     0 |     0 |\n| G:minmaj7 |   0 |    0 |   0 |    0 |   0 |   0 |    0 |   1 |    0 |   0 |    0 |   0 |   0 |     0 |     1 |     0 |     1 |     0 |     0 |\n| ship      |   0 |    0 |   0 |    0 |   0 |   0 |    0 |   1 |    0 |   0 |    0 |   0 |   0 |  0.75 |  0.25 |     0 |  0.75 |     0 |  0.25 |",
+        "caption": "Table 1: Interval profiles from root notes of hip s of different chord labels and their ship",
+        "summary": "Okay, let's break down this table:\n\n**Structure:**\n\n*   The table is organized with chords listed across the top (Gmaj7, Gmaj, Gminmaj7, SHIP) and notes listed down the side.\n*   Each cell contains a numerical value representing the presence or absence of a particular note within that chord.  A \"1\" indicates the note is present in the chord, while a \"0\" indicates it's absent.\n\n**Key Information Represented:**\n\nThis table appears to be a **chord voicing analysis**, specifically focusing on the *harmonic richness* (or \"color\") of different G major chords and a SHIP chord. Here's what each row represents:\n\n*   **Gmaj7:** A seventh-chord version of G Major.\n*   **Gmaj:** The standard G Major chord (G, B, D).\n*   **Gminmaj7:**  A minor-major 7th chord based on G.\n*   **SHIP:** This likely stands for \"Shell Chord Inversion Plus\" - a specific voicing technique used in jazz and other genres. It's a shell chord (root, third, seventh) played in an inversion that adds a unique harmonic color.\n\n**The Numbers Represent:**\n\n*   **C#, D#, D, E, F#, F, G#, A#, A, B, N:** These are the individual notes within each chord. The numbers indicate whether those notes are present in the voicing of the chord.\n*   **#3, #37, #7, +7:** These likely represent different inversions or voicings of the chords.  The symbols suggest a focus on specific intervals (e.g., a major seventh).\n\n**In essence, this table is a visual representation of how different notes contribute to the harmonic texture and color of each G major chord variation.** It's a tool for musicians to experiment with voicings and understand their impact on sound. \n\nDo you want me to elaborate on any specific aspect of the table (e.g., explain the SHIP voicing in more detail, or discuss how these voicings might be used musically)?",
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_tables/table_1.png"
+      }
+    ],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Chord Label Personalization through Deep Learning of Integrated Harmonic Interval-based Representations [arXiv 1706.09552v1]",
+    "filename": "Chord Label Personalization through Deep Learning of Integrated Harmonic Interval-based Representations [arXiv 1706.09552v1].pdf",
+    "page_start": 3,
+    "page_end": 3,
+    "heading": "2.1 Deep Learning Shared Harmonic Interval Profiles",
+    "text": "We use a deep neural network to learn ship from cqt . Based on preliminary experiments, a funnel-shaped architecture with three hidden rectifier unit layers of sizes 1024, 512, and 256 is chosen. Research in audio content analysis has shown that better prediction accuracies can be achieved by aggregating information over several frames instead of using a single frame [Sigtia et al., 2015, Bergstra et al., 2006]. Therefore, the input for our dnn is a window of cqt features from which we learn the ship . Preliminary experiments found an optimal window size of 15 frames, that is: 7 frames left and right directly adjacent to a frame. Consequently, our neural network has input layer size of 192 × 15 = 2880. The output layer consists of 19 units corresponding with the ship features as explained above.\nWe train the dnn using stochastic gradient descent by minimizing the cross- entropy between the output of the dnn with the desired ship (computed by considering the chord labels from all annotators for that audio frame). We train the hyper-parameters of the network using minibatch (size 512) training using the adam update rule [Kingma and Ba, 2014]. Early stopping is applied when validation accuracy does not increase after 20 epochs. After training the dnn , we can create chord labels from the learned ship features.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Chord Label Personalization through Deep Learning of Integrated Harmonic Interval-based Representations [arXiv 1706.09552v1]",
+    "filename": "Chord Label Personalization through Deep Learning of Integrated Harmonic Interval-based Representations [arXiv 1706.09552v1].pdf",
+    "page_start": 4,
+    "page_end": 4,
+    "heading": "3 Annotator Vocabulary-based Chord Label Estimation",
+    "text": "The ship features are used to associate probabilities to chord labels from a given vocabulary. For a chord label L the hip h contains exactly three ones, corresponding to the root, thirds and sevenths of the label L . From the ship A of a particular audio frame, we project out three values for which h contains ones ( h ( A )). The product of these values is then interpreted as the combined probability CP (= Π h ( A )) of the intervals in L given A . Given a vocabulary of chord labels, we normalize the CP s to obtain a probability density function over all chord labels in the vocabulary given A . The chord label with the highest probability is chosen as the chord label for the audio frame associated to A .\nFor the chord label examples in Table 1, the products of the non-zero values of the point-wise multiplications ≈ 0.56, 0.19, and 0.19 for G:maj7, G:maj, and G:minmaj7 respectively. If we consider these chord labels to be a vocabulary, and normalize the values, we obtain probabilities ≈ 0.6, 0.2, 0.2, respectively. Given extracted ship from multiple annotators providing reference annotations and chord label vocabularies, we can now generate annotator specific chords labels.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Chord Label Personalization through Deep Learning of Integrated Harmonic Interval-based Representations [arXiv 1706.09552v1]",
+    "filename": "Chord Label Personalization through Deep Learning of Integrated Harmonic Interval-based Representations [arXiv 1706.09552v1].pdf",
+    "page_start": 4,
+    "page_end": 5,
+    "heading": "4 Evaluation",
+    "text": "ship models multiple (related) chords for a single frame, e.g., the ship in Table 1 models different flavors of a G and a C chord. For the purpose of personalization, we want to present the annotator with only the chords they understand and prefer, thereby producing a high chord label accuracy for each annotator. For example, if an annotator does not know a G:maj7 but does know an G, and both are probable from an ship , we like to present the latter. In this paper, we evaluate our dnn ace personalization approach, and the ship representation, for each individual annotator and their vocabulary.\nIn an experiment we compare training of our chord label personalization system on multiple reference annotations with training on a commonly used single reference annotation. In the first case we train a dnn ( dnnship ) on ship s derived from a dataset introduced by Ni et al. [2013] containing 20 popular songs annotated by five annotators with varying degrees of musical proficiency. In the second case, we train a dnn ( dnniso ) on the hip of the Isophonics ( iso ) single reference annotation [Mauch et al., 2009]. iso is a peer-reviewed, and de facto standard training reference annotation used in numerous ace systems. From the (s) hip the annotator chord labels are derived and we evaluate the systems on every individual annotator. We hypothesize that training a system on ship based on multiple reference annotations captures the annotator subjectivity of these annotations and leads to better personalization than training the same system on a single ( iso ) reference annotation.\nIt could be argued that the system trained on five reference annotations has more data to learn from than a system trained on the single iso reference annotation. To eliminate this possible training bias, we evaluate the annotators' chord labels directly on the chord labels from iso ( ann | iso ). This evaluation reveals the similarity between the ship and the iso and puts the results from dnniso in perspective. If dnnship is better at personalizing chords (i.e. provides chord labels with a higher accuracy per annotator) than dnniso while the annotator's annotations and the iso are similar, then we can argue that using multiple reference annotations and ship is better for chord label personalization than using just the iso . In a final baseline evaluation, we also test iso on dnniso to measure how well it models the iso .\nIgnoring inversions, the complete dataset from Ni et al. [2013] contains 161 unique chord labels, comprised of five annotators using 87, 74, 62, 81 and 26 unique chord labels respectively. The intersection of the chord labels of all annotators contains just 21 chord labels meaning that each annotator uses a quite distinct vocabulary of chord labels. For each song in the dataset, we calculate cqt and ship features. We divide our cqt and ship dataset frame-wise into 65% training (28158 frames), 10% evaluation (4332 frames) and 25% testing (10830 frames) sets. For the testing set, for each annotator, we create chord labels from the deep learned ship based on the annotators' vocabulary.\nWe use the standard mirex chord label evaluation methods to compare the output of our system with the reference annotation from an annotator [Raffel et al., 2014]. We use evaluations at different chord granularity levels. root only compares the root of the chords. majmin only compares major, minor, and 'no chord' labels. mirex considers a chord label correct if it shares at least three pitch classes with the reference label. thirds compares chords at the level of root and major or minor third. 7ths compares all above plus the seventh notes.\n",
+    "figures": [],
+    "tables": [
+      {
+        "page": 5,
+        "bbox": [
+          72.66863250732422,
+          773.2353820800781,
+          519.8297119140625,
+          720.8192443847656
+        ],
+        "markdown": "Table 2: Chord label personalization accuracies for the five annotators\n\n|        | Annotator 1   | Annotator 1    | Annotator 1   | Annotator 2   | Annotator 2    | Annotator 2   | Annotator 3   | Annotator 3    | Annotator 3   | Annotator 4   | Annotator 4    | Annotator 4   | Annotator 5   | Annotator 5    | Annotator 5   | iso     |\n|--------|---------------|----------------|---------------|---------------|----------------|---------------|---------------|----------------|---------------|---------------|----------------|---------------|---------------|----------------|---------------|---------|\n|        | dnn ship      | ann &#124; iso | dnn iso       | dnn ship      | ann &#124; iso | dnn iso       | dnn ship      | ann &#124; iso | dnn iso       | dnn ship      | ann &#124; iso | dnn iso       | dnn ship      | ann &#124; iso | dnn iso       | dnn iso |\n| root   | 0.85          | 0.73           | 0.66          | 0.82          | 0.74           | 0.67          | 0.80          | 0.72           | 0.65          | 0.80          | 0.73           | 0.65          | 0.77          | 0.67           | 0.60          | 0.86    |\n| majmin | 0.82          | 0.69           | 0.61          | 0.69          | 0.67           | 0.53          | 0.67          | 0.69           | 0.53          | 0.73          | 0.67           | 0.55          | 0.72          | 0.61           | 0.55          | 0.69    |\n| mirex  | 0.82          | 0.70           | 0.61          | 0.69          | 0.68           | 0.54          | 0.66          | 0.69           | 0.54          | 0.73          | 0.68           | 0.56          | 0.72          | 0.62           | 0.55          | 0.69    |\n| thirds | 0.82          | 0.70           | 0.62          | 0.75          | 0.67           | 0.59          | 0.79          | 0.69           | 0.62          | 0.76          | 0.68           | 0.61          | 0.72          | 0.62           | 0.55          | 0.83    |\n| 7ths   | 0.77          | 0.56           | 0.50          | 0.64          | 0.53           | 0.42          | 0.64          | 0.56           | 0.43          | 0.53          | 0.48           | 0.40          | 0.72          | 0.53           | 0.55          | 0.65    |",
+        "caption": "Table 2: Chord label personalization accuracies for the five annotators",
+        "summary": "Here's a summary of the table's structure and the information it represents:\n\n**Structure:**\n\n*   The table compares the performance of five different Deep Neural Networks (DNNs) - labeled as \"DNN1,\" \"DNN2,\" \"DNN3,\" \"DNN4,\" and \"DNN5\" - against four different annotation methods - \"Annotation 1,\" \"Annotation 2,\" \"Annotation 3,\" and \"Annotation 4.\"\n*   Each cell within the table contains a numerical value representing a specific metric (likely accuracy or some other performance measure) for that particular combination of DNN and annotation method.\n\n**Key Information:**\n\n*   **Rows:** Represent the different Deep Neural Networks (DNN1-DNN5).\n*   **Columns:** Represent the different Annotation Methods (Annotation 1-4).\n*   **Values:**  The values in each cell indicate the performance score for that specific DNN and annotation method. The higher the number, generally, the better the performance of that combination.\n\n**In essence, this table is a comparative analysis of how well five different deep learning models perform when trained using four distinct annotation methods.** It allows you to see which combinations yielded the best results based on whatever metric is being measured (likely accuracy).",
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_tables/table_2.png"
+      }
+    ],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Chord Label Personalization through Deep Learning of Integrated Harmonic Interval-based Representations [arXiv 1706.09552v1]",
+    "filename": "Chord Label Personalization through Deep Learning of Integrated Harmonic Interval-based Representations [arXiv 1706.09552v1].pdf",
+    "page_start": 5,
+    "page_end": 5,
+    "heading": "5 Results",
+    "text": "The dnnship columns of Table 2 for each annotator show average accuracies of 0.72 ( σ = 0 . 08). For each chord granularity level, our dnnship system provides personalized chord labels that are trained on multiple annotations, but are comparable with a system that was trained an evaluated on a single reference annotation ( iso column of Tab. 2). Comparable high accuracy scores for each annotator show that the system is able to learn a ship representation that (i) is meaningful for all annotators (ii) from which chord labels can be accurately personalized for each annotator. The low scores for annotator 4 for sevenths form an exception. An analysis by Ni et al. [2013] revealed that between annotators, annotator 4 was on average the most different from the consensus. Equal scores for annotator 5 for all evaluations except root are explained by annotator 5 being an amateur musician using only major and minor chords.\nComparing the dnnship and dnniso columns, we see that for each annotator dnnship models the annotator better than dnniso . With an average accuracy of 0.55 ( σ = 0 . 07), dnniso 's accuracy is on average 0.17 lower than dnnship , showing that for these annotators, iso is not able to accurately model chord label personalization. Nevertheless, the last column shows that the system trained on iso modeled the iso quite well. The results of ann | iso show that the annotators in general agree with iso , but the lower score in dnniso shows that the agreement is not good enough for personalization. Overall, these results show that our system is able to personalize chord labels from multiple reference annotations, while personalization using a commonly used single reference annotation yields significantly worse results.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Chord Label Personalization through Deep Learning of Integrated Harmonic Interval-based Representations [arXiv 1706.09552v1]",
+    "filename": "Chord Label Personalization through Deep Learning of Integrated Harmonic Interval-based Representations [arXiv 1706.09552v1].pdf",
+    "page_start": 6,
+    "page_end": 6,
+    "heading": "6 Conclusions and Discussion",
+    "text": "We presented a system that provides personalized chord labels from multiple reference annotations from audio, based on the annotators' specific chord label vocabulary and an intervalbased chord label representation that captures the shared subjectivity between annotators. To test the scalability of our system, our experiment needs to be repeated on a larger dataset, with more songs and more annotators. Furthermore, a similar experiment on a dataset with instrument/proficiency/cultural-specific annotations from different annotators would shed light on whether our system generalizes to providing chord label annotations in different contexts. From the results presented in this paper, we believe chord label personalization is the next step in the evolution of ace systems.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Chord Label Personalization through Deep Learning of Integrated Harmonic Interval-based Representations [arXiv 1706.09552v1]",
+    "filename": "Chord Label Personalization through Deep Learning of Integrated Harmonic Interval-based Representations [arXiv 1706.09552v1].pdf",
+    "page_start": 6,
+    "page_end": 6,
+    "heading": "Acknowledgments",
+    "text": "We thank Y. Ni, M. McVicar, R. Santos-Rodriguez and T. De Bie for providing their dataset.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Chord Label Personalization through Deep Learning of Integrated Harmonic Interval-based Representations [arXiv 1706.09552v1]",
+    "filename": "Chord Label Personalization through Deep Learning of Integrated Harmonic Interval-based Representations [arXiv 1706.09552v1].pdf",
+    "page_start": 6,
+    "page_end": 7,
+    "heading": "References",
+    "text": "Bergstra, N. Casagrande, D. Erhan, D. Eck, and B. K´ egl. Aggregate features and adaboost for music classification. Machine learning , 65(2-3):473-484, 2006.\nJ.A. Burgoyne, J. Wild, and I. Fujinaga. An expert ground truth set for audio chord recognition and music analysis. In Proc. of the 12th International Society for Music Information Retrieval Conference, ISMIR , volume 11, pages 633-638, 2011.\nX.L. Dong, L. Berti-Equille, and D. Srivastava. Integrating conflicting data: the role of source dependence. Proc. of the VLDB Endowment , 2(1):550-561, 2009.\nD.P. Kingma and J. Ba. Adam: A method for stochastic optimization. In Proc. of the 3rd International Conference on Learning Representations, ICLR , 2014.\nH.V. Koops, W.B. de Haas, D. Bountouridis, and A. Volk. Integration and quality assessment of heterogeneous chord sequences using data fusion. In Proc. of the 17th International Society for Music Information Retrieval Conference, ISMIR, New York, USA , pages 178-184, 2016.\nMauch, C. Cannam, M. Davies, S. Dixon, C. Harte, S. Kolozali, D. Tidhar, and M. Sandler. Omras2 metadata project 2009. In Late-breaking demo session at 10th International Society for Music Information Retrieval Conference, ISMIR , 2009.\nL.B. Meyer. Meaning in music and information theory. The Journal of Aesthetics and Art Criticism , 15(4):412-424, 1957.\nNi, M. McVicar, R. Santos-Rodriguez, and T. De Bie. Understanding effects of subjectivity in measuring chord estimation accuracy. IEEE Transactions on Audio, Speech, and Language Processing , 21(12):2607-2615, 2013.\nRaffel, B. McFee, E.J. Humphrey, J. Salamon, O. Nieto, D. Liang, D.P.W. Ellis, and C. Raffel. mir eval: A transparent implementation of common mir metrics. In Proc. of the 15th International Society for Music Information Retrieval Conference, ISMIR , pages 367-372, 2014.\nSchoenberg. Theory of harmony . University of California Press, 1978.\nSch¨ orkhuber and A. Klapuri. Constant-q transform toolbox for music processing. In Proc. of the 7th Sound and Music Computing Conference, Barcelona, Spain , 2010.\nSigtia, N. Boulanger-Lewandowski, and S. Dixon. Audio chord recognition with a hybrid recurrent neural network. In Proc. of the 16th International Society for Music Information Retrieval Conference, ISMIR , pages 127-133, 2015.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  }
+]

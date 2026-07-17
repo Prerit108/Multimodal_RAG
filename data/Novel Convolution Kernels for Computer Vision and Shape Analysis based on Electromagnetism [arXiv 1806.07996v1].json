@@ -1,0 +1,884 @@
+[
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism",
+    "text": "0F0F0F\nDominique Beaini a* , Sofiane Achiche a , Yann-Seing Law-Kam Cio a , Maxime Raison a\na Polytechnique Montreal, 2900 Edouard Montpetit Blvd, Montreal, H3T 1J4, Canada\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "Abstract",
+    "text": "Computer vision is a growing field with a lot of new applications in automation and robotics, since it allows the analysis of images and shapes for the generation of numerical or analytical information. One of the most used method of information extraction is image filtering through convolution kernels, with each kernel specialized for specific applications.  The  objective  of  this  paper  is  to  present  a  novel  convolution  kernels,  based  on  principles  of electromagnetic potentials and fields, for a general use in computer vision and to demonstrate its usage for shape and stroke analysis. Such filtering possesses unique geometrical properties that can be interpreted using well understood physics  theorems.  Therefore,  this  paper  focuses  on  the  development  of  the  electromagnetic  kernels  and  on  their application on images for shape and stroke analysis. It also presents several interesting features of electromagnetic kernels, such as resolution, size and orientation independence, robustness to noise and deformation, long distance stroke interaction and ability to work with 3D images.\nKeywords: Shape analysis; Stroke analysis; Computer vision; Electromagnetic potential field; Feature extraction; Image filtering; Image convolution.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 1,
+    "page_end": 2,
+    "heading": "1. Introduction",
+    "text": "Computer vision (CV) is a challenging and interdisciplinary field, with infinite possibilities of images and videos to be processed. Hence, it is not trivial to find the appropriate methodology to extract the desired data from the image. One of the favored approaches for image analysis is convolution kernels, which can be  used  for  blurring,  edge  detection,  defect  detection,  machine  learning,  etc.  Therefore,  creating  new convolution kernels could unlock new possibilities of image processing or improve the existing methods.\nChoosing the right convolution kernels for a task requires a mathematical understanding of each kernel, and may prove to be a tedious task. To avoid such problems, many methods rely on numerical optimization of the kernels, such as genetic algorithms [1, 2] or the highly-praised convolutional neural networks (CNN) [3-5]. This usually removes the need to create new types of kernels, since the optimized kernel will often be more efficient than a manually chosen one. However, electromagnetic (EM) kernels possess interesting features  that  can  be  used  for  computer  vision,  but  that  cannot  be  retrieved  using  standard  kernel optimization. The current paper will explain how to build EM kernels, how to apply them and how to extract the useful information of shapes and strokes.\n",
+    "figures": [],
+    "tables": [
+      {
+        "page": 2,
+        "bbox": [
+          30.822202682495117,
+          670.4125213623047,
+          505.6541748046875,
+          434.2803039550781
+        ],
+        "markdown": "| Nomenclature                                                                                                         | Nomenclature                                                                                                         | Nomenclature                                                                                                                                                                                                                                                                             |\n|----------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|\n| , , , , ∆ , , , ∇ ∗ ∘ ℜ(),                                                                                           | Electric ( ) or Magnetic ( )                                                                                         | values on the Contour matrix, with values between Vector field V 0 pix -1 Potential V 0 Potential kernel of a monopole Charge distance from an electric charge of spatial dimensions for derivative kernel in or field [Vm ] ,[Vsm ] [V] ,[Vsm ] operator operator product (Element-wise |\n| Image Virtual Virtual ,, Virtual Virtual Virtual Number Numerical Vector Potential Gradient Convolution Hadamard ℑ() | Image Virtual Virtual ,, Virtual Virtual Virtual Number Numerical Vector Potential Gradient Convolution Hadamard ℑ() | Real part, Imaginary part                                                                                                                                                                                                                                                                |",
+        "caption": "",
+        "summary": "Here's a summary of the table's structure and the key information it represents:\n\n**Structure:**\n\nThe table is a glossary or nomenclature list, defining various terms commonly used in computational electromagnetics (specifically related to modeling electric and magnetic fields). It's organized with a column for the term itself and a corresponding column providing a detailed explanation of its meaning. \n\n**Key Information Represented:**\n\nThe table defines terms relating to:\n\n*   **Charge & Dipole Modeling:**  `e, m`, `dip`, `onC` - These relate to electric (e) or magnetic (m) charges and the concept of a dipole.\n*   **Virtual Fields & Potentials:** `E_e,m`, `V_e,m`, `P_e,m,dip` -  These terms describe virtual vector fields and potentials used in numerical methods to approximate the field around an electric or magnetic charge/dipole. They are fundamental for calculating electromagnetic forces and fields.\n*   **Numerical Methods:** `q_e,m`, `r`, `n`, `Δx,y`, `ε_e,m`, `V_e,m`, `∇` - These terms relate to the numerical techniques used in simulations, including:\n    *   Virtual charge (`q_e,m`) and distance (`r`) for calculations.\n    *   Spatial dimensions (`n`) and grid size (`Δx,y`) for discretization.\n    *   Vector field (`ε_e,m`) and potential (`V_e,m`) calculations.\n    *   Gradient operator (`∇`) used in differentiation.\n*   **Mathematical Operations:** `*`, `.` - These represent convolution and the Hadamard product (element-wise multiplication), respectively - common operations within these numerical methods. \n*   **Complex Numbers:** `R(0)`, `3.0` -  These indicate the real and imaginary parts of complex numbers, which are frequently used in representing electromagnetic fields mathematically.\n\n**In essence, this table provides a crucial vocabulary for understanding the underlying concepts and calculations involved in simulating electromagnetic fields using numerical methods.** \n\nWould you like me to elaborate on any specific term or aspect from the table?",
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_tables/table_1.png"
+      }
+    ],
+    "footnotes": [
+      {
+        "page": 1,
+        "text": "* Corresponding author. Tel.: +1-514-340-4711 # 3345 E-mail address: dbeaini.phd@outlook.com"
+      }
+    ]
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "heading": "1.1. Related Work",
+    "text": "Convolution kernels are one of the favored method for extracting information from an image, and they have been the subject of numerous research works in noise removal [6], defect detection [7, 8], image segmentation [9, 10], edge detection [11], machine learning [3, 12, 13], etc. The convolutions allow to quickly scan the whole image to apply local mathematics on nearby pixels, either to extract features or to modify the image [4]. A common characteristic of the convolution kernels of all these methods is that the kernels are usually small in the bi-dimensional plane, with a maximum size of 7×7 [11], 9×9 [7], 11×11 [3], although some physical phenomena require bigger kernels, twice the size of the image [9, 10].\nThe current paper is not the first one to base its convolutions on natural phenomenon for the purpose of CV. For the biology inspired techniques, the most prominent one is neural networks (NN) based, more specifically the convolutional neural networks (CNN) [3, 4, 14]. This technique mimics how the human brain works by combining multiple sequences of neurons for the sake of classification or learning, and they are currently among the very best techniques for image classification [3, 13-15].\nSome examples of physics inspired techniques for CV include watershed droplets for edge detection [16] and force vector fields used for active contours [9, 10], but they are not related to electromagnetism which is presented in this paper. The main methods related to the work presented in this paper are the quadrupole convolution used to define the orientation of contours [17] and the edge detection using gravitational fields (which is mathematically similar to electric fields) [11]. Although these 2 works initially proved to be efficient new ways of analysing images, they did not realize the full possibilities of using electromagnetism (EM). Therefore, these methods are now outranked by more recent techniques. The current paper aims to go a lot further in exploring the CV possibilities of electromagnetic potentials and fields (EMPF), such as oriented  dipoles,  interactive  segments  and  combined  potential-field  analysis.  It  aims  at  developing  a methodology  of  image  analysis  that  directly  uses  the  laws  of  electromagnetism  as  described  by  J.C. Maxwell [18-20].\nFurthermore, the current paper deals extensively with the problems of shape and stroke analysis, which are important in the field of CV [21]. A stroke is defined as any curve in an image with a single pixel width. Some basic techniques are focused on giving general information about the shapes, such as the perimeter, area, centroid and mean size. These techniques are usually robust to deformations, since they use each point of a shape for computation, but they do not provide enough information for an advanced analysis [21], since they  reduce  a  2D  shape  into  a  0D  value.  Other  techniques  transform  a  shape  into  its  contour  (either polygonal or smooth) [9, 21-24] or skeleton [21, 22, 25], hence transforming a 2D shape into a simpler 1D stroke. Those strokes are then analysed using their local curvatures, intersections or Fourier descriptors [9, 21,  22,  24-27].  Those  techniques  provide  more  information  then  the  0D  values  since  they  reduce  the dimensionality by a lower factor, but they still greatly reduce the information initially available in the shape.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 3,
+    "page_end": 3,
+    "heading": "1.2. Proposed Approach: CAMERA-I",
+    "text": "The objective of the proposed approach is divided into 2 parts. The first objective is to develop the mathematics  and  the  methodology  required  to  build  and  use  the  EM  convolution  kernels.  The  second objective is to explain how the kernels can be used in CV, and to demonstrate their advantages for shape and stroke analysis.\nTo  answer  the  first  objective,  the  EM  laws  are  simplified  to  their  static  and  multi-dimensional interpretation,  and  transformed  into  convolution  kernels.  Therefore,  the  EM  potentials  and  fields  of  an image  can  be  computed  with  simple  convolutions.  By  analyzing  their  values  and  by  determining  the attraction or repulsion, it is possible to find several local or global characteristics of the images or shapes. The novel technique proposed in this paper is called 'Convolution Approach of Magnetic and Electric Repulsion to Analyze an Image' (CAMERA-I).\nFor  the  second  objective,  this  work  aims  at  demonstrating  that  there  are  several  advantages  of  the CAMERA-I approach, when compared to standard CV methods. One major advantage is the resolution and size independence of the kernels, which is something that is not possible with most other filtering methods [5, 28]. Another important characteristic is the high robustness to noise and deformation of the images. In fact, the proposed approach will prove to be way more robust to local changes, since the EMPF will consider the contribution of each pixel in the image, shape or stroke that is analyzed. Contrarily to standard methods, the proposed EMPF does not reduce the dimensionality of the shapes it analyzes, and even allows to analyze 3D objects. Finally, the EMPF approach will show how to extract long distance information about the strokes and shapes present in an image, allowing to consider the interaction between them and to build a 2D information image from a 1D stroke.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 3,
+    "page_end": 3,
+    "heading": "2. Theory of Electromagnetism for Computer Vision",
+    "text": "In order for the paper to be self-explanatory, we use this section to remind the reader of the key concepts of electromagnetism (EM) that are useful to understand the paper. It will only deal with the classical theory of EM by J. C. Maxwell [18] and does not deal with relativity or quantum physics. We will then derive some simplified equations of EM, because computer vision deals with a virtual world, and is not subject to conform to the constants of the universe. The laws are modified to only consider the static terms, to remove the constants and to be used in a non-3D world, thus allowing to fully harness the geometrical properties of Maxwell's equations (MEq) without any physical limitation.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 3,
+    "page_end": 3,
+    "heading": "2.1. Intuitive exercise",
+    "text": "For a better understanding of how electromagnetism can help determine features of an object, one can consider the physics of a lightning rod. It is well known that lightning will tend to fall on a sharp (highly convex) and tall (far from the center of mass) area, because of the high charge concentration near a sharp point [19]. Consequently, we can determine which regions are concave or convex, and which regions are near or far from the center of mass (CM). It is to note that the current paper goes far beyond this simple intuition and uses both mathematical and/or graphical evidence when required.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 4,
+    "page_end": 4,
+    "heading": "2.2. Electric and Magnetic Monopoles and Dipoles",
+    "text": "Electromagnetic charges and dipoles are the key elements behind the CAMERA-I algorithm, because parts of the images are treated as EM particles. Such particles generate scalar potentials and vector fields ℰ that will vary according to the distance and the position [18-20]. For the sake of concision, most of the theory is given at 'Appendix I Monopoles and Dipoles'. We ignore the fact that magnetic monopoles do not exist, and we suppose that they behave identically to electric monopoles.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 4,
+    "page_end": 4,
+    "heading": "2.2.1. Electric or magnetic monopoles",
+    "text": "The effect of electric monopoles is shown at Fig. 1 on a normalized color-scale, where is represented by  the  color-scale  and ℰ is  represented  by  the  vectors.  We  see  that  the  positive  monopole  produces  a positive  potential  and  outgoing  field,  while  the  negative  particle  produces  a  negative  potential  and  an ingoing field.\nWhen multiple monopoles are put together, then the total potential is given by the scalar sum and the total field is given by the vector sum, as given by equation (1) [18-20].\n",
+    "figures": [
+      {
+        "page": 4,
+        "bbox": [
+          169.4189453125,
+          509.8494873046875,
+          366.6827697753906,
+          431.79205322265625
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_1.png",
+        "caption": "Fig. 1. Static electric potential and field of a: (a) positive monopole. (b) negative monopole",
+        "description": "Here's an analysis of the image based on a scientific/technical document perspective:\n\n**Image Description:**\n\nThe image consists of two panels (a) and (b), presented side-by-side within a black background. Each panel depicts a radial distribution of colored arrows emanating from a central point. \n\n**Panel (a):**\n\n*   **Central Element:** A green circle represents a positive charge, indicated by a plus sign (+).\n*   **Arrows:** Numerous white arrows radiate outwards from the center. The arrowheads all point radially outward.\n*   **Color Scale:** A color scale is present along the right edge of the panel. It ranges from green (representing a value of 1) to black (representing a value of 0), and then to purple (representing a value of -1).\n\n**Panel (b):**\n\n*   **Central Element:** A purple circle represents a negative charge, indicated by a minus sign (-).\n*   **Arrows:** Numerous white arrows radiate outwards from the center. The arrowheads all point radially outward.\n*   **Color Scale:**  A color scale is present along the right edge of the panel. It ranges from green (representing a value of 1) to black (representing a value of 0), and then to purple (representing a value of -1).\n\n**Text:**\n\n*   The text \"1\" is displayed in green on the right side of Panel (a).\n*   The text \"0\" is displayed in gray on the right side of Panel (b).\n*   The text \"-1\" is displayed in purple on the right side of Panel (b).\n\n**Trends and Patterns:**\n\n*   In both panels, arrows radiate radially outward from a central point.\n*   The color scale indicates a value of 1 for panel (a) and -1 for panel (b), representing opposite polarities.\n*   The density of arrows appears relatively uniform across the radial distribution in both panels."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 4,
+    "page_end": 5,
+    "heading": "2.2.2. Electric or magnetic dipoles",
+    "text": "When 2 monopoles of opposite signs are placed near each other, it produces a dipole with a potential and field that respect equation (1). Those dipoles can be stacked in several different ways, as observed on Fig. 2. It is shown that the serial assembling of dipoles does not make it stronger, it only creates a bigger gap between the negative and positive pole. However, placing the poles on 2 parallel lines will create a big dipole with a higher potential and field.\nAnother important characteristic is that when the distance between the poles is small, a dipole in any orientation is approximated by equation (2) [19, 20] , where the superscripts x, y denote the horizontal and vertical orientation of the dipoles. A visual of this superposition is given at Fig. 2, where it is shown that a horizontal dipole with a vertical dipole is equivalent to 2 dipoles placed at 45° .\n",
+    "figures": [
+      {
+        "page": 5,
+        "bbox": [
+          152.32464599609375,
+          669.3711395263672,
+          379.6184387207031,
+          542.253662109375
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_2.png",
+        "caption": "Fig. 2. Electric Potential and field for static monopoles placed as (a) a simple dipole. (b) a small chain of simple dipoles. (c) a horizontal and a vertical dipole, equivalent as 2 dipoles at 45° . (d) a long chain of simple dipoles. (e) simple dipoles in parallel.",
+        "description": "Okay, here's a detailed analysis of the image based solely on its visual content, using UTF-8 characters:\n\n**Overall Description:**\n\nThe image is a composite diagram consisting of five sub-figures (a) through (e), arranged in a grid. Each sub-figure depicts a complex arrangement of colored shapes within a dark red and green background. The primary colors used are pink, green, and purple.  The figures appear to represent different stages or configurations of an interaction involving these colored shapes.\n\n**Detailed Breakdown of Each Sub-Figure:**\n\n*   **(a):** Displays two circular objects - one pink and one green - surrounded by radiating lines emanating from each object. The pink circle is significantly larger than the green circle.\n*   **(b):** Shows a large number of smaller, identical pink shapes arranged in a linear fashion, connected to a single green central shape.  The pink shapes are oriented radially outwards.\n*   **(c):** Presents a dense cluster of pink and green shapes with several broken lines connecting them. There is a distinct red line segment that appears to be a barrier or boundary.\n*   **(d):** Features a long, linear arrangement of pink shapes connected to a single green central shape. The pink shapes are oriented radially outwards, similar to (b).\n*   **(e):** Illustrates a highly dense, grid-like structure composed of pink and green shapes.  The pink shapes are arranged in a rectangular pattern, with lines connecting them.\n\n**Background:**\n\n*   The background is uniformly dark red with areas of dark green.\n*   A thin white border surrounds each sub-figure.\n\n**Text:**\n\n*   Each sub-figure is labeled with a letter from \"a\" to \"e\".\n\n**Data Points & Patterns (as visually discernible):**\n\n*   Circular shapes are consistently present in several figures.\n*   Linear arrangements of pink shapes are frequently depicted, often connected to a central green shape.\n*   The density and arrangement of the shapes vary across the sub-figures.\n*   A red line segment is visible in figure (c).\n*   Figure (e) shows a highly ordered grid structure.\n\n**Note:**  Without accompanying text or context from the document, it's impossible to determine the scientific meaning behind these arrangements. This analysis focuses solely on describing what is visually present in the image."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 5,
+    "page_end": 5,
+    "heading": "2.3. Potential and Fields Equations Adapted for Computer Vision",
+    "text": "In order to use the laws of EM, they must first be adapted for computer vision by removing some of the physical constraints and by ignoring the universal constants. In the 'Appendix B.  Mathematical Laws of EM', Maxwell's equations are presented and simplified using the assumption that all charges are static and that magnetic monopoles can exist. This allows to generalize the potential and field equations in a universe with spatial  dimensions,  where is  a  real  number  greater  than  1.  The  modified  field  is  presented  at equation (3).\nBy using the electromagnetic laws presented in the appendix, we can write the relation between the potential and its gradient at equation (4).\nIt is then possible to determine the potential by calculating the line integral of equation (3). This leads to equation (5), where we purposely omit all the integral constants and the product constant terms that depends of .\nFor = 3 , , ∝ || , which is identical to the real electric potential in 3D [18-20]. Because the field is the gradient of the potential, then the vector field will always be perpendicular to the equipotential lines, and its value will be greater when the equipotential lines are closer to each other [19].\nFor the current paper, the term ' electric ' is used when using monopoles and ' magnetic ' or ' magnetize ' when using dipoles, because it is more intuitive.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 5,
+    "page_end": 6,
+    "heading": "2.4. Geometrical Interpretation of Potentials and Fields",
+    "text": "The mathematical formalism of EM and MEq have been presented and simplified, but with no purpose for shape analysis, which will be the main focus of this section. An in-depth analysis of circles and corners are  presented  at  'Appendix  C.    Geometrical  Interpretation  of  Maxwell's  Equations'  and  can  help understand the following interpretation.\nIf a given shape is filled of positive electric monopoles, then the field will tend to cancel itself near the center of mass (CM) or in concave regions. However, the potential is scalar, which means that it will be higher near the CM or in concave regions. This difference in the behavior of the potential and the field is observed at Fig. 3.\nUsing this difference, we can determine the features of the shape in a given region depending only on the values of or || . The characteristics of the potential and the field in different regions of the shape are summarized at Table 1. Of course, a combination of those factors is possible, like a concave region near the center of mass (CM), which yields to a really high potential and a slightly low field.\n",
+    "figures": [
+      {
+        "page": 6,
+        "bbox": [
+          169.4289093017578,
+          635.4132919311523,
+          368.1394348144531,
+          539.7805938720703
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_3.png",
+        "caption": "Fig. 3. Potential and field with = 3 for positive monopoles placed on (a) A circle. (b) A corner.",
+        "description": "Okay, here's a detailed analysis of the image based solely on its visual content, using UTF-8 characters:\n\n**Image Description:**\n\nThe image consists of two panels (a) and (b), presented side-by-side. Both panels depict schematic representations of complex, branching structures rendered in green against a black background. The structures are composed of numerous thin, white lines radiating outwards from a central point. \n\n**Panel (a):**\n\n*   The structure is circular.\n*   There are approximately 60-80 radiating lines extending outward from the center.\n*   The lines appear to be roughly equidistant and form a dense, symmetrical pattern.\n*   The overall shape resembles a stylized representation of a dendritic or branched network.\n\n**Panel (b):**\n\n*   The structure is L-shaped.\n*   There are approximately 60-80 radiating lines extending outward from the center.\n*   The lines appear to be roughly equidistant and form a dense, symmetrical pattern.\n*   The overall shape resembles a stylized representation of a dendritic or branched network.\n\n**Text:**\n\n*   The text \"a)\" is positioned in the upper left corner of Panel (a).\n*   The text \"b)\" is positioned in the upper left corner of Panel (b).\n\n**Data Points/Patterns:**\n\n*   Both panels display a high density of radiating lines.\n*   The lines are consistently thin and white.\n*   The radial arrangement suggests branching or network-like structures. \n*   The number of lines appears to be roughly similar in both panels, though precise counts are difficult due to the schematic nature of the image.\n\n**Technical Notes:**\n\n*   The rendering style is a solid green background with white lines, likely created using vector graphics software.\n*   The image appears to be a technical illustration or diagram."
+      }
+    ],
+    "tables": [
+      {
+        "page": 6,
+        "bbox": [
+          121.9570083618164,
+          432.6936340332031,
+          412.98370361328125,
+          286.21832275390625
+        ],
+        "markdown": "Table 1 : Potential and Field Characteristics at Different Regions of a Shape Filled of Monopoles, for &gt; 2\n\n| Region of interest   | Visual   |    | &#124; &#124;   | Legend                 |\n|----------------------|----------|----|-----------------|------------------------|\n| Concave              | ↑        | ↓  | ↓↓ :            | really low             |\n| Convex               | ~↓       | ~↓ | ↓ :             | low                    |\n| Flat                 | ~        | ↑  | ~↓ : ~          | slightly low : average |\n| NearCM               | ↑        | ~  | ~↑ :            | slightly high          |\n| Far fromCM           | ↓        | ↓  | ↑ : ↑↑          | high : really high     |\n| Inside               | ↑↑       |    | ↓↓              |                        |",
+        "caption": "Table 1 : Potential and Field Characteristics at Different Regions of a Shape Filled of Monopoles, for > 2",
+        "summary": "Here's a summary of the table's structure and the information it represents:\n\n**Structure:**\n\nThe table is organized into four columns:\n\n*   **Region of Interest:** This column lists different geometric shapes or areas within an image (Concave, Convex, Flat, Near CM, Far from CM, Inside).\n*   **Visual:** This column indicates a visual quality rating for each region - represented by symbols (+, -, ~) indicating positive, negative, or average visual characteristics.\n*   **|E<sub>r</sub>|:**  This column represents the magnitude of an \"Error\" (likely related to image processing or feature detection). The value is indicated by absolute values (e.g., |1|, |-1|, |0|).\n*   **Legend:** This column provides a key for interpreting the symbols used in the \"Visual\" column, indicating levels of visual quality (Really Low, Low, Slightly Low, Average, Slightly High, High, Really High).\n\n**Key Information Represented:**\n\nThe table appears to be a guideline or reference for evaluating image features based on their geometric shape and associated error metrics. It suggests that:\n\n*   **Shape Matters:** The type of region (concave, convex, etc.) influences the visual quality and the magnitude of an \"Error\" value.\n*   **Error Correlation:** There's a relationship between the visual quality rating and the absolute value of the Error metric. Regions with higher error values tend to have lower visual quality ratings. \n\n**In essence, it's likely used in image analysis or computer vision tasks where you need to assess how well certain shapes are detected or represented within an image.**\n\nWould you like me to elaborate on any specific aspect of this table?",
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_tables/table_2.png"
+      }
+    ],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 6,
+    "page_end": 6,
+    "heading": "2.5. Convolutions, Potentials and Fields",
+    "text": "The equations (4) and (5) are the main equations used in this paper. The potential is first calculated using equation (5) because it represents a scalar, which means it is easy to sum the contribution of every monopole by  using  2D  convolutions.  Then,  the  vector  field  is  calculated  from  the  gradient  of  the  potential. Convolutions are used because they are fast to compute due to the optimized code in some specialized libraries such as Matlab® or OpenCV® .\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 6,
+    "page_end": 7,
+    "heading": "2.5.1. Creating the monopole potential kernel",
+    "text": "Knowing that the total image potential is calculated from a convolution, the first step is to manually create the potential of a single particle on a discrete grid or matrix. The matrix must be composed of an odd number of elements, which allows to have one pixel that represents the center of the matrix. If the size of the image is × , it is preferable to have as a matrix of size (2+1)×(2+1) . This avoids having discontinuities in the potential and its gradient. However, it means that the width and height of the matrix can  be  of  a  few  hundred  elements  and  take  a  longer  time  to  compute  without  efficient  libraries.  The convolution kernel matrix for is calculated the same way as at equation (5), because it is the potential of a single charged particle, with the distance being the Euclidean distance between the middle of the matrix and the current matrix element. An example of a small matrix of size 7 × 7 is illustrated in Fig. 4, where it is noted that is forced to '1' at the center for continuity purpose.\n",
+    "figures": [
+      {
+        "page": 7,
+        "bbox": [
+          164.30227661132812,
+          637.5462875366211,
+          364.4337158203125,
+          550.1320648193359
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_4.png",
+        "caption": "Fig. 4. Example of convolution kernel for a particle potential matrix of size 7 × 7 ; (a) Euclidian distance from center . (b) Potential of a centered monopole =   ,  = 3 .",
+        "description": "Here's an analysis of the image based solely on its visual content:\n\n**Image Description:**\n\nThe image consists of two 6x6 matrices (labeled 'a)' and 'b') presented as heatmaps. Each matrix is colored using a gradient from green to yellow to red, representing values ranging from 0 to 42. The color scale is indicated by a bar on the right side of 'b)'.\n\n**Matrix 'a)':**\n\n*   The matrix contains numerical data represented by the colors.\n*   The numbers within the cells range from 0 to 42.\n*   The cell in row 3, column 3 has a red color.\n*   Several other cells have green or yellow coloring.\n\n**Matrix 'b)':**\n\n*   The matrix contains numerical data represented by the colors.\n*   The numbers within the cells range from 0 to 42.\n*   There are three cells colored red (in rows 1, 2 and 5).\n*   Several other cells have green or yellow coloring.\n\n**Color Scale:**\n\n*   A color bar is present on the right side of matrix 'b)'.\n*   The scale indicates that green represents values close to 0, yellow represents intermediate values, and red represents the highest values (42).\n\n**Overall Structure:**\n\nBoth matrices are identical in size and layout. The data within each cell is represented by a color based on its numerical value."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 7,
+    "page_end": 7,
+    "heading": "2.5.2. Creating the dipole potential kernel",
+    "text": "Convolutions with dipole potentials can be used also to create an anti-symmetric potential and find the specific position of a point. Therefore, it is required to create a potential convolution kernel for a dipole . We have to remember that a dipole is simply 2 opposite monopoles at a small distance from each other. This can be expressed as a mathematical convolution where is  given by equation (6), and is visually shown in Fig. 5. If divided by a factor 2, we can notice that this convolution is similar to a horizontal numerical derivative (shown later at equations (8) and (9)), meaning that the dipole potential is twice the derivative of the monopole potential [19].\nUsing equation (2) along with equation (6), it is possible to determine equation (7), which gives the dipole kernel at any angle .\n",
+    "figures": [
+      {
+        "page": 7,
+        "bbox": [
+          152.0491485595703,
+          307.9561767578125,
+          379.0441589355469,
+          239.54067993164062
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_5.png",
+        "caption": "Fig. 5. Steps to calculate the normalized potential kernel for a dipole (a) Positive and negative monopoles at 1 pixel distance. (b) Potential kernel . (c) Dipole potential kernel resulting from the convolution of image 'a' with kernel 'b'.",
+        "description": "Here's an analysis of the image based solely on its visual content:\n\n**Overall Description:**\n\nThe image consists of three panels (a), (b), and (c) displayed side-by-side, representing a heatmap visualization. Each panel is a grid composed of red, green, and purple squares. A color scale bar is present in panel (c).\n\n**Panel (a):**\n\n*   This panel shows a square grid.\n*   There are two distinct colored squares: one red and one pink/purple.\n*   The coordinates of the red square appear to be approximately at (1, 1) and (2, 2), where (1,1) is the top-left corner of the grid.\n*   The coordinates of the pink/purple square are approximately at (3, 3) and (4, 4).\n\n**Panel (b):**\n\n*   This panel also displays a square grid.\n*   There is one distinct colored square: green.\n*   The center of the green square appears to be located at approximately (2, 2), where (2,2) is the top-left corner of the grid.\n\n**Panel (c):**\n\n*   This panel shows a square grid with a much denser distribution of colored squares.\n*   There are four distinct colored squares: purple, green, pink/purple and red.\n*   The coordinates of the purple square appear to be approximately at (1, 1) and (2, 2), where (1,1) is the top-left corner of the grid.\n*   The coordinates of the green square are approximately at (3, 3) and (4, 4).\n*   The coordinates of the pink/purple square are approximately at (5, 5) and (6, 6), where (5,5) is the top-left corner of the grid.\n*   The coordinates of the red square are approximately at (7, 7) and (8, 8).\n\n**Color Scale:**\n\n*   The color scale bar in panel (c) indicates that purple represents negative values, green represents zero, and red represents positive values. The maximum value is indicated as \"max\" and the minimum value as \"-max\".\n\n**Grid Dimensions:**\n\n*   All three panels appear to represent a grid with dimensions of 8x8 squares."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 7,
+    "page_end": 7,
+    "heading": "2.5.3. Creating the derivative kernels",
+    "text": "Derivative kernels are important to calculate the field, because we know from equation (4) that the field , is the gradient of the potentials , . To use the numerical central derivatives, we simply need to apply the convolution given at equation (8), with the central finite difference coefficients given at equation (9) for an order of accuracy (OA) of value 2 [29].\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 8,
+    "page_end": 9,
+    "heading": "2.5.4. Calculating the potential and the field of an image",
+    "text": "A crucial step for the CAMERA-I technique is to transform an image into charged particles, which will allow calculating the electric potential and field. The first step is to determine the position and intensity of the  charge.  Each  pixel  with  value +1 is  a  positive  monopole,  each  pixel  with  value -1 is  a  negative monopole, and each pixel with value 0 is empty space. Therefore, the pixels of the image represent the density of charge and have values in the interval [-1, … ,1] , where non-integers are less intense charges.\nNext, the matrix is constructed as seen on Fig. 4, and applied on the image with the convolution shown at equation (10). Then, the horizontal and vertical derivatives are calculated using equation (8) and give the results for and . Finally, the norm and the direction of the field are calculated using equation (11). It is possible to visualize these steps at Fig. 6, where a quadrupole is represented.\nThe same process that is used to transform each pixel into a monopole can be used to transform them into a magnetic dipole, by using the result presented at Fig. 5 as the kernel. The steps and results are shown at Fig. 7, when each pixel is transformed into a horizontal magnetic dipole with = 0 .  The formula to calculate the magnetic potential using a convolution is given at equation (13), with the density correction factor shown at equation (12). This density factor allows  to  consider  the  fact  that  pixels  placed  in diagonal have a lower number of pixels per unit length then those placed horizontally. The angle depends on the image, as it is often chosen to be either parallel or perpendicular to the direction of the element to magnetize. Also, the matrix size of is the same as the matrix size of . The real part is chosen in equation (13) to represent dipoles perpendicular to , while the imaginary part represents dipoles parallel to it.\nIt is to note that the image (e) of Fig. 7 is really similar to the image of quadrupole potential presented at Fig. 6. This is because it represents 2 consecutive perpendicular derivatives of the potential of monopoles , which is mathematically equivalent to a quadrupole potential.\n",
+    "figures": [
+      {
+        "page": 8,
+        "bbox": [
+          156.10643005371094,
+          451.18414306640625,
+          381.2828063964844,
+          325.57366943359375
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_6.png",
+        "caption": "Fig. 6. Calculation of the potential and field of an image (a) Monopoles in the image. (b) Potential kernel . (c) Total potential . (d) Horizontal field . (e) Vertical field . (f) Field norm || and direction",
+        "description": "Here's an analysis of the image based solely on its visual content, using UTF-8 characters:\n\n**Overall Description:**\n\nThe image is a composite of six small images (a) through (f), arranged in a 2x3 grid. Each subimage represents a heatmap visualization.  A color scale bar is present in the upper right corner of image (c).\n\n**Detailed Analysis of Each Subimage:**\n\n*   **(a):** A 5x5 grid of colored squares. Three squares are colored green, and two are colored red. The colors range from dark red to light green.\n*   **(b):**  A circular heatmap with a single bright green square at the center. The surrounding squares vary in color from dark purple to light green.\n*   **(c):** A 10x10 grid of colored squares. Several squares are colored green and pink, with some white squares. The color scale bar indicates that maximum values are represented by green, while negative values are represented by pink.\n*   **(d):**  A 10x10 grid of colored squares. Most squares are colored purple or dark purple. There are a few green squares scattered throughout the image.\n*   **(e):** A 10x10 grid of colored squares. The color distribution is more complex, with many squares colored green and pink.  The colors range from dark purple to light green.\n*   **(f):** A 10x10 grid of colored squares. The image shows a spiral pattern dominated by green squares. There are some darker purple squares present.\n\n**Color Scale Bar:**\n\n*   The color scale bar in the upper right corner (present only in image c) indicates that:\n    *   Green represents positive values (max).\n    *   Pink represents negative values (-max).\n    *   White represents zero values.\n\n**Grid Dimensions:**\n\n*   Images a, b, and f are 5x5 grids.\n*   Images c, d, and e are 10x10 grids.\n\nLet me know if you would like me to focus on any specific aspect of the image!"
+      },
+      {
+        "page": 9,
+        "bbox": [
+          150.69351196289062,
+          669.9274597167969,
+          377.6713562011719,
+          543.3512420654297
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_7.png",
+        "caption": "Fig. 7. Steps to calculate the magnetic PF of an image (a) Dipoles in the image. (b) Horizontal dipole potential kernel . (c) Total potential . (d) Horizontal field . (e) Vertical field . (f) Field norm || and direction.",
+        "description": "Okay, here's a detailed analysis of the image based solely on its visual content, using UTF-8 characters:\n\n**Image Description:**\n\nThe image is a composite figure consisting of six small images (a) through (f), arranged in a 2x3 grid. Each image represents a square grid composed of numerous small colored squares. The grid size appears to be approximately 100x100 pixels.\n\n**Color Coding and Data Points:**\n\n*   **Color Scale:** A color bar is present on the right side of the figure, indicating a color scale from -max (purple) to max (green).  The central value is marked as \"0\".\n*   **Image (a):** Displays a single vertical white line centered within the grid. All squares in the image are dark red.\n*   **Image (b):** Shows two circular, green-colored areas with a central overlap of purple. The background is dark red.\n*   **Image (c):** Presents a pattern of vertical and horizontal lines, predominantly purple and green.\n*   **Image (d):** Displays a more complex pattern of interconnected squares, primarily in shades of purple and green.\n*   **Image (e):** Shows a dense, irregular distribution of purple and green squares.\n*   **Image (f):**  Illustrates a highly complex, almost fractal-like pattern of green and purple squares.\n\n**Grid Characteristics:**\n\n*   The grid is composed entirely of small squares.\n*   Each square has a color assigned to it based on the color scale.\n*   The density of colored squares varies across the images.\n\n**Text Elements:**\n\n*   \"max\" appears in the upper right corner of the figure, next to the color bar.\n*   \"0\" is present at the center of the color bar.\n*   \"-max\" appears on the left side of the color bar.\n\nLet me know if you would like a more specific analysis or have any follow-up questions!"
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 9,
+    "page_end": 9,
+    "heading": "3. Application of EM Convolutions",
+    "text": "The previous section explained how to correctly build the convolution kernels, although real kernels are a lot bigger than the schematic demonstrations. In this section, the focus will shift on how to use those kernels for shape and stroke analysis, and what are the advantages of using EM convolution kernels.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 9,
+    "page_end": 9,
+    "heading": "3.1. Detecting Shape Characteristics",
+    "text": "This first sub-section will focus on the use of EM convolution kernels for the detection of multiple shape characteristics, such as the convex or concave regions, and the relative distance to the centroid.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 9,
+    "page_end": 11,
+    "heading": "3.1.1. Finding the regions of interest",
+    "text": "It was discussed in the section '2.4 Geometrical Interpretation of Potentials and Fields' that the electric potential and field can be used for shape analysis, with a summary of the characteristics presented at Table 1. To demonstrate those characteristics, a special shape is created with all the mentioned regions of interest (RoI), with the computed potential and field shown at Fig. 8. The index 'onC' means that the values were set to 0 everywhere but on the contours. It is to note that the PF are computed using the whole surface of the shapes, and that the values are set to 0 after the computation of and || . The contour of a full shape can  be  easily  determined  with  morphological  operations.  The  values  of  the  potential and  field on the contours are squared to show a better contrast between the low values and the high values. They are also thickened using image dilation, for the purpose of showing better images.\nThe value of the dimension is set to = 3 for these examples, as it is found experimentally to be ideal for such analysis. By choosing a value of 2 <  < 3 , a similar interpretation can be done, but it will increase the contribution of the pixels very far from each other, and significantly reduce the contribution of nearby pixels. By choosing a value of > 3 , it will reduce the contribution of pixels that are far from each other, and  increase  the  contribution  of  nearby  pixels.  Hence,  the  value  of = 3 was  found  to  be  a  good equilibrium of the contribution of nearby and far pixels, although each specific application could optimize its value. For a more advanced analysis, it is possible to use various different dimension values, such as = {2.3, 3, 4} , and to combine the information given by each value of .\nUsing the values of and depicted at Fig. 8, it is possible to find the regions of interests, as seen at Fig. 9. The percentile thresholds that are used are shown in Table 2. Since the shape that is used is complex, the regions are not perfectly discernable, as usually expected. For example, a concave region (which expects a high value of ) can also be far from the CM (which expects a low value for ), hence, the thresholds are contradictory. However, this can be used as an advantage, since it allows to use general information about an image, and make it more robust to noise. In fact, regular convolution kernels are small, which makes them vulnerable to small variations in the shapes contours, but it is not the case for EM kernels. EM kernels are also invariant in rotation and robust to deformations.\nIt is to note that using simple thresholds might lead to problems regarding the continuity of a region, which could be fragmented in a few small parts. To avoid this problem, all regions are grown by a security factor, which is chosen as 5% of the biggest dimension of the shape (this factor can be changed depending on the needs). Using such a percentage allows the growing to be robust, no matter the resolution or the size of the shape. The algorithm for such a region growing is explained in the Algorithm 2, at the Appendix 'E.2.  Grow and unite contour regions'.\n",
+    "figures": [
+      {
+        "page": 10,
+        "bbox": [
+          170.4975128173828,
+          669.3687973022461,
+          368.3404846191406,
+          394.2582092285156
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_8.png",
+        "caption": "Fig. 8. (a) Special shape with the white region being a uniform density of charge, used to compute the following PF with = 3 . (b) The potential . (c) The field || . (d) The potential squared only on the contour . (e) The field squared only on the contour .",
+        "description": "Here's an analysis of the image based on its visual content:\n\n**Overall Structure:**\n\nThe image is a composite figure consisting of five panels (a through e) arranged in a grid format. It appears to be a schematic diagram related to electron transport or energy distribution within a nanoscale structure.\n\n**Panel Descriptions:**\n\n*   **(a):** A black and white graphic depicting a stylized letter \"G\". The letter is composed of straight lines and right angles, forming a geometric shape.  The text \"Ve\" and \"El\" are positioned above the image with arrows pointing towards it.\n*   **(b):** A red heatmap-like representation of the letter \"G\" from panel (a). The color intensity varies across the image, ranging from yellow at the brightest points to red at the darkest.  The text \"onC\" is present in the lower left corner.\n*   **(c):** Another red heatmap-like representation of the letter \"G\" from panel (a). Similar to panel (b), color intensity varies across the image, ranging from yellow to red. The text \"onC\" is present in the lower left corner.\n*   **(d):** A black and white outline of the letter \"G\" from panel (a) with a red border.  The heatmap-like representation from panel (b) is overlaid on this outline.\n*   **(e):** A black and white outline of the letter \"G\" from panel (a) with a red border. The heatmap-like representation from panel (c) is overlaid on this outline.\n\n**Textual Elements:**\n\n*   \"Ve\" and \"El\" are text labels positioned above panel (a).\n*   \"onC\" appears in the lower left corner of panels (b), (c) and (e).\n*   A colorbar is present in panel (c) indicating a gradient from 0 to max.\n\n**Color Scheme:**\n\nThe image utilizes a red-to-yellow heatmap color scheme, with red representing higher intensity values and yellow representing lower intensity values. The black and white graphics provide a contrasting background.\n\n**Data Points/Patterns:**\n\n*   The letter \"G\" is consistently depicted across panels (a) through (e).\n*   Heatmaps are used to visualize the distribution of some property, likely related to electron density or energy levels, within the letter \"G\".\n*   The colorbar in panel (c) indicates a"
+      },
+      {
+        "page": 11,
+        "bbox": [
+          150.0965118408203,
+          670.7397689819336,
+          379.7810974121094,
+          492.7224426269531
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_9.png",
+        "caption": "Fig. 9. RoI found on a complex shape using a contour analysis by potential and field thresholds. (a) Concave regions. (b) Convex regions. (c) Flat regions. (d) Regions near the CM. (e) Regions far from the CM. (f) Regions inside the shape.",
+        "description": "Okay, here's a detailed analysis of the image based solely on its visual content, using UTF-8 characters:\n\n**Image Description:**\n\nThe image is a grayscale diagram illustrating a series of six overlapping shapes presented in a 2x3 grid. Each shape is outlined with purple and white lines. The overall background color is black.  A key/legend is present at the bottom right corner of the image.\n\n**Shape Details:**\n\n*   **Shapes (a-f):** All six shapes are identical, representing a complex geometric form resembling a stylized \"g\" or \"U\" shape with internal divisions. The purple outline defines the boundary of each shape.\n*   **Purple Outline:**  The purple lines delineate the outer contour of each shape.\n*   **White Interior:** The interior space within each purple outline is white.\n\n**Data Points & Patterns:**\n\n*   **Overlapping:** The shapes are arranged in a grid where each shape partially overlaps with its adjacent neighbors.\n*   **Centroids (Purple Stars):**  At the center of each shape, there is a purple star symbol representing the centroid point. These centroids are located at the intersection of the white interior space within each shape.\n*   **Region of Interest:** A white rectangular area is marked around each shape, indicating the \"Region of Interest\" as labeled in the legend.\n\n**Legend/Key:**\n\nThe key at the bottom right corner provides the following information:\n\n*   **Region of Interest:**  A white rectangle surrounding each shape.\n*   **Shape contour:** The purple lines outlining the shapes.\n*   **Centroid:** The purple star symbol indicating the centroid point within each shape.\n\nLet me know if you'd like a more specific breakdown or have any follow-up questions about the image!"
+      }
+    ],
+    "tables": [
+      {
+        "page": 11,
+        "bbox": [
+          82.67542266845703,
+          442.39410400390625,
+          446.4553527832031,
+          327.6062316894531
+        ],
+        "markdown": "Table 2. Percentile Thresholds Used for the Discovery of the Regions of Interest\n\n| Region of interest   | Thresholds percentile for   | Thresholds percentile for   | Thresholds percentile for &#124; &#124;   | Thresholds percentile for &#124; &#124;   |\n|----------------------|-----------------------------|-----------------------------|-------------------------------------------|-------------------------------------------|\n| Region of interest   | Min (%)                     | Max (%)                     | Min (%)                                   | Max (%)                                   |\n| Concave              | 70                          | 100                         | 0                                         | 50                                        |\n| Convex               | 15                          | 40                          | 15                                        | 40                                        |\n| Flat                 | 40                          | 60                          | 80                                        | 95                                        |\n| NearCM               | 80                          | 95                          | 40                                        | 60                                        |\n| Far fromCM           | 0                           | 25                          | 0                                         | 25                                        |\n| Inside               | 90                          | 100                         | 0                                         | 10                                        |",
+        "caption": "Table 2. Percentile Thresholds Used for the Discovery of the Regions of Interest",
+        "summary": "Here's a summary of the table's structure and the information it represents:\n\n**Structure:**\n\nThe table is organized into two columns, each with several rows representing different \"Regions of Interest.\"  Each row provides two sets of percentage values:\n\n*   **Column 1: Thresholds percentile for V<sub>e</sub>**: This column lists minimum and maximum percentiles for a quantity called \"V<sub>e</sub>.\"\n*   **Column 2: Thresholds percentile for |E<sub>δ</sub>|**: This column lists minimum and maximum percentiles for a quantity called \"|E<sub>δ</sub>|\".\n\n**Key Information:**\n\nThe table presents thresholds (percentile values) for two quantities, V<sub>e</sub> and |E<sub>δ</sub>|, based on the shape of a region within a model.  Here's what the regions represent:\n\n*   **Regions of Interest**: The rows define different geometric shapes or locations within a model being analyzed (e.g., \"Concave,\" \"Convex,\" \"Flat,\" \"Near CM,\" \"Far from CM,\" and \"Inside\").\n*   **V<sub>e</sub> & |E<sub>δ</sub>|**: These are likely measures related to some kind of error or instability analysis, possibly in a finite element simulation. The percentiles indicate the acceptable range for these values within each region.\n\n**In essence, the table provides guidelines on what percentage levels of V<sub>e</sub> and |E<sub>δ</sub>| are considered acceptable depending on the shape of the region being examined.**  The minimum thresholds represent the lowest tolerable values, while the maximum thresholds represent the highest allowable values.",
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_tables/table_3.png"
+      }
+    ],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 11,
+    "page_end": 12,
+    "heading": "3.1.2. Robustness to deformation",
+    "text": "To demonstrate the robustness of the technique, the shape of Fig. 9 is modified using a combination of the following filtering, both on small and big scale: twirl, twist and wave. The shape resulting from the filtering is presented at Fig. 10, with the RoI computed using once again the thresholds of Table 2. As it can be observed, the discovered regions for both Fig. 9 and Fig. 10 are almost identical, with only minor differences. From all the RoI, the only differences comprise of one convex region, one flat region and one region far from the CM. All other regions are present on both figures at the same place. Those differences are minor and are expected since the shape has been greatly modified by the multiple filtering.\nHence, we show that the proposed technique is highly robust against shape and contour deformation for detecting RoI. This is mainly due to the electric field that considers every pixel inside a shape, not only those in a small region of the contour. In fact, although the contour of the shapes on Fig. 9 and Fig. 10 are greatly different, the total pixels inside the shape area had a lot less variation, which means that the values of the EMPF are almost identical. Other convolution kernels are small, meaning that they focus only on local information. Hence, kernels that detect concave regions will detect any bump in the contour that is locally concave, making it really vulnerable to deformation.\n",
+    "figures": [
+      {
+        "page": 12,
+        "bbox": [
+          153.1100616455078,
+          670.5981521606445,
+          381.9963073730469,
+          492.9899444580078
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_10.png",
+        "caption": "Fig. 10. RoI found on a complex shape (filtered with twirl, twist and wave distortion) using a contour analysis by potential and field thresholds. (a) Concave regions. (b) Convex regions. (c) Flat regions. (d) Regions near the CM. (e) Regions far from the CM. (f) Regions inside the shape.",
+        "description": "Here's an analysis of the image based on its visual content:\n\n**Overall Description:**\n\nThe image displays six panels (a through f), arranged in a 2x3 grid. Each panel depicts a complex, curvilinear shape outlined in purple. Within each shape, there are two distinct points marked with green asterisks.  A white outline surrounds the entire shape in each panel. A key is provided at the bottom right of the image.\n\n**Detailed Breakdown:**\n\n*   **Shapes (panels a-f):** All six shapes are similar in form - they consist of multiple, interconnected loops and bends. The purple outlines represent the shape contours.\n*   **Green Asterisks:**  Each panel contains two green asterisks. These points are located within the interior of each shape.\n*   **White Outline:** A white border surrounds each shape, separating it from the black background.\n*   **Key Elements:**\n    *   \"Region of Interest\": The purple outline represents this area.\n    *   \"Shape contour\": This is the purple line defining the boundary of the shape.\n    *   \"Centroid\" :  The green asterisk denotes the centroid point within each shape.\n\n**Data Points & Patterns:**\n\n*   There are six distinct shapes presented.\n*   Each shape has two points marked as centroids.\n*   The shapes are consistently complex and curvilinear in form.\n*   The purple outlines appear to be used to define a specific region of interest for analysis, likely related to the location of the centroids.\n\n**Character Encoding:** The response is encoded using UTF-8 characters."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 12,
+    "page_end": 12,
+    "heading": "3.1.3. Analysis of 3D shapes",
+    "text": "In spite of being robust to deformation, an important characteristic of EMPF is that they can be used in 3D without  any  added  complexity.  Of  course,  computation  time  will  be  longer  in  3D,  but  it  is  partly compensated by resolution which is usually lower than 2D images.\nHowever, since there is more information in 3D than 2D, it is easier to analyse a 3D objects using different values of . The same rules of Table 1 still apply, but a value of < 4 will be more sensible to the CM, while a value of > 4 will be more sensible to the local convexity. An example of result for a 3D mug is presented at Fig. 11, with = {3, 4} . It can be observed that || is better at determining the inside of a cup with opposing faces, while || is better at finding the bottom of the cup, where the concavity is the highest. Furthermore, () is better than () at finding the local convexities at the border of the cup.\n",
+    "figures": [
+      {
+        "page": 12,
+        "bbox": [
+          153.07669067382812,
+          301.1937561035156,
+          381.95953369140625,
+          159.11767578125
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_11.png",
+        "caption": "Fig. 11. EM potential and field generated by a 3D mug, with different values of . (a) with = 3 . (b) || with = 3 . (c) with = 4 . (d) || with = 4 . 1: CC",
+        "description": "Here's an analysis of the image based on a scientific/technical document perspective, focusing solely on observable details:\n\n**Image Description:**\n\nThe image is a four-panel display showing computational fluid dynamics (CFD) simulation results. Each panel represents a visualization of flow patterns within a cylindrical duct. The color scale indicates magnitude of velocity. \n\n**Panel Details:**\n\n*   **Panel (a):** Displays a flow pattern with a central, bright yellow region representing high velocity.  Flow appears to be diverging from the center towards the outer walls of the cylinder. The label \"v²_inc n=3\" is present in the upper left corner.\n*   **Panel (b):** Shows a similar flow pattern to panel (a), but with a slightly reduced intensity of the central yellow region.  The label \"|E|²_inc n=3\" is present in the upper right corner.\n*   **Panel (c):** Presents a flow pattern where the central yellow region is brighter and more pronounced than in panels (a) and (b). The label \"v²_inc n=4\" is present in the lower left corner.\n*   **Panel (d):** Displays a flow pattern similar to panel (c), with a bright central region, but with slightly reduced intensity compared to panel (c).  The label \"|E|²_inc n=4\" is present in the lower right corner.\n\n**Color Scale:**\n\nA color bar is included at the bottom of the image. It shows a gradient from red (representing low magnitude) to yellow (representing intermediate magnitude) to white (representing maximum magnitude) for velocity. \n\n**Text Labels:**\n\n*   \"v²_inc\" appears in the lower left corner of panel (c).\n*   \"|E|²_inc\" appears in the upper right corner of panels (a) and (b).\n*   \"n=3\" and \"n=4\" are present as subscripts to the velocity terms.\n\n**Overall Pattern:**\n\nThe panels demonstrate variations in flow patterns within a cylindrical duct, likely due to changes in parameters represented by 'n'. The intensity of the central yellow region increases with increasing 'n' values (from n=3 to n=4)."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 12,
+    "page_end": 12,
+    "heading": "3.2. Magnetic Repulsion for Stroke Interaction",
+    "text": "As demonstrated in the last section, the electric potential and field allow to analyze a shape and its contour. In this section, a new tool will be developed to show how magnetism can be used to analyze thin strokes and their interactions. A thin stroke is defined as any curve or line that has only one-pixel width. Hence, each pixel of the stroke has a maximum of 2 neighbors, except at the intersection of multiple strokes.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 13,
+    "page_end": 14,
+    "heading": "3.2.1. Choosing the Magnetic Dimension",
+    "text": "One major difference between analyzing full shapes and strokes is the impact of image resolution. For a full shape, if the resolution is lowered, the total relative area between the shape and the image remains the same.\nFor a thin stroke, if the resolution is lowered, then each pixel of the stroke is wider. Hence the stroke has a bigger relative area when the resolution is low. This causes problems when using EM convolutions, since the area represents the total charge. However, it is found that using = 2 for the EMPF makes it invariant of the thickness of the stroke and the resolution of the picture. This can be observed at Fig. 12, where 2 strokes of different resolutions are magnetized perpendicular to the stroke with dimensions = 2 and = 3 . For the value of = 2 , presented at the subfigures (c) and (f), we can observe that the equipotential lines are exactly the same. However, this is not the case for subfigures (b) and (e), where = 3 . The potentials of Fig. 12 are computed using equation (13), with being the orientation perpendicular to the line. To find the orientation for any kind of stroke, it is possible to use Algorithm 3 in the Appendix 'E.3.  Finding Stroke Orientation'.\nAnother important characteristic of the potential with = 2 is that it is the only dimension which ensure a  conservation of energy in the potential and field of the image, since the image is in 2D. In fact, the conservation of energy is the reason why a thin stroke requires = 2 to be invariant of the image resolution. If we chose a value of > 2 , then some energy will be lost in the higher dimensions as we go further from the  EM  particles.  Inversely,  a  value  of < 2 will  create  more  energy  as  we  go  further  from  the  EM particles. Using the same principles, it is possible to deduct that a thin plane in a 3D image requires = 3 to be invariant of the resolution.\nThe conservation of energy means that Gauss's Theorem can be applied on the field produced by a stroke. By using Gauss's Theorem, we can know that any closed stroke, which is magnetized perpendicular to its direction, will produce a null field both inside and outside the stroke. The fact that the field is null means that the potential is constant, both inside and outside the stroke, but with different values. This can be observed at Fig. 13, where the closed stroke is chosen to be a circle. The more the circle is near closing, the more the potential is uniform. However, this is only true for = 2 . The value of is given by equation (13), with computed using Algorithm 3.\nIn summary, the dimension value for the stroke analysis must be = 2 , for both purposes of resolution invariance and conservation of energy.\n",
+    "figures": [
+      {
+        "page": 13,
+        "bbox": [
+          150.0704803466797,
+          457.0744934082031,
+          379.1611022949219,
+          325.79901123046875
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_12.png",
+        "caption": "Fig. 12. Potential resulting of the convolution of a dipole perpendicular to the stroke lines. (a) Stroke with low resolution 64x64. (b) Dipole with = 3 and low resolution. (c) Dipole with = 2 and low resolution. (d) Stroke with high resolution 512x512. (e) Dipole with = 3 and high resolution. (f) Dipole with = 2 and high resolution.",
+        "description": "Okay, here's a detailed analysis of the image based solely on its visual content, using UTF-8 characters:\n\n**Overall Description:**\n\nThe image is a scientific illustration consisting of six panels arranged in a grid. Each panel displays a colored representation of a wave pattern generated by a stroke or line drawn on a dark red background.  A colorbar indicating maximum and zero values is present to the right of panels (b), (c), (e) and (f).\n\n**Panel Specific Details:**\n\n*   **a):** A single, dashed white line is depicted on the dark red background. The resolution is indicated as 64x64. The term \"stroke\" appears below the panel.\n*   **b):**  A purple wave pattern is displayed. The resolution is 64x64. The number '3' appears below the panel, likely representing a harmonic order or similar parameter.\n*   **c):** A green wave pattern is displayed. The resolution is 64x64. The number '2' appears below the panel, likely representing a harmonic order or similar parameter.\n*   **d):**  A single, dashed white line is depicted on the dark red background. The resolution is indicated as 512x512. The term \"stroke\" appears below the panel.\n*   **e):** A purple wave pattern is displayed. The resolution is 512x512. The number '3' appears below the panel.\n*   **f):** A green wave pattern is displayed. The resolution is 512x512. The number '2' appears below the panel.\n\n**Colorbar:**\n\nThe colorbar, present to the right of panels (b), (c), (e) and (f), displays a gradient ranging from white (representing maximum value) to black (representing zero value).  It is labeled \"max\" at the top. The scale ranges from 0 to max.\n\n**Resolution & Harmonic Information:**\n\nThe resolution values for each panel are: 64x64, 64x64, 64x64, 512x512, 512x512, and 512x512. The number associated with each panel (3 or 2) likely represents the harmonic order of the wave pattern.\n\n**Additional Notes:**"
+      },
+      {
+        "page": 14,
+        "bbox": [
+          152.89369201660156,
+          670.915901184082,
+          380.8927001953125,
+          539.1614532470703
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_13.png",
+        "caption": "Fig. 13. Potential of a circular stroke magnetized perpendicular to their orientations. (a) Circle arc of 90° , with = 2 . (b) Circle arc of 270° , with = 2 . (c) Circle arc of 360° , with = 2 . (d) Circle arc of 90° , with = 3 . (e) Circle arc of 270° , with = 3 . (f) Circle arc of 360° , with = 3 .",
+        "description": "Okay, here's a detailed analysis of the image based solely on its visual content, using UTF-8 characters:\n\n**Image Description:**\n\nThe image is a composite illustration presented as a grid of seven panels (a) through (f). Each panel depicts a three-dimensional surface representation colored according to a color gradient. The background in all panels is black.\n\n**Panel Breakdown:**\n\n*   **(a):** A green sphere is positioned centrally within the panel. The surrounding surface exhibits a gradient ranging from bright green at the sphere's surface to purple/magenta further away, indicating a high intensity concentration of some phenomenon (likely light or energy) around the sphere.\n*   **(b):** Similar to (a), but the green sphere has shifted slightly to the right and is marginally smaller. The color gradient remains consistent - bright green at the sphere's surface transitioning to purple/magenta further out.\n*   **(c):** A white, circular point source is centered in the panel. The surrounding surface displays a gradient from white at the point's center to purple/magenta extending outwards.\n*   **(d):** A curved, crescent-shaped object (likely representing a lens or similar component) is positioned centrally.  The surface around it shows a gradient ranging from dark red at the curve's edges to lighter red and then transitioning to purple/magenta further out.\n*   **(e):** A half-moon shaped object is centered in the panel. The color gradient ranges from dark red at the curve's edges to lighter red and then transitioning to purple/magenta further out.\n*   **(f):** A circular object (likely representing a lens or similar component) is centered in the panel.  The surface around it shows a gradient ranging from light green at the circle's center to dark green extending outwards.\n\n**Color Gradient Key:**\n\nA color bar is present on the right side of the image. It indicates:\n\n*   Purple/Magenta: Represents a positive value (likely maximum intensity).\n*   Red: Represents a decreasing value, transitioning from purple/magenta to white.\n*   White: Represents zero value.\n*   Dark Red: Represents a negative value (likely minimum intensity).\n\n**Overall:** The image appears to be a visualization of some type of field distribution or energy concentration related to spherical and circular objects, using a color gradient to represent magnitude.  The panels show changes in the position and size of these objects, accompanied by corresponding"
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 14,
+    "page_end": 14,
+    "heading": "3.2.2. Magnetic Interaction",
+    "text": "As seen previously on Fig. 13 with = 2 , a stroke that is almost closed will have a higher potential || inside it, with a lower potential outside. This can also be applied to 2 strokes that interact with each other by magnetizing them perpendicular to the strokes with equation (13). It is possible to shift the value of by a factor of on each stroke to flip the positive and negative side. By choosing carefully which stroke is flipped, it is possible to maximize the magnetic repulsion in an image, as shown at Fig. 14.\nWhen there is a magnetic attraction, which is when the positive (green) part of a stroke meets the negative (pink) part of another stroke, nothing interesting happens in terms of the potential. However, when there is a repulsion (positive meets positive, or negative meets negative), there is a high concentration of potential || between  the  strokes,  with  an  almost  constant  value  (low  field || ).  Henceforth,  the  magnetic interaction is interesting, as it offers an opportunity to analyze the whole 2D space using only thin 1D strokes in the initial image.\n",
+    "figures": [
+      {
+        "page": 14,
+        "bbox": [
+          153.0340576171875,
+          334.9776916503906,
+          380.7530517578125,
+          204.17987060546875
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_14.png",
+        "caption": "Fig. 14. PF computed from the initial stroke, with = 2 and the dipole perpendicular to the strokes. (a) Initial stroke. (b) Potential of attraction . (c) Potential of repulsion . (d) Field of attraction || . . (e) Field of repulsion || . .",
+        "description": "Okay, here's a detailed analysis of the image based solely on its visual content, using UTF-8 characters:\n\n**Overall Description:**\n\nThe image is a composite figure consisting of five smaller panels (a) through (e), arranged in a grid. Each panel depicts a three-dimensional surface representation with color coding and overlaid vector lines. The overall background is black.\n\n**Panel Specific Details:**\n\n*   **Panel (a):** This panel shows a simple, rectangular prism rendered in shades of red. A dashed line extends from the center of one face to the opposite edge.\n*   **Panel (b):**  This panel displays a more complex three-dimensional shape with sharp edges and corners. The surface is colored green, with purple shading indicating areas of high intensity. Red vector lines emanate from several points on the surface.\n*   **Panel (c):** This panel shows a similar complex shape to Panel (b), but with a different color scheme: green for the surface and purple for shading.  Red vector lines are present.\n*   **Panel (d):** This panel presents a three-dimensional shape resembling a funnel or cone, colored in green. Red vector lines originate from several points on the surface.\n*   **Panel (e):** This panel shows a three-dimensional shape similar to Panel (d), but with a different color scheme: green for the surface and purple for shading. Red vector lines are present.\n\n**Color Coding:**\n\n*   **Green:** Represents the primary color of the 3D surface representation.\n*   **Purple:** Indicates areas of high intensity or maximum value on the surface. The purple shading is denser in certain regions.\n*   **Red:**  Vector lines, likely representing gradient directions or field lines.\n\n**Text Elements:**\n\n*   A horizontal bar labeled \"max\" is present along the right edge of Panel (e). This bar indicates a scale for maximum values.\n*   The panels are labeled with letters from 'a' to 'e'.\n\n**Vector Lines:**\n\n*   Red vector lines are consistently present in Panels (b), (c), (d) and (e). These lines appear to trace the direction of some field or gradient associated with the 3D surface. The line density is higher in certain areas.\n\nLet me know if you'd like me to focus on a specific aspect of this analysis!"
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 14,
+    "page_end": 15,
+    "heading": "3.2.3. Stroke Analysis",
+    "text": "Similarly to the problem of detecting shape characteristics using electric PF, presented in section '3.1 Detecting Shape Characteristics', it is possible to detect the characteristics of a stroke using magnetic PF. Furthermore, the stroke analysis will be robust to deformation, for the same reasons as the robustness of the shape analysis. To analyze a stroke, one must simply consider the potential || produced by dipoles placed perpendicular to the stroke, using equation (13) and Algorithm 3. Then, as seen on Fig. 13, a concave region will produce a higher value of || , while a convex region will produce a lower value. This is also analogous to the magnetic repulsion interaction presented in the section '3.2.2 Magnetic Interaction'. An example of this method and its robustness is presented in the Fig. 15, where it is observed that the values of || are almost identical for the stroke, the deformed stroke and the heavily distorted stroke.\n",
+    "figures": [
+      {
+        "page": 15,
+        "bbox": [
+          149.8168182373047,
+          637.5166397094727,
+          378.4458923339844,
+          423.7406311035156
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_15.png",
+        "caption": "Fig. 15. Strokes for the number '2' at the left, with the potentials of dipoles perpendicular to the strokes, with = 2 . (a) Clean stroke. (b) Deformed stroke. (c) Heavily distorted stroke.",
+        "description": "Okay, here's a detailed analysis of the image provided, focusing solely on the observable content as a scientific/technical document:\n\n**Image Description:**\n\nThe image is a composite figure displaying three sets of data related to handwriting strokes. It's organized into a 3x3 grid with each cell containing three distinct visualizations. The overall title at the top reads \"Stroke\".  Each row represents a different stroke (a), (b) and (c). Each column corresponds to a different metric: velocity, magnitude, and a color-coded representation of data.\n\n**Column Breakdown:**\n\n*   **Column 1: Stroke:** This column displays a black line drawing of the handwriting stroke for each of the three strokes (a), (b), and (c). The stroke in (a) is a simple, straight \"2\".  The stroke in (b) is also a simple, straight \"2\". The stroke in (c) is a more complex, curved representation resembling a stylized wave.\n\n*   **Column 2: v<sub>dip</sub>:** This column shows a color-coded surface plot representing the velocity component denoted as \"v<sub>dip</sub>\".  The colors range from purple at the bottom to green at the top. The plots are overlaid on the corresponding stroke drawings (a), (b) and (c). The magnitude of v<sub>dip</sub> appears to be highest near the beginning of each stroke, particularly in strokes (a) and (b).\n\n*   **Column 3: |v<sub>dip</sub>|<sup>2</sup>:** This column displays a color-coded surface plot representing the squared magnitude of velocity denoted as \"|v<sub>dip</sub>|<sup>2</sup>\". The colors range from purple at the bottom to green at the top. The plots are overlaid on the corresponding stroke drawings (a), (b) and (c).  The data in this column shows a higher concentration of high values near the start of each stroke, similar to Column 2.\n\n**Color Scale:**\n\nA color scale is present in all three columns, ranging from purple at 0 to green at the maximum value. The legend indicates that purple represents zero and green represents the highest data value.\n\n**Overall Structure & Data Representation:**\n\nThe image presents a comparison of velocity (v<sub>dip</sub>) and its magnitude (|v<sub>dip</sub>|<sup>2</sup>) for three different handwriting strokes, visualized as surface plots overlaid on line drawings of those strokes. The color scale provides quantitative information about the values"
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 15,
+    "page_end": 15,
+    "heading": "3.3. Summary of The Advantages of Electromagnetic Convolution Kernels",
+    "text": "The focus of the current paper was mostly about the development and the appropriate usage of EM convolution kernels. Although many characteristics were presented, no concrete application is developed, making it harder to understand the real advantage of such an unusual approach. Hence, this section will focus on enumerating and explaining the great advantages and the uniqueness of EM for image analysis, when compared to other methods.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 15,
+    "page_end": 15,
+    "heading": "3.3.1. Resolution and Size Independence",
+    "text": "The first clear advantage is the resolution and size independence of any EM convolution kernel. This characteristic is unique and is present both in shape and stroke analysis. This means that no matter the resolution  of  the  image  or  the  size  of  the  shapes  or  stroke  in  the  image,  the  ideal  kernel  size  is (2+1)×(2+1) ,  with and being  the  width  and  height  of  the  image.  If  the  resolution  of  the image is doubled, the kernel size is also doubled, but it won't change the results (although a super low resolution will be prone to numerical errors and might change the characteristics of the image). This is a characteristic that most kernels in the literature do not respect, since they are typically with a size between 3 × 3 and 31 × 31 [5, 28]. Hence, changing the resolution of the image or the elements inside the image requires to change the resolution of the kernels [5, 28]. This is problematic since the pixel width and height of a feature is unknown and is not necessarily dependent on the resolution of the image.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 15,
+    "page_end": 15,
+    "heading": "3.3.2. Orientation independence",
+    "text": "In addition of being independent of size and resolution, the proposed EM kernels are also orientation independent, meaning that any rotation applied to the image will not alter the results. This is a feature that is  usually  available  only  with  rotation  symmetric  kernels  [5],  such  as  Gaussian  filters  or  the kernel presented at equation (5). However, the current method also presents how to use the asymmetric kernel of equation (7) such that it is independent of the orientation. This is because the value of is dependent on the local orientation of a stroke, which changes along with the rotation of the image. Hence, what is presented is a unique asymmetric kernel that is independent in size, resolution and orientation. This is in contrast with other kernels, such as texture algorithms, which usually require 4 to 11 scales and 2 to 8 orientations [5, 30], for a total of 4 to 88 filters required for the same feature detection.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 16,
+    "page_end": 16,
+    "heading": "3.3.3. Robustness to Deformation and Noise",
+    "text": "Another interesting feature is the robustness to heavy deformation, which was previously shown at Fig. 10 and Fig. 15. This is something that standard kernels cannot handle well due to their size. In fact, a small kernel will be way more affected by a local distortion, meaning that a standard kernel will find convex and concave  regions  almost  everywhere  in  the  presented  distorted  figures  [30].  Furthermore,  the  standard techniques of contour approximation, such as the polygonal approximations and the Fourier descriptors, are too heavily affected by heavy variations on the contour [21, 26]. This is because those techniques rely only on the pixel of the contours, while the approach considers every pixel inside the shape. Those pixels inside the shape are far less affected by deformation than those on the contours. Similarly, adding noise to the pixels inside a shape will negligibly affect the total potential and field generated, since positive and negative noises will tend to even out.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 16,
+    "page_end": 16,
+    "heading": "3.3.4. Long Distance Interaction",
+    "text": "An important feature of EM kernels is that they also allow to take into account the interaction between different strokes or shapes, as shown in Fig. 14. It potentially allows to group multiple strokes together, or the find the total PF generated by multiple shapes. This is a characteristic that is only possible using big kernels, since it is impossible for a small kernel to link 2 distant strokes. Other methods also propose a long distance interaction, such as the force vector fields for active contours [9, 10], as they use vector kernel to find the force interaction between each part of a contour.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 16,
+    "page_end": 16,
+    "heading": "3.3.5. Full Space Information",
+    "text": "Another unique feature of the EM kernels is that they allow to analyze pixels that are not in the shape or stroke of interest. For example, the stroke analysis of Fig. 15 allow to tell if each pixel is positioned inside the concave regions of the number '2', or if it is in the convex region. This is impressive, since convolution kernels usually give only local information of an image. However, in that case, the EM kernels is able to generate 2D information from a 1D stroke.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 16,
+    "page_end": 16,
+    "heading": "3.3.6. Does not Require Shape Approximations",
+    "text": "The EMPF approach has the unique capability of not reducing the dimensionality of the studied shapes. In fact, it was stated in the section '1.1 Related Work' that the other shape analysis techniques reduce the shape into a 0D value or a 1D contour/skeleton. These dimensionality reductions make the analysis simpler, but they tend to remove some critical information. Furthermore, techniques such as polygon approximation and Fourier descriptors require to approximate the shape of an object, which does not work well with complex shapes or shapes with holes [21, 23, 24].\nFurthermore, EMPF even has the possibility of being used on 3D shapes, as seen at Fig. 11, since the laws of EM can still be applied using equation (5). Since 3D shapes are far more complex than 2D shapes, the advantage of using the proposed CAMERA-I approach is even greater, as it does not require any shape approximation.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 16,
+    "page_end": 16,
+    "heading": "3.3.7. Cannot be Learned",
+    "text": "Since the dawn of CNNs, there is no point of creating a new convolution kernel if it can be learned by the network. The reason is that CNNs use dozens or hundreds of optimized kernels [3], meaning that any useful  and  'learnable'  kernel  will  be  obtained  by  the  network  optimization.  However,  the  EM  kernels presented in the current paper cannot be learned by such methods, and for several reasons. First, it was already mentioned that the kernels in a CNN are small [3, 4, 14] , usually less than 11 × 11 . Hence, it is impossible to learn a kernel that is twice the size of the image. Another important reason is the use of the magnetic  potential that  requires  to  convert  the  image  into  complex  numbers  using  Euler's  formula exp  () ,  convoluted with a kernel of complex values, as seen in equation (13), with the angle being related to the direction of the stroke. This kind of specific feature is impossible to generate throughout the optimization of standard CNN, since they do not use complex numbers.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 17,
+    "page_end": 18,
+    "heading": "3.4. Comparison to the literature",
+    "text": "The  advantages  presented  at  the  previous  section  highlighted  the  interesting  characteristics  of  the CAMERA-I approach for Computer Vision. A summary of these advantages is listed in Table 3, with a direct comparison to state-of-the-art methods of image analysis.\nFrom Table 3 one can see that the CAMERA-I approach is complementary to CNNs, but in direct competition with Fourier descriptors. One need to note that the examples of results using Fourier descriptors with 4 or 32 harmonics are illustrated in Fig. 16. First of all, we can clearly see that 4 harmonics is not enough  to  describe  complex  shapes.  Using  32  harmonics,  the  results  look  better,  but  there  is  a  lot  of oscillations, which makes it difficult to accurately determine the convex and concave regions, since this technique relies on the local curvature. In addition, we can observe that Fourier descriptors cannot deal with holes in the shapes, and must consider the holes as separate shapes, contrarily to the CAMERA-I approach (as previously shown in Fig. 9 and Fig. 10). Finally, Fourier descriptors are only good to analyze full shapes, and cannot be used for stroke analysis or stroke interactions, which is another advantage of the proposed approach.\n",
+    "figures": [
+      {
+        "page": 18,
+        "bbox": [
+          153.06884765625,
+          670.6015548706055,
+          382.1858215332031,
+          506.533935546875
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_16.png",
+        "caption": "Fig. 16. Contour approximation via Fourier descriptors. (a) Fourier descriptor with 4 harmonics. (b) Fourier descriptors with 32 harmonics. [23, 24]",
+        "description": "Okay, here's a detailed analysis of the image based solely on its visual content, using UTF-8 characters:\n\n**Image Description:**\n\nThe image is a scientific illustration comparing three different methods for outlining shapes within two sets of four images (labeled 'a)' and 'b'). The illustrations are presented in black and white.\n\n**Elements Present:**\n\n1.  **Shape Sets:** There are two sets of four distinct, complex shapes. Each shape set consists of:\n    *   A primary, irregular shape.\n    *   A secondary, more intricate shape composed of multiple segments.\n    *   A third, highly fragmented shape with numerous protrusions and indentations.\n\n2.  **Outlining Methods:** Each shape set is presented with three different outlining methods:\n    *   **Centroid:** A small circle (grey) represents the centroid (geometric center) of each shape. The position of these centroids are consistent across all shapes within a given set.\n    *   **Shape Inside:**  A solid grey outline defines the interior boundary of each shape. This is a simple, closed contour.\n    *   **Contour Approximation via Fourier Descriptors:** A blue line represents an approximation of the shape's boundary using Fourier descriptors. The lines are not perfectly smooth and appear to follow the contours of the shapes but with some degree of distortion.\n\n3.  **Labeling & Key:** At the bottom right corner, a key provides labels for each element:\n    *   \"Centroid\": Indicates the grey circles representing the centroid.\n    *   \"Shape inside\": Indicates the solid grey outlines defining the interior boundary.\n    *   \"Contour approximation via Fourier descriptors\": Indicates the blue lines approximating the shape boundaries using Fourier descriptors.\n\n4.  **Layout:** The image is divided into two columns, with each column containing one of the shape sets (a) and (b). Each shape set has three outlines displayed alongside it.\n\n5. **Color Scheme**: Black background with grey for centroids and shapes inside, and blue for Fourier descriptor approximations.\n\nLet me know if you would like a more specific breakdown or have any other questions about this image!"
+      }
+    ],
+    "tables": [
+      {
+        "page": 17,
+        "bbox": [
+          61.32358169555664,
+          545.1824493408203,
+          467.3609313964844,
+          364.95013427734375
+        ],
+        "markdown": "Table 3 : Qualitative Comparison Between Different Image Analysis Methods\n\n| Characteristics                                                                                                                                                                                                                                                            | CAMERA-I   | CNNs [3-5]   | Fourier Descriptors [23, 24]   |\n|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|--------------|--------------------------------|\n| Resolution and size independence Orientation independence Robustness to deformation Long distance interaction Full space information Avoids shape approximations Allows shape analysis Allows stroke analysis Can be adapted to any problem Can be easily used for machine | ✓          |              | ✓                              |\n|                                                                                                                                                                                                                                                                            | ✓          |              | ✓                              |\n|                                                                                                                                                                                                                                                                            | ✓          | ~            | ✓                              |\n|                                                                                                                                                                                                                                                                            | ✓          |              |                                |\n|                                                                                                                                                                                                                                                                            | ✓          |              |                                |\n|                                                                                                                                                                                                                                                                            | ✓          | ✓            |                                |\n|                                                                                                                                                                                                                                                                            | ✓          | ✓            | ✓                              |\n|                                                                                                                                                                                                                                                                            | ✓          | ✓            |                                |\n|                                                                                                                                                                                                                                                                            |            | ✓            |                                |\n| learning                                                                                                                                                                                                                                                                   |            | ✓            |                                |\n| Does not require heavy computing                                                                                                                                                                                                                                           | ✓          |              | ✓                              |",
+        "caption": "Table 3 : Qualitative Comparison Between Different Image Analysis Methods",
+        "summary": "Here's a summary of the table's structure and the information it presents:\n\n**Structure:**\n\nThe table compares three different approaches to analyzing images - CAMERA-I, Convolutional Neural Networks (CNNs) [3-5], and Fourier Descriptors [23, 24]. It uses a simple row and column format with characteristics listed down the left side and methods listed across the top.  A checkmark (✓) indicates that a particular characteristic is supported by that method.\n\n**Key Information Represented:**\n\nThe table highlights the strengths and weaknesses of each approach based on several key image analysis characteristics:\n\n*   **Resolution and Size Independence:** All three methods can handle images with varying resolutions and sizes.\n*   **Orientation Independence:**  CAMERA-I, CNNs, and Fourier Descriptors all perform well regardless of object orientation.\n*   **Robustness to Deformation:** CAMERA-I and Fourier Descriptors are robust to distortions in the image. CNNs have limited robustness.\n*   **Long Distance Interaction:** All three methods can analyze features at a distance.\n*   **Full Space Information:**  All three methods utilize the entire image space for analysis.\n*   **Avoids Shape Approximations:** CAMERA-I and Fourier Descriptors avoid relying on simplified shape approximations, while CNNs do.\n*   **Allows Shape Analysis/Stroke Analysis:** CAMERA-I and Fourier Descriptors allow for detailed shape and stroke analysis. CNNs have limited capabilities in this area.\n*   **Adaptability & Machine Learning:** All three methods can be adapted to different problems and are suitable for machine learning applications.\n*   **Computational Requirements:** CAMERA-I and Fourier Descriptors require less computational power than CNNs.\n\n**In essence, the table suggests that:**\n\n*   **CAMERA-I** is a robust and versatile method with low computational requirements, particularly well-suited for tasks where shape analysis is important.\n*   **CNNs** are powerful but computationally intensive and have limited robustness to deformation.\n*   **Fourier Descriptors** offer good performance in terms of robustness and adaptability while also being relatively efficient.\n\nDo you want me to elaborate on any specific aspect or comparison within the table?",
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_tables/table_4.png"
+      }
+    ],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 18,
+    "page_end": 18,
+    "heading": "4. Conclusion",
+    "text": "The objective of this paper was to develop different electromagnetic convolution kernels that can be used in computer vision applications, and to demonstrate its effectiveness for shape and stroke analysis. The paper  showed  how  to  express  the  images  as  electromagnetic  particles  with  possible  varying  density, allowing  to  efficiently  compute  the  potential and  field || associated  to  them,  using  convolutions. Using the computed values, it is possible to quickly determine some regions of interest, such as the convex or concave regions, and the proximity to the centroid. This method was demonstrated to be robust to noise and heavy deformation, and invariant to size, resolution and orientation.\nFurthermore, a novel directional magnetic convolution is presented at equation (13), which allows to compute a and field || that  depend  on  the  local  density  and  orientation  of  thin  strokes.  This  is  a unique way of applying convolution kernels, which proved to be robust to heavy deformations, to allow high distance stroke interaction and to determine local or global stroke characteristics. Plus, it offers a unique way to analyze all the pixels in a 2D image depending on their relative position to the 1D stroke.\nIn summary, the electromagnetic kernels proved to be an efficient and robust way to analyze images, with unique characteristics that make it impossible to be the result of an optimized or learned kernel. In fact, the EM kernels proved to be independent of the image size, resolution or orientation, in addition of being really robust to deformation. A continuation of this work could focus on the development of specific applications based on those properties.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 18,
+    "page_end": 18,
+    "heading": "Acknowledgment",
+    "text": "We would like to thank NSERC, through the discovery grant program, and FRQNT/INTER for their financial  support  as  well  as  MEDITIS  (Biomedical  technologies  training  program)  through  NSERC (FONCER) initiative.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 19,
+    "page_end": 19,
+    "heading": "Appendix A. Supplementary Nomenclature",
+    "text": "The following nomenclature is useful for the appendices, in addition to the nomenclature presented at the beginning of the paper.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 19,
+    "page_end": 19,
+    "heading": "Supplementary nomenclature",
+    "text": "",
+    "figures": [],
+    "tables": [
+      {
+        "page": 19,
+        "bbox": [
+          29.25930404663086,
+          589.2198638916016,
+          238.76373291015625,
+          477.22509765625
+        ],
+        "markdown": "| ,   | Charge [C] , [A m]                   |\n|-----|--------------------------------------|\n| ,   | Dipole charge separation [m]         |\n|     | Distance from an electric charge [m] |\n|     | Permittivity of free space [Fm ]     |\n| μ   | Permeability of free space [N A ]    |\n| ,   | Density of charge [Cm ] ,[Am ]       |\n| ∇ ⋅ | Divergence operator                  |\n| ∇×  | Curl operator                        |",
+        "caption": "",
+        "summary": "Here's a summary of the table's structure and the key information it represents:\n\n**Structure:**\n\nThe table is organized into two main sections:\n\n*   **Physical Quantities (Left Column):** This column lists fundamental physical quantities related to electromagnetism, denoted with subscripts 'm' indicating they are measured in SI units.\n*   **Definitions/Relationships (Right Column):**  This column provides the definitions or relationships of each quantity in terms of standard constants and other quantities.\n\n**Key Information Represented:**\n\nThe table defines several core electromagnetic concepts:\n\n*   **Charge (q<sub>e,m</sub>):** The fundamental electrical charge, expressed as both its magnitude in Coulombs (C) and its associated elementary charge (e<sup>',</sup>).\n*   **Dipole Charge Separation (d<sub>e,m</sub>):**  The distance between two charges forming a dipole.\n*   **Distance from Electric Charge (r):** The radial distance from an electric charge.\n*   **Permittivity of Free Space (ε₀):** A fundamental constant representing the ability of free space to permit electric fields.\n*   **Permeability of Free Space (μ₀):**  A fundamental constant related to the ability of free space to support magnetic fields.\n*   **Density of Charge (ρ<sub>e,m</sub>):** The amount of charge per unit volume.\n*   **Electric Current (j<sub>e,m</sub>):** The rate of flow of electric charge.\n*   **Divergence Operator (∇ ⋅):** A mathematical operator used to calculate the divergence of a vector field.\n*   **Curl Operator (∇ ×):** A mathematical operator used to calculate the curl of a vector field.\n\n**In essence, this table provides a concise reference for the definitions and relationships within electromagnetism, using standard SI units.** \n\nDo you want me to elaborate on any specific item in the table or explain how these quantities relate to each other?",
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_tables/table_5.png"
+      }
+    ],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 19,
+    "page_end": 20,
+    "heading": "B.1. Electric monopoles",
+    "text": "Static electric monopoles are the most primitive elements that generates an electrical field, and they can be positive or negative. The positive charges generate an outgoing electric field and a positive potential, while the negative charges generate an ingoing electric field and a negative potential. This is shown on Fig. 17, where the color scale is the normalized value of the electric potential and the arrows represent the electric field ℰ . In our 3D universe, the values of the potentials and fields of static charges are given by equation  (14)  [18-20].  However,  the  current  paper  will  not  limit  itself  to  the  3D  equations  of electromagnetism, and more general equations will be developed.\nThe color-bar used for the potential is shown on Fig. 1, but will be omitted in many other images for concision.  It  is  normalized  so  that  the  value  ' 1 '  is  associated  to  the  maximum  potential  and  ' -1 '  is associated to the maximum negative potential.\nWhen we deal with more than one particle, then the total potential and field is the sum of all the individual potentials and fields, as given by equation (16) [18-20]. It should be noted that the total potential is a simple scalar sum, while the total field is a vector sum.\n",
+    "figures": [
+      {
+        "page": 19,
+        "bbox": [
+          164.4182891845703,
+          234.14553833007812,
+          364.1204528808594,
+          154.53985595703125
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_17.png",
+        "caption": "Fig. 17. Static electric potential and field of a: (a) positive monopole. (b) negative monopole",
+        "description": "Here's an analysis of the image based on scientific/technical document standards, utilizing UTF-8 characters:\n\n**Image Description:**\n\nThe image consists of two panels (a) and (b), presented side-by-side. Both panels depict a radial field emanating from a central point.\n\n**Panel (a):**\n\n*   **Central Element:** A green circle represents a positive charge (+).\n*   **Field Lines:** Numerous white lines radiate outwards from the central positive charge, extending to the periphery of the panel. The density of these lines increases as they move further from the center.\n*   **Color Scale:**  A color scale is present along the right edge of the panel. It ranges from green (representing a value of 1) to purple (representing a value of -1). The color intensity corresponds to the line density.\n\n**Panel (b):**\n\n*   **Central Element:** A pink circle represents a negative charge (-).\n*   **Field Lines:** Numerous white lines radiate outwards from the central negative charge, extending to the periphery of the panel. The density of these lines increases as they move further from the center.\n*   **Color Scale:**  A color scale is present along the right edge of the panel. It ranges from green (representing a value of 1) to purple (representing a value of -1). The color intensity corresponds to the line density.\n\n**Overall Observations:**\n\n*   Both panels illustrate electrostatic field lines.\n*   The direction of the field lines indicates the force that would be exerted on a positive test charge placed at any given point in space.  They radiate outwards from positive charges and inwards towards negative charges.\n*   The color scale provides a visual representation of the field strength, with higher values (green) indicating stronger fields and lower values (purple) indicating weaker fields. The density of lines correlates to this value."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 20,
+    "page_end": 20,
+    "heading": "B.2. Electric dipoles",
+    "text": "An electric dipole is created by placing a positive charge near a negative charge. This generates an electric potential that is positive on one side (positive pole), negative on the other side (negative pole) and null in the middle. The charge separation a vector corresponding to the displacement from the positive charge to the negative charge, and is mathematically defined at equation (16) [20].\nThe electric field will then have a preferential direction along the vector by moving away from the positive charge, but it will loop back on the sides to reach the negative charge. Many examples of electric dipoles are presented at Fig. 18, with the simplest form being composed of 2 opposite charges. On this figure, we notice that staking multiple dipoles in a chain will not result in a stronger dipole, because all the positive and negative charges in the middle will cancel each other. Therefore, stacking the dipoles in series will only place the poles further away from each other. However, stacking the dipoles in parallel will result in a stronger potential and field on each side of the dipole. It is also possible to see that the field will be almost perpendicular to the line of parallel dipoles, but it is an outgoing field on one side and an ingoing field on the other.\nTo calculate the total electric potential and field of any kind of dipole, it is possible to use the equation (14), without forgetting to change the sign of accordingly. This sign change leads to a potential that diminishes a lot faster for dipoles at Fig. 18 when compared to the monopoles at Fig. 17. In a 3D world, with = 0 alongside  vector ,  the  dipole  potential  will  vary  according  to ∝  cos()/‖‖ , compared to the monopole potential which varies in proportion to ∝ 1/‖‖ [19, 20].\nAnother  important  aspect  of  dipoles  is  that  when is  small,  the  potential  of  a  diagonal  dipole  is calculated by the linear combination of a horizontal and a vertical dipole. The potential of a dipole at angle ( ) is approximated by equation (17) [19, 20]. This is easy to prove by using the previous statement that ∝ cos() .\n",
+    "figures": [
+      {
+        "page": 20,
+        "bbox": [
+          153.053955078125,
+          356.2528381347656,
+          382.035400390625,
+          227.94418334960938
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_18.png",
+        "caption": "Fig. 18. Electric Potential and field for static monopoles placed as: (a) A simple dipole. (b) A small chain of simple dipoles. (c) A horizontal and a vertical dipole, equivalent as 2 dipoles at 45° . (d) A long chain of simple dipoles in series. (e) A long chain of simple dipoles in parallel.",
+        "description": "Okay, here's a detailed analysis of the image provided, focusing solely on observable elements without interpretation:\n\n**Image Description:**\n\nThe image is a composite illustration depicting five distinct arrangements of colored shapes within circular regions. The background is black.  Each arrangement is labeled with a letter (a) through (e).\n\n**Detailed Breakdown by Arrangement:**\n\n*   **a):** A central green circle contains a smaller, pink circle at its center. Radiating outwards from the green circle are numerous small, yellow-colored shapes arranged in a starburst pattern. The circular region surrounding this arrangement is dark red.\n\n*   **b):**  A central purple circle contains a series of connected pink rectangles. Radiating outwards from the purple circle are numerous small, yellow-colored shapes arranged in a starburst pattern. The circular region surrounding this arrangement is dark red.\n\n*   **c):** A central green circle contains a smaller, pink circle at its center.  Surrounding the green circle are numerous small, yellow and red colored shapes arranged in a dense, seemingly random distribution. The circular region surrounding this arrangement is dark red.\n\n*   **d):** Similar to (b), a central purple circle contains a series of connected pink rectangles. Radiating outwards from the purple circle are numerous small, yellow-colored shapes arranged in a starburst pattern. The circular region surrounding this arrangement is dark red.\n\n*   **e):** A central green circle contains a smaller, pink circle at its center.  Surrounding the green circle is a dense grid of connected pink rectangles. The circular region surrounding this arrangement is dark red.\n\n\n**Color Coding:**\n\n*   Green: Represents a central circular element.\n*   Pink: Represents a smaller circular element within the larger green circle.\n*   Yellow: Represents small, radiating shapes.\n*   Purple: Represents a series of connected rectangles.\n*   Red: Represents the background color of each circular region.\n\n**Overall Characteristics:**\n\n*   The image consists of five distinct diagrams.\n*   Each diagram features a central colored circle and radiating elements.\n*   The surrounding regions are consistently dark red.\n*   The shapes (circles, rectangles, stars) vary in number and arrangement within each diagram.\n\n---\n\nDo you want me to analyze any specific aspect of this image further, or perhaps describe the visual relationships between the diagrams?"
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 21,
+    "page_end": 21,
+    "heading": "B.3. Magnetic charges and dipoles",
+    "text": "Electricity and magnetism are 2 concepts with an almost perfect symmetry between them, and will lead to similar mathematical equations. First, a magnetic dipole is what is commonly called a 'magnet', and is composed of a north pole (N) and a south pole (S). When compared to the electrical dipole, the north pole is  mathematically  identical  to  the  positive  pole  and  the  south  pole  is  identical  to  the  negative  pole. Therefore, the potentials and fields of magnetic dipoles are identical to those of Fig. 2, and the equations are the same as those defined by equations (14), except for the constants.\nOne can also mathematically define a magnetic monopole the same way as the electric monopole was defined.  Although  magnetic  monopoles  are  not  found  in  nature,  nothing  prevents  us  from  using  their mathematical concepts for computer vision.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 21,
+    "page_end": 21,
+    "heading": "C.1. Maxwell's Equations",
+    "text": "The development of traditional electromagnetism was completed by J.C. Maxwell and allows to explain all the EM phenomenon using 4 mathematical equations, known as Maxwell's equations (MEq), which can be written with integrals or differential form. The first MEq is the Gauss law presented at equation (18) [18, 20]. It means that the electric field that leaves a certain volume is directly proportional to the total charge inside it.  The  second MEq is Gauss law of magnetism and is presented at equation (19) [18, 20]. It is identical to equation (18), except that the charge density is zero due to the inexistence of magnetic charges.\nThe following MEq are known as Faraday's law (20) and Ampere's law (21). They allow to understand the behavior of EM when there are time variations of the fields [18, 20].\nAnother important concept in EM is the electrostatic potential , , which is a scalar defined as the line integral of the field , , given by equation (22) [20].\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 21,
+    "page_end": 22,
+    "heading": "C.2. Adaptation of Maxwell's equations for Computer Vision",
+    "text": "The important equations of EM were developed in the previous section, but their current form is not adapted for computer vision. First, the presence of the constants and are not useful for the current application. It is also possible to ignore the fact that magnetic charges cannot exist and regroup equations (18) and (19) to generate equation (20). Furthermore, the time variation and the current from equations (20)\nand (21) are ignored to generate equation (24). Thus, the 4 MEq are simplified into 2 new equations for static electromagnetism given by (23) and (24). These equations are the same for Electricity and Magnetism. Also, there is no interaction between a static electric field and a static magnetic field [18, 19]. For these reasons, the current paper will often use the term 'electric' when using monopoles and 'magnetic' or 'magnetize' when using dipoles, because it is more intuitive.\nThe equation (23) means that the total virtual field going out of a surface is directly proportional to the number of virtual charges contained inside. For dipoles, the total virtual field is null because the sum of charges is always zero. The equation (24) means that there are no curl to the field. By using equation (24) with equation (22), it is possible to demonstrate equation (25) [20], which states that the field is given by the gradient of the potential.\nWith these equations demonstrated, the next step is to determine the potential and the fields that are generated by charged particles. By using equation (23) and by knowing that, at a certain radius, the field around a single particle is uniformly spread, it is possible to show that equation (3) holds. The variable ' ' denotes the dimension of the universe where the potentials and fields are used. This means that for a 3D universe we have , ∝ 1/|| , for a 2D universe we have , ∝ 1/|| , while for a 1D universe, , is constant. This is in concordance with the real laws of electromagnetism, if we acknowledge that a 2D universe is when the infinite wire approximation is used, and that a 1D universe is when an infinite plate approximation  is  used.  However,  the  current  paper  will  not  limit  equation  (3)  to  a  finite  universe  by choosing non-integer values for . Therefore, we have that , ∝ 1/|| , for a universe of spatial dimensions.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 22,
+    "page_end": 23,
+    "heading": "D.1. Closed shapes with particles on the contour",
+    "text": "If we have a closed circle composed of charged particles on the contour, then equation (23) allow to see that the field will be almost null inside the circle, but really high as soon as we are outside the circle. The potential is strong and constant in the middle of the circle, but diminishes rapidly outside the circle [19, 20], as observed at Fig. 19. This is because the potential is scalar, therefore the contribution of each particle will be summed. However, the field requires a vector sum, which means that they will cancel each other in the middle as the vectors will be of opposite direction, but they will add themselves outside of the circle. This holds true for any kind of closed shape, although the perfect symmetry of a circle makes the cancelation of the field more effective.\nBy using circle of dipoles instead of monopoles, with the  radii being and > , then the field will be null and the potential almost constant everywhere, except for a position that respects the inequality <  < . This is due to the gauss law (23) and is observed at Fig. 19. It also holds true for any kind of closed shape with dipoles on all of its contour.\n",
+    "figures": [
+      {
+        "page": 23,
+        "bbox": [
+          150.4346160888672,
+          670.9236145019531,
+          379.5935363769531,
+          560.1123657226562
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_19.png",
+        "caption": "Fig. 19. Potential and field for circles, with = 3 , for (a) positive monopoles. (b) parallel dipoles.",
+        "description": "Here's an analysis of the image based solely on its visual content, using UTF-8 characters:\n\n**Image Description:**\n\nThe image consists of two panels (a) and (b), presented side-by-side within a dark background. Each panel depicts a circular arrangement of colored lines representing magnetic field vectors.\n\n**Panel (a):**\n\n*   **Central Circle:** A green circle is located at the center of the panel.\n*   **Outer Ring:** Surrounding the central circle is a ring of white lines, each line pointing radially outwards from the center. The lines are densely packed.\n*   **Field Lines:** Numerous thin, gray field lines emanate from the outer ring and extend outward to the periphery of the image. These lines appear to be uniformly distributed.\n\n**Panel (b):**\n\n*   **Central Circle:** A purple circle is located at the center of the panel.\n*   **Outer Ring:** Surrounding the central circle is a ring of colored lines: green, pink, and white. The lines are densely packed.\n*   **Field Lines:** Numerous thin, gray field lines emanate from the outer ring and extend outward to the periphery of the image. These lines appear to be uniformly distributed.\n\n**Text:**\n\nThe lower right corner contains the text \"Figure 1\".\n\n**Color Coding:**\n\n*   Green: Represents a specific magnetic field vector or component.\n*   White: Represents another specific magnetic field vector or component.\n*   Pink: Represents another specific magnetic field vector or component.\n*   Gray: Represents magnetic field lines.\n*   Purple: Represents a different magnetic field vector or component.\n\n**Overall Pattern:**\n\nBoth panels depict circular arrangements of colored lines with associated radial field lines, suggesting a representation of magnetic fields originating from a central point. The color variations between the two panels indicate differences in the specific magnetic field configurations being illustrated."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 23,
+    "page_end": 23,
+    "heading": "D.2. Corners with particles on the contour",
+    "text": "If we have a corner composed of charged particles as presented at Fig. 20, then it is possible to analyse the potential and field and to see that it somewhat resembles the closed circle. The concave part of the corner will have a low field due to the vector sum of opposite vectors, but it will be the point with the highest potential, just like the inside of the circle. The convex part of the corner will have a slightly higher field because the vectors are less destructive, but the potential will be a lot lower because it is further away from the other charges, similarly to the exterior of the circle. Finally, the flat parts of the corner will have the highest field, but average potential.\nAt Fig. 20, it is possible to see that the field on the corners will have a diagonal direction due to the contribution  of  both  sides  of  the  corner.  For  the  dipole  corner,  the  behavior  is  really  similar  than  the monopole corner, except that the concave part has an ingoing field with negative potential, while the convex part has and outgoing field with positive potential. It should be noted that the field will tend to be at an angle of 45° when it is far at the top-left or bottom-right of the corner.\n",
+    "figures": [
+      {
+        "page": 23,
+        "bbox": [
+          150.3020782470703,
+          357.2057800292969,
+          379.67938232421875,
+          242.1785888671875
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_20.png",
+        "caption": "Fig. 20. Potential and field for corners of (a) positive monopoles. (b) parallel dipoles.",
+        "description": "Okay, here's a detailed analysis of the image based solely on its visual content, using UTF-8 characters:\n\n**Image Description:**\n\nThe image consists of two panels (a) and (b), presented side-by-side within dark backgrounds. Each panel depicts a circular region outlined by a green oval. Within this oval are numerous white lines radiating outwards from the center.  Each white line is composed of multiple small, colored dots. \n\n**Panel (a):**\n\n*   The color scheme is predominantly green and white.\n*   The green oval has approximately 10-15 dots along its perimeter.\n*   Within this oval, there are approximately 30-40 white lines extending outwards from the center.\n*   Each white line contains an average of 8-12 colored dots. The color of these dots is pink/magenta.\n\n**Panel (b):**\n\n*   The color scheme is predominantly purple and white.\n*   The green oval has approximately 10-15 dots along its perimeter.\n*   Within this oval, there are approximately 30-40 white lines extending outwards from the center.\n*   Each white line contains an average of 8-12 colored dots. The color of these dots is purple/magenta.\n\n**General Observations:**\n\n*   The overall structure consists of a central circular area surrounded by radiating lines.\n*   The lines are composed of numerous small, dot-like elements.\n*   Both panels share the same basic structural arrangement (central oval with radiating lines and colored dots).\n*   The color of the dots varies between the two panels - pink/magenta in panel (a) and purple/magenta in panel (b).\n\n**Note:**  Without additional context about the document, it's impossible to determine the specific scientific meaning or purpose of this image. This analysis is purely based on a description of its visual elements."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 23,
+    "page_end": 23,
+    "heading": "Appendix E. Stroke Manipulations",
+    "text": "This section presents algorithms on how to manipulate the strokes or contours of an image and how to grow/shorten specific regions from the contour. The pseudocodes make use of some Matlab® functions for computer vision, but they all have their equivalent in other image processing libraries such as OpenCV®.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 23,
+    "page_end": 24,
+    "heading": "E.1. Grow and unite contour regions",
+    "text": "A contour region is defined as a group of pixel that are part of the contour. For example, the high potential region will be everywhere on the contour with a high value of . However, due to discretization, the regions might have discontinuities. Also, it could be required to simply grow the desired regions by a specific number of pixels at each side of the region, but by keeping it on the contour.\nIn the current paper, the regions are always grown by a percentage of the biggest dimension of an image (%BL). This allows to always be consistent no matter the resolution or the scale of the image. The regions are expended using a loop of image dilation. The dilations will expand the region one pixel in all directions, and  then  be  multiplied  by  the  contours  to  remove  the  undesired  growth.  This  process  is  detailed  in Algorithm 2.\nAn important application for this region growth is to be able to unite pixels that are near each other into a single region. Due to the discretization, some regions of high potential will be broken into multiple but nearby pixels. By using the growth technique that was presented, the pixels will unite to form a solid region on the contour.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 24,
+    "page_end": 24,
+    "heading": "E.2. Finding Stroke Orientation",
+    "text": "Finding the orientation of a stroke is crucial to the use of directional magnetic convolutions. The way to do it, is to start from the extremity of the stroke, and loop every pixel from this point to find the angle for the  next  point,  as  depicted  in  Algorithm  3.  Since  the  image  is  in  a  matrix,  each  pixel  has  8  possible neighbors, meaning the angles will always be = ⋅ ,  with the value of = [1,2, … ,8] .  However, the Algorithm 3 applies multiple consecutive smoothing on the delta values, meaning the angle will have a lot more than 8 possible values.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1]",
+    "filename": "Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism [arXiv 1806.07996v1].pdf",
+    "page_start": 25,
+    "page_end": 26,
+    "heading": "References",
+    "text": "Paulinas, M., Ušinskas, A.: A Survey of Genetic Algorithms Applications for Image Enhancement and Segmentation. Inf. Technol. Control. 36, (2015).\nZheng, H., Kong, L.X., Nahavandi, S.: Automatic inspection of metallic surface defects using genetic algorithms. J. Mater. Process. Technol. 125-126, 427-433 (2002).\nKrizhevsky, A., Sutskever, I., Hinton, G.E.: ImageNet Classification with Deep Convolutional Neural Networks. In: Pereira, F., Burges, C.J.C., Bottou, L., and Weinberger, K.Q. (eds.) Advances in Neural Information Processing Systems 25. pp. 1097-1105. Curran Associates, Inc. (2012).\nSzeliski, R.: Computer Vision: Algorithms and Applications. Springer Science & Business Media (2010).\nForsyth, D., Ponce, J.: Computer Vision: A Modern Approach. Pearson (2012).\nWang, Z., Zhang, D.: Progressive switching median filter for the removal of impulse noise from highly corrupted images. IEEE Trans. Circuits Syst. II Analog Digit. Signal Process. 46, 78-80 (1999).\nKumar, A., Pang, G.K.H.: Defect detection in textured materials using Gabor filters. IEEE Trans. Ind. Appl. 38, 425-440 (2002).\nMak, K.L., Peng, P., Yiu, K.F.C.: Fabric defect detection using morphological filters. Image Vis. Comput. 27, 1585-1592 (2009).\nLi, B., Acton, S.T.: Active Contour External Force Using Vector Field Convolution for Image Segmentation. IEEE Trans. Image Process. 16, 2096-2106 (2007).\nLi, B., Acton, S.T.: Vector Field Convolution for Image Segmentation using Snakes. In: 2006 International Conference on Image Processing. pp. 1637-1640 (2006).\nSun, G., Liu, Q., Liu, Q., Ji, C., Li, X.: A novel approach for edge detection based on the theory of universal gravity. Pattern Recognit. 40, 2766-2775 (2007).\nLenz, I., Lee, H., Saxena, A.: Deep learning for detecting robotic grasps. Int. J. Robot. Res. 34, 705724 (2015).\nRussell, S.J., Norvig, P.: Artificial Intelligence: A Modern Approach. Prentice Hall (2010).\nGurney, K.: An Introduction to Neural Networks. CRC Press (2003).\nMNIST handwritten digit database, Yann LeCun, Corinna Cortes and Chris Burges, http://yann.lecun.com/exdb/mnist/.\nSalman, N.: Image Segmentation Based on Watershed and Edge Detection Techniques. (2004).\nDavis, R.S.: Optical images by quadrupole convolution, http://www.google.com.uy/patents/US5027419, (1991).\nMaxwell, J.C.: A Treatise on Electricity and Magnetism. Clarendon Press (1881).\nFeynman, R.P., B, F.R.P.S.M.L.L.R., Leighton, R.B., Sands, M.: The Feynman Lectures on Physics, Desktop Edition Volume II: The New Millennium Edition. Basic Books (2013).\nRothwell, E.J., Cloud, M.J.: Electromagnetics, Second Edition. CRC Press (2008).\nCosta, L. da F.D., Cesar, R.M., Jr.: Shape Analysis and Classification: Theory and Practice. CRC Press, Inc., Boca Raton, FL, USA (2000).\nLoncaric, S.: A survey of shape analysis techniques. Pattern Recognit. 31, 983-1001 (1998).\nCalli, B., Wisse, M., Jonker, P.: Grasping of unknown objects via curvature maximization using active vision. In: 2011 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS). pp. 995-1001 (2011).\nKuhl, F.P., Giardina, C.R.: Elliptic Fourier features of a closed contour. Comput. Graph. Image Process. 18, 236-258 (1982).\nBackes, A.R., Bruno, O.M.: A Graph-Based Approach for Shape Skeleton Analysis. In: Image Analysis and Processing - ICIAP 2009. pp. 731-738. Springer, Berlin, Heidelberg (2009).\nPratt, I.: Shape Representation Using Fourier Coefficients of the Sinusoidal Transform. J. Math. Imaging Vis. 10, 221-235 (1999).\nSmach, F., Lemaître, C., Gauthier, J.-P., Miteran, J., Atri, M.: Generalized Fourier Descriptors with Applications to Objects Recognition in SVM Context. J. Math. Imaging Vis. 30, 43-71 (2008).\nCorke, P.: Robotics, Vision and Control: Fundamental Algorithms in MATLAB. Springer Science & Business Media (2011).\nFornberg, B.: Generation of finite difference formulas on arbitrarily spaced grids. Math. Comput. 51, 699-706 (1988).\nMalik, J., Perona, P.: A computational model of texture segmentation. In: , IEEE Computer Society Conference on Computer Vision and Pattern Recognition, 1989. Proceedings CVPR '89. pp. 326-332 (1989).\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  }
+]

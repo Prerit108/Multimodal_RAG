@@ -1,0 +1,336 @@
+[
+  {
+    "doc_id": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2]",
+    "filename": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment",
+    "text": "Jeonghoon Park 1 ∗ , Kyungmin Jo 1 ∗ , Daehoon Gwak 2 ∗ , Jimin Hong 3 , Jaegul Choo 1 , Edward Choi 1\nKAIST 1 , Korea University 2 , Humelo 3\n{jeonghoon_park, bttkm, jchoo,\nedwardchoi}@kaist.ac.kr hune282@korea.ac.kr, jimin9401@gmail.com\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2]",
+    "filename": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "Abstract",
+    "text": "Weevaluate the out-of-distribution (OOD) detection performance of self-supervised learning (SSL) techniques with a new evaluation framework. Unlike the previous evaluation methods, the proposed framework adjusts the distance of OOD samples from the in-distribution samples. We evaluate an extensive combination of OOD detection algorithms on three different implementations of the proposed framework using simulated samples, images, and text. SSL methods consistently demonstrated the improved OOD detection performance in all evaluation settings.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2]",
+    "filename": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2].pdf",
+    "page_start": 1,
+    "page_end": 2,
+    "heading": "1 Introduction",
+    "text": "An out-of-distribution (OOD) detection task is to recognize outliers or anomalies, which do not follow the distribution of the training data. To address this problem, numerous methods have been proposed in classification tasks in several modalities, including computer vision [8, 16, 17, 9, 23], natural language processing [12, 21], and two-dimensional real-number dataset ( e.g., Gaussian noise distribution) [19, 16, 18, 24]. Especially, [8, 16, 17] are simple yet efficient algorithms since they use existing trained models for OOD detection without additional fine-tuning with OOD samples.\nRecently, the rapid progress of the Self-Supervised Learning (SSL) achieved a significant performance improvement in various tasks of computer vision [7, 3] and natural language processing [5, 1]. Also, self-supervised learning has shown its potentials in OOD detection by using contrastive learning [20, 24], masked language modeling [12] and rotation prediction [10].\nHowever, the OOD detection performance of a model, including SSL-based ones, is typically evaluated by the AUROC score of the binary classification between in-distribution (ID) and OOD, which do not appropriately consider the characteristics between ID and OOD samples. For example, we can reasonably assume that the distance between the pixel distributions of CIFAR10 and CIFAR100 is closer than the distance between CIFAR10 and MNIST. Therefore, if the distance between ID and OODcorrelates with the difficulty of OOD detection [15], then, given CIFAR10 as the ID, CIFAR100 can be considered a harder OOD dataset than MNIST.\nThe degree of difficulty for OOD detection was considered in some previous studies using maximum mean discrepancy between two datasets or confusion log probability [17, 24]. Additionally, [11] proposed an OOD dataset called ImageNet-O consisting of hard OOD samples with low-level statistics similar to ID (i.e., ImageNet [4]). And recently, [24, 20] argued that contrastive loss is effective for detecting harder OOD samples based on the performance using near classes or confusing examples. Although such existing methods estimate the difficulty of OOD detection to some extent, or introduce a novel dataset to provide a more challenging setup, they cannot adjust the difficulty of OOD detection. Therefore, a principled evaluation framework which can consider the distance of two distributions ( i.e., the difficulty of OOD detection) is required to observe and compare the behavior of OOD detection methods to truly evaluate their performance.\nIn this paper, we propose a preliminary approach for a controllable OOD detection evaluation framework using datasets with three different modalities (simulated samples, images, and text). In this framework, we evaluate existing OOD detection algorithms, including SSL. Finally, we show that experimental results support the validity of our assumptions for controllable settings, and reveal interesting insights. Additionally, the results in three modalities consistently validate the effectiveness of SSL for OOD detection.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": [
+      {
+        "page": 1,
+        "text": "∗ Equal contribution"
+      }
+    ]
+  },
+  {
+    "doc_id": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2]",
+    "filename": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2].pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "heading": "2 Performance evaluation of SSL in OOD detection",
+    "text": "In this section, we describe the proposed controllable evaluation framework followed by the detailed experiment settings as well as evaluation results for each modality.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2]",
+    "filename": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2].pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "heading": "2.1 Controllable Evaluation Framework",
+    "text": "We propose a controllable evaluation framework for OOD detection tasks and implement it with three different modalities: 2D simulated samples, images, and text documents 2 . The core idea of this framework is gradually adjusting a distance between ID samples and OOD samples using a distance factor.\n2D Simulated Dataset A simple simulated dataset was generated in a 2D space to validate the effects of self-supervised methods in OOD detection. Fig. 1 shows ID samples coming from two classes, and the controllable OOD samples that gradually moves away from the ID samples using the multiplying factor r . OOD samples follow the circle-shaped distribution whose radius is r times larger than the radius of ID samples, with r = 1 indicating the case that OOD equals ID. Binary classification between two ID classes is trained with 48,000 samples for training and 16,000 samples for validation. The OOD detection performance is evaluated using the 16,000 ID test samples and 16,000 OOD samples. In this experiment, a set of OOD samples with 50 different distances ( 1 ≤ r ≤ 5 . 9 ) was used to evaluate all OOD detection methods.\nImages In order to build a controllable dataset similar to the 2D circle dataset, Mixup[26] was used to generate data samples between ID and OOD by adjusting the mixing ratio of OOD to ID images (Fig. 5 in Appendix. A), under the assumption that different mixing ratios would correlate with the IDOOD distance. We use each one of CIFAR10 and CIFAR100 as ID samples while using TinyImagenet, LSUN, SVHN, and CIFAR100 or CIFAR10 as OOD samples. For rigorous comparison, all experiments were conducted on the same pre-built mixup dataset consisting of 10,000 samples for each mixing ratio, using 10,000 ID and OOD samples only once for each.\n",
+    "figures": [
+      {
+        "page": 2,
+        "bbox": [
+          326.5604248046875,
+          344.25384521484375,
+          503.7218017578125,
+          251.81439208984375
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_1.png",
+        "caption": "Figure 1: Examples of 2D circle dataset",
+        "description": "Here's an analysis of the image based on its visible content:\n\n**Overall Description:**\n\nThe image is a two-panel scatter plot illustrating data points related to two classes (labeled \"Class 1\" and \"Class 2\") and a control dataset (\"de-distributed\"). The x-axis ranges from r = 1 to r = 4.  Each panel represents a different dataset.\n\n**Panel 1 (Left):**\n\n*   **Data Points:** Displays three data points:\n    *   A white circle representing \"Class 1\" at r = 1.\n    *   A dark blue circle representing \"Class 2\" at r = 1.\n    *   A dark blue circle representing \"de-distributed\" at r=4.\n*   **Axis Labels:** The x-axis is labeled with \"r = 1\".  The y-axis is not explicitly labeled, but the circles indicate a radial representation.\n\n**Panel 2 (Right):**\n\n*   **Data Points:** Displays three data points:\n    *   A white circle representing \"Class 1\" at r=4.\n    *   A dark blue circle representing \"Class 2\" at r = 4.\n    *   A dark blue circle representing \"de-distributed\" at r=1.\n*   **Axis Labels:** The x-axis is labeled with \"r = 4\".  The y-axis is not explicitly labeled, but the circles indicate a radial representation.\n\n**Textual Information:**\n\n*   **Legend:** A legend appears below the panels:\n    *   \"Class 1 (de-distributed)\" - Represented by white circles.\n    *   \"Class 2 (de-distributed)\" - Represented by dark blue circles.\n    *   \"de-distributed\" - Represented by dark blue circles.\n\n**Patterns and Trends:**\n\n*   The x-axis values are consistently r = 1 and r = 4 across both panels.\n*   The data points for each class and the control dataset are positioned at these specific radial distances."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2]",
+    "filename": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2].pdf",
+    "page_start": 2,
+    "page_end": 3,
+    "heading": "2.2 Methods",
+    "text": "Same as [10, 20, 24], we train the models using a multitask approach consisting of the supervised classification objective function L cls and self-supervised objective function L ss . Thus, our objective function can be written as L multi = L cls + αL ss , where coefficient α is a hyperparameter. In order to analyze the behavior, we conduct and evaluate the experiments in several aspects: (1) classification methods, (2) self-supervised methods, and (3) methods for OOD scoring.\nClassification methods For the classification objective function L cls , we use a softmax classifier with a cross-entropy loss (CE) or a One-Vs-All classifier with Distance Maximization loss (OV ADM)\n[18]. We use the OVADM loss and the CE loss to analyze the effect of distance-based loss in OOD detection.\nSelf-supervised methods In the 2D circle dataset and the image datasets, we use the same selfsupervised objective functions used in BYOL [7] and SimCLR [3]. We compare BYOL and SimCLR to compare the effect of using only positive samples when training a self-supervised task in OOD detection.\nOOD scoring methods To detect OOD samples, we use three well-known OOD scoring methods, Baseline (max value of the output vector of the classifier) [8], Mahalanobis Distance(MD) [16], and ODIN [17]. The Baseline and ODIN are not distance-based, but MD is a distance-based method.\nModel architecture To classify the 2D circle dataset, we used a simple network consisting of two fully-connected layers to obtain features of a penultimate layer. When training with self-supervised methods, we considered adding noise to the input to emulate the data augmentation of SimCLR and BYOL in a 2D space. The noise was sampled from a normal distribution with a mean of zero and a standard deviation of 0.01. For the experiments with image datasets, Wide ResNet [25] with the depth of 28 and the width of 10 was used. The data augmentation technique of the original SimCLR paper was applied equally to all experiments except for resizing and crop. The other training details follow the original Wide ResNet paper.\n",
+    "figures": [],
+    "tables": [
+      {
+        "page": 3,
+        "bbox": [
+          107.40026092529297,
+          717.346321105957,
+          504.3269958496094,
+          667.5071411132812
+        ],
+        "markdown": "Table 1: Classification accuracy(%) of in-distribution dataset\n\n| Dataset   |    CE |   CE+SimCLR |   CE+BYOL |   OVADM |   OVADM+SimCLR |   OVADM+BYOL |\n|-----------|-------|-------------|-----------|---------|----------------|--------------|\n| 2D Circle | 97.44 |       97.46 |     97.45 |   97.49 |          97.45 |        97.44 |\n| CIFAR10   | 94.61 |       94.87 |     95.39 |   93.23 |          94.67 |        94.84 |\n| CIFAR100  | 76.23 |       76.96 |     78.38 |    73.8 |          74.38 |        77.13 |",
+        "caption": "Table 1: Classification accuracy(%) of in-distribution dataset",
+        "summary": "Here's a summary of the table's structure and the information it represents:\n\n**Structure:**\n\nThe table is organized with the following columns:\n\n*   **Dataset:** This column lists different datasets used for evaluation (2D Circle, CIFAR10, and CIFAR100).\n*   **CE, CE+SimCLR, CE+BYOL, Ovadm, Ovadm+SimCLR, Ovadm+BYOL:** These are likely abbreviations representing various experimental setups or models. \"CE\" probably stands for Contrastive Estimation.  \"SimCLR\" and \"BYOL\" refer to specific self-supervised learning techniques. \"Ovadm\" is likely a variant of the OVSAP method (Online Variational Self-Supervised Prediction).\n\nThe table displays numerical results (percentages) for each dataset and experimental setup.\n\n\n**Key Information:**\n\nThe table presents performance metrics (likely accuracy rates) achieved by different models on three datasets:\n\n*   **2D Circle:** Shows high accuracy across all experimental setups, suggesting a relatively simple task.\n*   **CIFAR10:**  Demonstrates varying accuracy levels depending on the model and training technique used. The CE+SimCLR and CE+BYOL methods achieve the highest accuracies.\n*   **CIFAR100:** Generally lower accuracy than CIFAR10, with Ovadm showing slightly better performance compared to other setups.\n\n**In essence, this table is a comparison of different machine learning models (likely for image classification) evaluated on three standard datasets, showcasing how various training techniques and model architectures impact their performance.** \n\nWould you like me to elaborate on any specific aspect of the table or its implications?",
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_tables/table_1.png"
+      }
+    ],
+    "footnotes": [
+      {
+        "page": 2,
+        "text": "2 All descriptions and results regarding text is provided in the appendix"
+      }
+    ]
+  },
+  {
+    "doc_id": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2]",
+    "filename": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2].pdf",
+    "page_start": 3,
+    "page_end": 3,
+    "heading": "2.3 Results",
+    "text": "Weperformed experiments in three different modalities and evaluated the performance of classification and OOD detection, respectively. We evaluate the classification task by its accuracy and the OOD detection performance by AUROC.\nThe classification accuracy is described in Table 1. The bold font indicates the highest accuracy, and the underline indicates the second highest accuracy. The classification accuracy of synthetic data is about 97%. The OVADM had the highest accuracy and secondly higher by CE + SimCLR. In the image modality, the classification accuracy is improved with self-supervised learning, but OV ADM showed lower classification accuracy than CE in all combinations.\nEven if the models show the same classification accuracy, the OOD detection performance could differ. The OOD detection performance for the simulated dataset is shown in Fig. 2. Naturally, distancebased methods (either using OVADM loss or MD OOD score) demonstrate a correct behavior where a larger distance between ID and OOD leads to higher AUROC. We could also see the AUROCs increase most of the time when SSL is used. The performance of OOD detection for images is shown in Fig. 3. The AUROC gradually increases as the OOD mixing ratio increases, although the slope and inflection point was different for each OOD dataset. When self-supervised learning was applied, the inflection point was reached more quickly with a steeper slope than without applying it. Comparing the three OOD scoring methods, the AUROC difference between models with and without SSL is not large for the baseline. On the other hand, ODIN shows a considerable difference in AUROC with SSL, and MD shows a large gap between the model with BYOL and the others.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2]",
+    "filename": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2].pdf",
+    "page_start": 3,
+    "page_end": 4,
+    "heading": "3 Discussion",
+    "text": "In 2D simulated sample, note that the models using OVADM loss and MD scoring method have the same AUROC performance at r = 5 . 9 . But when r is small, the difference increases between models that use SSL and those that do not. This shows that using a fixed set of OOD data can be ineffective when comparing the OOD detection performances of different methods, which corroborates the need for a controllable OOD evaluation setup.\nModels that use a distance-based method, such as OVADM or MD, increase the value of AUROC as the r increases. However, the AUROC value of models trained without a distance-based method did not increase as the r value increased. As shown in Fig. 4, without the distance-based method (OVADM or MD), a model assigns a high confidence for OOD samples than models using the distance-based methods.\nThe assumption that the different mixing ratio correlates to the distance between ID and OOD is debatable, but Fig. 3 shows similar monotonicity as Fig. 2 (especially for more distinct dataset pairs CIFAR10-SVHN and CIFAR100-SVHN), indicating the validity of our assumption. It is notable that SSL not only consistently increases the OOD detection performance, but also guides the model to demonstrate monotonically increasing OOD detection performance as the mixing ratio increases ( i.e. ID-OOD\ndistance increases). Furthermore, as shown in Fig.2 and 3, the benefit of SSL on OOD detection tended to be more evident on hard samples ( i.e. close distance between ID and OOD), which is in line with the previous claims [24, 20].\n",
+    "figures": [
+      {
+        "page": 4,
+        "bbox": [
+          146.77796936035156,
+          719.9132614135742,
+          464.39727783203125,
+          619.8960723876953
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_2.png",
+        "caption": "Figure 2: AUROC scores in 2D dataset (Left : Baseline, Middle : MD, Right : ODIN)",
+        "description": "Here's a detailed analysis of the image based solely on its visual content:\n\n**Overall Description:**\n\nThe image contains six plots representing cumulative average precision versus distance for different comparison methods. Each plot is a step function, indicating the cumulative precision at various distances. The x-axis represents \"Distance\" and the y-axis represents \"ASDC\" (Average Symmetric Discounted Cumulative Gain).\n\n**Specific Plot Details:**\n\n*   **Plot 1 & 2:**  Both plots display four lines representing comparisons between \"CE\", \"CE_BYOA\", and \"CE_SIMCLA\". The x-axis ranges from 0 to 1.\n    *   The \"CE\" line (blue) consistently shows the lowest ASDC values across all distances.\n    *   The \"CE\\_BYOA\" line (green) generally exhibits higher ASDC values than \"CE\", particularly at smaller distances.\n    *   The \"CE\\_SIMCLA\" line (orange) demonstrates ASDC values between those of \"CE\" and \"CE\\_BYOA\".\n*   **Plot 3 & 4:**  Both plots display four lines representing comparisons between \"OvNDM\", \"OvNDM\\_BYOA\", and \"OvNDM\\_SIMCLA\". The x-axis ranges from 0 to 1.\n    *   The \"OvNDM\" line (blue) consistently shows the lowest ASDC values across all distances.\n    *   The \"OvNDM\\_BYOA\" line (green) generally exhibits higher ASDC values than \"OvNDM\", particularly at smaller distances.\n    *   The \"OvNDM\\_SIMCLA\" line (orange) demonstrates ASDC values between those of \"OvNDM\" and \"OvNDM\\_BYOA\".\n\n**Textual Elements:**\n\n*   A title is present on the top left: \"ASDC\"\n*   Axis labels are present: \"Distance\" (x-axis), \"ASDC\" (y-axis)\n*   The plots are labeled with abbreviations: \"CE\", \"CE\\_BYOA\", \"CE\\_SIMCLA\", \"OvNDM\", \"OvNDM\\_BYOA\", and \"OvNDM\\_SIMCLA\".\n\n**Data Points & Trends:**\n\n*   Each line represents a cumulative precision value at each distance.\n*   The ASDC values generally increase with decreasing distance, indicating improved matching accuracy as the distance between items decreases.\n*"
+      },
+      {
+        "page": 4,
+        "bbox": [
+          107.88534545898438,
+          584.0872344970703,
+          502.7548522949219,
+          417.4189147949219
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_3.png",
+        "caption": "Figure 3: OOD performance for images in 4 ID-OOD cases. A mixed ratio of zero means the in-distribution image. (In each case, Left: Baseline, Middle: Mahalanobis distance, Right: ODIN)",
+        "description": "Here's an analysis of the image based on its visual content, using UTF-8 characters:\n\n**Overall Description:**\n\nThe image is a collection of four subplots representing experimental results related to convolutional neural networks (CNNs). Each subplot is a line graph displaying the accuracy of different training methods across varying mixture ratios. The graphs are labeled with (a), (b), (c), and (d) indicating the specific experiment configurations.\n\n**Detailed Breakdown of Each Subplot:**\n\n*   **(a) ID:CIFAR10, OOD:CIFAR100:**\n    *   **X-axis:**  `mix_ratio` ranging from 0.0 to 0.5 with increments of 0.05.\n    *   **Y-axis:** Accuracy (ranging from approximately 0.2 to 1.0).\n    *   **Lines:** Four distinct lines representing different training configurations:\n        *   Green line: \"SimCIAR, CE\" (Simulation CIFAR, Cross-Entropy)\n        *   Orange line: \"Byte, CE\" (Byte, Cross-Entropy)\n        *   Yellow line: \"Rvm, CE\" (Random Vector Modulation, Cross-Entropy)\n        *   Blue line: \"SimCIAR, CE\" (Simulation CIFAR, Cross-Entropy)\n\n*   **(b) InD:CIFAR100, OOD:CIFAR10:**\n    *   **X-axis:** `mix_ratio` ranging from 0.0 to 0.5 with increments of 0.05.\n    *   **Y-axis:** Accuracy (ranging from approximately 0.2 to 1.0).\n    *   **Lines:** Four distinct lines representing different training configurations:\n        *   Green line: \"SimCIAR, CE\" (Simulation CIFAR, Cross-Entropy)\n        *   Orange line: \"Byte, CE\" (Byte, Cross-Entropy)\n        *   Yellow line: \"Rvm, CE\" (Random Vector Modulation, Cross-Entropy)\n        *   Blue line: \"SimCIAR, CE\" (Simulation CIFAR, Cross-Entropy)\n\n*   **(c) ID:CIFAR10, OOD:SVHN:**\n    *   **X-axis:** `mix_ratio` ranging from 0.0 to 0.5 with increments of"
+      },
+      {
+        "page": 4,
+        "bbox": [
+          328.776611328125,
+          329.0751037597656,
+          501.92291259765625,
+          268.0157470703125
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_4.png",
+        "caption": "Figure 4: OOD score landscapes in 2D simulated data. (Darker means OOD)",
+        "description": "Okay, here's a detailed analysis of the image based solely on its visual content, using UTF-8 characters:\n\n**Overall Description:**\n\nThe image displays three heatmaps presented side-by-side within a document layout. Each heatmap represents a data visualization related to a process or measurement labeled with \"CF + SinCLR (Baseline)\".  The color scale used across all three maps is consistent.\n\n**Individual Heatmap Details:**\n\n1. **Left Heatmap (\"CF + SinCLR (Baseline)\"):**\n   - This heatmap is a rectangular grid.\n   - The x-axis ranges from approximately 0 to 1.\n   - The y-axis ranges from approximately 0 to 1.\n   - The color gradient transitions from yellow at the left side of the grid to purple/dark blue at the right side.\n   - There is a distinct vertical line running through the center of the heatmap, where the color intensity is highest (yellow).\n\n2. **Middle Heatmap (\"CF + SinCLR (Data)\"):**\n    - This heatmap is also a rectangular grid.\n    - The x-axis ranges from approximately 0 to 1.\n    - The y-axis ranges from approximately 0 to 1.\n    - The color gradient transitions from yellow at the left side of the grid to purple/dark blue at the right side.\n    - The heatmap displays a radial pattern, resembling a circular or spiral shape emanating from the center.\n\n3. **Right Heatmap (\"CF + SinCLR (Training)\"):**\n   - This heatmap is a rectangular grid.\n   - The x-axis ranges from approximately 0 to 1.\n   - The y-axis ranges from approximately 0 to 1.\n    - The color gradient transitions from yellow at the left side of the grid to purple/dark blue at the right side.\n   - The heatmap displays a single, prominent vertical line running through the center of the image, with high intensity (yellow) and a more pronounced central peak compared to the other two heatmaps.\n\n\n\n**Textual Elements:**\n\n*   The text \"CF + SinCLR (Baseline)\" appears three times above each respective heatmap.\n*   The text \"Data\" appears above the middle heatmap.\n*   The text \"Training\" appears above the right heatmap.\n\n**Color Scale:**\n\n*   The color scale is a continuous gradient ranging from yellow to purple/dark blue."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2]",
+    "filename": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2].pdf",
+    "page_start": 4,
+    "page_end": 4,
+    "heading": "4 Conclusions",
+    "text": "In this paper, we proposed the controllable framework for evaluating OOD detection performance. With this framework, we compared the OOD detection performance and observed the behavior of various methods according to the distance from in-distribution in three different modalities: the 2D synthetic dataset, images, and natural language. As mentioned earlier, the setting of controllable datasets of the computer vision and natural language has limitations, and extension into a more principled and realistic manner using generative models such as VAE[13] or GAN[6] can be future work.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2]",
+    "filename": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2].pdf",
+    "page_start": 5,
+    "page_end": 5,
+    "heading": "Broader Impact",
+    "text": "We believe this is not applicable to us.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2]",
+    "filename": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2].pdf",
+    "page_start": 5,
+    "page_end": 7,
+    "heading": "References",
+    "text": "Tom B Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared Kaplan, Prafulla Dhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, et al. Language models are few-shot learners. arXiv preprint arXiv:2005.14165 , 2020.\nMauro Cettolo, Jan Niehues, Sebastian Stuker, Luisa Bentivogli, Roldano Cattoni, and Marcello Federico. The IWSLT 2015 evaluation campaign. In In Proc. of the International Conference on Spoken Language , 2015.\nTing Chen, Simon Kornblith, Mohammad Norouzi, and Geoffrey Hinton. A simple framework for contrastive learning of visual representations. In Proc. the International Conference on Machine Learning (ICML) , 2020.\nJ. Deng, W. Dong, R. Socher, L. Li, Kai Li, and Li Fei-Fei. Imagenet: A large-scale hierarchical image database. In Proc. of the IEEE conference on computer vision and pattern recognition (CVPR) , pages 248-255, 2009.\nJacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. BERT: Pre-training of deep bidirectional transformers for language understanding. In Proc. of The Annual Conference of the North American Chapter of the Association for Computational Linguistics (NAACL) , pages 4171-4186, 2019.\nIan Goodfellow, Jean Pouget-Abadie, Mehdi Mirza, Bing Xu, David Warde-Farley, Sherjil Ozair, Aaron Courville, and Yoshua Bengio. Generative adversarial nets. In Proc. the Advances in Neural Information Processing Systems (NeurIPS) , pages 2672-2680, 2014.\nJean-Bastien Grill, Florian Strub, Florent Altché, Corentin Tallec, Pierre Richemond, Elena Buchatskaya, Carl Doersch, Bernardo Avila Pires, Zhaohan Guo, Mohammad Gheshlaghi Azar, et al. Bootstrap your own latent-a new approach to self-supervised learning. In Proc. the Advances in Neural Information Processing Systems (NeurIPS) , 2020.\nDan Hendrycks and Kevin Gimpel. A baseline for detecting misclassified and out-of-distribution examples in neural networks. In Proc. the International Conference on Learning Representations (ICLR) , 2017.\nDan Hendrycks, Mantas Mazeika, and Thomas Dietterich. Deep anomaly detection with outlier exposure. In Proc. the International Conference on Learning Representations (ICLR) , 2019.\nDan Hendrycks, Mantas Mazeika, Saurav Kadavath, and Dawn Song. Using self-supervised learning can improve model robustness and uncertainty. In Proc. the Advances in Neural Information Processing Systems (NeurIPS) , pages 15663-15674, 2019.\nDan Hendrycks, Kevin Zhao, Steven Basart, Jacob Steinhardt, and Dawn Song. Natural adversarial examples. arXiv preprint arXiv:1907.07174 , 2019.\nDan Hendrycks, Xiaoyuan Liu, Eric Wallace, Adam Dziedzic Rishabh Krishnan, and Dawn Song. Pretrained transformers improve out-of-distribution robustness. In Proc. the Annual Meeting of the Association for Computational Linguistics (ACL) , 2020.\nDiederik P. Kingma and Max Welling. Auto-encoding variational bayes. In Proc. the International Conference on Learning Representations (ICLR) , 2014.\nGuillaume Lample and Alexis Conneau. Cross-lingual language model pretraining. In Proc. the Advances in Neural Information Processing Systems (NeurIPS) , 2019.\nKimin Lee, Honglak Lee, Kibok Lee, and Jinwoo Shin. Training confidence-calibrated classifiers for detecting out-of-distribution samples. In Proc. the International Conference on Learning Representations (ICLR) , 2018.\nKimin Lee, Kibok Lee, Honglak Lee, and Jinwoo Shin. A simple unified framework for detecting outof-distribution samples and adversarial attacks. In Proc. the Advances in Neural Information Processing Systems (NeurIPS) , pages 7167-7177, 2018.\nShiyu Liang, Yixuan Li, and R. Srikant. Enhancing the reliability of out-of-distribution image detection in neural networks. In Proc. the International Conference on Learning Representations (ICLR) , 2018.\nShreyas Padhy, Zachary Nado, Jie Ren, Jeremiah Liu, Jasper Snoek, and Balaji Lakshminarayanan. Revisiting one-vs-all classifiers for predictive uncertainty and out-of-distribution detection in neural networks. arXiv preprint arXiv:2007.05134 , 2020.\nJie Ren, Peter J Liu, Emily Fertig, Jasper Snoek, Ryan Poplin, Mark Depristo, Joshua Dillon, and Balaji Lakshminarayanan. Likelihood ratios for out-of-distribution detection. In Proc. the Advances in Neural Information Processing Systems (NeurIPS) , pages 14707-14718, 2019.\nJihoon Tack, Sangwoo Mo, Jongheon Jeong, and Jinwoo Shin. Csi: Novelty detection via contrastive learning on distributionally shifted instances. In Proc. the Advances in Neural Information Processing Systems (NeurIPS) , 2020.\nMing Tan, Yang Yu, Haoyu Wang, Dakuo Wang, Saloni Potdar, Shiyu Chang, and Mo Yu. Out-of-domain detection for low-resource text classification tasks. In Proc. of the Conference on Empirical Methods in Natural Language Processing (EMNLP) , pages 3566-3572, 2019.\nAshish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N Gomez, Łukasz Kaiser, and Illia Polosukhin. Attention is all you need. In Proc. the Advances in Neural Information Processing Systems (NeurIPS) , pages 5998-6008, 2017.\nApoorv Vyas, Nataraj Jammalamadaka, Xia Zhu, Dipankar Das, Bharat Kaul, and Theodore L Willke. Out-of-distribution detection using an ensemble of self supervised leave-out classifiers. In Proc. of the European Conference on Computer Vision (ECCV) , pages 550-564, 2018.\nJim Winkens, Rudy Bunel, Abhijit Guha Roy, Robert Stanforth, Vivek Natarajan, Joseph R Ledsam, Patricia MacWilliams, Pushmeet Kohli, Alan Karthikesalingam, Simon Kohl, et al. Contrastive training for improved out-of-distribution detection. arXiv preprint arXiv:2007.05566 , 2020.\nSergey Zagoruyko and Nikos Komodakis. Wide residual networks. In Proc. of the British Machine Vision Conference (BMVC) , 2016.\nHongyi Zhang, Moustapha Cisse, Yann N. Dauphin, and David Lopez-Paz. mixup: Beyond empirical risk minimization. In Proc. the International Conference on Learning Representations (ICLR) , 2018.\n",
+    "figures": [
+      {
+        "page": 7,
+        "bbox": [
+          107.35214233398438,
+          720.3548736572266,
+          286.8427429199219,
+          659.8914489746094
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_5.png",
+        "caption": "(a) CIFAR10, SVHN, Mixup",
+        "description": "Here's an analysis of the image based on observable details:\n\n**Image Description:**\n\nThe image is a composite photograph consisting of two distinct sections presented side by side.\n\n**Section 1 (Left):**\n\n*   A white passenger vehicle, appearing to be a sedan or similar car model, is prominently displayed. The vehicle has a rounded front grille and appears to be from the late 1990s or early 2000s based on its design.\n*   The background behind the vehicle includes trees and what appear to be other vehicles in a parking lot setting.  The sky is overcast, with gray clouds visible.\n\n**Section 2 (Right):**\n\n*   A large numerical graphic dominates this section. The number \"18\" is rendered in red against a white background.\n*   To the right of the number \"18\" is a smaller image of a white vehicle with pink and white stripes on its side. This appears to be a race car or similar sporting vehicle.\n\n**Overall Composition:**\n\nThe two sections are aligned horizontally within the frame. The overall image has a slightly blurred appearance, suggesting potential issues with focus during capture."
+      },
+      {
+        "page": 7,
+        "bbox": [
+          305.485595703125,
+          720.3057098388672,
+          484.89263916015625,
+          659.8310089111328
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_6.png",
+        "caption": "(b) CIFAR100, TinyImagenet, Mixup",
+        "description": "Here's an analysis of the image based on observable details, adhering to your specifications:\n\n**Image Description:**\n\nThe image is a composite consisting of three distinct frames presented in a horizontal row. The overall color tone is slightly warm and appears to be captured in indoor lighting.\n\n**Frame 1 (Left):**\n*   A young male subject is positioned against a light-colored wall with wood paneling.\n*   He is wearing a dark blue shirt with a white collar and tie.\n*   His head is tilted downwards, and his mouth is open in what appears to be an exhaling action.\n*   His eyes are focused on the object in the center of the frame.\n\n**Frame 2 (Center):**\n*   A white robotic arm is positioned centrally within the frame. The arm has a cylindrical body with multiple articulated segments and a hand-like appendage at its end.\n*   The arm appears to be in motion, with one segment extended upwards.\n*   The background behind the arm is blurred and consists of similar wood paneling as Frame 1.\n\n**Frame 3 (Right):**\n*   A close-up view of the same robotic arm from Frame 2.\n*   The subject's hand is positioned near the arm, seemingly attempting to interact with it.\n*   The subject's facial expression mirrors that in Frame 1 - mouth open and eyes focused on the arm.\n\n**Text:**\nThere is no visible text within the image itself.\n\n**Data Points/Patterns:**\n*   Three sequential frames depicting a single event or experiment.\n*   A human subject interacting with a robotic arm.\n*   The subject's posture and facial expression are consistent across all three frames.\n*   The robotic arm exhibits movement in at least two of the frames.\n\n**Technical Notes:**\n*   Image resolution is relatively low, suggesting it may be a screenshot or a lower-quality photograph.\n*   The image appears to have been captured with a digital camera."
+      }
+    ],
+    "tables": [
+      {
+        "page": 7,
+        "bbox": [
+          107.53199768066406,
+          611.3314819335938,
+          506.2968444824219,
+          465.1590270996094
+        ],
+        "markdown": "Figure 5: Mixup examples in image domain\n\n| Example                                                                                                                                                                                                                                                                                                          |   Mixup rate |\n|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------|\n| So what we need to do is to stand up boldly, singly and together, to push governments, to push regional fisheries management organizations, to declare our right to declare certain areas off-limits to high seas fishing, so that the freedom to fish no longer means the freedom to fish anywhere and anytime. |          0.0 |\n| Em đã sống những đêm trời có ánh trăng chiếu vàng. Em đã sống những đêm ngoài kia biển ru bờ cát. Ước gì! anh ở đây giờ này. our right to declare certain areas off-limits to high seas fishing, so that the freedom to fish no longer means the freedom to fish anywhere and anytime.                           |          0.5 |\n| Em đã sống những đêm trời có ánh trăng chiếu vàng. Em đã sống những đêm ngoài kia biển ru bờ cát. Ước gì! anh ở đây giờ này. Ước gì! anh cùng em chuyện trò. Cùng nhau nghe sóng xô ghềnh đá ngàn câu hát yên bình.Em đã biết cô đơn là thế mỗi khi cách xa anh.                                                 |          1.0 |",
+        "caption": "Figure 5: Mixup examples in image domain",
+        "summary": "Here's a summary of the table's structure and the information it represents:\n\n**Structure:**\n\nThe table has two columns:\n\n*   **Example:** This column contains several Vietnamese phrases expressing different approaches to addressing fishing issues (likely related to high seas fishing).\n*   **Mixup rate:** This column assigns a numerical value (0.0, 0.5, or 1.0) to each example phrase.\n\n**Key Information:**\n\nThe table appears to be presenting different viewpoints on a fishing-related issue and assigning them a \"mixup rate.\"  It's likely that the mixup rate represents some kind of weighting or prioritization of these approaches - perhaps indicating how much emphasis should be placed on each one. \n\nWithout further context, it's difficult to know precisely what the mixup rates signify, but they suggest a deliberate categorization and ranking of different strategies for dealing with the problem.",
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_tables/table_2.png"
+      }
+    ],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2]",
+    "filename": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2].pdf",
+    "page_start": 7,
+    "page_end": 7,
+    "heading": "A Dataset Details",
+    "text": "Text To test OOD detection in a text-domain, the task of our models is to classify the language of a document into two categories: English and French. We use IWSLT 2015 dataset [2] which consists of 12 languages. We randomly select 30,000 examples for training and evaluate the model on 3,000 examples for each language as in-distribution datasets. Vietnamese documents are used as OOD samples since it is written in alphabet-base characters and linguistically different to English and French. As can be seen in Fig. 6, we construct controllable 6,000 examples by replacing consecutive sentences in in-distribution documents with Vietnamese sentences according to the mixing ratio, where mixing ratio of 1.0 equals pure OOD.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2]",
+    "filename": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2].pdf",
+    "page_start": 7,
+    "page_end": 8,
+    "heading": "B Implementation Details",
+    "text": "2D simulated dataset For synthetic-based experiments, we trained a fully-connected network with 2 hidden layers which have 8 units each. The network was trained for 10 epochs on a batch size of 128 using Adam optimizer. The learning rate was 0.01. When utilizing the self-supervised method, we sampled noise values from a normal distribution with a mean of zero and a standard deviation of 0.01. These values are added to the samples to simulate the augmentation of the self-supervision method.\nText In the text-based expeirment, we took a 12-layer Transformer [22] and trained it for the language classification task. Using stochastic gradient descent with Adam optimizer, we trained the network for 5 epochs with batch size of 16 following the default implementation of HuggingFace 3 . When using the self-supervised method, unlike the other two modalities, the model was not trained in a multi-task manner. We used a pre-trained model which was sufficiently trained with self-supervised training objective and we fine-tuned it on the text classification task as [12]. We chose XLM-mlm-enfr-1024 model [14] as a pre-trained language model considering the in-distribution languages.\nImage domain We used Wide ResNet[25] with depth 28 and width 10 for all the vision-based experiments. Like the Wide ResNet original paper, we trained the network for 200 epochs with a dropout rate of 0.3 and a batch size of 128. We used stochastic gradient descent with Nesterov momentum for the optimizer. The learning rate started at 0.1 and was multiplied by 0.1 at 50% and 75% of the training epoch, and the momentum was 0.9. The data augmentation technique of SimCLR original paper was applied equally to all experiments except for resizing and crop.\n",
+    "figures": [
+      {
+        "page": 8,
+        "bbox": [
+          107.4770278930664,
+          717.6999130249023,
+          504.8341369628906,
+          536.715087890625
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_7.png",
+        "caption": "Figure 7: AUROC scores in the text modality using the Baseline (first row) and the Mahalanobis distance (second row). Each column represents the model performance for combined datasets, English only and French only.",
+        "description": "Here's an analysis of the image content, focusing on precision and using UTF-8 characters:\n\n**Overall Description:**\n\nThe image contains six plots representing Area Under the Receiver Operating Characteristic curve (AUC-ROC) values for different experimental conditions. Each plot is labeled with a code indicating the language pairs being compared. The x-axis represents \"mRatios\" ranging from 0.0 to 1.0, and the y-axis represents AUC-ROC values ranging from approximately 0.4 to 1.0.  Each plot displays two lines: one orange and one blue, representing results with and without \"SSL\" (Secure Speech Recognition).\n\n**Detailed Breakdown of Each Plot:**\n\n*   **Plot 1:** [ID: En, Fr / OOD: En+Vi, Fr+Vi]\n    *   The blue line shows an AUC-ROC value that increases from approximately 0.4 to 0.9 as the mRatio increases from 0.0 to 1.0.\n    *   The orange line shows an AUC-ROC value that is relatively constant at approximately 0.7 across the entire range of mRatios (0.0 - 1.0).\n\n*   **Plot 2:** [ID: En / OOD: En+Vi, OOD: En+Vj]\n    *   The blue line shows an AUC-ROC value that increases from approximately 0.4 to 0.9 as the mRatio increases from 0.0 to 1.0.\n    *   The orange line shows an AUC-ROC value that is relatively constant at approximately 0.7 across the entire range of mRatios (0.0 - 1.0).\n\n*   **Plot 3:** [ID: Fr / OOD: Fr/OOD: Fr+Vi]\n    *   The blue line shows an AUC-ROC value that increases from approximately 0.4 to 0.9 as the mRatio increases from 0.0 to 1.0.\n    *   The orange line shows an AUC-ROC value that is relatively constant at approximately 0.7 across the entire range of mRatios (0.0 - 1.0).\n\n*   **Plot 4:** [ID: En / OOD: En+Vi, OOD: En+Vj]\n    *   The blue line shows an AUC-ROC"
+      },
+      {
+        "page": 8,
+        "bbox": [
+          122.54241943359375,
+          461.3882751464844,
+          474.1713562011719,
+          334.076416015625
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_8.png",
+        "caption": "Figure 8: ID classification accuracy(left) and OOD detection accuracy(right) in image domain when CIFAR10 is utilized as ID",
+        "description": "Here's an analysis of the image provided, focusing solely on the visual elements:\n\n**Overall Description:**\n\nThe image consists of two separate graphs displayed side-by-side. Both graphs are line plots representing experimental results related to object detection performance. The x-axis of both graphs ranges from 0.0 to 1.0, labeled \"mix ratio\". The y-axis labels for the left graph are \"Accuracy\" and for the right graph are \"IoD Detection Acc\".\n\n**Left Graph (Accuracy):**\n\n*   **Title:**  \"[ID.CIFAR10]\"\n*   **Lines:** There are five distinct lines plotted on this graph:\n    *   Blue line: Labelled \"LSUN\"\n    *   Orange line: Labelled \"TinyImageNet\"\n    *   Green line: Labelled \"CIFAR100\"\n    *   Red line: Labelled \"SVHN\"\n*   **Data Points:** The lines exhibit the following approximate data points (values are rounded to the nearest integer):\n    *   At mix ratio = 0.0, all lines have a y-value of approximately 60.\n    *   As the mix ratio increases:\n        *   The LSUN line rises steadily and reaches a maximum y-value of approximately 98 at a mix ratio of around 0.7.\n        *   The TinyImageNet line rises steadily and reaches a maximum y-value of approximately 85 at a mix ratio of around 0.7.\n        *   The CIFAR100 line rises steadily and reaches a maximum y-value of approximately 75 at a mix ratio of around 0.7.\n        *   The SVHN line rises steadily and reaches a maximum y-value of approximately 68 at a mix ratio of around 0.7.\n    *   At mix ratio = 1.0, all lines have a y-value of approximately 98.\n\n**Right Graph (IoD Detection Acc):**\n\n*   **Title:** \"[ID.CIFAR10]\"\n*   **Lines:** There are five distinct lines plotted on this graph:\n    *   Blue line: Labelled \"LSUN\"\n    *   Orange line: Labelled \"TinyImageNet\"\n    *   Green line: Labelled \"CIFAR100\"\n    *   Red line: Labelled \""
+      }
+    ],
+    "tables": [],
+    "footnotes": [
+      {
+        "page": 7,
+        "text": "3 https://github.com/huggingface/transformers/tree/master/examples/text-classification"
+      }
+    ]
+  },
+  {
+    "doc_id": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2]",
+    "filename": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2].pdf",
+    "page_start": 8,
+    "page_end": 9,
+    "heading": "C Experimental Results from Text",
+    "text": "In the text modality, all models were trained to achieve the classification accuracy above 99%. As shown in the first column of Fig. 7, SSL-based methods consistently demonstrated better OOD detection performance ( i.e. higher AUROC scores) compared to the ones without pre-training.\nFor further analysis, we separately studied the results of OOD detection for each language (English and French), where the two settings exhibited different behaviors. In the English datasets, the one without SSL demonstrated increasing OOD detection performance as the mixing ratio increased ( i.e., supposedly, the distance between ID and OOD becoming greater) until the midpoint ( 0 . 6 ∼ 0 . 7 ), but after that, the performance decreased except for the high AUROC when the ratio is 1 . 0 . Also, in the French datasets, the transformer without SSL using MD showed the opposite behaviors, decreasing OOD detection performance as the mixing ratio increased until the intermediate ratio, but the performance increased after that ratio. It is also notable that the models without SSL using MD in the English datasets demonstrated a similar behavior as (b) in Fig. 3.\nOn the other hand, the SSL-based model showed a consistently increasing OOD detection performance as the mixing ratio increased in all languages. The overall results from the text modality indicate that the suggested controllable framework for text ( i.e., mixing Vietnamese sentences to original sentences) might demonstrate the validity of the SSL in OOD detection. However, we believe the setting of natural language could be extended to a more principled manner, such as using various combinations of datasets with diverse difficulties as ID and OOD.\n(g) [CE] ID:CIFAR10, OOD:SVHN\n(h) [OVADM] ID:CIFAR10, OOD:SVHN\n",
+    "figures": [
+      {
+        "page": 9,
+        "bbox": [
+          107.66278839111328,
+          718.9423065185547,
+          503.09814453125,
+          390.2893371582031
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_9.png",
+        "caption": "",
+        "description": "Okay, here's a detailed analysis of the image provided, focusing solely on the visual elements within the figure:\n\n**Overall Structure:**\n\nThe image is a collection of six subplots arranged in a 2x3 grid. Each subplot represents a different experimental configuration and its corresponding performance evaluation. The plots are all line graphs depicting the 'AUC' (Area Under the Curve) versus 'mix_ratio'.\n\n**Subplot Details (a through f):**\n\n*   **(a) [CE] ID:CIFAR10, OOD:OOD-LSUN:**\n    *   X-axis: `mix_ratio` ranging from 0 to 1.\n    *   Y-axis: AUC values.\n    *   Lines: Six different models are represented by distinct colored lines: 'Ryl', 'SimCLR_CE', 'SimCLR_OVA', 'SimCLR_OVA' and 'Ryl_OVA'. The data points for each model increase monotonically with increasing `mix_ratio`.\n\n*   **(b) [OVADM] ID:CIFAR10, OOD:OOD-LSUN:**\n    *   X-axis: `mix_ratio` ranging from 0 to 1.\n    *   Y-axis: AUC values.\n    *   Lines: Six different models are represented by distinct colored lines: 'Ryl', 'SimCLR_OVA', 'SimCLR_OVA', 'Ryl_OVA', 'SimCLR_DVA' and 'SimCLR_OVA'. The data points for each model increase monotonically with increasing `mix_ratio`.\n\n*   **(c) [CE] ID:CIFAR10, OOD:TinyImagenet:**\n    *   X-axis: `mix_ratio` ranging from 0 to 1.\n    *   Y-axis: AUC values.\n    *   Lines: Six different models are represented by distinct colored lines: 'Ryl', 'SimCLR_CE', 'SimCLR_OVA', 'SimCLR_OVA' and 'Ryl_OVA'. The data points for each model increase monotonically with increasing `mix_ratio`.\n\n*   **(d) [OVADM] ID:CIFAR10, OOD:TinyImagenet:**\n    *   X-axis: `mix_ratio` ranging from 0 to 1.\n    *   Y-axis: AUC values."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2]",
+    "filename": "Evaluation of Out-of-Distribution Detection Performance of Self-Supervised Learning in a Controllable Environment [arXiv 2011.13120v2].pdf",
+    "page_start": 9,
+    "page_end": 10,
+    "heading": "D Additional Results from Images",
+    "text": "As mentioned earlier, it is assumed that the mixed image gradually approaches from ID to OOD in the image domain, as the mixing ratio increases. As shown in the Fig. 8, as the mixing ratio increases, the in-distribution classification accuracy of the mixed image is monotonically decreasing, while the OOD detection accuracy is mostly monotonically increasing. These results suggest that the proposed method is a valid controllable framework to simulate various difficulty levels of OOD detection.\nWe found it informative that the speed of change in accuracy depends on the dataset. When mixing ID with either LSUN, Tiny Imagenet, or CIFAR100 tend to yield a similar effect on the classification accuracy. On the other hand, when mixing ID with SVHN, the one with most distinct characteristics from ID compared to the other three, the classification accuracy degrades slower as the mixing ratio increases. Specifically, the classification accuracy stays relatively the same when mixing ID with SVNH, until the mixing ratio reaches 0.3. When mixing ID with LSUN, on the other hand, the classification accuracy starts to drop as soon as the mixing ratio reaches 0.1.\nFig. 9 illustrates the AUROC performance of each OOD dataset for CIFAR10 according to the change of mixing ratio. Each row represents a different OOD dataset. The order of these rows was taken from the order of its accuracy curve in Fig. 8. The three columns on the left represent the cases where CE loss is applied, and the three columns on the right are the results of applying the OV ADM loss. In addition, the first and fourth columns are the results of using the Baseline, the second and fifth columns are the results of using the MD, and the third and sixth columns are the results of using ODIN.\nFirst of all, as the mixing ratio increases, the AUROC quickly reaches the inflection point in the order of LSUN, TinyImagenet, CIFAR100, and SVHN, which is the same behavior as the classification accuracy of each datasets.\n(g) [CE] ID:CIFAR100, OOD:SVHN\n(h) [OVADM] ID:CIFAR100, OOD:SVHN\nIn other words, the faster the classification accuracy decreases as the mixing ratio increases, the longer the flat section appears in the AUROC plot. In addition, when the OOD score was measured by Baseline, the either using SSL or not made little difference when combined with the CE loss. Strangely, the same behavior was shown when using the OVADM loss, but when the OOD score was measured by MD, not Baseline. While most of the plot show monotonically increasing AUROC as the mixing ratio increases, the AUROC changes little when using the combination of the OVADM loss and the ODIN method without SSL. The similar tendency was also observed when CIFAR100 was used as the ID (Fig. 10).\n",
+    "figures": [
+      {
+        "page": 10,
+        "bbox": [
+          107.9005355834961,
+          718.8832855224609,
+          503.23919677734375,
+          384.37109375
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_10.png",
+        "caption": "",
+        "description": "Okay, here's a detailed analysis of the image provided, focusing solely on the visual elements within the figure:\n\n**Overall Structure:**\n\nThe image is a collection of six subplots arranged in a grid format. Each subplot represents a Receiver Operating Characteristic (ROC) curve plot. The plots are labeled with letters (a through f) and accompanying text indicating the dataset used for evaluation.\n\n**Subplot Details (from left to right, top to bottom):**\n\n*   **(a) [CE] ID:CIFAR100, OOD:LSUN:** This subplot displays six ROC curves. The x-axis is labeled \"mix_rate\" ranging from 0.0 to 1.0. The y-axis is labeled \"AUC\".  The lines represent the performance of six different models: 'Ryl', 'RylCE', 'ShuCE', 'ShuCE_OVA', 'Ova', and 'ShuCE_OVA'.\n\n*   **(b) [OVDADM] ID:CIFAR100, OOD:LSUN:** This subplot mirrors the structure of (a), but with six different models labeled as 'Ryl', 'RylOVDADM', 'ShuOVDADM', 'ShuCE_OVA', 'Ova', and 'ShuCE_OVA'.\n\n*   **(c) [CE] ID:CIFAR100, OOD:TinyImagenet:** This subplot displays six ROC curves. The x-axis is labeled \"mix_rate\" ranging from 0.0 to 1.0. The y-axis is labeled \"AUC\".  The lines represent the performance of six different models: 'Ryl', 'RylCE', 'ShuCE', 'ShuCE_OVA', 'Ova', and 'ShuCE_OVA'.\n\n*   **(d) [OVDADM] ID:CIFAR100, OOD:TinyImagenet:** This subplot mirrors the structure of (c), but with six different models labeled as 'Ryl', 'RylOVDADM', 'ShuOVDADM', 'ShuCE_OVA', 'Ova', and 'ShuCE_OVA'.\n\n*   **(e) [CE] ID:CIFAR100, OOD:CIFAR10:** This subplot displays six ROC curves. The x-axis is labeled \"mix_rate\" ranging from 0"
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  }
+]

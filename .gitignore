@@ -111,3 +111,5 @@ dmypy.json
 *.sw?
 
 papers/
+papers_old/
+user_data/

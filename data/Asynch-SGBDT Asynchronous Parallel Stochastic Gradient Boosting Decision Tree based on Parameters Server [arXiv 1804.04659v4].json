@@ -1,0 +1,412 @@
+[
+  {
+    "doc_id": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4]",
+    "filename": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "Asynch-SGBDT: Train a Stochastic Gradient Boosting Decision Tree in an Asynchronous Parallel Manner",
+    "text": "Daning Cheng ∗† , Fen Xia ‡ , Shigang Li ∗ and Yunquan Zhang ∗ ∗\nSKL of Computer Architecture, Institute of Computing Technology, CAS, China\nEmail:\nUniversity of Chinese Academy of Sciences\n{ chengdaning, lishigang, zyq } @ict.ac.cn\n† ‡ WiseUranium corp. { Xiafen } @ebrain.ai\nAbstract -Gradient Boosting Decision Tree (GBDT) is an effective yet costly machine learning model. Current parallel GBDT algorithms generally follow a synchronous parallel design. Since the processing time for different nodes varies in practice, synchronisation in a parallel computing environment needs considerable time. In this paper, we propose an asynchronous parallel GBDT algorithm named as asynch-SGBDT. Our theoretical and experimental results indicate that compared with the serial GBDT training process, when the datasets are high-dimensional sparse datasets, asynch-SGBDT does not slow down convergence speed on the epoch. Asynch-SGBDT achieves 14x to 22x speedup when it uses 32 workers; LightGBM, as the benchmark, only achieves 5x to 7x speedup using 32 machines; Dimboost, as another benchmark, only achieves 4x to 5x speedup using 32 workers. All of theory and experimental results show that asynch-SGBDT is state-of-the-art parallel GBDT algorithm.\nIndex Terms -GBDT, asynchronous parallel, SGD, parameter server\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4]",
+    "filename": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4].pdf",
+    "page_start": 1,
+    "page_end": 2,
+    "heading": "I. INTRODUCTION",
+    "text": "Gradient Boosting Decision Tree (GBDT) is an effective yet costly nonlinear machine learning model. The demand for performance with efficient training process drives highperformance GBDT to be one of the most popular research areas in machine learning. Current methods in gaining computation efficiency rely heavily on parallel computing technology. However, the requirement for synchronisation creates a bottleneck for further improvement in computation speed. In this paper, we propose an asynchronous parallel GBDT method that relaxes this requirement. Our asynchronous parallel stochastic GBDT (asynch-SGBDT) method works on the parameter server framework: The server receives trees from workers, and different workers build different trees in an asynchronous parallel manner. Our theoretical and experimental results indicate that when the datasets are high-dimensional sparse datasets, asynch-SGBDT exerts no impact on convergence speed on the epoch. Our experimental results also indicate that asynchSGBDT achieves a satisfied speedup.\nParallel computing is the most important technologies in gaining high computing performance. Current parallel GBDT algorithms mainly use fork-join parallel implementation, a kind of synchronous parallel manner, to accelerate the GBDT, like xgboost, LightGBM, and TencentBoost(DimBoost).\nHowever, in practice, the synchronous parallel cannot reach satisfied scalability: LightGBM, the state-of-the-art parallel GBDT framework, achieves 5x to 7x speedup when it uses 32 machines. In a cluster, it is unlikely that all nodes in a system share the same computation speed. Faster nodes have to be blocked before all nodes reach the barrier. Thus, synchronisation needs a considerable amount of time. This problem exerts more influence on synchronous parallel GBDT, as the synchronous operation is contained in every GBDT iteration step.\nAsynchronous parallel methods are the most important parallel methods to break the shortage of synchronous. Research in this area seems to have ignored an important question: Is synchronization necessary for GBDT training, and if a GBDT can be trained in an asynchronous parallel manner? Are asynchronous parallel methods effective in GBDT training process?\nWe develop theoretical analyses via connecting asynchSGBDT training process with stochastic optimization problem: we adopt functional space optimization into high-dimensional parameter space optimization following [1], and we introduce a random variable into the objective function through sampling operation. Thus, asynchronous parallel stochastic gradient descent method can be used to train GBDT.\nTheoretical analyses show that high diversity samples of the datasets, small sampling rate, small step length and a large number of leaves for the GBDT settings can lead to high scalability for asynch-SGBDT. We call such conditions as asynch-SGBDT requirements.\nOur analyses and experiments suggest that compared with the serial GBDT training process, when the datasets are highdimensional sparse datasets, asynch-SGBDT does not slow down convergence speed on the epoch. The widely used datasets in the big data industry, which are high-dimensional and sparse, are likely to meet the asynch-SGBDT requirements.\nWhat is more, asynch-SGDBT reaches 14x-20x speedup when it uses 32 workers on real-sim and E2006-log1p dataset. As the benchmark, LightGBM, a state-of-art parallel GBDT framework, only achieves 5x-7x speedup when it uses 32 machines.\nOur main contributions are the following: (1) We propose asynch-SGBDT, an asynchronous parallel method that can be used to train the GBDT model more efficiently. (2) We provide theoretical justification for asynch-SGBDT through an analysis of the relationships among convergence speed, number of workers and algorithm scalability. (3) Our approach achieves higher efficiency and accuracy than state-of-the-art on our tested datasets, which are high dimensional and sparse.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4]",
+    "filename": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4].pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "heading": "II. RELATED WORKS AND THE PROBLEM OF CURRENT ALGORITHM",
+    "text": "The standard GBDT iteration step contains two sub-steps: producing the target sub-step and building the tree sub-step. Besides standard algorithm steps [2], many studies have offered alternative and improved operations in the above two sub-steps. Sampling strategies and novel pruning strategies [3] [4] and parallelization technology on the building tree process are the main methods to accelerate the GBDT training process [5] [6].\nSampling is an alternative operation in producing the target sub-step. A number of studies have described different sampling strategies in the GBDT training process [6] [7] [3]. GBDT based on sampling [8] [9] also is named as stochastic GBDT. These stochastic GBDT algorithms focus on how to build sampling subdatasets with good performance that represent the whole dataset well.\nProblem: How to train a GBDT in an asynchronous parallel manner Some researchers have proposed a stochastic gradient boosting tree [8] and a parallel stochastic gradient boosting tree [9]. However, these methods use fork-join parallel methods. Asynchronous parallel SGD [10] [11] and its implement frame, parameter server [12], are the most widely used asynchronous parallel framework. Although J Jiang et al. [13] tried to adapt the GBDT on a parameter server (i.e., TencentBoost), TencentBoost still uses the fork-join parallel method. The parallel part only exists in the sub-step of building the tree. The fork-join method fails to make full use of the performance of parameter servers. Currently, few works focus on the question of whether it is possible to use asynchronous parallel methods to train the GBDT model.\nIn this paper, we examine whether it is possible to use asynchronous parallel methods to train GBDT model, how to train GBDT model in an asynchronous parallel manner and find the conditions under which GBDT is trained in an asynchronous parallel manner effectively.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4]",
+    "filename": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4].pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "heading": "A. Boosting and Its Theory",
+    "text": "1) Problem Setting, Serial Training Method: Given a set of training data { ( x i , y i ) } ∑ N j =1 m j , where the feature x i ∈ X , the label y i = { 1 , 0 } , and m j represents the frequency of ( x j , y j )\nin the dataset, the variables ( x j , y j ) are different from each other.\nThe goal for boosting is to find a predictor function for the additive classifier (i.e., GBDT forest), F = F ( x ) ∈ R , by minimizing the total loss over the training dataset\nwhere F i is shorthand for F ( x i ) and ℓ ′ i is shorthand for ∂ F i ℓ ( y i , F i ) in the following part of the article. Theoretically, ℓ ( · , · ) can be an arbitrary and convex surrogate function. In Friedman et al.'s work and based on the requirement in machine learning, ℓ ( · , · ) adopts the logistic loss:\nThis additive function F ( x ) (i.e., GBDT forest) produces the vector F = [ F 1 , F 2 , ..., F N ] to minimize L ( F ) . This process is an optimization on the R N parameter space.\nWe define F ∗ and L ∗ as follows.\nThe whole process of the iteration step in traditional GBDT training is divided into two sub-steps: 1. Producing a target for the building tree. For example, the target is the gradient vector of the dataset on a certain loss [1], i.e. the vector as follow:\n2. Building a tree whose output is close to G (the prediction for x i is close to ℓ ′ i in this tree).\nHow to build a tree (i.e., the detail of building a tree substep) is not the topic in this paper.\n2) Parallel GBDT Training Algorithm: Current GBDT algorithm uses fork-join parallel implementation to parallelize the GBDT training process. Only the parallel parts stay in the building tree sub-step process in the current GBDT framework and algorithm, such as xgboost [5] and lightGBM [6].\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4]",
+    "filename": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4].pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "heading": "B. GBDT trees",
+    "text": "Decision trees are an ideal base learner for data mining applications of boosting (Section 10.7 in the book [14]). Thus, this subsection, we would present the necessary theories of the decision tree.\nThe goal of building a decision tree is to build the tree whose leaves contain the same samples. For the GBDT case, the above statement is that, for the decision tree, the prediction for x i is ℓ ′ i in Eq. 3. Without regard to generalisation, a wellgrown decision tree often reaches above goal.\nAbove statements are equal to the statement that each leaf reach the minimum RMSE or misclassification rate.\nThe book[14] presents more detail information about the decision tree.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4]",
+    "filename": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4].pdf",
+    "page_start": 3,
+    "page_end": 3,
+    "heading": "C. SGD and Its Parallel Engineering Methods",
+    "text": "SGD is used to solve the following problem [15]\nwhere a random variable Θ has a probability distribution function (PDF) dP ( θ ) . We use the frequency instead of dP ( ξ ) , which means\nThe algorithm of the delayed SGD (i.e., an asynchronous parallel SGD algorithm) [10] [11] is described as the most important parallel SGD. The implements of delayed SGD, (parameter server) include ps-lite in MXNET [16], TensorFlow [17], and petuum [18].\nRandom variable In a traditional machine learning problem, such as training a support vector machine (SVM) model, an observed value θ i of random variable Θ is a sample in the dataset.\n1) Serial SGD: To solve the above problem, SGD, as shown in algorithm 1, is the most widely used method because of its small memory requirement and fast convergence speed.\nAsynchronous Parallel SGD and Parameter Server Framework: The base of parameter server is delayed SGD.\nDelayed SGD gains high performance via the overlapping of the communication time and computation time.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4]",
+    "filename": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4].pdf",
+    "page_start": 3,
+    "page_end": 3,
+    "heading": "D. Sampling and Stochastic GBDT",
+    "text": "Many studies have also proposed the stochastic GBDT algorithm which uses sampling strategies. GBDT algorithms based on sampling datasets are also named as stochastic GBDT algorithms[8] [9]. However, the above studies fail to involve asynchronous parallel methods. They use sampling strategies to reduce the burden of building a tree to improve the accuracy of the GBDT output [6] [7] [3]. These works focus on how to make sample subdatasets that share the same characteristics with the full dataset.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4]",
+    "filename": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4].pdf",
+    "page_start": 3,
+    "page_end": 4,
+    "heading": "IV. MAIN IDEA:THE EQUIVALENT OF STOCHASTIC GBDT AND THE STOCHASTIC OPTIMIZATION",
+    "text": "In this section, we will prove the following corollary.\nCorollary 1 Training stochastic GBDT and stochastic optimization are the equivalence problem.\nProof. In stochastic GBDT, each iteration step is described as follows: 1. Sampling the data: Each sample in the dataset corresponds to a Bernoulli distribution. In each iteration step, selecting this sample depends on its Bernoulli distribution. Traditional stochastic GBDTs view sub-datasets and full datasets share the same characteristics. 2. Build target: In the gradient step, stochastic GBDT calculates the gradient of a subdataset on a certain loss. 3. Building the tree based on the target.\nHowever, we treat the sampling process as the method which introduces a random variable into the original objective function. Then, the goal for stochastic GBDT is to find an additive function F by minimising the mathematical expectation of the total loss over the training dataset.\nwhere Q = ( Q 1 , 1 ..Q 1 ,m 1 , Q 2 , 1 , ..., Q 2 ,m 2 , Q N, 1 , ..., Q N,m N ) and Q i,j is a random variable that satisfies the Bernoulli distribution: P ( Q i,j = 1) = R i,j , P ( Q i,j = 0) = 1 -R i,j .\nIn every sampling process, the sampling operation in the stochastic GBDT would produce an observed value vector corresponding to Q . Based on the observed value vector, the sampling operation in stochastic GBDT produces the sampling subdataset.\nCombining the convex characteristics of L and L random , the following expressions are true.\nNow, our optimisation objective function is changed from L ( F ) to L random ( F ; Q ) , which means training stochastic GBDT and stochastic optimisation are the equivalence problem.\nUsing SGD to Solve Stochastic GBDT Corollary 1 shows that it is possible to use high-performance stochastic optimisation algorithm, like asynchronous parallel SGD to train stochastic GBDT.\nEq. 8 shows that Q is a random variable vector and F is a variable. The definition of L random in Eq. 7 is the same as the expression of Function ( w ; Θ ) in Eq.4. The above facts suggest that it is possible to use well parallelised stochastic optimisation, such as the asynchronous parallel SGD\nalgorithm, to find the minimum of L random . Above process is described by Figure 1.\nRandom Variable In traditional machine learning problems, such as training an SVM model, an observed value of a random variable is a sample in the dataset. In asynch-SGBDT, an observed value of a random variable is the sampling result of the sampling subdataset.\n",
+    "figures": [
+      {
+        "page": 4,
+        "bbox": [
+          48.855342864990234,
+          647.7127838134766,
+          304.5856018066406,
+          523.4288330078125
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_1.png",
+        "caption": "Figure 1: Using SGD to train the stochastic GBDT : The minimums of L and E [ L random ] are the same. Solving the minimum of E [ L random ] is a high-performance process.",
+        "description": "Here's a detailed analysis of the image based on its visual content:\n\n**Overall Structure:**\n\nThe image depicts two mathematical optimization processes represented as flowcharts. Each flowchart illustrates a method for minimizing a function.\n\n**Flowchart 1 (Left): Minimizing L(F)**\n\n*   **Box 1:**  Labeled \"min L(F)\" with an arrow pointing to the word \"solve\".\n*   **Arrow:** A single arrow labeled \"solve\" connects this box to the next element.\n*   **Box 2:**  Labeled \"Gradient descent or Newton method\".\n*   **Annotation:** To the right of Box 2, there is text: \"Algorithm using parallel building tree process.\"\n\n**Flowchart 2 (Right): Minimizing E[L(F, Q)]**\n\n*   **Box 1:** Labeled \"min E[L(F,Q)]\" with an arrow pointing to the word \"solve\".\n*   **Arrow:** A single arrow labeled \"solve\" connects this box to the next element.\n*   **Box 2:**  Labeled \"Stochastic Gradient Descent\".\n*   **Annotation:** To the right of Box 2, there is text: \"Supported by Parameters Server. High performance.\"\n\n**Connecting Element:**\n\n*   A double-headed arrow labeled \"Eq. 6, Eq. 7\" connects both flowcharts. This indicates a relationship between the two functions being minimized (L(F) and E[L(F, Q)]).\n\n**Color Coding:**\n\n*   The boxes are shaded in light green.\n*   Arrows are white.\n*   Annotations are black.\n\n**Data Points/Patterns:**\n\n*   There are no explicit data points or numerical values displayed within the flowcharts. The diagrams represent algorithmic processes rather than specific data sets.\n*   The flowcharts illustrate two distinct optimization techniques: gradient descent (or Newton method) and stochastic gradient descent."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4]",
+    "filename": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4].pdf",
+    "page_start": 4,
+    "page_end": 4,
+    "heading": "A. Asynch-SGBDT",
+    "text": "Asynch-SGBDT uses asynchronous parallel SGD to train the model. Asynch-SGBDT is described by algorithm 3. The work model of asynch-SGBDT is illustrated in Figure 2. The sequence diagrams of asynch-SGBDT are shown in the last sub-figure in Figure 3. In Figure 3, we also show the sequence diagrams of the different GBDT training methods.\nIn algorithm 3, L ′ random is shorthand for the SGD of L random ( F ; Q ) and L ′ random is calculated as follows\nwhere m ′ i = ∑ m i j =1 Q i,j R i,j . In building the tree sub-step, the algorithm still builds the tree whose prediction for x i is close to ℓ ′ i .\nAsynchronous parallel Asynchronous parallel means that different workers are blind to each other. These workers work independently. The pull, build, and push operations of a worker must be ordered and serialised but, for different workers, these operations in different workers are completely out of order and parallel. During the time that a worker is building the i th tree, F t ( x ) and L ′ t random in the server would be updated several times by other workers. If the number of workers is large enough, the building tree sub-step would be hidden. Additionally, compared with the original datasets, the size of the sampling subdataset is relatively small, which would reduce the burden of the building tree sub-step.\n",
+    "figures": [
+      {
+        "page": 4,
+        "bbox": [
+          49.165306091308594,
+          429.9156799316406,
+          305.188232421875,
+          289.17138671875
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_2.png",
+        "caption": "Figure 2: Asynch-SGBDT on the parameter server : worker 1 and worker 2 are asynchronously parallel and independently work. The server updates L ′ random at once when it receives a tree from any worker.",
+        "description": "Okay, here's a detailed analysis of the image based solely on its visual content, using UTF-8 characters:\n\n**Overall Structure:**\n\nThe image is a diagram illustrating a distributed system architecture, specifically related to an \"Async-SGD Forest\" algorithm. It depicts two workers (Worker 1 and Worker 2) communicating with a server. The diagram uses numbered circles to represent processes or stages within each component.\n\n**Components & Processes:**\n\n*   **Workers (Worker 1 & Worker 2):**  Each worker is represented by a rectangular box labeled \"Worker 1\" and \"Worker 2\".\n*   **Server:** A central rectangular box labeled \"Server\".\n*   **Dataset:** A small, shaded rectangle labeled \"Dataset\" is present within each worker.\n*   **Tree:** Two circular shapes are labelled \"Tree\" within each worker.\n*   **Asynch-SGD Forest:**  A larger, more complex shape labeled \"Asynch-SGD forest\" resides on the server. It contains a smaller shaded box labeled \"Sampled Subdataset\".\n\n**Arrows & Numbers (Process Flow):**\n\nThe arrows indicate the flow of data and processes between components. The numbers beside each arrow represent sequential steps:\n\n1.  **Pull:** An arrow with the number \"1\" originates from each worker and points to the server. The label on the arrow is \"Pull\".\n2.  **Build:** An arrow with the number \"2\" originates from the server and points to both workers. The label on the arrow is \"Build\".\n3.  **Push:** An arrow with the number \"3\" originates from each worker and points to the server. The label on the arrow is \"Push\".\n4. **Update**: An arrow with the number \"Update\" originates from the server and points to the Asynch-SGD Forest.\n\n**Text Labels within Components:**\n\n*   Within Worker 1:  \"Local [Dataset]\"\n*   Within Worker 2: \"Local [Dataset]\"\n*   Within the Asynch-SGD Forest: \"[internal]\"\n\n**Data Points/Patterns (Visual):**\n\n*   The diagram shows a cyclical process. Workers pull data, build trees locally, push them to the server, and then the server updates the Asynch-SGD forest. The \"Sampled Subdataset\" is central to this process.\n*   Two distinct processes are represented: local tree building on each worker and"
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4]",
+    "filename": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4].pdf",
+    "page_start": 4,
+    "page_end": 4,
+    "heading": "Algorithm 3 Asynch-SGBDT",
+    "text": "Input: { x i , y i } N : The training set; v : The step length; Output: the Additive Tree Model F = F ( x ) , i.e. asynchSGBDT forest.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4]",
+    "filename": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4].pdf",
+    "page_start": 4,
+    "page_end": 4,
+    "heading": "For Server:",
+    "text": "random random\nProduce the tree whose output is 1 ∑ N i =0 m i ∑ N i =0 m i y i . Calculate L ′ 0 and Maintain L ′ 0 .\nfor j = 1 ...f orever do\n1.Recv a Tree k ( j ) from any worker, this tree is built based on L ′ k ( j ) random .\n2.Add Tree k ( j ) times v to whole asynch-SGBDT forest. ( F j ( x ) = F j -1 ( x ) + vTree k ( j ) )\n3.Generate an observed value vector of Q and produce sampling sub-dataset.\n5.Remove L ′ j -1 random and Maintain L ′ j random ( L ′ j random can be pulled by workers.).\n4.Calculate current GBDT forest's L ′ j random based on sampling sub-dataset.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4]",
+    "filename": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4].pdf",
+    "page_start": 4,
+    "page_end": 4,
+    "heading": "For Worker:",
+    "text": "for t = 1 to forever do\n1.Pull the L ′ t random from Server ( L ′ t random is current L ′ random the Server holds.).\n3.Send Tree t to Server.\n2.Build Tree t based on L ′ t random .\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4]",
+    "filename": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4].pdf",
+    "page_start": 4,
+    "page_end": 6,
+    "heading": "B. Convergent analysis of Asynch-SGBDT",
+    "text": "Special Case: To make our presentation clear, we show a result of a special case which would show how different variable intuitively without paying too much cost. General case and conclusion will offer in the next subsection.\nOur analysis in this subsection should be based on the assumption that each decision tree in GBDT is a well-grown tree. This assumption is reasonable because most of the GBDT building tree sub-step tries its best to fit the gradient in the gradient descent method or the vector of the gradient times the inverse Hessian matrix in Newton descent methods[5], like section 3.2.\nWe introduce additional math definitions as follows: Lip is the Lipschitz constant for L ( . ) . L ( . ) is a strong convex function with modulus c . For F ∈ R N and every observed value vector corresponding to Q , ‖ L ′ random ‖ < M . The random variable vector Q ′ is defined as\nwhere the random variable Q ′ i = ( Q i, 1 ∨ Q i, 2 ∨ ... ∨ Q i,m i ) . Ω = max ∑ N i =1 Q ′ i , which represents the maximum number of different samples in one sampling process. This value is almost equal to the number of different samples in the dataset because it is possible that all samples are sampled in a sampling subdataset. ∆ = maxP ( Q ′ i = 1) , which is the maximum probability that a type of sample is sampled. ρ represents the probability that two sampling subdatasets, whose intersection is nonempty, exist throughout the whole sampling process.\nWe apply the proposition of asynchronous SGD [11] to Algorithm 3.\nProposition 1. Suppose in Algorithm 3 that\nτ ≥ j -k ( j ) , (2) v is defined as\n(3) By defining D 0 := ‖ F 0 -F ∗ ‖ 2 , F t is the F vector produced by F t ( x ) . (4) For some ϵ > 0 and ϑ ∈ (0 , 1) , t is an integer satisfying\nThen after t updates in the server,\nAnalysis: Convergence Speed Proposition 1 shows that stochastic GBDT converges to a minimum of L ( · ) . However, the influence of the sampling rate is unclear in serial stochastic GBDT: When τ = 0 , no elements in Proposition 1 would be changed with the change in sampling rate. Ω maybe be influenced by different sampling rates in Proposition 1. However, if the number of iterations is large, the impact would be small. Proposition 1 also shows that with the increase in the number of workers (i.e., the number of delays), a smaller step length should be chosen, and asynch-SGBDT needs more iteration steps to reach a satisfactory output.\nAnalysis: Scalability Upper Bound It is easy to see that the max number of worker algorithm satisfies following upper bound.\nwhere #( worker ) is the max number of workers, T ( operation ) is the time of operations. This inequation can be got from the condition that computing time for each worker is fully overlapped from the computing time in the server.\nAnalysis: Scalability and Sensitivity The sensitivity of the mathematical convergence speed to the change in the number of workers is another index that measures the scalability of the algorithm. If the mathematical convergence speed is insensitive to the number of workers (i.e., parallelism), the algorithm allows us to use more workers to accelerate the training process and gain a greater speedup.\nIn the experiments, we notice that the sensibilities of the convergence speed to the change in the worker setting are different under different sampling rate settings and datasets. Our proposition shows that sensitivity is linked to ρ and ∆ . The sparsity of the observed value vector of Q ′ is positively correlated to the values of ρ and ∆ when sampling rates between different samples are almost the same or uniform. Therefore, it is possible to offer guidance and draw conclusions by analyzing the observed value vector of the sparsity of Q ′ .\nThe size of Q ′ represents the diversity of the samples in the dataset (i.e., the number of sample species). The number of non-zero elements in each sampling process represents the diversity of the samples in the sampling subdataset. If the diversity of the dataset is high, but the diversity of the sampling subdataset is low, the observed value vector of Q ′ is likely to be a sparse vector in each sampling process, which means that the values of ρ and ∆ would be small. The algorithm would be insensitive to the number of workers. Reducing the sampling rates would help reduce the diversity of the sampling subdataset. Using a high-dimensional sparse dataset would contribute to increasing the diversity of the dataset. For the GBDT tree, different samples would be treated as the same sample if the number of leaves is too small. In this case, a small number of leaves in the GBDT tree would decrease the diversity of the dataset. For a low diversity dataset, even using the small sampling rate, the observed value vector of Q ′ is still a dense vector, just like the illustration of Figure 4. Therefore, asynch-SGBDT is able to accelerate the high-dimensional sparse dataset with a relatively small sampling rate. The highdimensional sparse dataset is the most frequently used dataset in the era of big data.\n2) General case: In our analysis in Appendix part, we show the detail of the analysis of asynch-SGBDT convergence process.\n(a) The original dataset contain samples: 10000 * A 1 , 20000* A 2 30000* A 3 . The sample diversity of orighinal dataset is low (b) The original dataset contain samples: A 1 ... A 14000 and each sample only appears once. The sample diversity of orighinal dataset is high\n4 ÿ >         @ 4 ÿ LV D VSDUVH YHFWRU In our analysis, we can gain the following conclusion for any asynch-SGBDT setting:\n",
+    "figures": [
+      {
+        "page": 5,
+        "bbox": [
+          37.241783142089844,
+          742.3821144104004,
+          289.76611328125,
+          588.2569122314453
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_3.png",
+        "caption": "Figure 3: Different GBDT Training Method Patterns",
+        "description": "Okay, here's a detailed analysis of the image based solely on its visual content, using UTF-8 characters:\n\n**Overall Description:**\n\nThe image is a flowchart illustrating different training methods for Generative Relational Models (GRM) - specifically, GROT. It compares serial, parallel, sampling, and asynchronous GROT training approaches. The horizontal axis represents \"Time.\"\n\n**Detailed Breakdown of Components & Data Points:**\n\n1.  **Serial GROT Training (Blue Arrows):**\n    *   A single, linear sequence of operations is depicted with blue arrows.\n    *   The arrow starts at the top left and proceeds horizontally across the image, representing a sequential training process.\n\n2.  **Parallel GROT Training (Red Arrows):**\n    *   Multiple parallel branches are shown with red arrows emanating from a central point.\n    *   These branches represent simultaneous operations during parallel GROT training.\n\n3.  **Sampling GROT Training (Green Arrows):**\n    *   A series of green arrows depict sampling operations within the GROT training process. The arrows originate from the \"Produce Target\" box and proceed horizontally.\n\n4.  **Sampling Parallel GROT Training (Orange Arrows):**\n     * Similar to \"Parallel GROT Training\" but with orange arrows, representing parallel sampling operations.\n\n5. **Asynch-GROT Worker Diagram (Green Boxes & Arrows):**\n    *   A diagram of \"Asynch-GROT Worker\" is shown in the lower portion of the image.\n    *   Two worker entities (\"Worker 1\" and \"Worker 2\") are represented by green boxes.\n    *   Arrows indicate data flow between the workers:\n        *   \"Push\" arrows point from \"Worker 1\" to \"Worker 2\".\n        *   \"Pull\" arrows point from \"Worker 2\" back to \"Worker 1\".\n        *  The diagram shows a building tree with full data, parallel building tree with sampled data and integrating the WID (Weighted Inner Distance).\n\n6. **Text Labels:**\n    *   \"Serial GROT training\"\n    *   \"Parallel GROT training\"\n    *   \"Sampling GROT training\"\n    *   \"Sampling parallel GROT training\"\n    *   \"Produce target\"\n    *   \"Building tree with full data\"\n    *   \"Parallel building tree with sampled data\"\n    *   \"Integrating the W"
+      },
+      {
+        "page": 6,
+        "bbox": [
+          63.4221305847168,
+          739.7178153991699,
+          549.323486328125,
+          566.7533416748047
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_4.png",
+        "caption": "",
+        "description": "Okay, here's a detailed analysis of the image based solely on its visual content, using UTF-8 characters:\n\n**Overall Structure:**\n\nThe image is a diagram illustrating two different sampling methods applied to an original dataset. It's presented as a flowchart with boxes and arrows connecting them. The diagram uses gray shading to differentiate between the original dataset, sampled datasets, and the vectors Q'.\n\n**Left Side (Dense Vector Sampling):**\n\n*   **Initial State:** A box labeled \"Q' = [1, 1, 1] (Q' is a dense vector)\" shows a vector with three elements: 1, 1, and 1.\n*   **Sampling Parameters:**  Below this, there are three numerical values: A<sub>v</sub>=2000, A<sub>v</sub>=4000, and A<sub>v</sub>=8000. These appear to represent sample sizes.\n*   **Sample Rate:** The text \"Sample rate = 0.2\" is associated with the sampling process.\n*   **Arrows:** Two arrows point from Q' to a box labeled \"Sampled dataset\".\n*   **Sampling Process:**  The arrow labels are: A<sub>v</sub>\\*2000, A<sub>v</sub>\\*4000, and A<sub>v</sub>\\*8000.\n\n**Right Side (Sparse Vector Sampling):**\n\n*   **Initial State:** A box labeled \"Q' = [1, 0, 1, ... , 1] (Q' is a sparse vector)\" shows a vector with elements: 1, 0, 1, ..., 1. The number of elements in this vector appears to be approximately 14000.\n*   **Sampling Parameters:** Below this, there are three numerical values: A<sub>s</sub>=1, A<sub>s</sub>=1, and A<sub>s</sub>=14000. These appear to represent sample sizes.\n*   **Sample Rate:** The text \"Sample rate = 0.2\" is associated with the sampling process.\n*   **Arrows:** Two arrows point from Q' to a box labeled \"Sampled dataset\".\n*   **Sampling Process:**  The arrow labels are: A<sub>s</sub>\\*1, A<sub>s</sub>\\*1, and A<sub>s</sub>\\*14000.\n\n**Datasets:**\n\n*   Two boxes labeled \""
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4]",
+    "filename": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4].pdf",
+    "page_start": 6,
+    "page_end": 6,
+    "heading": "C. Compatibility for the Parameter Server",
+    "text": "6DPSOHG\n$  $  $ GDWDVHW General Conclusion We summarize the general conclusions as follows:\n6DPSOH UDWH 1. Small sampling rate would decrease the convergence speed. However, small sampling rate help decrease the sensitivity of the algorithm, which would increase the scalability.\n$ GDWDVHW 3. Under an asynchronous parallel situation and using a fixed number of workers, the larger the sampling rate is, the more sensitive the algorithm.\n$    $ Ă 2ULJLQDO 2. Under an asynchronous parallel situation and using a fixed sampling rate, the more workers we use, the smaller the step length that should be chosen, and the more steps the algorithm would run.\nUnder an asynchronous parallel situation and using a fixed number of workers, the smaller the sampling rate is, the larger the step length that should be chosen, and the fewer steps the algorithm would run.\nAsynch-SGBDT is apt to accelerate the GBDT on a highdimensional sparse dataset.\nAsynch-SGBDT is apt to accelerate a GBDT whose trees contain massive leaves.\nWe also can draw the requirements of high scalability for asynch-SGBDT: high dataset diversity, small sampling rate and large learning rate, large GBDT leaves number setting. Those requirements are named as asynch-SGBDT requirements in this paper. Usually, normal GBDT settings on large scale dataset satisfy asynch-SGBDT requirements.\nBesides the above general conclusions, we also can draw the following counter-intuitive conclusions: 1. The sampling process is necessary for asynchronous parallel; even we have enough computing resource. 2. Only gradient step can use asynchronous parallel manner. Thus, xgboost cannot be modified into asynch-parallel manner.\nFigure 3 shows different training iteration steps of the different GBDT algorithms and framework. The traditional GBDT training algorithm is a serial process. Just as we mentioned in the introduction section, the iteration step contains two substeps: Producing the target and building the tree. Based on the traditional training algorithm, current GBDT frameworks use parallel or sampling technology in the building tree sub-step. A number of frameworks only use parallel, distribution methods, such as xgboost [5] and TencentBoost [13]. Many GBDT algorithms use sampling technology to reduce the burden of building tree sub-steps, such as stochastic gradient boosting [8]. Using sampling and parallel technologies together is the most popular method to accelerate the building tree sub-step, such as LightGBM [6] and stochastic GBDTs [9].\nHowever, the order of producing the target sub-step, building tree sub-step, and all iteration steps is a rigorous serial process in the above framework. Whole iterations can only be parallelized via a fork-join parallel model. The fork-join style fails to make full use of the parameter server's performance. The parameter server is the basis of the machine learning and artificial intelligence (AI) industry.\nAsynch-SGBDT breaks the above serial limitations. The base of asynch-SGBDT is the same as the base of the parameter server (i.e., the asynchronous parallel stochastic gradient algorithm). Different building tree sub-steps, produced target sub-steps and communication overheads are overlapped in asynch-SGBDT. Given the parallel mode, asynch-SGBDT is innovative in the GBDT training process. Asynch-SGBDT provides good compatibility with the parameter server.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4]",
+    "filename": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4].pdf",
+    "page_start": 6,
+    "page_end": 7,
+    "heading": "VI. EXPERIMENT",
+    "text": "To prove our statements that asynch-SGBDT is state-of-theart parallel GBDT algorithm, we conducted two experiments: validity experiment and efficiency experiments.\nValidity experiments: To prove the algorithm validity and correspond with the asynch-SGBDT theoretical analyses, we conducted comparison experiments. In the experiments, we used asynch-SGBDT to deal with the two classification problems. In our comparison experiments, we chose the dataset and GBDT tree settings that did and did not meet the asynchSGBDT requirements. The ideal experimental result is that the former experiments exhibit high scalability (i.e., low sensitivity), and the latter experiments exhibit low scalability (i.e., high sensitivity).\nEfficiency experiments: To prove the asynchronous parallel method is better than the current parallel GBDT method, we compared the speed up ratio of asynch-SGBDT with feature parallel. Feature parallel is the main parallel method in LightGBM [6].\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4]",
+    "filename": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4].pdf",
+    "page_start": 7,
+    "page_end": 7,
+    "heading": "A. Datasets",
+    "text": "We chose three datasets: the real-sim dataset and the Higgs dataset, which were selected from the SVM library (LIBSVM) repository as our experimental dataset. Real-sim and E2006log1p datasets are large datasets, where sample vectors are high-dimensional and sparse. The Higgs dataset is a large dataset, where sample vectors are low-dimensional and dense.\nWe use real-sim dataset and Higgs dataset in validity experiment. The Higgs dataset does not meet asynch-SGBDT requirements Thus, the Higgs experiments are treated as benchmark experiments in validity experiment. We use realsim dataset and E2006-log1p dataset in efficiency experiment.\nWe used 100000 samples from the whole dataset as the test dataset in the Higgs experiments. We used 16000 samples from the whole dataset as the test dataset in the real-sim experiments. We used 16,087 samples as the train dataset and 3,308 samples as the test data in the E2006-log1p experiments.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4]",
+    "filename": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4].pdf",
+    "page_start": 7,
+    "page_end": 9,
+    "heading": "B. Validity experiment",
+    "text": "1) Experiment Settings: In the real-sim experiments, we built 400 trees in total, and each tree had a maximum of 100 leaves. In the Higgs experiments, we built 1000 trees in total, and each tree had a maximum of 20 leaves. We randomly sampled 80% of features in the experiments to build a tree at each building tree sub-step. The step length ( v ) in the experiments was fixed at 0.01. To gain clear experimental results, we set all sampling rates ( R i,j ) to be the same. In our experiments, threads played the role of workers.\n2) Analysis of Experimental Results: Convergence Speed and Output The Higgs experimental results are shown in Figures 5 and 7. Figure 5 shows that under the fixed sampling rate settings, the more workers we use, the slower the convergence speed.\nThe real-sim experimental results are shown in Figures 6 and 8. Figure 6 shows that under the fixed sampling settings, the more workers we use, the slightly slower the convergence speed. Experimental results shows that the speedup rises linearly with the increase in the number of workers in unlimited network resource condition. These experimental results are described by conclusion 2 in section 5.2, where the more workers we use, the slower the convergence.\nBecause of our experimental fixed step length settings, our experimental results are difficult to match conclusion 4 in section 5.2 directly. However, Figures 6 and 8 show that the convergence speeds are almost the same when the sampling rates are within a specified range and the step length settings are the same under different experimental settings. A larger step length setting corresponds to a faster convergence speed. Thus, if we set a larger step length for the small sampling experiments, the convergence speed of the small sampling rate would be faster than that of the current experimental setting. The above experimental results and analysis match conclusion 4 in section 5.2 indirectly.\nAbove figures show that sampling rates between 0.2 and 0.8 exert a slight effect on the convergence speed in this dataset.\nIt is worth mentioning that Figures 5 and 7 are benchmark experiments for the dataset is lacking sample diversity. We discuss this problem in the next section.\nSensitivity and Scalability The Higgs and real-sim experi- ments show that asynch-SGBDT exhibits different sensitivities to asynchronous parallel methods under different settings and datasets, as shown in Figure 7 and Figure 8.\nIn the Higgs experiments, the dimension of the sample vector and the range of a feature value are relatively small, which leads to diversity in the Higgs dataset being relatively small. From a mathematical perspective, this result means that the observed value vector of Q ′ is almost equal to [1 , 1 , ..., 1] in every sampling process. ∆ and ρ would be large to this situation. Additionally, the number of leaves on each tree is small, which is also caused by the low dimension of the samples. In this case, similar samples are treated as the same sample, which would reduce the diversity of the samples in the dataset. Low diversity in the dataset increases the sensitivity of the algorithm. Therefore, asynch-SGBDT would be sensitive to the number of workers using the Higgs dataset in our experimental settings.\nIn the real-sim experiment, the dimension of the samples is large, which increases the diversity of the samples in the dataset and helps to reduce the algorithm sensitivity to delay.\nProposition 1 and the experimental results show that asynchSGBDT would be insensitive to the number of workers using the real-sim dataset under our experimental setting.\nThe different sensibilities to the change in the number of workers between the Higgs dataset and real-sim dataset match conclusions 5 and 6 in section 5.2.\nIn addition to the above experiments, we also conducted an experiment using an extremely small sampling rate (sampling rate = 0.000005, which means we use approximately 500 samples on average in each sampling subdataset). The baseline experiment uses a normal sampling rate (sampling rate = 0.6). The result is shown in Figure 9. The small sampling rate, which produces a small subdataset, reduces the sample diversity in the sampling subdataset. Small sample diversity in the sampled dataset would help reduce ∆ and ρ . This experiment shows that a small sampling rate would help reduce the sensitivity with the help of reducing ∆ and ρ . However, an extremely small sampling rate would decrease the convergence speed because the subdataset is too small, which would cause the GBDT trees to be distorted. The experimental results in Figure 9 match conclusions 1 and 3 in section 5.2.\n",
+    "figures": [
+      {
+        "page": 7,
+        "bbox": [
+          325.6166076660156,
+          739.799861907959,
+          544.6766967773438,
+          244.55303955078125
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_5.png",
+        "caption": "Figure 5: Asynch-SGBDT with different number of workers and the same sampling rate using the Higgs dataset",
+        "description": "Okay, here's a detailed analysis of the image provided, focusing solely on the visual elements within the graph:\n\n**Overall Description:**\n\nThe image is a set of four subplots representing line graphs. Each subplot displays the value of a function (likely denoted as 'L') over the number of epochs for different sampling rates and sample sizes. The x-axis represents \"The Number of Epochs\" ranging from 0 to 1000. The y-axis represents \"The Value of L\" in units of 10<sup>4</sup>.\n\n**Subplot Specific Details:**\n\n*   **(a) Sampling Rate = 0.2:**\n    *   Four lines are plotted: \"sam0.2thr1\", \"sam0.2thr2\", \"sam0.2thr4\", and \"sam0.2thr8\".\n    *   The value of L decreases with increasing epochs for all four lines.\n    *   The slopes of the lines vary, indicating different rates of decrease.\n\n*   **(b) Sampling Rate = 0.4:**\n    *   Four lines are plotted: \"sam0.4thr1\", \"sam0.4thr2\", \"sam0.4thr4\", and \"sam0.4thr8\".\n    *   The value of L decreases with increasing epochs for all four lines.\n    *   The slopes of the lines vary, indicating different rates of decrease.\n\n*   **(c) Sampling Rate = 0.6:**\n    *   Four lines are plotted: \"sam0.6thr1\", \"sam0.6thr2\", \"sam0.6thr4\", and \"sam0.6thr8\".\n    *   The value of L decreases with increasing epochs for all four lines.\n    *   The slopes of the lines vary, indicating different rates of decrease.\n\n*   **(d) Sampling Rate = 0.8:**\n    *   Four lines are plotted: \"sam0.8thr1\", \"sam0.8thr2\", \"sam0.8thr4\", and \"sam0.8thr8\".\n    *   The value of L decreases with increasing epochs for all four lines.\n    *   The slopes of the lines vary, indicating different rates of decrease.\n\n**Line Identifiers (Labels):**\n\nThe lines are labeled as follows:\n\n*   \"sam0.2thr1\"\n*"
+      },
+      {
+        "page": 8,
+        "bbox": [
+          53.82945251464844,
+          736.2473297119141,
+          279.578857421875,
+          245.277099609375
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_6.png",
+        "caption": "Figure 6: Asynch-SGBDT with a different number of workers and the same sampling rate using the real-sim dataset",
+        "description": "Okay, here's a detailed analysis of the image provided, focusing solely on the observable elements without adding interpretations:\n\n**Overall Description:**\n\nThe image is a set of four line graphs presented in a scientific document. Each graph depicts the value of the function L (likely a loss function) plotted against the number of epochs for different sampling rates and model configurations. The x-axis represents \"Number of Epochs\" ranging from 0 to 500, with increments of 100. The y-axis represents \"The Value of L\" with values ranging approximately from 2000 to 8500, with increments of 500.\n\n**Specific Details for Each Graph (a, b, c, d):**\n\n*   **(a) Sampling Rate = 0.2:**\n    *   Four lines are plotted: \"sam0.2thr8\", \"sam0.2thr1\", \"sam0.2thr2\" and \"sam0.2thr16\".\n    *   Each line starts at approximately 8000 on the y-axis.\n    *   All four lines decrease in value as the number of epochs increases, but the rate of decrease varies.\n    *   The lines converge towards a horizontal level around 4500 over the range of epochs shown.\n\n*   **(b) Sampling Rate = 0.4:**\n    *   Four lines are plotted: \"sam0.4thr8\", \"sam0.4thr4\", \"sam0.4thr2\" and \"sam0.4thr16\".\n    *   Each line starts at approximately 4500 on the y-axis.\n    *   All four lines decrease in value as the number of epochs increases, but the rate of decrease varies.\n    *   The lines converge towards a horizontal level around 3000 over the range of epochs shown.\n\n*   **(c) Sampling Rate = 0.6:**\n    *   Four lines are plotted: \"sam0.6thr8\", \"sam0.6thr4\", \"sam0.6thr2\" and \"sam0.6thr16\".\n    *   Each line starts at approximately 3000 on the y-axis.\n    *   All four lines decrease in value as the number of epochs increases, but the rate of decrease varies."
+      },
+      {
+        "page": 8,
+        "bbox": [
+          325.1463623046875,
+          739.5532531738281,
+          544.6512451171875,
+          372.5570983886719
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_7.png",
+        "caption": "Figure 7: Asynch-SGBDT with different sampling rates and the same number of workers using the Higgs dataset",
+        "description": "Okay, here's a detailed analysis of the image provided, focusing solely on the observable elements without adding interpretations:\n\n**Overall Description:**\n\nThe image is a graph depicting the value of the loss function (L(x)) over the number of epochs for several different configurations of a machine learning model. The x-axis represents \"The Number of Epochs\" ranging from 0 to 1000. The y-axis represents L(x) in a logarithmic scale, with values ranging from approximately 5.5e4 to 7.8e4.  There are three separate subplots (a), (b), and (c).\n\n**Subplot (a): 1 Worker**\n\n*   **Lines:** Four lines are plotted:\n    *   `sam2thr1`: A blue line.\n    *   `sam4thr1`: A red line.\n    *   `sam8thr1`: A green line.\n    *   `sam8thr1`: A purple line.\n*   **Data Points (Approximate):**\n    *   At epoch 0, L(x) = 6.7e4 for all lines.\n    *   As the number of epochs increases: All four lines exhibit a downward trend in the value of L(x).\n    *   Around epoch 800, the value of L(x) is approximately 6.5e4 for all lines.\n    *   At epoch 1000, the value of L(x) is approximately 6.6e4 for all lines.\n\n**Subplot (b): 4 Workers**\n\n*   **Lines:** Four lines are plotted:\n    *   `sam2thr4`: A blue line.\n    *   `sam0.4thr4`: A red line.\n    *   `sam0.6thr4`: A green line.\n    *   `sam0.8thr4`: A purple line.\n*   **Data Points (Approximate):**\n    *   At epoch 0, L(x) = 6.7e4 for all lines.\n    *   As the number of epochs increases: All four lines exhibit a downward trend in the value of L(x).\n    *   Around epoch 800, the value of L(x) is approximately 6.5e4 for"
+      },
+      {
+        "page": 9,
+        "bbox": [
+          53.79280090332031,
+          736.3962440490723,
+          279.8931884765625,
+          372.2717590332031
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_8.png",
+        "caption": "Figure 8: Asynch-SGBDT with different sampling rates and the same number of workers using the real-sim dataset",
+        "description": "Here's an analysis of the image based solely on the visual information provided, using UTF-8 characters:\n\n**Overall Description:**\n\nThe image contains three line graphs depicting the value of a function, denoted as L( ), over the number of epochs. Each graph represents a different scenario with varying numbers of \"workers\" involved in the computation. The x-axis represents \"The number of epoch\" ranging from 0 to approximately 500. The y-axis represents \"The value of L( )\" ranging from approximately 2000 to 8500.\n\n**Specific Graph Details:**\n\n**(a) 1 worker:**\n*   Three lines are plotted: \"sam0.8thr1\" (purple), \"sam0.6thr1\" (dark purple), and \"sam0.4thr1\" (light purple).\n*   All three lines exhibit a downward trend, indicating that the value of L( ) decreases as the number of epochs increases.\n*   The slopes of the lines are relatively similar for all three curves.\n\n**(b) 4 workers:**\n*   Four lines are plotted: \"sam0.8thr4\" (purple), \"sam0.6thr4\" (dark purple), \"sam0.2thr4\" (red), and \"sam0.4thr4\" (light purple).\n*   Similar to graph (a), all lines demonstrate a downward trend.\n*   The slopes of the lines are similar for all four curves.\n\n**(c) 16 workers:**\n*   Four lines are plotted: \"sam0.8thr16\" (purple), \"sam0.6thr16\" (dark purple), \"sam0.2thr16\" (red), and \"sam0.4thr16\" (light purple).\n*   All four lines exhibit a downward trend, indicating that the value of L( ) decreases as the number of epochs increases.\n*   The slopes of the lines are similar for all four curves.\n\n**Text Labels:**\n\n*   Each graph is labeled with a letter: (a), (b), and (c).\n*   Below each graph, there's text indicating the number of workers used in that scenario: \"1 worker\", \"4 workers\", and \"16 workers\" respectively.\n*   The labels for the lines are: \"sam"
+      },
+      {
+        "page": 9,
+        "bbox": [
+          326.42681884765625,
+          740.5152702331543,
+          544.3778076171875,
+          496.0784912109375
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_9.png",
+        "caption": "Figure 9: Sensitivity between the normal sampling rate and extremely small sampling rate",
+        "description": "Okay, here's a detailed analysis of the image provided, focusing solely on the observable elements without adding interpretations:\n\n**Overall Description:**\n\nThe image contains two graphs depicting time series data related to a numerical optimization process. Both graphs are plotted with \"The value of L\" (likely a loss function or objective function) on the y-axis and \"The number of epoch\" on the x-axis.  Both axes have units of 10<sup>4</sup> and 1000 respectively.\n\n**Graph (a): Sampling Rate of 0.6**\n\n*   **Title:** (a) sampling rate of 0.6\n*   **Lines:** Six distinct lines are plotted:\n    *   `sam0.6thr1`: A blue line.\n    *   `sam0.6thr16`: A light blue line.\n    *   `sam0.6thr2`: A green line.\n    *   `sam0.6thr4`: A pink line.\n    *   `sam0.6thr8`: An orange line.\n    *   `sam0.6thr0`: A purple line.\n*   **Data Points:** Each line represents a time series of the value of L over increasing epochs. The data points for each line are as follows:\n    *   At epoch 0, the value of L is approximately 6.51 x 10<sup>4</sup>.\n    *   As the number of epochs increases from 0 to 1000, the value of L decreases for all lines.\n    *   The rate of decrease appears roughly constant across all lines within the range of 0-800 epochs.\n    *   Between 800 and 1000 epochs, the rate of decrease slows down significantly.\n\n**Graph (b): Sampling Rate of 5 * 10<sup>-6</sup>**\n\n*   **Title:** (b) sampling rate of 5 * 10<sup>-6</sup>\n*   **Lines:** Six distinct lines are plotted:\n    *   `1thread`: A green line.\n    *   `2thread`: A light blue line.\n    *   `4thread`: A pink line.\n    *   `8thread`: An orange line.\n    *   `16thread`: A purple line.\n*   **Data Points:** Each line represents a time"
+      },
+      {
+        "page": 9,
+        "bbox": [
+          328.59808349609375,
+          446.5784912109375,
+          540.5184936523438,
+          206.8441162109375
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_10.png",
+        "caption": "Figure 10: Speedup for asynch-SGBDT and LightGBM",
+        "description": "Okay, here's a detailed analysis of the image you provided, focusing solely on the visual elements as they appear in the graph:\n\n**Overall Description:**\n\nThe image contains two graphs depicting speedup versus the number of worker threads used for three different algorithms: Asynch-SGBDT, lightGBM, and DimBoost. The graphs are labeled (a) and (b), indicating two separate visualizations.\n\n**Graph (a) - Real-Sim:**\n\n*   **Axes:**\n    *   X-axis: \"The number of worker\" ranging from 0 to 34.  The axis is marked with integer values.\n    *   Y-axis: \"Speedup\" ranging from 0 to 15. The axis is marked with increments of 1, 2, 5, and 10.\n*   **Lines:**\n    *   A blue line represents Asynch-SGBDT.\n    *   An orange line represents lightGBM.\n    *   A red line represents DimBoost.\n*   **Data Points & Trends:**\n    *   All three lines exhibit a generally linear upward trend as the number of worker threads increases.\n    *   Asynch-SGBDT consistently demonstrates the highest speedup across all values of \"The number of worker.\"\n    *   lightGBM's speedup is lower than Asynch-SGBDT, but higher than DimBoost.\n    *   DimBoost has the lowest speedup among the three algorithms.\n    *   At a number of workers of 0, all lines show a speedup of 0.\n    *   At a number of workers of 34, Asynch-SGBDT reaches a speedup of approximately 15. lightGBM reaches approximately 12. DimBoost reaches approximately 8.\n\n**Graph (b) - E2006-loglp:**\n\n*   **Axes:**\n    *   X-axis: \"The number of worker\" ranging from 0 to 34. The axis is marked with integer values.\n    *   Y-axis: \"Speedup\" ranging from 0 to 15. The axis is marked with increments of 1, 2, 5, and 10.\n*   **Lines:**\n    *   A blue line represents Asynch-SGBDT.\n    *   An orange line represents"
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4]",
+    "filename": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4].pdf",
+    "page_start": 9,
+    "page_end": 10,
+    "heading": "C. Efficiency experiments",
+    "text": "1) Experiment Settings: This part will introduce our efficiency experiments setting.\nAlgorithm Setting: In the real-sim and E2006-log1p experiments, we built 400 trees in total, and each tree had a maximum of 400 leaves. We randomly sampled 80% of features in the experiments to build a tree at each building tree sub-step. The step length ( v ) in the experiments was fixed at 0.01. To gain clear experimental results, we set all sampling rates ( R i,j ) to be the same as 0 . 8 . We use gradient step in LightGBM boosting training process.\nCode Setting: We adapted LightGBM [6] on ps-lite[12] as asynch-SGBDT code. The performance of feature parallel method in LightGBM is the benchmark in our experiment. Above codes are shared the same tree building step codes ( treelearner code in LightGBM). To make a comparison on the same baseline, we only use one OpenMP thread in LightGBM's building tree step, because ps-lite have to use extra thread maintain parameter server network.\nComputing Environment: All of the experiments are conducted on Era supercomputing environment. We use TCP/IP network in Era supercomputing as connection methods. TCP/IP network is consist of Intel(R) I350 Gigabit Network Connection.\nBenchmark setting: Our benchmark is LightGBM, which is reported as state of the art high performance parallel GBDT implementation[6], and some blogs, kaggle and GitHub issue gain the conclusion that LightGBM is almost seven times faster than XGBOOST and is a much better approach when dealing with large datasets. We also gain the Dimboostdata from paper [19], which is a upgrade version of tencentboost[13]. Both of the above synchronous parallel GBDT frameworks are state of the art synchronous parallel works. These benchmarks will strongly show that our algorithm is better than synchronous parallel GBDT algorithms.\nMeasure method: To make our presentation clearly, we use speedup value as our measure value.\nBecause of our experiments code setting, the time costs of 1 worker for asynch-SGBDT and LightGBM are the same. Above fact shows that the speedup comparesion can map to the real time comparesion in the experiments of LightGBM and asynch-SGBDT.\nThe data of Dimboost cannot be mapped into real-time for those data are gain from different platform. We offer this data for for referrence use. Actually, Dimboost shows its great advantages on the ability of fast building decision tree in real time.\n2) Analysis of Experimental Results: Figure 10 shows the speedup between asynch-SGBDT, Dimboost and LightGBM. Our experiment shows that in real-sim dataset experiment, asynch-SGBDT achieves 14x speedup; in E2006-log1p dataset experiment, asynch-SGBDT achieves 20x speedup using 32 workers. However, feature parallel method used in LightGBM is not effective as asynch-SGBDT: in real-sim dataset and E2006-log1p dataset, LightGBM achieves 6x-7x speedup using 32 machines. In Dimboost experiments, in real-sim dataset and E2006-log1p dataset, Dimboost achieves 4x-6x speedup using 32 machines.\nAsynch-SGBDT and LightGBM show a great difference in speedup. Especially with the increase of the number of machines or workers, the gap is expanded. This phenomenon is caused by 1. The node performance inconsistency in a cluster. In the synchronous parallel algorithm, the algorithm does not continue the process until all nodes reach the barrier. The increase of the number of machines would exacerbate the cost of synchronous operation. 2. Asynch-SGBDT is robust against network instability and the computing time and communication time is overlapped in asynch-SGBDT. 3. In Asynch-SGBDT, whole building tree process is running parallel. In LightGBM, only collection feature information process can be implemented in a parallel method. Collection feature information process is just a part of build tree process.\nIn Dimboost, tencentboost, the allgather operation is done by parameters server. Parameter server's allgather is a centralization operation. The burden of the server is the key for scalability. Thus, with the number of worker's increasing, the high cost of communication is unavoidable, which leads to low scalability.\nAsynch-SGBDT experiments using different datasets also show a great difference in speedup. This phenomenon is caused by the time of building tree step in real-sim dataset is small. Eq.13 shows that in the case of real-sim, 16 to 32 worker is close to the max number of the worker in asynchSGBDT.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4]",
+    "filename": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4].pdf",
+    "page_start": 10,
+    "page_end": 10,
+    "heading": "VII. CONCLUSION",
+    "text": "We propose a novel algorithm, asynch-SGBDT, that provides good compatibility for the parameter server. The theoretical analyses and experimental results show that a small iteration step, small sampling rate, large number of workers, and high-dimensional sparsity of the sample datasets lead to a fast convergence speed and high scalability. Specifically, asynch-SGBDT reaches a high speedup when asynch-SGBDT uses high-dimensional sparse datasets.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4]",
+    "filename": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4].pdf",
+    "page_start": 10,
+    "page_end": 11,
+    "heading": "REFERENCES",
+    "text": "P. Sun, T. Zhang, and J. Zhou, 'A convergence rate analysis for logitboost, mart and their variant,' in International Conference on Machine Learning , 2014, pp. 1251-1259.\nJ. H. Friedman, 'Greedy function approximation: A gradient boosting machine,' Annals of Statistics , vol. 29, no. 5, pp. 1189-1232, 2001.\nZ. Kalal, J. Matas, and K. Mikolajczyk, 'Weighted sampling for largescale boosting,' in British Machine Vision Conference 2008, Leeds, September , 2008.\nR. Appel, T. Fuchs, and P. Perona, 'Quickly boosting decision trees: pruning underachieving features early,' in International Conference on International Conference on Machine Learning , 2013, pp. III-594.\nT. Chen and C. Guestrin, 'Xgboost: A scalable tree boosting system,' pp. 785-794, 2016.\nG. Ke, Q. Meng, T. Finley, T. Wang, W. Chen, W. Ma, Q. Ye, and T.-Y. Liu, 'Lightgbm: A highly efficient gradient boosting decision tree,' in Advances in Neural Information Processing Systems 30 , I. Guyon, U. V. Luxburg, S. Bengio, H. Wallach, R. Fergus, S. Vishwanathan, and R. Garnett, Eds. Curran Associates, Inc., 2017, pp. 3146-3154. [Online]. Available: http://papers.nips.cc/paper/6907-lightgbm-a-highly-efficient-gradient-boosting-decisio\nA. Gupta, R. Ravi, and A. Sinha, 'Boosted sampling:approximation algorithms for stochastic optimization,' in ACM Symposium on Theory of Computing, Chicago, Il, Usa, June , 2004, pp. 417-426.\nJ. H. Friedman, 'Stochastic gradient boosting,' Computational Statistics Data Analysis , vol. 38, no. 4, pp. 367-378, 2002.\nJ. Ye, J. H. Chow, J. Chen, and Z. Zheng, 'Stochastic gradient boosted distributed decision trees,' in Acm Conference on Information Knowledge Management , 2009, pp. 2061-2064.\nJ. Langford, A. J. Smola, and M. Zinkevich, 'Slow learners are fast,' in International Conference on Neural Information Processing Systems , 2009, pp. 2331-2339.\nF. Niu, B. Recht, C. Re, and S. J. Wright, 'Hogwild!: A lock-free approach to parallelizing stochastic gradient descent,' Advances in Neural Information Processing Systems , vol. 24, pp. 693-701, 2011.\nM. Li, D. G. Andersen, J. W. Park, A. J. Smola, A. Ahmed, V. Josifovski, J. Long, E. J. Shekita, and B. Su, 'Scaling distributed machine learning with the parameter server,' pp. 583-598, 2014.\nJ. Jiang, J. Jiang, B. Cui, and C. Zhang, 'Tencentboost: A gradient boosting tree system with parameter server,' in IEEE International Conference on Data Engineering , 2017, pp. 281-284.\nT. Hastie, R. Tibshirani, J. H. Friedman, and J. Franklin, The Elements of Statistical Learning , 2015.\nJ. C. Duchi, Introductory Lectures on Stochastic Convex Optimization . Park City Mathematics Institute, Graduate Summer School Lectures, 2016.\nT. Chen, M. Li, Y. Li, M. Lin, N. Wang, M. Wang, T. Xiao, B. Xu, C. Zhang, and Z. Zhang, 'Mxnet: A flexible and efficient machine learning library for heterogeneous distributed systems,' Statistics , 2015.\nM. Abadi, 'Tensorflow: learning functions at scale,' Acm Sigplan Notices , vol. 51, no. 9, pp. 1-1, 2016.\nE. P. Xing, Y. Yu, Q. Ho, W. Dai, J. K. Kim, J. Wei, S. Lee, X. Zheng, P. Xie, and A. Kumar, 'Petuum,' in The ACM SIGKDD International Conference , 2015, pp. 1335-1344.\nJ. Jiang, B. Cui, C. Zhang, and F. Fu, 'Dimboost: Boosting gradient boosting decision tree to higher dimensions,' 05 2018, pp. 1363-1376.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4]",
+    "filename": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4].pdf",
+    "page_start": 11,
+    "page_end": 11,
+    "heading": "A. Iteration Step",
+    "text": "To make our analysis more general, we will use following iteration step to describe our algorithm\nwhere L base = ( ℓ 1 , ℓ 2 , ..., ℓ N ) . The matrix V is defined as the projection matrix in Sun's work [1] and P is the diagonal random variable matrix: P = diag ( ∑ m 1 j =1 Q 1 ,j R 1 ,j , ∑ m 2 j =1 Q 2 ,j R 2 ,j , ..., ∑ m N j =1 Q N,j R N,j ) and P fix = diag ( m 1 , m 2 , ..., m N ) . Thus, E P = P fix\nWe can summarize the following relationship:\nIn following presentation, we let A = V ( V T V ) -1 V T .\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4]",
+    "filename": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4].pdf",
+    "page_start": 11,
+    "page_end": 11,
+    "heading": "B. New and redefined note",
+    "text": "To make readers have a clear comparison with special case, we define some new note and redefine some old notes in the body of paper. In appendix, all notes are based on this subsection.\nλ is the Lipschitz constant for ℓ ( . ) . L ( . ) is a strong convex function with modulus c . For F ∈ R N and every observed value vector corresponding to Q , ‖ AL ′ random ‖ < M .\nρ represents the probability that two vector multiplication of AL ′ random is zero.\nΩ represents the maximum number of different non-zero component for the vector AL ′ random .\nζ represents the maximum number of non-zero component for the vector AL ′ random -L ′ random . This value can measure the tortuosity of decision tree to L ′ random . Apparently, when the tree has more leaves, ζ is close to zero.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4]",
+    "filename": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4].pdf",
+    "page_start": 11,
+    "page_end": 11,
+    "heading": "C. Assumption",
+    "text": "It is normal to use following assumptions.\n1) c -strong convex: The f ( · ) is c -strong convex function, i.e.\nLet F ∗ be the minimal of ℓ , and we have\nIn our paper, L ( F ) and ℓ ( · , · ) are c -strong convex function. 2) λ -Lipschit function: The f ( · ) is λ -Lipschit function, i.e.\nIn our paper, ℓ ( · , · ) are λ -Lipschit functions. L ( F ) are m max N -strong Lipschit smoothness functions.\n3) Bound of gradient's norm: In this paper, we need to set the bound of gradient's norm.\nThus, we define the bound of gradient of L ( · ) , M , and we gain the following equations.\n4) The sample's similarities in one GBDT's leaf: For the decision tree is the classifier which classify sample via their space position. For the samples { ( x i , y i ) } ∑ j =1 Nm j in one leaf, we have following equation:\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4]",
+    "filename": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4].pdf",
+    "page_start": 11,
+    "page_end": 12,
+    "heading": "D. Proof",
+    "text": "1) section 1: basic transformation: The Proof begin at iteration step\nThe minimum of L ( F ) is F ∗ . And Let β = APL ′ base ( F ) .\nwe will find the lower bound of\nThis part is consist of first item ( F j -F k ( j ) ) T β j , 2nd item ( F j -F k ( j ) ) T ( β j -β k ( j ) ) and 3rd item ( F k ( j ) -F ∗ ) T β k ( j ) .\n2) section 2: Extra Lemma: Before continue proof, we need following extra lemma to support our next proof.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4]",
+    "filename": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4].pdf",
+    "page_start": 12,
+    "page_end": 13,
+    "heading": "Lemma 1",
+    "text": "Proof.\nE ( F j -F i ) APL ′ base ( F j ) = E ( F j -F i ) P fix L ′ base ( F j ) + E ( F j -F i )( AP -P fix ) L ′ base ( F j )\nFor matrix multiplication is Linear operation. Thus,\nP\n-\nfix\n)\nL\n′\nbase\n(\nobservation\nj\nF\n)\nvector\nQ\n,\nthe\nalways is the vector like\n≥\nThus, we can gain it norm upper bound that:\nE\n2\nHere, we have to show the bound of ∑ j -1 i = k ( j ) ( L ( F i +1 ) -L (( F ) i ))\n-\nj\n)\nF\nk\n(\nj\n)\nT\nβ\nj\n∥\n2\nF\n∥\nk\n(\nj\n)\n∥\n-\nF\n∥\n∥\n∥\n-\nvτρM\n-\nλδm max\n√\nζ\n∥\n∥\n∥\nF\n4) section 4-second item:\n5) section 5- third item:\n6) section 6-combine section 3 to section 5:\n3) section 3-first item: we will show the lower bound of ( F j -F k ( j ) ) T β j .\nj\nF\n-\nF\nFor the item E ∥ ∥ F j -F k ( j ) ∥ ∥ 2 + E ∥ ∥ F k ( j ) -F ∗ ∥ ∥ 2 , we can gain that\nvector\n(\nAP\n2\nj\n-\nk\nF\n(\nj\n)\n∥\n∥\n∥\nWe define C 1 , C 2 as follow\nAbove in-equation is quadratic recurrence for E ∥ ∥ F j -F ∗ ∥ ∥ 2 and its convergence point is the fixed point.\nIn another word, this recurrence will convergent to E ‖ F ∞ -F ∗ ‖ 2 in the contraction map rate r , where\nTo make our analysis clearly, we will make Eq.22 into following format and only care about the term structure.\n) Where C 3 to C 8 are positive and do not contain τ . In this form, we would know following result: when τ is large enough, with the increase of τ , the convergence speed would decrease, i.e. r would be increase.\nTo gain the r 's sensitivity to τ , the standard method is to treat r as the function of M,τ,ρ and gain the ∇ τ r ( M,ρ,τ ) . We expect that ∇ τ r ( M,ρ,τ ) is monotone to M and ρ . However, the form of ∇ τ r ( M,ρ,τ ) is complex and it is exhausting to gain ∇ τ r ( M,ρ,τ ) .\nHowever, we notice that the coefficients of τ is the term about M , i.e. about Ω and ρ . Above factor shows that when sampling rate is small, which leads to M and ρ are small, the influence of the changes of τ are small.\nThus, we also gain the result that small sampling rate, which leads to M and ρ are small, would reduce the convergence speed. This case is can be shown in Figure 9.\nBecause the coefficients of τ is also about ζ , we can also conduct the conclusion that the setting whose number of leaves entry is large would also reduce the influence of the changes of τ .\n∗ In Eq. 21, we can gain the result that Asynch-SGDBT would convergent to a range whose diameter is decided by the number of the tree, which decides δ . A large range usually leads to a better generalization effect.\nF ∥ ∥ ) When using the high instance diversity dataset and the GBDT setting GBDT trees contain massive leaves, sampling operation leads to small ρ and M , thus, high instance diversity dataset is apt to be accelerated.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4]",
+    "filename": "Asynch-SGBDT Asynchronous Parallel Stochastic Gradient Boosting Decision Tree based on Parameters Server [arXiv 1804.04659v4].pdf",
+    "page_start": 13,
+    "page_end": 13,
+    "heading": "E. conclusion",
+    "text": "Based on the result from Eq. 21 and Eq. 22, we can easily gain following result:\nAsynch-SGBDT would converge to a range whose diameter is decided by the number of the tree. Usually We can gain a good generalization effect by using large diameter range.\n2.Small sampling rate leads to slow convergence speed.\n3.Small sampling rate increase the scalability.\n4.Small learning rate increase the scalability.\n5.Small learning rate leads to slow convergence speed.\nAsynch-SGBDT is apt to accelerate the GBDT on a highdimensional sparse dataset.\nAsynch-SGBDT is apt to accelerate a GBDT whose trees contain massive leaves.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  }
+]

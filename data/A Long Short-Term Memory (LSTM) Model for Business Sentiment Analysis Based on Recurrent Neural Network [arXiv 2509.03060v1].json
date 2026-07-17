@@ -1,0 +1,414 @@
+[
+  {
+    "doc_id": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1]",
+    "filename": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "A LONG SHORT-TERM MEMORY (LSTM) MODEL FOR BUSINESS SENTIMENT ANALYSIS BASED ON RECURRENT NEURAL NETWORK",
+    "text": "PUBLISHED IN SUSTAINABLE COMMUNICATION NETWORKS AND APPLICATION: PROCEEDINGS OF ICSCN 2020\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1]",
+    "filename": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "Md. Jahidul Islam Razin",
+    "text": "Department of Computer Science and Engineering University of Asia Pacific razin.cse@gmail.com\nM. F. Mridha\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1]",
+    "filename": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "Md. Abdul Karim",
+    "text": "Department of Computer Science and Engineering University of Asia Pacific karim.cse007@gmail.com\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1]",
+    "filename": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "S M Rafiuddin",
+    "text": "Department of Computer Science and Engineering Bangladesh University of Business and Technology firoz@bubt.edu.bd Department of Computer Science and Engineering University of Asia Pacific rifat.cse@uap-bd.edu\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1]",
+    "filename": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "Tahira Alam",
+    "text": "Department of Computer Science and Engineering University of Asia Pacific tahira.cse@uap-bd.edu\nPublished in 2021\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1]",
+    "filename": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "ABSTRACT",
+    "text": "Business sentiment analysis (BSA) is one of the significant and popular topics of natural language processing. It is one kind of sentiment analysis techniques for business purposes. Different categories of sentiment analysis techniques like lexicon-based techniques and different types of machine learning algorithms are applied for sentiment analysis on different languages like English, Hindi, Spanish, etc. In this paper, long short-term memory (LSTM) is applied for business sentiment analysis, where a recurrent neural network is used. An LSTM model is used in a modified approach to prevent the vanishing gradient problem rather than applying the conventional recurrent neural network (RNN). To apply the modified RNN model, product review dataset is used. In this experiment, 70% of the data is trained for the LSTM and the rest 30% of the data is used for testing. The result of this modified RNN model is compared with other conventional RNN models, and a comparison is made among the results. It is noted that the proposed model performs better than the other conventional RNN models. Here, the proposed model, i.e., the modified RNN model approach has achieved around 91.33% of accuracy. By applying this model, any business company or e-commerce business site can identify the feedback from their customers about different types of products that customers like or dislike. Based on the customer reviews, a business company or e-commerce platform can evaluate its marketing strategy.\nKeywordsBusiness sentiment analysis; Product reviews; Recurrent neural network; LSTM.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1]",
+    "filename": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1].pdf",
+    "page_start": 1,
+    "page_end": 2,
+    "heading": "1 Introduction",
+    "text": "Nowadays, the Internet is a fundamental part of our daily life. All fields of information are rising exponentially every moment, where it is easier to share our opinions on e-commerce websites, forums and media for various types of products and services. It provides essential information about different domains and social applications. It is difficult to\nhandle these huge amounts of data manually. For this reason, business sentiment analysis (BSA) is very feasible, which also provides an idea of the requirements of people. It has become a popular research topic in the natural language processing domain. Analysis of reviews can quickly extract information from a text and can also define the target and opinion polarity. Various types of social applications and websites can use BSA to forecast consumer patterns, economic policies and stock market movements.\nResearchers perform business sentiment analysis using various machine learning (ML) techniques. ML's support learning models include support vector machines (SVM) [1], logistic regression [2], naive Bayes [3], random forests [4] and so on. Artificial neural network (ANN) is one of the areas of ML [5]. ANN also has various forms like recurrent neural network (RNN) [6] and convolutional neural network (CNN) [7]. Artificial neural networks are mainly constructed using three layers: the input layer, hidden layer and output layer. This concept is extended in deep learning. Deep learning is constructed using more than two hidden layers; the depth of the network is defined by the number of layers used in the hidden part. Deep learning is a part of artificial neural networks and gives far better performance than other ML techniques such as SVM or NB. These techniques are used in all natural language processing fields like speech, entity and pattern recognition [8] and in computer vision techniques. For its accuracy, deep learning has become very popular. Good accuracy can be achieved if the representation of data is perfect. Conventional ML algorithms depend on handcrafted features, whereas deep learning requires high computational ability and storage to increase the number of hidden layers compared to conventional ML algorithms, thereby achieving better performance. Deep learning techniques can adapt more swiftly as they receive more training data. As business sentiment analysis needs to process large volumes of data for prediction, this motivated us to apply deep learning techniques for business sentiment analysis [9].\nThe importance of consumer views, the vast amounts of public-centric data, and the unpredictability of the market climate have led organizations to introduce monitoring and tracking measures such as sentiment analysis, which is here performed as business sentiment analysis.\nThe principal contribution of the proposed research work can be summed up as follows. This paper presents the study of the business sentiment function by a list of product feedback. Using the proposed model, the reviews are divided into three categories: positive, neutral and negative. A well-defined text dataset is used to apply long short-term memory (LSTM) as a part of a modified RNN model that gives better accuracy results in comparison to conventional RNN models. This is a different approach when compared to traditional feed-forward networks [10].\nA feed-forward network takes a limited text for predicting the next word. Here, RNN can easily use previous words for prediction. An RNN model sees the text as a signal made up of terms, where it is presumed that recursive weights reflect short-term memory. LSTM is different, as it is part of the RNN structure in the ANN network: it accommodates both long- and short-term patterns and resolves the vanishing gradient problem. Thus, LSTM is now approved in a number of applications and is a promising practice for business sentiment analysis.\nThis article is structured as follows. Section 2 explains the related works and motivation of this research. Section 3 discusses the methodology. Section 4 describes the implemented tools. Section 5 presents results and analysis. Section 6 concludes the paper.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1]",
+    "filename": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1].pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "heading": "2 Related Work",
+    "text": "Several studies have been performed on sentiment analysis for different languages using various neural network architectures. Xu et al. [11] applied supervised learning algorithms-perceptron, Naive Bayes, and support vector machine-to predict reviewer ratings, using 70% of the data for training and 30% for testing, and reported precision and recall values for each classifier. Deep learning has also become popular in sentiment analysis. Rani and Kumar [12] applied a convolutional neural network (CNN) for sentiment analysis, using 50% of the data for training and 50% for testing after cross-validation. Mikolov et al. [6] proposed a recurrent neural network (RNN) model for processing sequential text data, wherein the hidden state at each time step incorporates information from the previous step, effectively forming a loop over time to capture sequential dependencies.\nHowever, the standard RNN model can suffer from vanishing gradients and thus struggles to capture long-term dependencies when there are large intervals between related words. The back-propagation through time (BPTT) optimization exacerbates this issue by propagating error gradients through many time steps, leading to information loss. To address these limitations, we employ long short-term memory (LSTM) networks-which introduce gated mechanisms to preserve both long- and short-term patterns-thereby mitigating the vanishing gradient problem and improving performance in business sentiment analysis.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1]",
+    "filename": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1].pdf",
+    "page_start": 3,
+    "page_end": 3,
+    "heading": "3 Methodology",
+    "text": "This section describes our method for business sentiment analysis using reviewers' text data. We employ long shortterm memory (LSTM) networks, which are designed to avoid the vanishing gradient problem and capture long-term dependencies by replacing each RNN node with an LSTM cell that can store and recall information over long sequences. As a result, LSTM-based sentiment analysis outperforms traditional RNN approaches for business applications.\nOur proposed method is divided into four phases:\nDiscussion about RNN and LSTM architecture.\nData processing.\nTraining the model.\nTesting new data.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1]",
+    "filename": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1].pdf",
+    "page_start": 3,
+    "page_end": 4,
+    "heading": "3.1 Discussion About RNN and LSTM Architecture",
+    "text": "LSTM is a special case of RNN and there are many similarities between them. This work presents structural diagrams and a brief discussion of both RNN and LSTM architectures.\n×\nh ( t -1) is the previous hidden state; c ( t -1) is the previous cell state; X ( t ) is the current input; c ( t ) is the updated cell state; and h ( t ) is the current hidden state.\nStandard RNNs use only a tanh activation to help mitigate the vanishing gradient problem [15], but they cannot selectively forget or remember information. LSTM adds sigmoid-based 'forget' and 'input' gates alongside tanh layers to control what information is discarded or stored.\nThe LSTM computation proceeds in four main steps [16-19]:\nCompute forget gate and input gate activations.\nUpdate the cell state using the input and forget gates.\nCompute the output gate activation.\nProduce the new hidden state and finalize the updated cell state.\nAll equations are shown below [14].\nRNN and LSTM consider the problem of the vanishing gradient when processing a sequence of text. While standard RNNs can exhibit lower error rates on short sequences, they struggle with long-range dependencies. LSTM, by contrast,\n",
+    "figures": [
+      {
+        "page": 3,
+        "bbox": [
+          116.81927490234375,
+          502.11309814453125,
+          494.92694091796875,
+          399.7906188964844
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_1.png",
+        "caption": "Figure 1: The structural diagram of the RNN model.",
+        "description": "Here's an analysis of the image based on its visual content:\n\n**Overall Structure:**\n\nThe image depicts a mathematical expression represented graphically using block diagrams. It shows a sequence of operations involving a component labeled \"A\" and several input/output pairs.\n\n**Components & Labels:**\n\n*   **Component A:**  A rectangular block labeled \"A\" is present in each stage of the diagram.\n*   **h<sub>i</sub>:** The label \"h<sub>i</sub>\" appears as a text label within circles, indicating a function or transformation associated with each stage 'i'.\n*   **x<sub>i</sub>:** Circles are used to represent input values labeled \"x<sub>i</sub>\", where 'i' represents the stage number.  The inputs increase sequentially from x<sub>0</sub> to x<sub>i</sub>.\n\n**Sequence of Operations:**\n\nThe diagram illustrates a chain of operations:\n\n1.  The initial input \"x<sub>0</sub>\" is fed into component A, which applies the function h<sub>0</sub>.\n2.  The output of this stage (h<sub>0</sub>) becomes the input for the next stage, along with x<sub>1</sub>. Component A again applies h<sub>1</sub>.\n3.  This pattern continues: The output of each stage is passed as an input to the subsequent stage, alongside the next sequential input value (x<sub>i+1</sub>). The function h<sub>i</sub> is applied at each step.\n\n**Number of Stages:**\n\nThe diagram visually represents a sequence with five stages, indicated by the number of \"A\" blocks and associated inputs/outputs.  The labels x<sub>0</sub>, x<sub>1</sub>, x<sub>2</sub>...x<sub>i</sub> represent the input values for each stage."
+      },
+      {
+        "page": 3,
+        "bbox": [
+          127.00399780273438,
+          320.5482482910156,
+          477.2517395019531,
+          136.734130859375
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_2.png",
+        "caption": "Figure 2: Structural diagram of an LSTM cell.",
+        "description": "Okay, here's a detailed analysis of the image based solely on its visual content, using UTF-8 characters:\n\n**Overall Structure:**\n\nThe image depicts a single recurrent neural network (RNN) cell, specifically a tanh RNN cell. It is represented as a shaded box with internal components and associated connections.\n\n**Components & Connections:**\n\n1.  **Input Nodes:**\n    *   `h₁`: Represents the output of the previous RNN cell (input to this cell).\n    *   `hₛ`: Represents the input from the external input `x`.\n\n2.  **Hidden State (tanh):**\n    *   The \"tanh\" function is represented as a rounded rectangle with the label \"tanh\".\n    *   It receives inputs from both `h₁` and `σ` (sigma).\n    *   Its output is labeled `hₜ`.\n\n3.  **Sigmoid Functions (σ):**\n    *   Two sigmoid functions are depicted as curved lines, each labeled \"σ\".\n    *   One receives input from `h₁` and the other from `hₛ`.\n\n4.  **Multiply Units:**\n    *   Two multiply units are shown:\n        *   `fₜ`: A unit with the label \"fₜ\" performs multiplication.\n        *   `oₜ`: A unit with the label \"oₜ\" performs multiplication.\n\n5.  **Activation Unit (tanh):**\n    *   A second tanh function is represented as a rounded rectangle with the label \"tanh\".\n    *   It receives inputs from `Cₛ`, `fₜ` and `σ`.\n    *   Its output is labeled `Cₜ`.\n\n6.  **Input & Output Connections:**\n    *   `Cₛ`: Represents the hidden state (value) of the previous cell, serving as input to this cell.\n    *   `Cₜ`: Represents the hidden state (value) of this cell, serving as output to the next RNN cell.\n    *   `iₜ`:  Represents an external input current into the cell.\n\n**Textual Labels & Values:**\n\n*   `h₁`: Label for the previous hidden state.\n*   `hₛ`: Label for the external input.\n*   `Cₛ`: Label for the previous cell's hidden state.\n*   `Cₜ`: Label for this cell"
+      },
+      {
+        "page": 4,
+        "bbox": [
+          117.5541000366211,
+          710.0741500854492,
+          490.3711853027344,
+          487.6258544921875
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_3.png",
+        "caption": "Figure 3: Structural diagram of the LSTM cell.",
+        "description": "Okay, here's a detailed analysis of the image based solely on its visual content, using UTF-8 characters:\n\n**Overall Description:**\n\nThe image depicts a diagram illustrating the architecture of an LSTM (Long Short-Term Memory) block within a recurrent neural network. It's a schematic representation showing the connections and components involved in processing sequential data.\n\n**Detailed Breakdown of Components & Connections:**\n\n1.  **LSTM Block:** The entire diagram is labeled \"LSTM block.\"\n\n2.  **Cell:** A central, circular shape represents the LSTM cell itself. This cell is divided into several distinct parts.\n\n3.  **Gates:**\n    *   **Forget Gate (f):** An oval-shaped component with an arrow pointing out labeled \"f\". It has a connection to the 'c' state variable.\n    *   **Input Gate (i):** Another oval shape, labeled \"i\", connected to the 'z' input and the 'c' state variable.\n    *   **Output Gate (σ):** A circular component with an arrow pointing out labeled \"σ\". It has a connection to the 'h' hidden state variable.\n\n4.  **State Variables:**\n    *   **Cell State (C):** Represented by a blue oval, labeled \"c\". This is a key element for long-term dependency storage.\n    *   **Hidden State (H):** Represented by a blue oval, labeled \"h\". This is the output of the cell and used in subsequent LSTM cells.\n\n5.  **Connections:** The diagram shows various types of connections:\n    *   **Recurrent Connections:** Solid black lines represent recurrent connections, flowing between the cell's internal components (e.g., 'h' to 'y') and with external inputs/outputs.\n    *   **Weighted Connections:** Dashed black lines indicate weighted connections.\n    *   **Time-Lag Connections:** Black dots on some of the lines denote connections with time-lag.\n    *   **Branching Points:**  Black circles mark branching points in the connections.\n\n6. **Inputs/Outputs:**\n    *   **Input:** An arrow labeled \"input\" enters the cell.\n    *   **Recurrent:** Solid black arrows represent recurrent connections flowing out of the cell.\n    *   **Output:** A solid black arrow labeled \"output\" exits the cell.\n    *   **Block Output:** A block output is shown"
+      }
+    ],
+    "tables": [
+      {
+        "page": 4,
+        "bbox": [
+          70.51386260986328,
+          276.11181640625,
+          541.9801635742188,
+          99.77001953125
+        ],
+        "markdown": "| Input Gate:        | i t = σ ( x t U i + h t - 1 W i )      | (1)   |\n|--------------------|----------------------------------------|-------|\n| Forget Gate:       |                                        |       |\n|                    | f t = σ ( x t U f + h t - 1 W f )      | (2)   |\n| Cell Candidate:    |                                        |       |\n|                    | ˜ C t = tanh ( x t U g + h t - 1 W g ) | (3)   |\n| Cell State Update: |                                        |       |\n|                    | C t = f t × C t - 1 + i t × ˜ C t      | (4)   |\n| Output Gate:       |                                        |       |\n|                    | o t = σ ( x t U o + h t - 1 W o )      | (5)   |\n| Hidden State:      |                                        |       |\n|                    | h t = tanh( C t ) × o t                | (6)   |",
+        "caption": "",
+        "summary": "Here's a summary of the table's structure and the key information it represents:\n\n**Structure:**\n\nThe table presents a series of equations (1-6) that define the core components of a **Long Short-Term Memory (LSTM)** cell, a type of recurrent neural network architecture.  Each equation describes a specific step in the LSTM's processing flow. The numbers (1), (2), etc., indicate the equation number and are used for referencing.\n\n**Key Information Represented:**\n\nThe equations outline how an LSTM cell processes sequential data by managing information over time:\n\n*   **(1) Input Gate (i_t):** This gate determines how much of the new input information is allowed to enter the cell state. It uses a sigmoid function (σ) to produce values between 0 and 1, representing the degree of openness.\n*   **(2) Forget Gate (f_t):**  This gate decides what information from the previous cell state should be discarded. Like the input gate, it uses a sigmoid function.\n*   **(3) Cell Candidate (Ĉ_t):** This represents a potential new piece of information that could be added to the cell state. It's calculated using the hyperbolic tangent (tanh) function applied to the product of the forget gate and the previous cell candidate.\n*   **(4) Cell State Update (C_t):**  This is the core update step. It combines the output of the forget gate (how much to keep from the old state) with the cell candidate (new information) using element-wise multiplication.\n*   **(5) Output Gate (o_t):** This gate controls which parts of the updated cell state are exposed as the output of the LSTM cell. It also uses a sigmoid function.\n*   **(6) Hidden State (h_t):**  This is the final hidden state of the LSTM cell at time step *t*. It's calculated by applying the tanh function to the output of the cell state update and multiplying it by the output gate.\n\n**In essence, these equations define how an LSTM cell learns to selectively remember or forget information as it processes a sequence.** The gates allow the network to capture long-range dependencies in data, which is crucial for tasks like natural language processing, time series prediction, and speech recognition. \n\nDo you want me to elaborate on any specific aspect of these equations (e.g., how the gates work together, or the role",
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_tables/table_1.png"
+      }
+    ],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1]",
+    "filename": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1].pdf",
+    "page_start": 5,
+    "page_end": 5,
+    "heading": "LSTM RNN",
+    "text": "is more effective at overcoming the vanishing gradient problem through its gated memory cells. In our business sentiment analysis, we apply the modified RNN-based LSTM model. The proposed model architecture is shown in Table 1 and Figure 5 [14].\n",
+    "figures": [
+      {
+        "page": 5,
+        "bbox": [
+          122.23049926757812,
+          688.5762405395508,
+          468.4261474609375,
+          556.9637908935547
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_4.png",
+        "caption": "Figure 4: LSTM architecture.",
+        "description": "Okay, here's a detailed analysis of the image based solely on its visual content, using UTF-8 characters:\n\n**Image Description:**\n\nThe image depicts a schematic diagram representing a recurrent neural network (RNN) architecture, specifically a two-layer RNN. It consists of two identical \"A\" shaped modules arranged side-by-side. Each module is represented as a rectangular box with internal connections and labeled nodes.\n\n**Detailed Components & Connections:**\n\n1.  **Module A:** Each module is colored light green. The module contains several interconnected elements:\n    *   **Input Nodes (X_i,i):** Two input nodes are present at the left side of each module. These are labeled \"X_i,i\".\n    *   **Hidden Layer Nodes (h_i):**  Three hidden layer nodes are present within each module. They are labeled \"h_i\".\n    *   **Connections:** The connections between these nodes are represented by arrows. There are several connections:\n        *   An arrow from the input node \"X_i,i\" to one of the hidden layer nodes.\n        *   An arrow from another hidden layer node to the other hidden layer node.\n        *   An arrow from a hidden layer node to the output node.\n\n2.  **Output Nodes (h_o):** Two output nodes are present at the right side of each module, labeled \"h_o\". These connect to both modules.\n\n3.  **Connections Between Modules:** There is a single connection represented by an arrow between the output nodes of the two modules. This represents the flow of information from one RNN cell to another.\n\n4. **Labels**: The labels \"α\" and \"σ\" are present on some of the connections within each module.\n\n**Data Points & Patterns:**\n\n*   The diagram shows a directed graph with multiple nodes and edges.\n*   There are three hidden layer nodes in each module.\n*   The input is represented by two nodes labeled \"X_i,i\".\n*   The output is represented by two nodes labeled \"h_o\".\n*   The connections between the modules are single-directional.\n\n**Overall Structure:** The diagram illustrates a basic recurrent neural network structure where information flows through interconnected hidden layers, allowing for temporal dependencies to be modeled."
+      }
+    ],
+    "tables": [
+      {
+        "page": 5,
+        "bbox": [
+          179.6334228515625,
+          480.3096923828125,
+          432.184814453125,
+          400.6246643066406
+        ],
+        "markdown": "Table 1: Model Summary\n\n| Layer (type)            | Output Shape     | Param #   |\n|-------------------------|------------------|-----------|\n| embedding_1 (Embedding) | (None, None, 32) | 640 000   |\n| lstm_1 (LSTM)           | (None, 100)      | 53 200    |\n| dense_1 (Dense)         | (None, 1)        | 101       |\n| Total params:           |                  | 693 301   |\n| Trainable params:       |                  | 693 301   |\n| Non-trainable params:   |                  | 0         |",
+        "caption": "Table 1: Model Summary",
+        "summary": "Here's a summary of the table's structure and the information it represents:\n\n**Structure:**\n\nThe table describes a neural network model, likely for natural language processing (NLP) given the layers used. It lists each layer in the model along with its type, output shape, and the number of parameters associated with that layer. \n\n**Key Information Represented:**\n\n*   **Layer (Type):**  This column identifies the specific type of neural network layer being used (e.g., Embedding, LSTM, Dense).\n*   **Output Shape:** This indicates the dimensions of the output produced by each layer. For example, `(None, None, 32)` means that the layer produces a tensor with a batch size of \"None\" (meaning it can handle any number of samples), no sequence length (\"None\"), and 32 features.\n*   **Param #:** This column shows the total number of parameters (weights and biases) within each layer. These are the values the model learns during training.\n*   **Total params:** The sum of all parameters across all layers in the model.\n*   **Trainable params:**  The number of parameters that can be adjusted during the learning process (i.e., those that will be updated by the optimizer).\n*   **Non-trainable params:** The number of parameters that are fixed and do not change during training (e.g., constants or biases that aren't learned).\n\n**Specific Details from the Table:**\n\n*   **embedding_1:** An embedding layer with 640,000 parameters, used to represent words as dense vectors.\n*   **lstm_1:** A Long Short-Term Memory (LSTM) layer with 53,200 parameters, designed for processing sequential data like text. The output shape of 100 suggests it's producing a hidden state vector for each time step in the sequence.\n*   **dense_1:** A dense (fully connected) layer with 101 parameters, used to perform final classification or regression.\n\nLet me know if you'd like a more detailed explanation of any specific aspect!",
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_tables/table_2.png"
+      }
+    ],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1]",
+    "filename": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1].pdf",
+    "page_start": 5,
+    "page_end": 5,
+    "heading": "3.2 Data Processing",
+    "text": "To train the proposed model, a business review dataset is collected from amazon.com on product analysis. The dataset was created by Web scraping or APIs. Researchers compiled the information from Amazon Review Information (ARD) when it comes to Amazon datasets [22]. This dataset contained punctuation and HTML tags. In order to vanish these, a function is used for taking a text string as a parameter and then preprocess the string to remove punctuation and HTML tags from the given string. These punctuation and HTML tags are replaced with an empty space. All the single characters and multiple spaces are removed. At last for each term, the analysis text is naturally divided into emotions of the business class. Then, a tool is used for vector representation to transform every term into a vector using the vector equation:\nwhich is known as the word embedding. Here, word2vector tools are used. Then the cycle was followed by the natural order; the sentence of participles was traversed from left to right, which is the forward calculation of LSTM. The results of the production depended on the probabilities of the word at 't' time and also the sequence of vocabulary giving before 't' time. Finally, the error was determined by the likelihood of a common distribution of all the words in the sentences.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1]",
+    "filename": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1].pdf",
+    "page_start": 5,
+    "page_end": 6,
+    "heading": "3.3 Training the Model",
+    "text": "After preprocessing the data and splitting the dataset, LSTM model is used to train our model. LSTM layer is created with 100 neurons and also added a dense layer with sigmoid activation function.\nThe process is introduced as follows:\nDue to their emotional marks, all training data is divided into three groups, has positive, negative and neutral. The LSTM models are then trained in each data category and with multiple LSTM models resulting in them as well. This is done for equal ratings.\nTo get a new input review, the LSTM models are available in the training phase evaluated on the new input review. The model which is giving the smallest error value is assigned to the new input review.\nFigure 6 is showing the structure of the processing of the training phase: This model could overcome the vanishing gradient problem completely than the conventional RNN model. It also better performs in many experiments, like as structure with conjunctions, such as, 'not only. . . but also. . . ,' 'However,''in addition,' etc.\n",
+    "figures": [
+      {
+        "page": 6,
+        "bbox": [
+          121.9792709350586,
+          722.0331039428711,
+          486.16943359375,
+          460.4418640136719
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_5.png",
+        "caption": "Figure 5: LSTM architecture",
+        "description": "Okay, here's a detailed analysis of the image based solely on its visual content, using UTF-8 characters:\n\n**Image Description:**\n\nThe image depicts a neural network architecture, specifically an LSTM (Long Short-Term Memory) network with multiple layers.  It is presented as a diagram within a technical document.\n\n**Components and Connections:**\n\n1.  **Input Layer:** The leftmost section is labeled \"Input\". It consists of a blue rectangular block containing the numbers 1, 2, 3, ..., N. There are 'N' number of elements in this input layer.\n2.  **LSTM Layers:** There are three distinct LSTM layers stacked vertically. Each LSTM layer contains multiple LSTM cells (represented by purple boxes). The number of LSTM cells within each layer is visually consistent across all three layers.\n3.  **Connections:** Lines connect the input layer to the first LSTM layer, and then connections extend from each LSTM layer to the next. All connections are bidirectional, indicated by arrows in both directions.\n4. **Output Layer**: The rightmost section of the image is labeled \"Softmax\". It contains two nodes labeled 1 and 2, with multiple instances of node 2. A third node labeled 'C' is also present.\n\n**Labels & Text:**\n\n*   \"LSTM Layer\" appears below each LSTM layer.\n*   \"Input\" labels the leftmost section.\n*   \"Softmax\" labels the rightmost section.\n\n**Data Points and Patterns:**\n\n*   The input layer contains a sequence of numbers from 1 to N.\n*   There are three stacked LSTM layers.\n*   Each LSTM layer has an equal number of LSTM cells.\n*   The output layer consists of three nodes labeled 1, 2, and C.\n\n**Overall Structure:** The diagram illustrates a recurrent neural network architecture utilizing LSTM cells for sequence processing, with multiple layers to potentially capture complex temporal dependencies in the input data."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1]",
+    "filename": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1].pdf",
+    "page_start": 6,
+    "page_end": 6,
+    "heading": "3.4 Testing the Model",
+    "text": "After training the model, new text data is used for testing. When a new product review arrives, the model classifies it as negative, positive, or neutral. As shown in Figure 7, this illustrates the working process of our RNN-LSTM model in business sentiment analysis.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1]",
+    "filename": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1].pdf",
+    "page_start": 6,
+    "page_end": 6,
+    "heading": "4 Implementation Tools",
+    "text": "The proposed work has used the Jupyter Notebook [21], which is an open-source web platform. It has helped to develop an environment to perform our experiments and also create and share all types of documents like code, text, equations and visualizations. The LSTM-RNN model is developed using TFLearn (deep learning library) Python packages, which are installed on top of TensorFlow [22]. The proposed work also uses Keras (NNs API) [23], which is written in Python and runs on TensorFlow.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1]",
+    "filename": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1].pdf",
+    "page_start": 6,
+    "page_end": 7,
+    "heading": "5 Result and Analysis",
+    "text": "The analysis of the outcome along with the result for the entire system is discussed in this section. The outcome is split into three parts.\n",
+    "figures": [
+      {
+        "page": 7,
+        "bbox": [
+          70.41307067871094,
+          720.3570556640625,
+          541.1341552734375,
+          462.0423278808594
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_6.png",
+        "caption": "Figure 6: Business sentimental emotion classification",
+        "description": "Okay, here's a detailed analysis of the image based solely on its visual content, using UTF-8 characters:\n\n**Image Description:**\n\nThe image is a flowchart illustrating a process for training and evaluating an LSTM (Long Short-Term Memory) model for sentiment analysis. It depicts a sequence of steps related to processing text reviews with different emotional tones.\n\n**Elements & Text Content:**\n\n1.  **Overall Flow:** The flowchart follows a top-to-bottom flow, indicating a sequential process.\n\n2.  **Main Branch:** A central box labeled \"Training according to different emotions\" branches into three distinct paths: \"Positive review,\" \"Neutral review,\" and \"Negative review.\"\n\n3.  **Positive Review Path:**\n    *   A rounded rectangle states \"Positive review\".\n    *   A smaller box below it reads \"Initialize the word vector\".\n    *   Another box indicates \"Train positive LSTM\".\n\n4. **Neutral Review Path:**\n     * A rounded rectangle states \"Neutral review\".\n     * A smaller box below it reads \"Initialize the word vector\".\n     * Another box indicates \"Train neutral LSTM\".\n\n5.  **Negative Review Path:**\n    *   A rounded rectangle states \"Negative review\".\n    *   A smaller box below it reads \"Initialize the word vector\".\n    *   Another box indicates \"Train negative LSTM\".\n\n6. **Evaluation Step:** A rectangular box labeled \"Evaluate model\" is present at the bottom of the flowchart, connecting all three LSTM training paths.  It contains a small text bubble indicating \"Accuracy\".\n\n**Data Points & Patterns:**\n\n*   The flowchart uses distinct shapes (rectangles and rounded rectangles) to represent different stages or decisions in the process.\n*   Three separate LSTM models are trained - one for positive reviews, one for neutral reviews, and one for negative reviews.\n*   The evaluation step measures \"Accuracy\" of the model.\n\n**Color Coding:**\n\n*   Light gray background.\n*   Blue lines connect the boxes to indicate the flow of data or steps in the process.\n\nLet me know if you'd like a more specific breakdown of any particular element!"
+      }
+    ],
+    "tables": [
+      {
+        "page": 7,
+        "bbox": [
+          199.52464294433594,
+          385.924072265625,
+          412.070556640625,
+          339.6833190917969
+        ],
+        "markdown": "Table 2: Accuracy of LSTM model\n\n|   Epoch |   Training accuracy |   Testing accuracy |\n|---------|---------------------|--------------------|\n|      10 |              0.9504 |             0.8954 |\n|      30 |              0.9551 |             0.9092 |\n|      50 |              0.9623 |             0.9193 |",
+        "caption": "Table 2: Accuracy of LSTM model",
+        "summary": "Here's a summary of the table's structure and the information it represents:\n\n**Structure:**\n\nThe table is organized into rows and columns.\n\n*   **Columns:**\n    *   \"Epoch\" - Represents the number of training iterations or steps that have occurred.\n    *   \"Training accuracy\" - Shows the percentage of correctly classified data points during the *training* process at each epoch.\n    *   \"Testing accuracy\" - Shows the percentage of correctly classified data points on a separate, unseen dataset (the \"test set\") at each epoch.\n\n*   **Rows:** Each row represents the performance metrics for a specific epoch number (10, 30, or 50).\n\n\n**Key Information Represented:**\n\nThe table shows how the accuracy of a machine learning model improves over time as it is trained. Specifically:\n\n*   **Training Accuracy:**  Indicates how well the model learns from the training data at each epoch.\n*   **Testing Accuracy:** Indicates how well the model generalizes to new, unseen data. It's a crucial measure of whether the model has truly learned patterns or simply memorized the training set.\n\n**Observations from the Table:**\n\n*   As the number of epochs increases (10, 30, and 50), both the training and testing accuracy steadily improve.\n*   The gap between training and testing accuracy narrows as training progresses, suggesting that the model is becoming more robust and generalizing better to unseen data.  At epoch 50, the difference is minimal.\n\nLet me know if you'd like a deeper analysis of this table or want to explore how it relates to concepts like overfitting/underfitting!",
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_tables/table_3.png"
+      }
+    ],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1]",
+    "filename": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1].pdf",
+    "page_start": 7,
+    "page_end": 9,
+    "heading": "5.1 Experimental Dataset",
+    "text": "Amazon Review Information Dataset (ARD) [20] contains 142.8 million ratings and a variety of metadata. This work has taken a selected amount of data from this dataset. After taking the data from dataset, all the data has been categorized into positive, neutral and negative. Then Word2Vec tools are used to create word embedding for our LSTM model [13]. After that, it has been gone through the LSTM layer [14]. There is a Dense() layer, which is the final layer of the model [23]. It can crunch all the output that is coming from the LSTM layer and convert it as a single numeric value of 0.0 and 1.0.\nTotal of 25,000 product reviews, which are divided into a 70% items for the training set and a 30% items for the testing set. Then train and test have been performed by the proposed model. It achieved 95.04% (from Table 2) accuracy on the training data and 89.54% accuracy on the test data for 10 epochs. Then increasing the epoch size into 20, our accuracy for training data 95.51% and accuracy for test data 90.92%. Again, the epoch size is increased from 20 to 50, then the accuracy on training data will be 96.23% and accuracy on testing the data will be 91.33%. If epoch size is increased more than 50 iteration, the deference between training and test result is increased a lot and overfitted. That is why the epoch size is not increased more than 50. Figure 8 is showing the training and testing loss; after 20 iteration, here blue line are showing training loss and orange line are showing testing loss.\nFigure 9 is showing the training and testing accuracy; here, blue line is indicating training accuracy and orange line is indicating testing accuracy. Our model test data accuracy is 91.33%.\n",
+    "figures": [
+      {
+        "page": 8,
+        "bbox": [
+          70.7033462524414,
+          718.6120910644531,
+          536.8465576171875,
+          384.0297546386719
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_7.png",
+        "caption": "Figure 7: Tokenized LSTM pipeline with embeddings, recurrent layer, fully connected layer, sigmoid activations, and output probability.",
+        "description": "Okay, here's a detailed analysis of the image based solely on its visual content, using UTF-8 characters:\n\n**Overall Structure:**\n\nThe image depicts a block diagram representing a neural network architecture, likely for sentiment analysis or opinion mining. It shows a sequence of processing steps connected by arrows indicating data flow.\n\n**Components and Data Points:**\n\n1.  **Input Nodes (Text Strings):**\n    *   \"This\" - Associated with the number 24.\n    *   \"Product\" - Associated with the number 355.\n    *   \"is\" - Associated with the number 18.\n    *   \"Awesome\" - Associated with the number 360.\n    *   \"Tokenize\" - Associated with the number (unspecified, but present).\n\n2.  **Embedding Layer:** Each input string is followed by an \"Embedding\" layer. This suggests that each word or token is converted into a vector representation.\n\n3.  **LSTM Layers:** After the embedding layer, there are five LSTM (Long Short-Term Memory) layers. These are stacked sequentially.\n\n4.  **Fully Connected Layer:** Following the LSTM layers, there's a \"Fully Connected Layer\" with four sigmoid activation functions.\n\n5.  **Sigmoid Activation Functions:** Four sigmoid activation functions are connected to the output of the fully connected layer.\n\n6.  **Probability Score:** The output of the sigmoid functions is labeled as \"Probability score\".\n\n7. **Output:** A single node labeled \"Output\" receives the probability scores.\n\n**Connections and Flow:**\n\n*   Arrows indicate data flow from each component to the next.\n*   The LSTM layers are stacked vertically, suggesting a deep learning architecture.\n*   The fully connected layer with sigmoid activation functions is positioned at the end of the network.\n\n**Color Coding:**\n\n*   Boxes representing input nodes are colored blue.\n*   Other components (layers, activation functions) are colored gray.\n\nLet me know if you would like me to focus on a specific aspect or element within this diagram!"
+      },
+      {
+        "page": 8,
+        "bbox": [
+          77.34143829345703,
+          336.3564147949219,
+          537.1448364257812,
+          73.81243896484375
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_8.png",
+        "caption": "Figure 10: Comparison with other models (Accuracy).",
+        "description": "Here's a detailed analysis of the image based solely on its visual content:\n\n**Overall Description:**\n\nThe image is a bar chart depicting accuracy percentages for various machine learning models. The chart is divided into two sections, each representing a different category of models.\n\n**Chart Structure & Elements:**\n\n*   **Type:** Bar Chart\n*   **X-Axis Labels:**  \"Model\" - with the following listed: KNN, SVM, SVM + Naive Bayes, Our model (LSTM)\n*   **Y-Axis Label:** \"Accuracy (%)\" - ranging from 0 to 100.\n*   **Bar Colors:**\n    *   Blue: Represents \"KNN\"\n    *   Green: Represents \"SVM\"\n    *   Red: Represents \"Our model(LSTM)\"\n*   **Data Points (Bar Heights):**\n    *   KNN: Height of 62\n    *   SVM: Height of 82\n    *   SVM + Naive Bayes: Height of 56\n    *   Our model (LSTM): Height of 88\n\n**Trends & Patterns:**\n\n*   The \"Our model(LSTM)\" bar is the tallest, indicating the highest accuracy at 88%.\n*   The \"SVM\" bar is the second tallest, with an accuracy of 82%.\n*   The \"KNN\" bar has the lowest accuracy at 62%.\n*   All other models (SVM + Naive Bayes and Our model(LSTM)) have a height of zero.\n\n**Textual Elements:**\n\n*   The chart title is not visible in this image, but the labels on the axes are clearly legible.\n*   There are numerical values associated with each bar representing the accuracy percentage."
+      },
+      {
+        "page": 9,
+        "bbox": [
+          96.28567504882812,
+          718.0417022705078,
+          514.795166015625,
+          561.9043731689453
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_9.png",
+        "caption": "Figure 8: Training and validation loss over 20 epochs. Blue squares indicate training loss and red triangles indicate validation loss.",
+        "description": "Here's an analysis of the image based on its visual content, adhering to your specifications:\n\n**Image Description:**\n\nThe image is a line graph depicting the \"loss\" (likely referring to a loss function value) over epochs for two different datasets. The x-axis represents \"Epoch,\" ranging from 1 to 20. The y-axis represents \"Error,\" with values ranging approximately from 0.15 to 0.3.\n\n**Data Points & Trends:**\n\n*   **Blue Line (\"loss\"):** This line represents the loss function value during training on the primary dataset.\n    *   At epoch 1, the loss is approximately 0.26.\n    *   The loss decreases steadily over epochs 1-15, reaching a minimum of approximately 0.15 at epoch 20.\n    *   There are small fluctuations in the blue line's value during this period, but no significant upward trends.\n\n*   **Red Line (\"valid_loss\"):** This line represents the loss function value on a validation dataset.\n    *   At epoch 1, the valid loss is approximately 0.23.\n    *   The valid loss decreases initially, but then plateaus around epoch 15.\n    *   At epoch 20, the valid loss is approximately 0.18.\n\n*   **Gap between Lines:** There's a noticeable gap between the blue and red lines throughout most of the epochs. This indicates that the model's performance on the training data (blue line) is generally better than its performance on the validation data (red line).\n\n*   **Plateau at Epoch 15:** Both lines exhibit a plateau in their respective values around epoch 15, suggesting that further training beyond this point does not significantly improve either loss metric.\n\n**Textual Elements:**\n\n*   The graph title is \"loss\".\n*   The x-axis label is \"Epoch\".\n*   The y-axis label is \"Error\".\n*   Legend:  \"loss\" (blue) and \"valid_loss\" (red).\n\nLet me know if you would like a more detailed breakdown of any specific aspect!"
+      },
+      {
+        "page": 9,
+        "bbox": [
+          96.36683654785156,
+          506.1895751953125,
+          515.2257080078125,
+          349.7521667480469
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_10.png",
+        "caption": "Figure 9: Training and validation accuracy over 20 epochs. Blue squares indicate training accuracy and red triangles indicate validation accuracy.",
+        "description": "Here's an analysis of the image provided, focusing on objective observation:\n\n**Image Description:**\n\nThe image is a line graph depicting the accuracy of two models over epochs during training. The x-axis represents \"Epoch,\" ranging from 1 to 20. The y-axis represents \"Accuracy,\" with values ranging from approximately 0.85 to 0.99.\n\n**Data Points & Trends:**\n\n*   **Blue Line (Accuracy):** This line represents the accuracy of a model, labeled as \"Accuracy.\"\n    *   At Epoch 1, the accuracy is approximately 0.87.\n    *   The accuracy increases steadily from Epoch 1 to Epoch 15, reaching a peak value of approximately 0.98 at Epoch 15.\n    *   After Epoch 15, the accuracy plateaus around 0.98 until Epoch 20.\n\n*   **Red Line (v_accuracy):** This line represents the accuracy of another model, labeled as \"v_accuracy.\"\n    *   At Epoch 1, the accuracy is approximately 0.89.\n    *   The accuracy increases from Epoch 1 to Epoch 10, reaching a peak value of approximately 0.95 at Epoch 10.\n    *   After Epoch 10, the accuracy remains relatively stable around 0.95 until Epoch 20.\n\n**Labels & Annotations:**\n\n*   The graph is titled \"Accuracy.\"\n*   The x-axis label is \"Epoch\".\n*   There are legends identifying each line as \"Accuracy\" (blue) and \"v_accuracy\" (red).\n\n**Overall Pattern:**\n\nBoth lines show an initial increase in accuracy during the early epochs, followed by a period of stability. The \"Accuracy\" model consistently achieves higher accuracy than the \"v_accuracy\" model throughout the training process."
+      }
+    ],
+    "tables": [
+      {
+        "page": 9,
+        "bbox": [
+          239.84056091308594,
+          271.8072509765625,
+          371.9251708984375,
+          204.0177001953125
+        ],
+        "markdown": "Table 3: Review type\n\n| Prediction        | Result    |\n|-------------------|-----------|\n| Greater than 0.80 | Excellent |\n| Greater than 0.60 | Better    |\n| Greater than 0.50 | Good      |\n| Less than 30      | Very bad  |\n| Greater than 0.30 | Bad       |",
+        "caption": "Table 3: Review type",
+        "summary": "Here's a summary of the table's structure and the information it represents:\n\n**Structure:**\n\nThe table is a simple two-column chart with headings for \"Prediction\" and \"Result.\" It presents a set of predicted values against corresponding evaluation results.\n\n**Key Information:**\n\n*   It outlines a system where predictions are evaluated based on numerical thresholds.\n*   **Predictions & Results:**\n    *   If the prediction is greater than 0.80, the result is \"Excellent.\"\n    *   If the prediction is greater than 0.60, the result is \"Better.\"\n    *   If the prediction is greater than 0.50, the result is \"Good.\"\n    *   If the prediction is less than 30, the result is \"Very bad.\"\n    *   If the prediction is greater than 0.30, the result is \"Bad.\"\n\n**In essence:** This table defines a scoring system where predictions are categorized into different levels of quality (Excellent, Better, Good, Very Bad, Bad) based on their numerical value relative to certain thresholds.",
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_tables/table_4.png"
+      }
+    ],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1]",
+    "filename": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1].pdf",
+    "page_start": 9,
+    "page_end": 9,
+    "heading": "5.2 Experiment Results Analysis",
+    "text": "After training and testing this model, it can easily classify a new product review, which is previously unseen. Previously unseen product review of, 'The product was not so great.' Here, the prediction probability value is around 0.1368. From Table 2: When the value is less than 0.30, the model predicts it as very bad. If the value is greater than 0.30, then it is predicted as bad. When the value is greater than 0.50, then it is positive. When the value is greater than 0.60, then it is predicted as good. When it is greater than 0.80, then it is predicted as excellent. For multi-valued analysis, it is required to encode as positive (0, 0, 1), neutral (0, 1, 0) and negative (1, 0, 0).\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1]",
+    "filename": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1].pdf",
+    "page_start": 10,
+    "page_end": 10,
+    "heading": "6 Comparison",
+    "text": "Mohammad Rezwanul Huq and Ahmad Ali proposed two models for sentiment classification [24]. Their first model is based on k-nearest neighbor (KNN) and the second on support vector machine (SVM). They achieved 84.32% accuracy with the KNN model and 67.03% accuracy with the SVM model. Xu et al. [11] applied SVM and Naive Bayes to predict reviewer ratings, achieving 88.8% accuracy on training data and 59.1% accuracy on testing data. Figure 10 shows a comparison of different models and their accuracies. Our model achieved 91.33% accuracy, outperforming all other proposed models.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1]",
+    "filename": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1].pdf",
+    "page_start": 10,
+    "page_end": 10,
+    "heading": "7 Conclusion",
+    "text": "In this paper, an LSTM model based on RNN is used to evaluate the business sentiment. It covers all the sequences and performance of business sentiment analysis. This model is used for multi-classification in product reviews. This model can be used for any kind of product review datasets for different languages. In the future, it will be attempted to improve our algorithm for obtaining a better accuracy rate by preprocessing the dataset before feed into the model and by proper feature engineering and tuning. The dataset is required to adjust depending on our local market, which is more balanced than this one. Further, a Web tool will be developed for our local market in order to help the local businesses.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1]",
+    "filename": "A Long Short-Term Memory (LSTM) Model for Business Sentiment Analysis Based on Recurrent Neural Network [arXiv 2509.03060v1].pdf",
+    "page_start": 10,
+    "page_end": 11,
+    "heading": "References",
+    "text": "S. V. M. Vishwanathan and M. N. Murty, 'SSVM: A simple SVM algorithm,' in Proceedings of the 2002 International Joint Conference on Neural Networks (IJCNN'02) , vol. 3, Cat. No. 02CH37290, pp. 2393-2398, Honolulu, HI, USA, May 2002. IEEE.\nR. E. Wright, 'Logistic regression,' Tech. Rep., Dept. of Statistics, Stanford University, Stanford, CA, USA, 1995.\nH. Zhang, 'The optimality of Naive Bayes,' Annals of Applied Statistics , vol. 1, no. 2, p. 3, 2004.\nL. Breiman, 'Random Forests,' Machine Learning , vol. 45, no. 1, pp. 5-32, Oct. 2001.\nS. Agatonovi´ c-Kustrin and R. Beresford, 'Basic concepts of artificial neural network (ANN) modeling and its application in pharmaceutical research,' Journal of Pharmaceutical and Biomedical Analysis , vol. 22, no. 5, pp. 717-727, Jun. 2000.\nT. Mikolov, M. Karafiát, L. Burget, J. ˇ Cernocký, and S. Khudanpur, 'Recurrent neural network-based language model,' in Proc. of the 11th Annual Conference of the International Speech Communication Association (INTERSPEECH 2010) , Makuhari, Japan, Sep. 2010.\nW. Huang, Y. Qiao, and X. Tang, 'Robust scene text detection with convolutional neural network-induced MSER trees,' in European Conference on Computer Vision (ECCV 2014) , ser. Lecture Notes in Computer Science, vol. 8689, pp. 497-511, Zurich, Switzerland, Sep. 2014. Springer.\nJ. Liang, K. Koperski, N. S. Dhillon, C. Tusk, S. Bhatti, and Evri Inc., 'NLP-based entity recognition and disambiguation,' U.S. Patent 8,594,996, issued Dec. 3, 2013.\nV. Bhatia and R. Rani, 'Dfuzzy: A deep learning-based fuzzy clustering model for large graphs,' Knowledge and Information Systems , vol. 57, no. 1, pp. 159-181, Jan. 2018.\nW. F. Schmidt, M. A. Kraaijveld, and R. P. W. Duin, 'Feed-forward neural networks with random weights,' in Proceedings of the International Conference on Pattern Recognition (ICPR '92) , pp. 1-6, The Hague, The Netherlands, Oct. 1992. IEEE Computer Society Press.\nY. Xu, X. Wu, and Q. Wang, 'Sentiment analysis of Yelp's ratings based on text reviews,' in Proc. of the 28th Pacific Asia Conference on Language, Information and Computation (PACLIC 28) , Bangkok, Thailand, Nov. 2014.\nS. Rani and P. Kumar, 'Deep learning-based sentiment analysis using convolutional neural network,' Arabian Journal for Science and Engineering , vol. 44, no. 4, pp. 3305-3314, Apr. 2019.\nT. Mikolov, W. Yih, and G. Zweig, 'Linguistic regularities in continuous space word representations,' in Proceedings of NAACL-HLT 2013 , pp. 746-751, Atlanta, GA, USA, Jun. 2013. ACL.\nA. Graves, 'Long short-term memory,' in Supervised Sequence Labelling with Recurrent Neural Networks , pp. 37-45, G. Montavon, G. B. Orr, and K.-R. Müller, Eds., Springer, Berlin, 2012.\nX. Zhang, L. Lu, and M. Lapata, 'Top-down tree long short-term memory networks,' arXiv preprint arXiv:1511.00060 , Nov. 2015.\nA. Graves, 'Supervised sequence labelling,' in Supervised Sequence Labelling with Recurrent Neural Networks , pp. 5-13, Springer, Berlin, 2012.\nD. Soutner and L. Müller, 'Application of LSTM neural networks in language modelling,' in International Conference on Text, Speech and Dialogue , pp. 105-112, Springer, Berlin, 2013.\nM. Sundermeyer, Z. Tüske, R. Schlüter, and H. Ney, 'Lattice decoding and rescoring with long-span neural network language models,' in Fifteenth Annual Conference of the International Speech Communication Association , Singapore, Sep. 2014.\nM. Sundermeyer, H. Ney, and R. Schlüter, 'From feedforward to recurrent LSTM neural networks for language modeling,' IEEE/ACM Transactions on Audio, Speech, and Language Processing , vol. 23, no. 3, pp. 517-529, Mar. 2015.\nR. He and J. McAuley, 'Modeling the visual evolution of fashion trends with one-class collaborative filtering,' in Proceedings of the 25th International World Wide Web Conference (WWW '16) , Montréal, Canada, Apr. 2016.\nJ. M. Perkel, 'Why Jupyter is data scientists' computational notebook of choice,' Nature , vol. 563, no. 7732, pp. 145-147, Nov. 2018.\nM. Abadi et al., 'TensorFlow: A system for large-scale machine learning,' in 12th USENIX Symposium on Operating Systems Design and Implementation (OSDI '16) , pp. 265-283, Savannah, GA, USA, Nov. 2016.\nA. Gulli and S. Pal, Deep Learning with Keras . Packt Publishing Ltd., 2017.\nM. R. Huq, A. Ali, and A. Rahman, 'Sentiment analysis on Twitter data using KNN and SVM,' International Journal of Advanced Computer Science and Applications (IJACSA) , vol. 8, no. 6, pp. 19-25, 2017.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  }
+]

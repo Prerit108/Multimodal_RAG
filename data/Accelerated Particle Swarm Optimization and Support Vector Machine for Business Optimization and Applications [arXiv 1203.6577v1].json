@@ -1,0 +1,232 @@
+[
+  {
+    "doc_id": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1]",
+    "filename": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications",
+    "text": "Xin-She Yang 1 , Suash Deb 2 and Simon Fong 3\nDepartment of Engineering, University of Cambridge, Trumpinton Street, Cambridge CB2 1PZ, UK.\nDepartment of Computer Science & Engineering, C. V. Raman College of Engineering, Bidyanagar, Mahura, Janla, Bhubaneswar 752054, INDIA.\n3) Department of Computer and Information Science, Faculty of Science and Technology, University of Macau, Taipa, Macau.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1]",
+    "filename": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "Abstract",
+    "text": "Business optimization is becoming increasingly important because all business activities aim to maximize the profit and performance of products and services, under limited resources and appropriate constraints. Recent developments in support vector machine and metaheuristics show many advantages of these techniques. In particular, particle swarm optimization is now widely used in solving tough optimization problems. In this paper, we use a combination of a recently developed Accelerated PSO and a nonlinear support vector machine to form a framework for solving business optimization problems. We first apply the proposed APSO-SVM to production optimization, and then use it for income prediction and project scheduling. We also carry out some parametric studies and discuss the advantages of the proposed metaheuristic SVM.\nKeywords: Accelerated PSO, business optimization, metaheuristics, PSO, support vector machine, project scheduling.\nReference to this paper should be made as follows:\nYang, X. S., Deb, S., and Fong, S., (2011), Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications, in: Networked Digital Technologies (NDT2011), Communications in Computer and Information Science, Vol. 136, Springer, pp. 53-66 (2011).\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1]",
+    "filename": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1].pdf",
+    "page_start": 1,
+    "page_end": 2,
+    "heading": "1 Introduction",
+    "text": "Many business activities often have to deal with large, complex databases. This is partly driven by information technology, especially the Internet, and partly driven by the need to extract meaningful knowledge by data mining. To extract useful information among a huge amount of data requires efficient tools for processing vast data sets. This is equivalent to trying to find an optimal solution to a highly nonlinear problem with multiple, complex constraints, which is a challenging task. Various techniques for such data mining and optimization have been developed over the past few decades. Among these techniques, support vector machine is one of the best techniques for regression, classification and data mining [5, 9, 16, 19, 20, 24].\nOn the other hand, metaheuristic algorithms also become powerful for solving tough nonlinear optimization problems [1, 7, 8, 27, 32]. Modern metaheuristic algorithms have been developed with an aim to carry out global search, typical examples are genetic algorithms [6], particle swarm optimisation (PSO) [7], and Cuckoo Search [29, 30]. The efficiency of metaheuristic algorithms can be attributed to the fact that they imitate the best features in nature, especially the selection of the fittest in biological systems which have evolved by natural selection over millions of years. Since most data have noise or associated randomness, most these algorithms cannot be used directly. In this case, some form of averaging or reformulation of the problem often helps. Even so, most algorithms become difficult to implement for such type of optimization.\nIn addition to the above challenges, business optimization often concerns with a large amount but often incomplete data, evolving dynamically over time. Certain tasks cannot start before other required tasks are completed, such complex scheduling is often NP-hard and no universally efficient tool exists. Recent trends indicate that metaheuristics can be very promising, in combination with other tools such as neural networks and support vector machines [5, 9, 15, 21].\nIn this paper, we intend to present a simple framework of business optimization using a combination of support vector machine with accelerated PSO. The paper is organized as follows: We first will briefly review particle swarm optimization and accelerated PSO, and then introduce the basics of support vector machines (SVM). We then use three case studies to test the proposed framework. Finally, we discussion its implications and possible extension for further research.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1]",
+    "filename": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1].pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "heading": "2.1 PSO",
+    "text": "Particle swarm optimization (PSO) was developed by Kennedy and Eberhart in 1995 [7, 8], based on the swarm behaviour such as fish and bird schooling in nature. Since then, PSO has generated much wider interests, and forms an exciting, ever-expanding research subject, called swarm intelligence. PSO has been applied to almost every area in optimization, computational intelligence, and design/scheduling applications. There are at least two dozens of PSO variants, and hybrid algorithms by combining PSO with other existing algorithms are also increasingly popular.\nPSO searches the space of an objective function by adjusting the trajectories of individual agents, called particles, as the piecewise paths formed by positional vectors in a quasi-stochastic manner. The movement of a swarming particle consists of two major components: a stochastic component and a deterministic component. Each particle is attracted toward the position of the current global best g ∗ and its own best location x ∗ i in history, while at the same time it has a tendency to move randomly.\nLet x i and v i be the position vector and velocity for particle i , respectively. The new velocity vector is determined by the following formula\nwhere ϵ 1 and ϵ 2 are two random vectors, and each entry taking the values between 0 and 1. The parameters α and β are the learning parameters or acceleration constants, which can typically be taken as, say, α ≈ β ≈ 2.\nThere are many variants which extend the standard PSO algorithm, and the most noticeable improvement is probably to use an inertia function θ ( t ) so that v t i is replaced by θ ( t ) v t i\nwhere θ ∈ (0 , 1) [2, 3]. In the simplest case, the inertia function can be taken as a constant, typically θ ≈ 0 . 5 ∼ 0 . 9. This is equivalent to introducing a virtual mass to stabilize the motion of the particles, and thus the algorithm is expected to converge more quickly.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1]",
+    "filename": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1].pdf",
+    "page_start": 3,
+    "page_end": 3,
+    "heading": "2.2 Accelerated PSO",
+    "text": "The standard particle swarm optimization uses both the current global best g ∗ and the individual best x ∗ i . The reason of using the individual best is primarily to increase the diversity in the quality solutions, however, this diversity can be simulated using some randomness. Subsequently, there is no compelling reason for using the individual best, unless the optimization problem of interest is highly nonlinear and multimodal.\nA simplified version which could accelerate the convergence of the algorithm is to use the global best only. Thus, in the accelerated particle swarm optimization (APSO) [27, 32], the velocity vector is generated by a simpler formula\nwhere ϵ n is drawn from N (0 , 1) to replace the second term. The update of the position is simply\nIn order to increase the convergence even further, we can also write the update of the location in a single step\nThis simpler version will give the same order of convergence. Typically, α = 0 . 1 L ∼ 0 . 5 L where L is the scale of each variable, while β = 0 . 1 ∼ 0 . 7 is sufficient for most applications. It is worth pointing out that velocity does not appear in equation (5), and there is no need to deal with initialization of velocity vectors. Therefore, APSO is much simpler. Comparing with many PSO variants, APSO uses only two parameters, and the mechanism is simple to understand.\nA further improvement to the accelerated PSO is to reduce the randomness as iterations proceed. This means that we can use a monotonically decreasing function such as\nwhere α 0 ≈ 0 . 5 ∼ 1 is the initial value of the randomness parameter. Here t is the number of iterations or time steps. 0 < γ < 1 is a control parameter [32]. For example, in our implementation, we will use\nwhere t ∈ [0 , t max ] and t max is the maximum of iterations.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1]",
+    "filename": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1].pdf",
+    "page_start": 3,
+    "page_end": 3,
+    "heading": "3 Support Vector Machine",
+    "text": "Support vector machine (SVM) is an efficient tool for data mining and classification [25, 26]. Due to the vast volumes of data in business, especially e-commerce, efficient use of data mining techniques becomes a necessity. In fact, SVM can also be considered as an optimization tool, as its objective is to maximize the separation margins between data sets. The proper combination of SVM with metaheuristics could be advantageous.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1]",
+    "filename": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1].pdf",
+    "page_start": 3,
+    "page_end": 4,
+    "heading": "3.1 Support Vector Machine",
+    "text": "A support vector machine essentially transforms a set of data into a significantly higher-dimensional space by nonlinear transformations so that regression and data fitting can be carried out in this high-dimensional space. This methodology can be used for data classification, pattern recognition, and regression, and its theory was based on statistical machine learning theory [21, 24, 25].\nFor classifications with the learning examples or data ( x i , y i ) where i = 1 , 2 , ..., n and y i ∈ {-1 , +1 } , the aim of the learning is to find a function φ α ( x ) from allowable functions { φ α : α ∈ Ω }\nor such that φ α ( x i ) ↦→ y i for ( i = 1 , 2 , ..., n ) and that the expected risk E ( α ) is minimal. That is the minimization of the risk\nwhere Q ( x , y ) is an unknown probability distribution, which makes it impossible to calculate E ( α ) directly. A simple approach is to use the so-called empirical risk\nHowever, the main flaw of this approach is that a small risk or error on the training set does not necessarily guarantee a small error on prediction if the number n of training data is small [26].\nFor a given probability of at least 1 -p , the Vapnik bound for the errors can be written as\nwhere\nHere h is a parameter, often referred to as the Vapnik-Chervonenskis dimension or simply VCdimension [24], which describes the capacity for prediction of the function set φ α .\nIn essence, a linear support vector machine is to construct two hyperplanes as far away as possible and no samples should be between these two planes. Mathematically, this is equivalent to two equations\nand a main objective of constructing these two hyperplanes is to maximize the distance (between the two planes)\nSuch maximization of d is equivalent to the minimization of || w || or more conveniently || w || 2 . From the optimization point of view, the maximization of margins can be written as\nThis essentially becomes an optimization problem\nwhere λ > 0 is a parameter to be chosen appropriately. Here, the term ∑ n i =1 η i is essentially a measure of the upper bound of the number of misclassifications on the training data.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1]",
+    "filename": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1].pdf",
+    "page_start": 4,
+    "page_end": 6,
+    "heading": "3.2 Nonlinear SVM and Kernel Tricks",
+    "text": "The so-called kernel trick is an important technique, transforming data dimensions while simplifying computation. By using Lagrange multipliers α i ≥ 0, we can rewrite the above constrained optimization into an unconstrained version, and we have\nFrom this, we can write the Karush-Kuhn-Tucker conditions\nFrom the first KKT condition, we get\nsubject to\n̸\nIt is worth pointing out here that only the nonzero α i contribute to overall solution. This comes from the KKT condition (23), which implies that when α i = 0, the inequality (17) must be satisfied exactly, while α 0 = 0 means the inequality is automatically met. In this latter case, η i = 0. Therefore, only the corresponding training data ( x i , y i ) with α i > 0 can contribute to the solution, and thus such x i form the support vectors (hence, the name support vector machine). All the other data with α i = 0 become irrelevant.\nIt has been shown that the solution for α i can be found by solving the following quadratic programming [24, 26]\nFrom the coefficients α i , we can write the final classification or decision function as\nwhere sgn is the classic sign function.\nAs most problems are nonlinear in business applications, and the above linear SVM cannot be used. Ideally, we should find some nonlinear transformation φ so that the data can be mapped onto a high-dimensional space where the classification becomes linear. The transformation should be chosen in a certain way so that their dot product leads to a kernel-style function K ( x , x i ) = φ ( x ) · φ ( x i ). In fact, we do not need to know such transformations, we can directly use the kernel functions K ( x , x i ) to complete this task. This is the so-called kernel function trick. Now the main task is to chose a suitable kernel function for a given, specific problem.\nFor most problems in nonlinear support vector machines, we can use K ( x , x i ) = ( x · x i ) d for polynomial classifiers, K ( x , x i ) = tanh[ k ( x · x i )+Θ)] for neural networks, and by far the most widely used kernel is the Gaussian radial basis function (RBF)\nfor the nonlinear classifiers. This kernel can easily be extended to any high dimensions. Here σ 2 is the variance and γ = 1 / 2 σ 2 is a constant. In general, a simple bound of 0 < γ ≤ C is used, and here C is a constant.\nFollowing the similar procedure as discussed earlier for linear SVM, we can obtain the coefficients α i by solving the following optimization problem\nIt is worth pointing out under Mercer's conditions for the kernel function, the matrix A = y i y j K ( x i , x j ) is a symmetric positive definite matrix [26], which implies that the above maximization is a quadratic programming problem, and can thus be solved efficiently by standard QP techniques [21].\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1]",
+    "filename": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1].pdf",
+    "page_start": 6,
+    "page_end": 6,
+    "heading": "4.1 Metaheuristics",
+    "text": "There are many metaheuristic algorithms for optimization and most these algorithms are inspired by nature [27]. Metaheuristic algorithms such as genetic algorithms and simulated annealing are widely used, almost routinely, in many applications, while relatively new algorithms such as particle swarm optimization [7], firefly algorithm and cuckoo search are becoming more and more popular [27, 32]. Hybridization of these algorithms with existing algorithms are also emerging.\nThe advantage of such a combination is to use a balanced tradeoff between global search which is often slow and a fast local search. Such a balance is important, as highlighted by the analysis by Blum and Roli [1]. Another advantage of this method is that we can use any algorithms we like at different stages of the search or even at different stage of iterations. This makes it easy to combine the advantages of various algorithms so as to produce better results.\nOthers have attempted to carry out parameter optimization associated with neural networks and SVM. For example, Liu et al. have used SVM optimized by PSO for tax forecasting [13]. Lu et al. proposed a model for finding optimal parameters in SVM by PSO optimization [14]. However, here we intend to propose a generic framework for combining efficient APSO with SVM, which can be extended to other algorithms such as firefly algorithm [28, 31].\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1]",
+    "filename": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1].pdf",
+    "page_start": 6,
+    "page_end": 7,
+    "heading": "4.2 APSO-SVM",
+    "text": "Support vector machine has a major advantage, that is, it is less likely to overfit, compared with other methods such as regression and neural networks. In addition, efficient quadratic programming can be used for training support vector machines. However, when there is noise in the data, such algorithms are not quite suitable. In this case, the learning or training to estimate the parameters in the SVM becomes difficult or inefficient.\nAnother issue is that the choice of the values of kernel parameters C and σ 2 in the kernel functions; however, there is no agreed guideline on how to choose them, though the choice of their values should make the SVM as efficiently as possible. This itself is essentially an optimization problem.\nTaking this idea further, we first use an educated guess set of values and use the metaheuristic algorithms such as accelerated PSO or cuckoo search to find the best kernel parameters such as C and σ 2 [27, 29]. Then, we used these parameters to construct the support vector machines which are then used for solving the problem of interest. During the iterations and optimization, we can also modify kernel parameters and evolve the SVM accordingly. This framework can be called a metaheuristic support vector machine. Schematically, this Accelerated PSO-SVM can be represented as shown in Fig. 1.\nFor the optimization of parameters and business applications discussed below, APSO is used for both local and global search [27, 32].\nbegin\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1]",
+    "filename": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1].pdf",
+    "page_start": 7,
+    "page_end": 7,
+    "heading": "5 Business Optimization Benchmarks",
+    "text": "Using the framework discussed earlier, we can easily implement it in any programming language, though we have implemented using Matlab. We have validated our implementation using the standard test functions, which confirms the correctness of the implementation. Now we apply it to carry out case studies with known analytical solution or the known optimal solutions. The Cobb-Douglas production optimization has an analytical solution which can be used for comparison, while the second case is a standard benchmark in resource-constrained project scheduling [11].\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1]",
+    "filename": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1].pdf",
+    "page_start": 7,
+    "page_end": 8,
+    "heading": "5.1 Production Optimization",
+    "text": "Let us first use the proposed approach to study the classical Cobb-Douglas production optimization. For a production of a series of products and the labour costs, the utility function can be written\nwhere all exponents α j are non-negative, satisfying\nThe optimization is the minimization of the utility\nwhere w j ( j = 1 , 2 , ..., n ) are known weights.\nThis problem can be solved using the Lagrange multiplier method as an unconstrained problem\nwhose optimality conditions are\nThe solutions are\nwhere ( j = 2 , 3 , ..., n ). For example, in a special case of n = 2, α 1 = 2 / 3, α 2 = 1 / 3, w 1 = 5, w 2 = 2 and K = 300, we have\nAs most real-world problem has some uncertainty, we can now add some noise to the above problem. For simplicity, we just modify the constraint as\nwhere ϵ is a random number drawn from a Gaussian distribution with a zero mean and a unity variance, and 0 ≤ β ≪ 1 is a small positive number.\nWe now solve this problem as an optimization problem by the proposed APSO-SVM. In the case of β = 0 . 01, the results have been summarized in Table 1 where the values are provided with different problem size n with different numbers of iterations. We can see that the results converge at the optimal solution very quickly.\n",
+    "figures": [],
+    "tables": [
+      {
+        "page": 8,
+        "bbox": [
+          220.38975524902344,
+          404.2905578613281,
+          369.5022888183594,
+          340.8116760253906
+        ],
+        "markdown": "Table 1: Mean deviations from the optimal solutions.\n\n|   size n |   Iterations |   deviations |\n|----------|--------------|--------------|\n|       10 |         1000 |        0.014 |\n|       20 |         5000 |        0.037 |\n|       50 |         5000 |        0.040 |\n|       50 |        15000 |        0.009 |",
+        "caption": "Table 1: Mean deviations from the optimal solutions.",
+        "summary": "Here's a summary of the table's structure and the information it represents:\n\n**Structure:**\n\nThe table is organized into three columns:\n\n*   **size *n***: This column lists different sample sizes (n) used in an experiment or simulation. The values are 10, 20, 50, and 50 again.\n*   **Iterations**: This column indicates the number of iterations performed for each sample size. The values are 1000, 5000, 5000, and 15000 respectively.\n*   **deviations**: This column shows the resulting deviations (likely standard deviation or some measure of error) obtained after running the experiment/simulation with each sample size and number of iterations. The values are 0.014, 0.037, 0.040, and 0.009 respectively.\n\n**Key Information:**\n\nThe table appears to be documenting the relationship between:\n\n*   **Sample Size (n):**  How many data points are being used in each sample.\n*   **Iterations:** The number of times a process is repeated for each sample size.\n*   **Deviations:** A measure of how much the results vary from an expected value or target. \n\nIt likely represents an experiment where researchers were investigating how the accuracy (as measured by deviations) changes as they increased the sample size and/or the number of iterations performed.  A key trend to look for would be whether smaller sample sizes require more iterations to achieve a similar level of accuracy compared to larger sample sizes.",
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_tables/table_1.png"
+      }
+    ],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1]",
+    "filename": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1].pdf",
+    "page_start": 8,
+    "page_end": 8,
+    "heading": "6 Income Prediction",
+    "text": "Studies to improve the accuracy of classifications are extensive. For example, Kohavi proposed a decision-tree hybrid in 1996 [10]. Furthermore, an efficient training algorithm for support vector machines was proposed by Platt in 1998 [17, 18], and it has some significant impact on machine learning, regression and data mining.\nA well-known benchmark for classification and regression is the income prediction using the data sets from a selected 14 attributes of a household from a sensus form [10, 17]. We use the same data sets at ftp://ftp.ics.uci.edu/pub/machine-learning-databases/adult for this case study. There are 32561 samples in the training set with 16281 for testing. The aim is to predict if an individual's income is above or below 50K ?\nAmong the 14 attributes, a subset can be selected, and a subset such as age, education level, occupation, gender and working hours are commonly used.\nUsing the proposed APSO-SVM and choosing the limit value of C as 1 . 25, the best error of 17 . 23% is obtained (see Table 2), which is comparable with most accurate predictions reported in [10, 17].\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1]",
+    "filename": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1].pdf",
+    "page_start": 8,
+    "page_end": 10,
+    "heading": "6.1 Project Scheduling",
+    "text": "Scheduling is an important class of discrete optimization with a wider range of applications in business intelligence. For resource-constrained project scheduling problems, there exists a standard subject to and benchmark library by Kolisch and Sprecher [11, 12]. The basic model consists of J activities/tasks, and some activities cannot start before all its predecessors h are completed. In addition, each activity j = 1 , 2 , ..., J can be carried out, without interruption, in one of the M j modes, and performing any activity j in any chosen mode m takes d jm periods, which is supported by a set of renewable resource R and non-renewable resources N . The project's makespan or upper bound is T, and the overall capacity of non-renewable resources is K ν r where r ∈ N . For an activity j scheduled in mode m , it uses k ρ jmr units of renewable resources and k ν jmr units of non-renewable resources in period t = 1 , 2 , ..., T .\nFor activity j , the shortest duration is fit into the time windows [ EF j , LF j ] where EF j is the earliest finish times, and LF j is the latest finish times. Mathematically, this model can be written as [11]\nwhere x jmt ∈ { 0 , 1 } and t = 1 , ..., T . As x jmt only takes two values 0 or 1, this problem can be considered as a classification problem, and metaheuristic support vector machine can be applied naturally.\nUsing the online benchmark library [12], we have solved this type of problem with J = 30 activities (the standard test set j30). The run time on a modern desktop computer is about 2.2 seconds for N = 1000 iterations to 15.4 seconds for N = 5000 iterations. We have run the simulations for 50 times so as to obtain meaningful statistics.\nThe optimal kernel parameters found for the support vector machines are listed in Table 3, while the deviations from the known best solution are given in Table 4 where the results by other methods are also compared.\nFrom these tables, we can see that the proposed metaheuristic support vector machine starts very well, and results are comparable with those by other methods such as hybrid genetic algorithm. In addition, it converges more quickly, as the number of iterations increases. With the same amount of function evaluations involved, much better results are obtained, which implies that APSO is very efficient, and subsequently the APSO-SVM is also efficient in this context. In addition, this also suggests that this proposed framework is appropriate for automatically choosing the right parameters for SVM and solving nonlinear optimization problems.\n",
+    "figures": [],
+    "tables": [
+      {
+        "page": 9,
+        "bbox": [
+          189.57656860351562,
+          694.2564849853516,
+          400.7547302246094,
+          640.5059204101562
+        ],
+        "markdown": "Table 2: Income prediction using APSO-SVM.\n\n|   Train set (size) |   Prediction set | Errors (%)   |\n|--------------------|------------------|--------------|\n|                512 |              256 | 24 . 9       |\n|               1024 |              256 | 20 . 4       |\n|              16400 |             8200 | 17 . 23      |",
+        "caption": "Table 2: Income prediction using APSO-SVM.",
+        "summary": "Here's a summary of the table's structure and the information it represents:\n\n**Structure:**\n\nThe table is organized into three columns:\n\n*   **Train set (size):** This column shows the number of data points used to train a machine learning model. It has three different sizes: 512, 1024, and 16400.\n*   **Prediction set:**  This column indicates the size of a separate dataset used to evaluate the performance of the trained model *after* training is complete. In this case, the prediction set always has a size of 256.\n*   **Errors (%):** This column displays the percentage of errors (incorrect predictions) made by the model when tested on the prediction set for each train set size.\n\n**Key Information:**\n\nThe table demonstrates how the *size of the training dataset* impacts the accuracy of a machine learning model's predictions.  Here's what we can observe:\n\n*   **As the Train Set Size Increases, Error Rate Decreases:** The percentage of errors decreases as the train set size increases from 512 to 16400. This suggests that providing more training data leads to a better-performing model.\n*   **Specific Values:**\n    *   With a train set of 512, the error rate is 24.9%.\n    *   With a train set of 1024, the error rate is 20.4%.\n    *   With a train set of 16400, the error rate is 17.23%.\n\n**In essence, this table illustrates the concept of \"more data = better accuracy\" in machine learning.**",
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_tables/table_2.png"
+      },
+      {
+        "page": 9,
+        "bbox": [
+          184.9246368408203,
+          201.48577880859375,
+          405.2864074707031,
+          159.18218994140625
+        ],
+        "markdown": "Table 3: Kernel parameters used in SVM.\n\n|   Number of iterations | SVM kernel parameters     |\n|------------------------|---------------------------|\n|                   1000 | C = 149 . 2, σ 2 = 67 . 9 |\n|                   5000 | C = 127 . 9, σ 2 = 64 . 0 |",
+        "caption": "Table 3: Kernel parameters used in SVM.",
+        "summary": "Here's a summary of the table's structure and the information it represents:\n\n**Structure:**\n\nThe table is a simple two-column format. The columns are labeled \"Number of iterations\" and \"SVM kernel parameters.\"\n\n**Key Information:**\n\n*   **Rows:** Each row represents a different number of training iterations performed on a Support Vector Machine (SVM) model.\n*   **Column 1 (Number of iterations):**  This column shows the amount of times the SVM algorithm has been trained on the data. There are two values: 1000 and 5000 iterations.\n*   **Column 2 (SVM kernel parameters):** This column lists the values for two key hyperparameters of the SVM model that were used for each iteration count:\n    *   `C`:  This is the regularization parameter, controlling the trade-off between maximizing the margin and minimizing classification errors.\n    *   `σ²`: This represents the variance of the kernel function (likely a Gaussian kernel), which controls the influence of individual training examples.\n\n**In essence, the table shows how the SVM's parameters (C and σ²) change as the number of iterations increases.**  It suggests that increasing the number of iterations can lead to adjustments in these parameters to improve the model's performance.",
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_tables/table_3.png"
+      },
+      {
+        "page": 10,
+        "bbox": [
+          133.49827575683594,
+          692.4746856689453,
+          456.6838684082031,
+          615.4105072021484
+        ],
+        "markdown": "Table 4: Mean deviations from the optimal solution (J=30).\n\n| Algorithm        | Authors                 |   N = 1000 |   5000 |\n|------------------|-------------------------|------------|--------|\n| PSO [22]         | Kemmoe et al. (2007)    |       0.26 |   0.21 |\n| hybribd GA [23]  | Valls eta al. (2007)    |       0.27 |   0.06 |\n| Tabu search [15] | Nonobe & Ibaraki (2002) |       0.46 |   0.16 |\n| Adapting GA [4]  | Hartmann (2002)         |       0.38 |   0.22 |\n| Meta APSO-SVM    | this paper              |       0.19 |  0.025 |",
+        "caption": "Table 4: Mean deviations from the optimal solution (J=30).",
+        "summary": "Here's a summary of the table's structure and the information it presents:\n\n**Structure:**\n\nThe table is organized into columns, comparing the performance of different optimization algorithms against a new algorithm called \"Meta APSO-SVM\" (which is described as being from \"this paper\"). \n\n*   **Column 1 (Algorithm):** Lists the names of various optimization algorithms.\n*   **Column 2 (Authors):**  Shows the authors who originally proposed each algorithm. The number in brackets indicates the year they published their work.\n*   **Column 3 (N = 1000):** Represents the performance metric (likely accuracy or fitness) achieved by each algorithm when using a dataset size of N=1000.\n*   **Column 4 (5000):**  Represents the same performance metric as Column 3, but for a larger dataset size of N=5000.\n\n**Key Information:**\n\nThe table compares the effectiveness of several established optimization algorithms - PSO, hybrid GA, Tabu search, and Adapting GA - against the newly developed \"Meta APSO-SVM\" algorithm.  It presents performance metrics (likely accuracy or fitness) for both a smaller dataset size (N=1000) and a larger one (N=5000).\n\n**Key Observation:**\n\nThe table highlights that \"Meta APSO-SVM\" performs particularly well, achieving the highest values in both the N=1000 and N=5000 columns compared to the other algorithms listed.  This suggests it is a competitive optimization method. \n\nLet me know if you'd like me to elaborate on any specific aspect of this table!",
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_tables/table_4.png"
+      }
+    ],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1]",
+    "filename": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1].pdf",
+    "page_start": 10,
+    "page_end": 10,
+    "heading": "7 Conclusions",
+    "text": "Both PSO and support vector machines are now widely used as optimization techniques in business intelligence. They can also be used for data mining to extract useful information efficiently. SVMcan also be considered as an optimization technique in many applications including business optimization. When there is noise in data, some averaging or reformulation may lead to better performance. In addition, metaheuristic algorithms can be used to find the optimal kernel parameters for a support vector machine and also to search for the optimal solutions. We have used three very different case studies to demonstrate such a metaheuristic SVM framework works.\nAutomatic parameter tuning and efficiency improvement will be an important topic for further research. It can be expected that this framework can be used for other applications. Furthermore, APSO can also be used to combine with other algorithms such as neutral networks to produce more efficient algorithms [13, 14]. More studies in this area are highly needed.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1]",
+    "filename": "Accelerated Particle Swarm Optimization and Support Vector Machine for Business Optimization and Applications [arXiv 1203.6577v1].pdf",
+    "page_start": 10,
+    "page_end": 12,
+    "heading": "References",
+    "text": "Blum C. and Roli A., Metaheuristics in combinatorial optimization: Overview and conceptural comparision, ACM Comput. Surv. , 35 , 268-308 (2003).\nA. Chatterjee and P. Siarry, Nonlinear inertia variation for dynamic adaptation in particle swarm optimization, Comp. Oper. Research , 33 , 859-871 (2006).\nM. Clerc, J. Kennedy, The particle swarm - explosion, stability, and convergence in a multidimensional complex space, IEEE Trans. Evolutionary Computation , 6 , 58-73 (2002).\nHartmann S., A self-adapting genetic algorithm for project scheduling under resource constraints, Naval Res. Log. , 49 , 433-448 (2002).\nHowley T. and Madden M. G., The genetic kernel support vector machine: description and evaluation, Artificial Intelligence Review , 24 , 379-395 (2005).\nGoldberg D. E., Genetic Algorithms in Search, Optimisation and Machine Learning , Reading, Mass.: Addison Wesley (1989).\nJ. Kennedy and R. C. Eberhart, Particle swarm optimization, in: Proc. of IEEE International Conference on Neural Networks , Piscataway, NJ. pp. 1942-1948 (1995).\nJ. Kennedy, R. C. Eberhart, Swarm intelligence , Academic Press, 2001.\nKim K., Financial forecasting using support vector machines, Neurocomputing , 55 , 307-319 (2003).\nKohavi R., Scaling up the accuracy of naive-Bayes classifiers: a decision-tree hybrid, Proc. 2nd Int. Conf. on Knowledge Discovery and Data Mining , pp. 202-207, AAAI Press, (1996). ftp://ftp.ics.uci.edu/pub/machine-learning-databases/adult\nKolisch R. and Sprecher A., PSPLIB - a project scdeluing problem library, OR Software-ORSEP (operations research software exchange prorgam) by H. W. Hamacher, Euro. J. Oper. Res. , 96 , 205-216 (1996).\nKolisch R. and Sprecher A., The Library PSBLIB, http://129.187.106.231/psplib/\nLiu L.-X., Zhuang Y. and Liu X. Y., Tax forecasting theory and model based on SVM optimized by PSO, Expert Systems with Applications , 38 , January 2011, pp. 116-120 (2011).\nLu N., Zhou J. Z., He Y., Y., Liu Y., Particle Swarm Optimization for Parameter Optimization of Support Vector Machine Model, 2009 Second International Conference on Intelligent Computation Technology and Automation , IEEE publications, pp. 283-284 (2009).\nNonobe K. and Ibaraki T., Formulation and tabu search algorithm for the resource constrained project scheduling problem (RCPSP), in: Essays and Surveys in Metaheuristics (Eds. Ribeiro C. C. and Hansen P.), pp. 557-588 (2002).\nPai P. F. and Hong W. C., Forecasting regional electricity load based on recurrent support vector machines with genetic algorithms, Electric Power Sys. Res. , 74 , 417-425 (2005).\nPlatt J. C., Sequential minimal optimization: a fast algorithm for training support vector machines, Techical report MSR-TR-98014, Microsoft Research, (1998).\nPlate J. C., Fast training of support vector machines using sequential minimal optimization, in: Advances in Kernel Methods - Support Vector Learning (Eds. B. Scholkopf, C. J. Burges and A. J. Smola), MIT Press, pp. 185-208 (1999).\nShi G. R., The use of support vector machine for oil and gas identification in low-porosity and low-permeability reservoirs, Int. J. Mathematical Modelling and Numerical Optimisation , 1 , 75-87 (2009).\nShi G. R. and Yang X.-S., Optimization and data mining for fracture prediction in geosciences, Procedia Computer Science , 1 , 1353-1360 (2010).\nSmola A. J. and Sch¨ olkopf B., A tutorial on support vector regression, (1998). http://www.svms.org/regression/\nTchomt´ e S. K., Gourgand M. and Quilliot A., Solving resource-constrained project scheduling problem with particle swarm optimization, in: Proceeding of 3rd Multidsciplinary Int. Scheduling Conference (MISTA 2007), 28 - 31 Aug 2007, Paris, pp. 251-258 (2007).\nValls V., Ballestin F. and Quintanilla S., A hybrid genetic algorithm for the resource-constrained project scheduling problem, Euro. J. Oper. Res. , doi:10.1016/j.ejor.2006.12.033, (2007).\nVapnik V., Estimation of Dependences Based on Empirical Data (in Russian), Moscow, 1979. [English translation published by Springer-Verlag, New York, 1982]\nVapnik V., The nature of Statistical Learning Theory , Springer-Verlag, New York, 1995.\nScholkopf B., Sung K., Burges C., Girosi F., Niyogi P., Poggio T. and Vapnik V., Comparing support vector machine with Gaussian kernels to radial basis function classifiers, IEEE Trans. Signal Processing , 45 , 2758-2765 (1997).\nYang X. S., Nature-Inspired Metaheuristic Algorithms , Luniver Press, (2008).\nYang X. S., Firefly algorithms for multimodal optimization, in: Stochastic Algorithms: Foundations and Applications , SAGA 2009, Lecture Notes in Computer Sciences, 5792 , pp. 169-178 (2009).\nYang X.-S. and Deb, S., Cuckoo search via L´ evy flights, in: Proceeings of World Congress on Nature & Biologically Inspired Computing (NaBIC 2009, India), IEEE Publications, USA, pp. 210-214 (2009).\nYang X. S. and Deb S., Engineering optimization by cuckoo search, Int. J. Mathematical Modelling and Numerical Optimisation , 1 , 330-343 (2010).\nYang X. S., Firefly algorithm, stochastic test functions and design optimisation, Int. J. Bioinspired Computation , 2 , 78-84 (2010).\nYang X. S., Engineering Optimization: An Introduction with Metaheuristic Applications , John Wiley & Sons, (2010).\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  }
+]

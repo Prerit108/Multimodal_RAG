@@ -8,8 +8,8 @@ class Embedder:
         # Initialize a free local embedding model running on CPU
         embedding = HuggingFaceEmbeddings(
             model_name="nomic-ai/nomic-embed-text-v1.5",
-            # model_kwargs={"device": "cpu"}
-        )
+            model_kwargs={"device": "cpu", "trust_remote_code": True}
+        ) 
         return embedding
 
 

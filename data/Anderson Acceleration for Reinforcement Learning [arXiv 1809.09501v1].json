@@ -1,0 +1,231 @@
+[
+  {
+    "doc_id": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1]",
+    "filename": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "Matthieu Geist",
+    "text": "Universit´ e de Lorraine, CNRS, LIEC, F-57000 Metz, France (Now at Google Brain)\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1]",
+    "filename": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "Bruno Scherrer",
+    "text": "matthieu.geist@univ-lorraine.fr\nbruno.scherrer@inria.fr\nUniversit´ e de Lorraine, CNRS, Inria, IECL, F-54000 Nancy, France\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1]",
+    "filename": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "Abstract",
+    "text": "Anderson (1965) acceleration is an old and simple method for accelerating the computation of a fixed point. However, as far as we know and quite surprisingly, it has never been applied to dynamic programming or reinforcement learning. In this paper, we explain briefly what Anderson acceleration is and how it can be applied to value iteration, this being supported by preliminary experiments showing a significant speed up of convergence, that we critically discuss. We also discuss how this idea could be applied more generally to (deep) reinforcement learning.\nKeywords: Reinforcement learning; accelerated fixed point.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1]",
+    "filename": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "1. Introduction",
+    "text": "Reinforcement learning (RL) (Sutton and Barto, 1998) is intrinsically linked to fixed-point computation: the optimal value function is the fixed point of the (nonlinear) Bellman optimality operator, and the value function of a given policy is the fixed point of the related (linear) Bellman evaluation operator. Most of the time, these fixed points are computed recursively, by applying repeatedly the operator of interest. Notable exceptions are the evaluation step of policy iteration and the least-squares temporal differences (LSTD) algorithm 1 (Bradtke and Barto, 1996).\nAnderson (1965) acceleration (also known as Anderson mixing, Pulay mixing, direct inversion on the iterative subspace or DIIS, among others 2 ) is a method that allows speeding up the computation of such fixed points. The classic fixed-point iteration applies repeatdly the operator to the last estimate. Anderson acceleration considers the m previous estimates. Then, it searches for the point that has minimal residual within the subspace spanned by these estimates, and applies the operator to it. This approach has been successfully applied to fields such as electronic structure computation or computational chemistry, but it has never been applied to dynamic programming or reinforcement learning, as far as we know. For more about Anderson acceleration, refer to Walker and Ni (2011), for example.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": [
+      {
+        "page": 1,
+        "text": "1. In the realm of deep RL, as far as we know, all fixed points are computed iteratively, there is no LSTD."
+      },
+      {
+        "page": 1,
+        "text": "2. Anderson acceleration and variations have been rediscovered a number of times in various communities in the last 50 years. Walker and Ni (2011) provide a brief overview of these methods, and a close approach has been recently proposed in the machine learning community (Scieur et al., 2016)."
+      },
+      {
+        "page": 1,
+        "text": "c © 2018 Matthieu Geist and Bruno Scherrer."
+      }
+    ]
+  },
+  {
+    "doc_id": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1]",
+    "filename": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1].pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "heading": "2. Anderson Acceleration for Value Iteration",
+    "text": "In this section, we briefly review Markov decision processes, value iteration, and show how Anderson acceleration can be used to speed up convergence.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1]",
+    "filename": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1].pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "heading": "2.1 Value Iteration",
+    "text": "Let ∆ X be the set of probability distributions over a finite set X and Y X the set of applications from X to the set Y . By convention, all vectors are column vectors. A Markov Decision Process (MDP) is a tuple {S , A , P, R , γ } , where S is the finite state space, A is the finite action space, P ∈ (∆ S ) S×A is the Markovian transition kernel ( P ( s ′ | s, a ) denotes the probability of transiting to s ′ when action a is applied in state s ), R ∈ R S×A is the bounded reward function ( R ( s, a ) represents the local benefit of doing action a in state s ) and γ ∈ (0 , 1) is the discount factor.\nA stochastic policy π ∈ (∆ A ) S associates a distribution over actions to each state (deterministic policies being a special case of this). The policy-induced reward and transition kernels, R π ∈ R S and P π ∈ (∆ S ) S , are defined as\nThe quality of a policy is quantified by the associated value function v π ∈ R S :\nThe value v π is the unique fixed point of the Bellman operator T π , defined as T π v = R π + γP π v for any v ∈ R S .\nLet define the second Bellman operator T as, for any v ∈ R S , Tv = max π ∈ (∆ A ) S T π v . This operator is a γ -contraction (in supremum norm), so the iteration\nconverges to its unique fixed-point v ∗ = max π v π , for any v 0 ∈ R S . This is the value iteration algorithm.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1]",
+    "filename": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1].pdf",
+    "page_start": 2,
+    "page_end": 3,
+    "heading": "2.2 Accelerated Value Iteration",
+    "text": "Anderson acceleration is a method that aims at accelerating the computation of the fixed point of any operator. Here, we describe it considering the Bellman operator T , which provides an accelerated value iteration algorithm.\nAssume that estimates have been computed up to iteration k , and that in addition to v k the m previous estimates v k -1 , . . . , v k -m are known. The coefficient vector α k +1 ∈ R m +1 is defined as follows:\nNotice that we don't impose a positivity condition on the coefficients. We will consider practically the ℓ 2 -norm for this problem, but it could be a different norm (for example ℓ 1 or\nℓ ∞ , in which case the optimization problem is a linear program). Then, the new estimate is given by:\nThe resulting Anderson accelerated value iteration is summarized in Alg. 1. Notice that the solution to the optimization problem can be obtained analytically for the ℓ 2 -norm, using the Karush-Kuhn-Tucker conditions. With the notations of Alg. 1 and writting 1 ∈ R m k +1 the vector with all components equal to one, it is\nThis can be regularized to avoid ill-conditioning.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1]",
+    "filename": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1].pdf",
+    "page_start": 3,
+    "page_end": 3,
+    "heading": "Algorithm 1: Anderson Accelerated Value Iteration",
+    "text": "The rationale of this acceleration scheme is better understood with an affine operator. We consider here the Bellman evaluation operator T π . Given the current and the m previous estimates, define\nThanks to this constraint, for an affine operator (here T π ), we have that\nThen, one searches for a vector α (satisfying the constraint) that minimizes the residual\nEventually, the new estimate is obtained by applying the operator to the vector ˜ v α k +1 of minimal residual.\nThe same approach can be applied (heuristically) to non-affine operators. The convergence of this scheme has been studied ( e.g. , Toth and Kelley (2015)) and it can be linked to quasi-Newton methods (Fang and Saad, 2009).\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1]",
+    "filename": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1].pdf",
+    "page_start": 4,
+    "page_end": 4,
+    "heading": "2.3 Preliminary Experimental Results",
+    "text": "We consider Garnet problems (Archibald et al., 1995; Bhatnagar et al., 2009). They are a class of randomly built MDPs meant to be totally abstract while remaining representative of the problems that might be encountered in practice. Here, a Garnet G ( |S| , |A| , b ) is specified by the number of states, the number of actions and the branching factor. For each ( s, a ) couple, b different next states are chosen randomly and the associated probabilities are set by randomly partitioning the unit interval. The reward is null, except for 10% of states where it is set to a random value, uniform in (1 , 2).\nWe generate 100 random MDPs G (100 , 4 , 3) and set γ to 0 . 99. For each MDP, we apply value iteration (denoted as m = 0 in the graphics) and Anderson accelerated value iteration for m ranging from 1 to 9. The inital value function v 0 is always the null vector. We run all algorithms for 250 iterations, and measure the normalised error for algorithm alg at iteration k , ‖ v ∗ -v alg k ‖ 1 ‖ v ∗ ‖ 1 , where v ∗ stands for the optimal value function of the considered MDP.\nFig. 1 shows the results. Fig. 1.a shows how the normalized error evolves with the number of iterations (recall that m = 0 stands for classic value iteration). Shaded areas correspond to standard deviations and lines to means (due to randomness of the MDPs, the algorithms being deterministic given the fixed initial value function). Fig. 1.b and 1.c show respectively the mean and the standard deviation of these errors, in a logarithmic scale. One can observe that Anderson acceleration consistently offers a significant speed-up compared to value iteration, and that rather small values of m ( m ≈ 5) seem to be enough.\n",
+    "figures": [
+      {
+        "page": 4,
+        "bbox": [
+          92.20088195800781,
+          482.32037353515625,
+          508.68115234375,
+          354.151611328125
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_1.png",
+        "caption": "Figure 1: Results on the Garnet problems.",
+        "description": "Here's an analysis of the image based solely on its visual content:\n\n**Image Description:**\n\nThe image displays three subplots representing cumulative distribution functions (CDFs). Each subplot is labeled with a letter (a, b, and c) and a descriptive title. The x-axis in all plots ranges from 0 to 250, marked in increments of 50. The y-axis represents \"normalized error,\" with values ranging approximately from -0.3 to 0.3.\n\n**Plot a: Normalized Error**\n*   This plot shows a single line graph representing the CDF of normalized error.\n*   The line is colored green.\n*   The line decreases monotonically, indicating that as the number of iterations (represented by the x-axis) increases, the probability of the normalized error being less than or equal to a given value also decreases.\n\n**Plot b: Normalized Error (Mean, Log-Scale)**\n*   This plot displays multiple lines representing CDFs for different conditions. There are seven distinct colored lines.\n*   The x-axis ranges from 0 to 250.\n*   The y-axis is on a log scale, indicating that the values represent logarithms of the normalized error.\n*   The lines decrease monotonically, similar to plot a.\n\n**Plot c: Normalized Error (Std, Log-Scale)**\n*   This plot also displays multiple lines representing CDFs for different conditions. There are seven distinct colored lines.\n*   The x-axis ranges from 0 to 250.\n*   The y-axis is on a log scale, indicating that the values represent logarithms of the normalized error.\n*   The lines decrease monotonically, similar to plots a and b.\n\n**Overall Observations:**\n\n*   All three plots depict CDFs.\n*   The x-axis represents the number of iterations.\n*   The y-axis represents normalized error, with logarithmic scaling in plots b and c.\n*   Each plot contains multiple colored lines, likely representing different experimental conditions or parameters."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1]",
+    "filename": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1].pdf",
+    "page_start": 4,
+    "page_end": 5,
+    "heading": "2.4 Nuancing the Acceleration",
+    "text": "We must highlight that the optimal policy is the object of interest, the value function being only a proxy to it. Regarding the value function, its level is not that important, but its relative differences are. This is addressed by the relative value iteration algorithm (Puterman, 1994, Ch. 6.6). For a given state s 0 , it iterates as v k + 1 2 = Tv k , v k +1 = v k + 1 2 -v k + 1 2 ( s 0 ) 1 . It usually converges much faster than value iteration (towards v ∗ -v ∗ ( s 0 ) 1 ), but the greedy policies resp. to each iterate's estimated values are the same for both algorithms. This scheme can also be easily accelerated with Anderson's approach.\nError on greedy policies (accelerated VI).\nNormalized error (accelerated relative VI).\nWe provide additional results on Fig. 2 (for the same MDPs as previously). Fig. 2.a shows the error of the greedy policy, that is ‖ v ∗ -v π alg k ‖ 1 / ‖ v ∗ ‖ 1 , with π alg k being greedy respectively to v alg k , for the first 10 iterations (same data as for Fig. 1). This is what we're really interested in. One can observe that value iteration provides more quickly better solutions than Anderson acceleration. This is due to the fact that if the level of the value function converges slowly, its relative differences converge more quickly.\nSo, we compare relative value iteration and its accelerated counterpart in Fig. 2.b (normalized error of the estimate, not of the greedy policy), to be compared to Fig. 1.b. There is still an acceleration with Anderson, at least at the beginning, but the speed-up is much less than in Fig. 1. We compare the error on greedy policies for the same setting in Fig. 2.c, and all approaches perform equally well.\n",
+    "figures": [
+      {
+        "page": 5,
+        "bbox": [
+          92.3472671508789,
+          698.6622772216797,
+          224.63970947265625,
+          613.2964324951172
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_2.png",
+        "caption": "",
+        "description": "Okay, here's a detailed analysis of the image provided, focusing solely on the observable elements within the graph:\n\n**Image Description:**\n\nThe image depicts a line graph presented in a scientific document. The graph is displayed against a white background.\n\n**Axes:**\n\n*   **X-axis (Horizontal):**  Labeled \"Time (s)\". It ranges from 0 to 12, with integer values marked at 1, 2, 3, ..., 12.\n*   **Y-axis (Vertical):** Labeled \"wf\" (likely representing 'waveform' or a similar metric). The scale ranges from 0 to 1, with markings at 0, 0.25, 0.5, 0.75, and 1.\n\n**Lines:**\n\nThe graph displays seven distinct lines, each colored differently:\n\n*   Green line\n*   Blue line\n*   Orange line\n*   Pink line\n*   Magenta line\n*   Lime green line\n*   Yellow line\n\nAll seven lines exhibit a downward trend across the x-axis.\n\n**Data Points (Approximate - based on visual estimation):**\n\nThe following approximate data points are visible for each line:\n\n*   **Green Line:**  (0, 0.98), (1, 0.75), (2, 0.46), (3, 0.23), (4, 0.11), (5, 0.06), (6, 0.04), (7, 0.03), (8, 0.02), (9, 0.01), (10, 0.01), (11, 0.01), (12, 0.01)\n*   **Blue Line:**  (0, 0.75), (1, 0.53), (2, 0.34), (3, 0.19), (4, 0.11), (5, 0.08), (6, 0.06), (7, 0.05), (8, 0.04), (9, 0.03), (10, 0.02), (11, 0.02), (12, 0."
+      },
+      {
+        "page": 5,
+        "bbox": [
+          234.62535095214844,
+          698.4453887939453,
+          366.8849792480469,
+          613.0775909423828
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_3.png",
+        "caption": "",
+        "description": "Here's an analysis of the image based on its visual content:\n\n**Image Description:**\n\nThe image is a line graph presented within a white rectangular background. The graph displays a downward trend for multiple lines plotted against a numerical axis.\n\n**Axes:**\n\n*   **X-axis:**  Labeled \"Δt of simulation\" (Delta t of simulation), ranging from 1 to 270, with integer values marked at intervals.\n*   **Y-axis:** Labeled \"SPI\" (Signal-to-Noise Ratio), with numerical scale ranging from approximately 10 to 0, marked in increments of 10.\n\n**Lines:**\n\nSeven distinct lines are plotted:\n\n1.  Blue line\n2.  Orange line\n3.  Green line\n4.  Pink line\n5.  Red line\n6.  Purple line\n7.  Yellow line\n\nAll seven lines exhibit a negative slope, indicating a decreasing value as the x-axis (Δt of simulation) increases.\n\n**Data Points:**\n\nThe specific numerical values for each data point are not discernible due to the resolution and format of the image. However, the points on each line decrease consistently across the range of Δt values.\n\n**Legend:**\n\nA legend is present in the upper right corner of the graph. It lists the lines as: \"-1\", \"-2\", \"+1\", \"+2\", \"+3\", \"+4\", \"+5\".  The labels appear to be numerical identifiers for each line.\n\n**Overall Trend:**\n\nThe overall trend is a consistent decrease in the \"SPI\" value as the \"Δt of simulation\" increases."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1]",
+    "filename": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1].pdf",
+    "page_start": 5,
+    "page_end": 5,
+    "heading": "3. Anderson Acceleration for Reinforcement Learning",
+    "text": "So, the advantage of Anderson acceleration applied to exact value iteration on simple Garnet problems is not that clear. Yet, it could still be interesting for policy evaluation or in the approximate setting. We discuss briefly its possible applications to (deep) RL.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1]",
+    "filename": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1].pdf",
+    "page_start": 5,
+    "page_end": 6,
+    "heading": "3.1 Approximate Dynamic Programming",
+    "text": "Anderson acceleration could be applied to approximate dynamic programming and related methods. For example, the well-known DQN algorithm (Mnih et al., 2015) is nothing else than a (very smart) approximate value iteration approach. A state-action value function Q is estimated (rather than a value function), and this function is represented as a neural network. A target network Q k is maintained, and the Q-function is estimated by solving the least-squares problem (for the memory buffer { ( s i , a i , r i , s ′ i ) 1 ≤ i ≤ n } )\nAnderson acceleration can be applied directly as follows. Assume that the m +1 previous target networks Q k , . . . , Q k -m are maintained. Define for k -m ≤ j ≤ k\nand ∆ k = [ δ k -m , . . . , δ k ] ∈ R n × ( m +1) . Solve α k +1 as in Eq. (1) and define for all 1 ≤ i ≤ n\nSo, Anderson acceleration would modify the targets in the regression problem, the necessary coefficients being obtained with a cheap least-squares (given m is small enough, as suggested by our preliminary experiments). Notice that the estimate α k +1 is biased, as being the solution to a residual problem with sampled transitions. However, if a problem, this could probably be handled with instrumental variables, giving an LSTD-like algorithm (Bradtke and Barto, 1996). Variations of this general scheme could also be envisionned, for example by computing the α vector on a subset of the memory replay or even on the current minibatch, or by considering variations of Anderson acceleration such as the one of Henderson and Varadhan (2018).\nThis acceleration scheme could be more generally applied to approximate modified policy iteration, or AMPI (Scherrer et al., 2015), that generalizes both approximate policy and value iterations. Modified policy iteration is similar to policy iteration, except that instead of computing the fixed point in the evaluation step, the Bellman evaluation operator is applied p times ( p = 1 gives value iteration, p = ∞ policy iteration), the improvement step (computing the greedy policy) being the same (up to possible approximation). In the approximate setting, the evaluation step is usually performed by performing the regression of p -step returns, but it could be done by applying repeatedly the evaluation operator, this being combined with Anderson acceleration (much like DQN, but with T π instead of T ).\n",
+    "figures": [
+      {
+        "page": 5,
+        "bbox": [
+          376.6640625,
+          698.4824371337891,
+          508.80657958984375,
+          613.1951904296875
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_4.png",
+        "caption": "c. Error on greedy policies (accelerated relative VI).",
+        "description": "Here's an analysis of the image based solely on its visual content:\n\n**Image Description:**\n\nThe image is a line graph presented within a white background. The x-axis ranges from 0 to 21, with integer values marked along it. The y-axis ranges from 0 to 100, with increments of 10.  Seven distinct lines represent different data sets.\n\n**Line Characteristics:**\n\n*   **Blue Line:** Starts at approximately 98 on the y-axis and decreases linearly toward 2 on the y-axis.\n*   **Orange Line:** Starts at approximately 85 on the y-axis and decreases linearly toward 10 on the y-axis.\n*   **Green Line:** Starts at approximately 73 on the y-axis and decreases linearly toward 14 on the y-axis.\n*   **Red Line:** Starts at approximately 62 on the y-axis and decreases linearly toward 18 on the y-axis.\n*   **Magenta Line:** Starts at approximately 50 on the y-axis and decreases linearly toward 23 on the y-axis.\n*   **Yellow Line:** Starts at approximately 40 on the y-axis and decreases linearly toward 27 on the y-axis.\n*   **Cyan Line:** Starts at approximately 31 on the y-axis and decreases linearly toward 32 on the y-axis.\n\n**Textual Elements:**\n\n*   A title is present in the upper left corner: \"Response\"\n*   A label for the x-axis is present to the left of the graph: \"# of trials\"\n*   A legend is located in the upper right corner, identifying each line with a color and corresponding label (Blue, Orange, Green, Red, Magenta, Yellow, Cyan).\n\n**Overall Trend:**\n\nAll seven lines exhibit a downward trend across the x-axis. The rate of decrease varies between the lines."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1]",
+    "filename": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1].pdf",
+    "page_start": 6,
+    "page_end": 6,
+    "heading": "3.2 Policy Optimization",
+    "text": "Another popular approach in reinforcement learning is policy optimization, or direct policy search (Deisenroth et al., 2013), that maximizes J ( w ) = E S ∼ µ [ v π w ( S )] (or a proxy), for a user-defined state distribution µ , over a class of parameterized policies. This is classically done by performing a gradient ascent:\nThis gradient is given by ∇ w J ( w ) = E S ∼ d µ,πw ,A ∼ π [ Q π w ( S, A ) ∇ w ln π w ( A | S )]. Thus, it depends on the state-action value function of the current policy. This gradient can be estimated with rollouts, but it is quite common to estimate the Q-function itself. Related approaches are known as actor-critic methods (the actor being the policy, and the critic the Q-function). It is quite common to estimate the critic using a SARSA-like approach, especially in deep RL. In other words, the critic is estimated by applying repeatedly the Bellman evaluation operator. Therefore, Anderson acceleration could be applied, in the same spirit as what we described for DQN.\nYet, Anderson acceleration could also be used to speed up the convergence of the policy. Consider the gradient ascent in Eq. (2). This can be seen as a fixed-point iteration to solve w = w + η ∇ w J ( w ). Anderson acceleration could thus be used to speed it up. Seeing gradient descent as a fixed point is not new (Jung, 2017), nor is applying Anderson acceleration to speed it up (Scieur et al., 2016; Xie et al., 2018). Yet, it has never been applied to policy optimization, as far as we know.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1]",
+    "filename": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1].pdf",
+    "page_start": 7,
+    "page_end": 7,
+    "heading": "References",
+    "text": "Donald G Anderson. Iterative procedures for nonlinear integral equations. Journal of the ACM (JACM) , 12(4):547-560, 1965.\nTW Archibald, KIM McKinnon, and LC Thomas. On the generation of Markov decision processes. Journal of the Operational Research Society , pages 354-361, 1995.\nShalabh Bhatnagar, Richard S Sutton, Mohammad Ghavamzadeh, and Mark Lee. Natural actor-critic algorithms. Automatica , 45(11):2471-2482, 2009.\nSteven J. Bradtke and Andrew G. Barto. Linear Least-Squares algorithms for temporal difference learning. Machine Learning , 22(1-3):33-57, 1996.\nMarc Peter Deisenroth, Gerhard Neumann, Jan Peters, et al. A survey on policy search for robotics. Foundations and Trends R © in Robotics , 2(1-2):1-142, 2013.\nHaw-ren Fang and Yousef Saad. Two classes of multisecant methods for nonlinear acceleration. Numerical Linear Algebra with Applications , 16(3):197-221, 2009.\nNicholas C Henderson and Ravi Varadhan. Damped anderson acceleration with restarts and monotonicity control for accelerating em and em-like algorithms. arXiv preprint arXiv:1803.06673 , 2018.\nAlexander Jung. A fixed-point of view on gradient methods for big data. Frontiers in Applied Mathematics and Statistics , 3:18, 2017.\nVolodymyr Mnih, Koray Kavukcuoglu, David Silver, Andrei A Rusu, Joel Veness, Marc G Bellemare, Alex Graves, Martin Riedmiller, Andreas K Fidjeland, Georg Ostrovski, et al. Human-level control through deep reinforcement learning. Nature , 518(7540):529, 2015.\nMartin L. Puterman. Markov Decision Processes: Discrete Stochastic Dynamic Programming . Wiley-Interscience, 1994.\nBruno Scherrer, Mohammad Ghavamzadeh, Victor Gabillon, Boris Lesner, and Matthieu Geist. Approximate modified policy iteration and its application to the game of tetris. Journal of Machine Learning Research , 16:1629-1676, 2015.\nDamien Scieur, Alexandre d'Aspremont, and Francis Bach. Regularized nonlinear acceleration. In Advances In Neural Information Processing Systems , pages 712-720, 2016.\nRichard S Sutton and Andrew G Barto. Reinforcement learning: An introduction . MIT press Cambridge, 1998.\nAlex Toth and CT Kelley. Convergence analysis for anderson acceleration. SIAM Journal on Numerical Analysis , 53(2):805-819, 2015.\nHomer F Walker and Peng Ni. Anderson acceleration for fixed-point iterations. SIAM Journal on Numerical Analysis , 49(4):1715-1735, 2011.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1]",
+    "filename": "Anderson Acceleration for Reinforcement Learning [arXiv 1809.09501v1].pdf",
+    "page_start": 8,
+    "page_end": 8,
+    "heading": "Geist and Scherrer",
+    "text": "Guangzeng Xie, Yitan Wang, Shuchang Zhou, and Zhihua Zhang. Interpolatron: Interpolation or extrapolation schemes to accelerate optimization for deep neural networks. arXiv preprint arXiv:1805.06753 , 2018.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  }
+]

@@ -1,0 +1,256 @@
+[
+  {
+    "doc_id": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1]",
+    "filename": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "A multitask deep learning model for real-time deployment in embedded systems",
+    "text": "Miquel Mart´ ı ∗† and Atsuto Maki † ∗ Universitat Polit` ecnica de Catalunya, Barcelona, Catalonia/Spain † KTH Royal Institute of Technology, Stockholm, Sweden Email: { miquelmr,atsuto } @kth.se\nAbstract -We propose an approach to Multitask Learning (MTL) to make deep learning models faster and lighter for applications in which multiple tasks need to be solved simultaneously, which is particularly useful in embedded, real-time systems. We develop a multitask model for both Object Detection and Semantic Segmentation and analyze the challenges that appear during its training. Our multitask network is 1.6x faster, lighter and uses less memory than deploying the single-task models in parallel. We conclude that MTL has the potential to give superior performance in exchange of a more complex training process that introduces challenges not present in single-task models.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1]",
+    "filename": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "I. INTRODUCTION",
+    "text": "Deep learning models (and machine learning models in general) focus on solving one task at a time. However, applications often require more than one task to be performed simultaneously and the naive solution is to deploy in parallel one model for each task.\nApplications imposing real-time constraints require small inference times and prohibit off-board computation, forcing the deployment of deep learning models in embedded systems, in which not only storage and memory available are limited but also computing power. This presents challenges in terms of resources, accentuated when deploying multiple models: weights storage and forward pass memory usage and computational complexity.\nMultitask Learning [1] learns to solve tasks in parallel using a shared representation of a common input, improving the generalization capabilities of the models. Multitask networks share a base trunk and a number of task-specific branches emerging from it. Only the taskspecific layers are computed separately.\nIn this work, we propose using multitask models to get benefits in terms of speed, memory usage and storage during deployment. For studying our approach, we train and evaluate a multitask model for both semantic segmentation and object detection. We highlight the challenges imposed by applying MTL, explain how they affect the performance of our model and show that it compares positively in terms of inference time, memory usage and model size against deploying one model per task.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1]",
+    "filename": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "A. Multitask Learning",
+    "text": "MTL has been succesfully used in different domains, including CV [2], [3]. Some challenges appear when applying it [1]: learning speed differences between tasks and deciding what to share according to the relatedness between tasks in the multitask architecture [4], [5].\n",
+    "figures": [
+      {
+        "page": 1,
+        "bbox": [
+          303.979248046875,
+          645.9491424560547,
+          538.5247192382812,
+          556.5569763183594
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_1.png",
+        "caption": "Fig. 1. Our multitask network architecture for object detection and semantic segmentation.",
+        "description": "Okay, here's a detailed analysis of the image based solely on its visual content, using UTF-8 characters:\n\n**Overall Description:**\n\nThe image is a technical diagram illustrating a complex system, likely related to heat transfer or fluid dynamics. It depicts a multi-stage heat exchanger with multiple channels and associated components.\n\n**Detailed Breakdown:**\n\n1.  **Main Heat Exchanger:**\n    *   A large, rectangular structure dominates the lower portion of the image. This is the primary heat exchanger unit.\n    *   It consists of numerous parallel, blue channels running horizontally. \n    *   The channels are arranged in a tightly packed, grid-like pattern.\n    *   The channel walls appear to be red.\n\n2.  **Fluid Flow Paths:**\n    *   Multiple lines (grey) connect the main heat exchanger to several smaller boxes and components positioned above it. These represent fluid flow paths. \n    *   There are six distinct boxes connected to the main unit.\n\n3. **Control Elements:**\n    *   Six rectangular boxes are situated directly above the main heat exchanger, each connected to a channel by a grey line.\n    *   Each box has a green and a white component within it. \n\n4.  **Output Components:**\n    *   To the right of the diagram, there is a vertical structure with three distinct components:\n        *   A large, rectangular element (green).\n        *   A smaller, angled orange element.\n        *   A final green element.\n\n5. **Text Labels:**\n    *   The text \"flow junction\" appears in the top left corner of the diagram. \n    *   The text \"heat output\" appears in the top right corner of the diagram.\n\n**Data Points & Patterns (as visually discernible):**\n\n*   A linear arrangement of numerous parallel channels.\n*   Six identical boxes connected to the main heat exchanger.\n*   Three distinct output components at the right side. \n*   The use of grey lines indicates fluid flow connections.\n\nLet me know if you would like me to focus on a specific aspect or element within the image!"
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1]",
+    "filename": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "B. Semantic Segmentation",
+    "text": "Semantic segmentation aims at partitioning parts of images belonging to the same semantic class, typically via pixel-wise classification. Fully convolutional networks (FCN) [6] have improved both accuracy and speed for dense prediction problems by using only convolutional layers. Upsampling layers allow a segmentation output size equal to the input and skip connections add finer details. Other approaches add post-processing steps [7], learnable deconvolution layers [8] or global context [9].\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1]",
+    "filename": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "C. Object Detection",
+    "text": "Object detection aims at finding in an image all instances of objects and classifying them in a number of classes. Faster R-CNN [10] was the first to give close to real-time performance. YOLO [11] avoids the generation of region proposals for increased speed. SSD [12] avoids fully-connected layers for speed and takes features at different levels for improved accuracy.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1]",
+    "filename": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "A. Model details",
+    "text": "Extended details on our new model architecture, datasets and training strategies can be found in [13]. We select a ResNet-50 [14] as our base network, FCN with a skip connection for the semantic segmentation task and SSD for objection detection due to their speed vs. accuracy trade-offs. Fig. 1 shows our multitask model.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1]",
+    "filename": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "B. Datasets",
+    "text": "For the Pascal VOC dataset [15], we only use the subset of samples that have ground-truth annotations for both tasks from VOC07, VOC12 and SBD[16].\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1]",
+    "filename": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1].pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "heading": "PASCAL VOC RESULTS.",
+    "text": "As there is no aerial view dataset with annotations for both tasks, we interleave images from Stanford Drone Dataset [17] for object detection and the much smaller Okutama/Swiss [18] datasets for semantic segmentation in each mini-batch.\n",
+    "figures": [
+      {
+        "page": 2,
+        "bbox": [
+          55.661563873291016,
+          762.7003479003906,
+          294.5273132324219,
+          725.4064331054688
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_2.png",
+        "caption": "Fig. 2. Pascal VOC detection and segmentation samples.",
+        "description": "Here's an analysis of the image content based on a scientific/technical document:\n\n**Image Description:**\n\nThe image is a bar chart presented within a table format. The chart displays two data series, labeled \"mIoU (%)\" and \"mAoP (%)\".  Each data series has multiple bars representing different categories or conditions.\n\n**Table Structure & Data Points:**\n\n*   **Column 1: References** - This column lists the citation numbers [18], [12], and [19].\n*   **Column 2: Ours** - This column contains four bars representing the results of a system or method labeled \"Ours\". The values are:\n    *   mIoU (Percentage): 54.4\n    *   mAoP (Percentage): 51.8\n*   **Column 3: SSD** -  This column displays one bar for \"SSD\" with a value of 51.3.\n*   **Column 4: FCN** - This column shows one bar for \"FCN\" with a value of 56.4.\n*   **Column 5: Multi** - This column contains one bar for \"Multi\" with a value of 54.4.\n*   **Column 6: Color** - This column displays one bar for \"Color\" with a value of 55.2.\n\n**Data Series Labels:**\n\n*   \"mIoU (%)\": Represents Mean Intersection over Union, likely a metric related to object detection or segmentation performance.\n*   \"mAoP (%)\": Represents Mean Average Precision, likely a metric related to object detection or classification performance.\n\n**Trends & Patterns (as observed in the data):**\n\n*   The \"Ours\" system achieves values of 54.4% for mIoU and 51.8% for mAoP.\n*   SSD, FCN, Multi, and Color all have a value of 51.3 or 56.4 respectively.\n*   The reference data ([18], [12], [19]) shows values of 74.3%, 70.4%, and 62.5% for mIoU, respectively.\n\n**Note:** The image is a static representation of data; it does not provide any context or explanation beyond the numerical values themselves."
+      },
+      {
+        "page": 2,
+        "bbox": [
+          60.11711883544922,
+          711.9983978271484,
+          160.01513671875,
+          637.9777069091797
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_3.png",
+        "caption": "",
+        "description": "Okay, here's a detailed analysis of the image based solely on observable content, using UTF-8 characters:\n\n**Image Description:**\n\nThe image is a photograph depicting an outdoor scene. The dominant features are as follows:\n\n1.  **Roadway:** A paved road occupies the lower left portion of the frame. The pavement appears dark gray and shows signs of wear.\n\n2.  **Vegetation:** Green vegetation, including grasses and shrubs, fills the background extending to a distant horizon. \n\n3.  **People:**\n    *   A single adult female is positioned in the center-right of the image. She is wearing a light-colored shirt, shorts, and appears to be holding something up with her right hand.\n    *   A child (presumed male) is located within a rectangular bounding box on the left side of the frame. He is wearing a blue t-shirt and dark pants. \n    *   Two green wheelbarrows are positioned near the child.\n\n4.  **Bounding Boxes:** Four rectangular bounding boxes are overlaid on the image. These boxes encompass the following areas:\n    *   Box 1: Encloses the child.\n    *   Box 2: Encloses the adult female.\n    *   Box 3: Encloses one of the wheelbarrows.\n    *   Box 4: Encloses the second wheelbarrow.\n\n5.  **Color Palette:** The predominant colors are green (vegetation), gray (roadway), blue (clothing), and various shades of light/dark within the human figures.\n\n6. **Image Quality:** The image appears slightly blurred, particularly in the background. \n\n7. **Text:** No discernible text is present within the image itself.\n\n**Data Points & Patterns:**\n\n*   The bounding boxes indicate object detection or segmentation has been applied to this image.\n*   The presence of multiple wheelbarrows suggests a potential activity involving moving materials.\n*   The relative sizes of the bounding boxes provide an indication of the approximate dimensions of the detected objects. \n\n**Note:** This analysis is strictly based on the visual content of the provided image and does not include any external information or interpretation."
+      },
+      {
+        "page": 2,
+        "bbox": [
+          185.00473022460938,
+          712.4997406005859,
+          284.9112243652344,
+          637.5849151611328
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_4.png",
+        "caption": "",
+        "description": "Here's an analysis of the image based on observable details, using UTF-8 characters:\n\n**Image Description:**\n\nThe image depicts a road scene with a vehicle in the foreground and another vehicle further down the road. The overall image appears to be slightly blurred.\n\n**Foreground Vehicle:**\n\n*   **Type:** A large, brown truck is positioned centrally within the frame. It has an open cargo area.\n*   **Color:** Predominantly brown/tan with a blue door.\n*   **Features:**  A green bounding box (likely from object detection software) surrounds the truck. The bounding box's coordinates are visible: x=486, y=237, width=512, height=340.\n\n**Background Vehicle:**\n\n*   **Type:** A silver passenger vehicle is present further down the road to the right of the truck.\n*   **Color:** Silver/gray.\n*   **Distance:** Appears significantly farther from the viewer than the truck.\n\n**Road and Environment:**\n\n*   **Surface:** The road surface is dark gray asphalt.\n*   **Sidewalk:** A light-colored sidewalk runs along the left side of the image.\n*   **Vegetation:** Sparse green vegetation can be seen on the right side of the road, suggesting a rural or suburban setting.\n*   **Sky:**  A pale blue sky is visible in the background.\n\n**Other Observations:**\n\n*   The image has a slight motion blur, indicating movement of either the camera or the vehicles.\n*   There are no discernible text elements within the primary scene."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1]",
+    "filename": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1].pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "heading": "A. Pascal VOC",
+    "text": "We train single-task baselines with the limitations imposed by using MTL and compare those with the multitask model and reference models from the literature. Table I shows the results. Some example output images can be seen in Fig. 2. We add color distortion for data augmentation.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1]",
+    "filename": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1].pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "heading": "B. Aerial view",
+    "text": "We train single-task baselines with no limitations and compare them to our multitask model. Table II shows the results in terms of accuracy and resources used when deployed on an NVIDIA GTX Titan X for the singletask models, their combination and our multitask model. Sample output images can be seen in Fig. 3.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1]",
+    "filename": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1].pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "heading": "C. Analysis",
+    "text": "The compromises made due to the particularities of MTL and especially the lack of a strong data augmentation caused the final accuracy of our multitask model to lag behind that of the single-task ones trained without these although they improved in terms of speed and usage of resources, being 1.6x faster, lighter and consuming less memory than the naive solution. Compared to the single-task models trained with the same limitations, the multitask models matched or outperformed their accuracy for one of the tasks. Find a more detailed analysis in [13].\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1]",
+    "filename": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1].pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "heading": "V. CONCLUSION",
+    "text": "We conclude that MTL has the potential to give superior performance in the accuracy vs. speed over using multiple single-task models simultaneously as far as the two analyzed are concerned. This is in exchange of a training process that is more complex as it requires extra choices to be made, a new tuning of the parameters that jointly works well for each task and overcoming new challenges that were not present in the training of singletask models.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1]",
+    "filename": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1].pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "heading": "AERIAL VIEW RESULTS.",
+    "text": "",
+    "figures": [
+      {
+        "page": 2,
+        "bbox": [
+          310.767578125,
+          701.0129089355469,
+          409.64617919921875,
+          601.7751770019531
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_5.png",
+        "caption": "",
+        "description": "Here's an analysis of the image based solely on its observable content:\n\n**Image Description:**\n\nThe image is a digital photograph depicting a street intersection. The scene appears to be outdoors under daylight conditions.\n\n**Geometric Elements & Spatial Data:**\n\n*   **Intersection:** The image shows a four-way intersection with roads converging at a central point.\n*   **Roads:** There are multiple paved road surfaces visible, varying in width and orientation.\n*   **Buildings:** Several buildings are present on the periphery of the scene, exhibiting varied architectural styles (e.g., one appears to be a single-story building with a red roof).\n*   **Vegetation:** Trees and shrubs are located along the edges of the roads and within the areas surrounding the buildings.\n\n**Annotation Data (Bounding Boxes):**\n\nThe image contains multiple bounding boxes, outlined in orange, overlaid on the scene. These appear to be object detection annotations. The text labels associated with each box are as follows:\n\n*   \"Vehicle 1\"\n*   \"Vehicle 2\"\n*   \"Vehicle 3\"\n*   \"Vehicle 4\"\n*   \"Vehicle 5\"\n*   \"Vehicle 6\"\n*   \"Vehicle 7\"\n*   \"Vehicle 8\"\n*   \"Vehicle 9\"\n\n**Color Palette:**\n\nThe dominant colors in the image are gray (road surfaces), red (building roof), green (vegetation), and various shades of blue (vehicles).\n\n**Overall Composition:**\n\nThe image is a wide-angle shot, capturing a significant portion of the intersection and its immediate surroundings. The perspective appears to be from a slightly elevated position."
+      },
+      {
+        "page": 2,
+        "bbox": [
+          434.5385437011719,
+          698.6681518554688,
+          534.1503295898438,
+          601.4738616943359
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_6.png",
+        "caption": "",
+        "description": "Here's an analysis of the image based on observable elements:\n\n**Overall Image Description:**\n\nThe image is a digital aerial photograph depicting a street scene with several vehicles. The image appears to be a composite, likely generated by computer vision or object detection software.  Yellow bounding boxes are overlaid on the image, highlighting detected objects.\n\n**Specific Elements & Data Points:**\n\n*   **Vehicles:** Numerous rectangular bounding boxes indicate the presence of vehicles. These appear to represent cars and possibly trucks. The number of identified vehicles is approximately 30-40.\n*   **Color Coding:**  The bounding boxes are colored in shades of blue and green, likely representing different object classes or confidence levels within the detection algorithm.\n*   **Bounding Box Sizes & Locations:** The size and location of the bounding boxes vary. Some are larger, indicating potentially more prominent objects, while others are smaller. They appear to be distributed across the entire image area, with a higher concentration near the street edges and in the center.\n*   **Street Features:**  The photograph shows a paved road surface with markings (lanes) visible. There is an indication of sidewalks along the sides.\n*   **Building/Structure:** A large red building or structure occupies a significant portion of the upper-right quadrant of the image.\n*   **Text Overlay:** The word \"3\" appears in the lower right corner, possibly indicating a version number or identifier related to the data processing.\n\n**Technical Notes (Inferred):**\n\n*   The image is likely the output of an object detection system trained on vehicle recognition.\n*   The bounding box annotations are generated by an algorithm that identifies and localizes objects within the image.\n*   The color coding suggests a classification scheme used by the detection software.\n\n**Important Note:** This analysis is based solely on the visual content of the image. It does not include any information about the underlying data, algorithms, or the context in which this image was generated."
+      }
+    ],
+    "tables": [
+      {
+        "page": 2,
+        "bbox": [
+          311.3108215332031,
+          764.9542999267578,
+          529.217041015625,
+          710.5800170898438
+        ],
+        "markdown": "Fig. 3. Aerial view detection and segmentation samples.\n\n|                | Base   | FCN   | SSD   |   Multitask |   Naive |\n|----------------|--------|-------|-------|-------------|---------|\n| mIoU (%)       | -      | 70.9  | -     |        65.3 |    70.9 |\n| mAP (%)        | -      | -     | 54.3  |        28.2 |    54.3 |\n| Inf. Time (ms) | 19     | 24    | 27    |          30 |      49 |\n| Memory (MB)    | 1203   | 1233  | 1525  |        1552 |    2511 |\n| Size (MB)      | 95     | 95    | 140   |         140 |     235 |",
+        "caption": "Fig. 3. Aerial view detection and segmentation samples.",
+        "summary": "Here's a summary of the table's structure and the information it represents:\n\n**Structure:**\n\nThe table is organized into rows representing different experimental conditions or \"tasks\" performed by a system (likely a neural network).  It has columns that describe various performance metrics for each task. \n\n**Key Information Represented:**\n\n*   **Task Names:** The first column lists the names of the tasks: \"Base\", \"FCN\", \"SSD\", \"Multitask\", and \"Naive\". These likely represent different levels of cognitive complexity or task demands.\n*   **Performance Metrics:**  The other columns provide quantitative measures of how well each task performed:\n    *   **mIoU (%):** Mean Intersection over Union - a metric commonly used in object detection to measure the overlap between predicted and actual bounding boxes (likely related to accuracy).\n    *   **mAp (%):** Mean Average Precision - another common metric for evaluating object detection models, indicating the average precision across different confidence thresholds.\n    *   **Inf. Time (ms):** Inference Time - The time taken by the system to complete a single task or inference.\n    *   **Memory Size (MB):**  The amount of memory used by the system during the execution of each task.\n\n**In essence, this table compares the performance characteristics (accuracy, speed, and resource usage) of different cognitive tasks performed by a system.** It shows how the system's efficiency changes depending on the complexity of the task it's handling.",
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_tables/table_1.png"
+      }
+    ],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1]",
+    "filename": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1].pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "heading": "ACKNOWLEDGMENT",
+    "text": "The work was partially conducted while the first author was at Prendinger Lab, participating in the NII International Internship Program in Tokyo, Japan.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1]",
+    "filename": "A multitask deep learning model for real-time deployment in embedded systems [arXiv 1711.00146v1].pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "heading": "REFERENCES",
+    "text": "R. Caruana, 'Multitask learning,' Mach. Learn. , vol. 28, no. 1, pp. 41-75, Jul. 1997.\nI. Kokkinos, 'Ubernet: Training a universal convolutional neural network for low-, mid-, and high-level vision using diverse datasets and limited memory,' CoRR , vol. abs/1609.02132, 2016.\nK. He, G. Gkioxari, P. Doll´ ar, and R. B. Girshick, 'Mask R-CNN,' CoRR , vol. abs/1703.06870, 2017.\nI. Misra, A. Shrivastava, A. Gupta, and M. Hebert, 'Cross-stitch networks for multi-task learning,' 2016, pp. 3994-4003.\nY. Lu, A. Kumar, S. Zhai, Y. Cheng, T. Javidi, and R. Feris, 'Fullyadaptive feature sharing in multi-task networks with applications in person attribute classification,' arXiv:1611.05377 , 2016.\nJ. Long, E. Shelhamer, and T. Darrell, 'Fully convolutional networks for semantic segmentation,' June 2015.\nL.-C. Chen, G. Papandreou, I. Kokkinos, K. Murphy, and A. L. Yuille, 'Semantic image segmentation with deep convolutional nets and fully connected crfs,' arXiv:1412.7062 , 2014.\nH. Noh, S. Hong, and B. Han, 'Learning deconvolution network for semantic segmentation,' December 2015.\nW. Liu, A. Rabinovich, and A. C. Berg, 'Parsenet: Looking wider to see better,' CoRR , vol. abs/1506.04579, 2015.\nS. Ren, K. He, R. B. Girshick, and J. Sun, 'Faster R-CNN: towards real-time object detection with region proposal networks,' CoRR , vol. abs/1506.01497, 2015.\nJ. Redmon, S. Divvala, R. Girshick, and A. Farhadi, 'You only look once: Unified, real-time object detection,' 2016, pp. 779-788.\nW. Liu, D. Anguelov, D. Erhan, C. Szegedy, S. E. Reed, C. Fu, and A. C. Berg, 'SSD: single shot multibox detector,' CoRR , vol. abs/1512.02325, 2015.\nM. Mart´ ı, 'Multitask deep learning models for real-time deployment in embedded systems,' Master's thesis, KTH, Sweden, 2017.\nK. He, X. Zhang, S. Ren, and J. Sun, 'Deep residual learning for image recognition,' arXiv:1512.03385 , 2015.\nM. Everingham, S. M. A. Eslami, L. Van Gool, C. K. I. Williams, J. Winn, and A. Zisserman, 'The pascal visual object classes challenge: A retrospective,' International Journal of Computer Vision , vol. 111, no. 1, pp. 98-136, 2015.\nB. Hariharan, P. Arbelaez, L. Bourdev, S. Maji, and J. Malik, 'Semantic contours from inverse detectors,' 2011.\nA. Robicquet, A. Sadeghian, A. Alahi, and S. Savarese, 'Learning social etiquette: Human trajectory understanding in crowded scenes.' Springer, 2016, pp. 549-565.\nJ. Laurmaa, 'A deep learning model for scene segmentation of images captured by drones,' Master's thesis, EPFL, Switzerland, 2016.\nJ. Mahadeokar, 'pynetbuilder,' https://github.com/ jay-mahadeokar/pynetbuilder, 2016.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  }
+]

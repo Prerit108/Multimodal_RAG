@@ -1,0 +1,414 @@
+[
+  {
+    "doc_id": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1]",
+    "filename": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1].pdf",
+    "page_start": 1,
+    "page_end": 2,
+    "heading": "Oleksii Sirotkin",
+    "text": "Masters in software engineering Graduate student, G.E. Pukhov Institute for Modeling in Energy Engineering E-mail: cabemailbox@gmail.com https://orcid.org/0000-0002-6330-6096\nAbstract: In the process of building (structural learning) a probabilistic graphical model from a set of observed data, the directional, cyclic dependencies between the random variables of the model are often found. Existing graphical models such as Bayesian and Markov networks can reflect such dependencies. However, this requires complicating those models, such as adding additional variables or dividing the model graph into separate subgraphs. Herein, we describe a probabilistic graphical model-probabilistic relation network- that allows the direct capture of directional cyclic dependencies during structural learning. This model is based on the simple idea that each sample of the observed data can be represented by an arbitrary graph (structured outcome), which reflects the structure of the dependencies of the variables included in the sample. Each of the outcomes contains only a part of the graphical model structure; however, a complete graph of the probabilistic model is obtained by combining different outcomes. Such a graph, unlike Bayesian and Markov networks, can be directed and can have cycles. We explored the full joint distribution and conditional distribution and conditional independence properties of variables in the proposed model. We defined the algorithms for constructing of the model from the dataset and for calculating the conditional and full joint distributions. We also performed a numerical comparison with Bayesian and Markov networks. This model does not violate the probability axioms, and it supports learning from observed data. Notably, it supports probabilistic inference, making it a prospective tool in data analysis and in expert and designmaking applications.\nKeywords : probabilistic graphical models, relation network, cyclic directed graphical models, probabilistic algorithms, Bayesian network, Markov network\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1]",
+    "filename": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1].pdf",
+    "page_start": 3,
+    "page_end": 4,
+    "heading": "1. Introduction and motivation",
+    "text": "Probabilistic graphical models are extensively used in the field of data analysis, machine learning, and artificial intelligence [1]. In fact, such models are a set of random variables (graph nodes), whose values reflect (modeling) some important properties in the world, for example in case we model a coin toss experiment our variables will reflect a coins and values will reflect the side of the coin i.e., head or tail. Variables are connected by a probabilistic relationship (graph edges), also known as joint probability distributions (PD), and edges reflect the relationships of the properties of the world [2]. The edges of the graph can be undirected and directed. Additionally, the directionality of the edges allows the model to capture the type of world property relationships, such as causality.\nPresently, two types of probabilistic graph models-Bayesian and Markov networks- as well as their variations, are widely used in practice [1, 2, 3]. Bayesian network is a directed acyclic graph (DAG) and can model directed relationships but cannot directly model cyclic relationships. A Markov network (also known as Markov Random Fields) is a undirected cyclic graph (UCG); hence, it can model cyclic relationships, but only if they are in canonical form, while it cannot model directed relationships [4].\nHowever, as practice shows, in many cases, relationships between the properties of the world can be directed and cyclic [5]; hence, a directed cyclic graph (DCG) is required to capture them. This is especially evident in the process of building a network structure from a dataset (structural learning). In general, Markov and Bayesian networks can model such relationships; however, this will make the model complex. For example, in Markov networks, additional variables encoding the type of relationship can be used for this purpose. Alternatively, in Bayesian networks, this can be achieved by representing DCG in the form of several DAGs [6].\nOther researchers have also noticed the difficulties associated with modeling cyclic directional relationships and have offered their own solutions. For example, in a previous study [7], Kłopotek M. proposed to interpret the Bayesian network in terms of the Markov process, thereby allowing the existence of cyclic dependencies in Bayesian network graph. The problem with this approach is that the Bayesian network is represented as a Markov chain, which can potentially be infinite. In another study [5], authors proposed to extend existing learning algorithms and causal inference algorithms in DAG models (such as Bayesian networks) by adding necessary support for the cyclic dependencies between random variables. In contrast, our work focuses more on developing a new model rather than making improvement to algorithms of known models. Certain papers [8, 9] show the application of Markov networks for modeling directed cyclic dependencies. However, since a Markov network is, by definition, a UCG, this requires additional complication of its graphical structure.\nThe main objective of this work is to define a graphical probabilistic model capable of directly capturing the complex relationships between the properties of the world; predominantly, directions and cyclic relationships. However, in the course of the work, we found a way to classify relationships into a general type that includes (but is not limited to) directionality. We have named this model the probabilistic relation network (PRN) to emphasize the central meaning of relationships contained in it.\nSuch a model, on one hand, can be built from large datasets without excessive complexity. On the other hand, it will be capable of reflecting the relations of the properties of the world more accurately, which will increase the accuracy and adequacy of the probabilistic inferences in practical applications.\nThe rest of our work is structured as follows: In section 2, we will first describe the idea behind the PRN, then, we will give its formal definition. Further, we will consider the properties of full joint and conditional PDs. Thereafter, we will additionally describe the special case of a PRN-a factorized network; finally, we will show with a simple example how the model can be used in practice. In section 3, we describe, implement and test the algorithms required for building a PRN, computation of conditional PD, and computation of full-joint PD for a factorized network. In section 4, we will show how Bayesian and Markov networks can be represented using a PRN and perform numeric comparisons on a few simple examples. In section 5, we will summarize our work and share ideas on how it can be continued in the future.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1]",
+    "filename": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1].pdf",
+    "page_start": 5,
+    "page_end": 5,
+    "heading": "2. Definition of probabilistic relхation network",
+    "text": "At the core of the PRN lays the following trivial idea: The outcome of some experiments can be represented not just by a point in sample space [10] but also by a graph reflecting the outcome's structure. In the graph, we can represent the outcome as a set of probabilistic events, which will be vertices, and represent the relations between these events as edges. Additionally, each vertex (event) will belong to a random variable, which together forms a relation network.\nFor example, let us imagine an experiment in which we simultaneously toss a pair of coins, say 25¢ and 50¢ (Figure 1). Suppose we are interested not only in how the coins fall out but also in what order they touch the ground. As such, each coin toss result can be represented by a graph of a pair of vertices, each of which is the value ' head ' or ' tail ,' belonging to the random variable ' 25¢ ' or ' 50¢ .' Additionally, the directed edge between the values is the order the coins touched the ground (Figure 2). Notably, this experiment can also be easily modeled using a Markov network, but this would require an additional variable with the values ' 25¢ then 50¢ ' and ' 50¢ then 25¢ .'\nNext, we rigorously define a PRN and describe some of its properties.\n",
+    "figures": [
+      {
+        "page": 5,
+        "bbox": [
+          74.33712005615234,
+          386.9805603027344,
+          282.674072265625,
+          269.63238525390625
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_1.png",
+        "caption": "Fig. 1 Two-coin toss experiment",
+        "description": "Here's an analysis of the image based on scientific/technical documentation standards:\n\n**Image Description:**\n\nThe image depicts two stylized illustrations of human hands engaged in the act of tossing a coin.  Both hands are drawn with black lines and simplified anatomical features.\n\n*   **Hand 1 (Left):** The left hand is shown with the index finger extended upwards, releasing a circular object labeled \"25\" on its surface. The hand's fingers are curled inwards towards the palm.\n*   **Hand 2 (Right):** The right hand mirrors the action of the left hand, but releases a circular object labeled \"50\" on its surface.  The hand's fingers are also curled inwards toward the palm.\n*   **Coins:** Both objects released by the hands are depicted as circles with a numerical value printed on them: \"25\" and \"50\". The coins appear to be oriented vertically.\n*   **Background:** The background is solid black.\n\n**Data Points & Patterns:**\n\n*   Two distinct coin values are presented: 25 and 50.\n*   The hands are depicted in a symmetrical manner, performing the same action with different coin denominations."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1]",
+    "filename": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1].pdf",
+    "page_start": 5,
+    "page_end": 6,
+    "heading": "2.1. Definition of sample space 𝛀",
+    "text": "The result of some experiment or trial will be called an outcome [11]. In our case, each outcome is a connected graph of arbitrary values/events and the relations between them.\nDefinition : An outcome is a connected graph 𝜔 = ⟨𝒆, 𝒓⟩ . The vertices of which are arbitrary events 𝑒 ∈ 𝒆 , belonging to some measurable space (𝙀, 𝒢) and 𝑒(𝜔) ∈ 𝒢 , where 𝑒(𝜔) is the set of 𝑒 included in 𝜔 , and the edges are typed relations (𝑒1 ∩ 𝑟 𝑒2 ) ∋ 𝐫 of some arbitrary 𝑟 from the set of possible types of relations 𝙍 .\nNotably, this definition does not impose any restrictions on the type of values 𝑒 (vertices) and relations 𝑟 (edges).\nEach outcome can have a certain probability ranging from 0 to 1. In this study, we use the frequency interpretation of probability (frequentist probability approach) [12], but other interpretations are also possible.\nDefinition : The probability of an outcome is defined as\nwhere |𝑇| denotes the total number of experiments performed and |𝜔(𝑇)| denotes the number of experiments with a specific outcome 𝜔 . Moreover, 𝜔(𝑇) ⊆ 𝑇 .\nWe can now define a probability space [10] as the set of all possible outcomes (i.e., all possible connected graphs).\nDefinition : A probability space is a triple (𝛀, ℱ, 𝑃) , where 𝛀 denotes the set of connected graphs 𝜔 that can be formed on the vertex set 𝙀 using the edges set 𝙍 , the event set ℱ is the same as the vertex set 𝙀 , and the event probability function 𝑃: 𝙀 → ℝ[0,1] is\nwhere {𝜔 ∈ 𝛀|𝑒(𝜔) ∋ 𝑒} is the set of outcomes ω that include an event 𝑒 .\nWe can count the possible number of outcomes in 𝛀 using the formula\nwhere |𝙍| denotes the number of relations and |𝙀| denotes the number of events.\n",
+    "figures": [
+      {
+        "page": 5,
+        "bbox": [
+          330.48577880859375,
+          379.5410461425781,
+          539.4721069335938,
+          334.8785095214844
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_2.png",
+        "caption": "Fig. 2 Example of an outcome of the order of fall of two coins",
+        "description": "Here's an analysis of the image based on scientific/technical document conventions:\n\n**Image Description:**\n\nThe image consists of three elliptical shapes arranged in a linear sequence. The left ellipse is labeled \"25¢ head\" and contains the text \"25¢\". The central element is a line with the word \"then\" written on it.  To the right of this line is an ellipse labeled \"50¢ tail\" and contains the text \"50¢\".\n\n**Data Points & Trends:**\n\n*   **Value 1:** The left ellipse indicates a value of 25 cents (USD).\n*   **Transition:** A line with the word \"then\" represents a transition or change.\n*   **Value 2:** The right ellipse indicates a value of 50 cents (USD).\n\n**Pattern:**\n\nThe image depicts a sequential transformation where the value increases from 25 cents to 50 cents."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1]",
+    "filename": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1].pdf",
+    "page_start": 6,
+    "page_end": 8,
+    "heading": "2.2. Definition of random variable 𝑉: 𝙀",
+    "text": "As in other probabilistic graphical models [2], the vertices of a PRN are random variables .\nProbably, as in other models, a PRN includes random variables of any type (discrete, continuous, and mixed). However, this statement requires further research. In this study, we considered only discrete random variables.\nDefinition : A random variable 𝑉 is a measurable function 𝑉: 𝛀 → 𝙀 , where 𝛀 denotes a probability space and 𝙀 denotes some measurable space, such that\nIn other words, a random variable 𝑉 has a domain 𝙀 comprising the set of vertices 𝑒 ∈ 𝙀 . Moreover, the probability space 𝛀 should not contain graph 𝜔 that includes vertices 𝑒 that belong to the domain 𝙀 of the same 𝑉 . Additionally, the vertex 𝑒 can belong to one and only one domain 𝙀 (i.e., it can belong to only one variable 𝑉 ).\nNotably, in the probability space (𝛀, ℱ, 𝑃) , we can define arbitrarily many random variables 𝑉1, 𝑉 2 , … , 𝑉 𝑛 , and each of them can have its arbitrary domain 𝙀1, 𝙀 2 , … , 𝙀𝑛 .\nIn the model under study, we allow the existence of outcome 𝜔 that does not include any value of some variable 𝑉 . In other words, we allow an experiment whose result 𝜔 does not provide any relevant information about the variable 𝑉 . To reflect this case in the model and make the model consistent, we assume that each variable contains an unobservable value .\nDefinition : An unobserved value 𝑢 is a value that is necessarily included in the domain 𝙀 of the variable 𝑉 but not included as a vertex in any outcome 𝜔 ∈ 𝛀 .\nNotably, the value 𝑢 can be any value from 𝙀 . It can be either chosen from those already defined or added specially.\nThe PD of the values of a variable 𝑉 is the set of probabilities of the values/events 𝑒 included in its domain 𝙀 , except for the value 𝑢 , the probability of which can be interpreted as 'the probability of nonobservation of the variable 𝑉 .'\nDefinition : We extend the probability function 𝑃: 𝙀 → ℝ[0,1] for a random variable 𝑉 as\nwhere {𝜔 ∈ 𝛀|𝑒(𝜔) ∋ 𝑒} is the set of outcomes ω that includes event 𝑒 and {𝑒 ∈ 𝙀|𝑒 ≠ 𝑢} is the set of values of variable 𝑉 excluding the value 𝑢 .\nAccordingly, the PD of a variable is\nAdditionally, the sum of the probabilities of all values will always be equal to 1 (see Theorem A):\nIn practice, we are interested in the PD of 𝑉 without considering the unobserved value 𝑢 . We can obtain it via a simple normalization:\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1]",
+    "filename": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1].pdf",
+    "page_start": 8,
+    "page_end": 9,
+    "heading": "2.3. Definition of relation graph 𝞗",
+    "text": "Now, we have the necessary components to define a PRN.\nDefinition : A PRN 𝞗 is a graph ⟨𝙑, 𝙍, 𝙊⟩ , where the set of vertices 𝙑 is the set of random variables 𝑉: 𝙀 on the probability space (𝛀, ℱ, 𝑃) , 𝙍 is the set of relation types between values of 𝑉 , and 𝙊 = {𝜔 ∈ 𝛀| 𝑃(ω) ≠ 0} . Moreover, a pair of vertices 𝑉1, 𝑉 2 ∈ 𝙑 are connected by an edge if and only if there exists 𝜔 ∈ 𝙊 containing the relation 𝑒1 ∩ 𝑟 𝑒2 , where 𝑒1 ∈ 𝙀1 and 𝑒 ∈ 𝙀2 .\nIn essence, we can think of a PRN as simply a set of outcomes ω with nonzero probability, whose vertex values 𝑒 are combined into variables 𝑉: 𝙀 . The edges of the network simply show some probabilistic dependence between vertices 𝑉1 and 𝑉2 .\nNotably, this definition does not impose any restrictions on the types of edges (including directed or not) or on the graph's structure. It also admits the existence of 𝞗 with no outcomes in it (i.e., 𝙊 = ∅ ); in this case, the PD of each variable 𝑉 will be concentrated in the unobserved value 𝑢 [i.e., 𝑃(𝑢) = 1 and ∀𝑒 ∈ 𝙀: 𝑃(𝑒) = 0 ]. Additionally, a pair of vertices 𝑉 ̇ 1 : 𝙀 ̇ 1 , 𝑉 ̇ 2 : 𝙀 ̇ 2 ∈ 𝙑 of 𝞗 are independent (i.e., 𝑉 ̇ 1 ⫫ 𝑉 ̇ 2 ) if there is no outcome 𝜔 such that 𝙀 ̇ 1 , 𝙀 ̇ 2 ⊆ 𝑒(𝜔) . In other words, 𝑉 ̇ 1 ⫫ 𝑉 ̇ 2 if there is no path between them. Meanwhile, nonnormalized 𝑉1 and 𝑉2 are dependent, via the unobserved value 𝑢 .\nAssuming that each variable 𝑉 has the same number of values (i.e., ∀ 𝑉1: 𝙀 1 , 𝑉 2 : 𝙀2 ∈ 𝙑 ∄: |𝙀1 | ≠ |𝙀 2 | ) , we can calculate the maximum number of outcomes as follows:\nwhere\n|𝙍| denotes the number of relation types, |𝙑| denotes the number of vertices in 𝞗 , and |𝙀| denotes the number of values at each vertex including the unobserved 𝑢 .\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1]",
+    "filename": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1].pdf",
+    "page_start": 9,
+    "page_end": 10,
+    "heading": "2.4. PDs 𝞗 ̂ and 𝞗|𝜔 ̌ in relation graph",
+    "text": "In many cases, we will work with the probabilities of specific outcomes, so we introduce the concept of outcome PD .\nDefinition : We define an outcome PD as follows:\nA full joint PD is the set of probabilities of all combinations of values of all variables, in the context of a PRN 𝞗 , i.e., a set of outcomes, each of which includes one value from each variable 𝑉 constituting 𝞗 .\nDefinition : A PRN containing a full joint PD is given by\nwhere 𝑉(ω) denotes the set of variables whose values are included in the outcome ω .\nIn this case, the full joint PD is\nNotably, 𝞗 ̂ need not contain outcomes for all possible combinations of values but only outcomes with nonzero probability.\nA conditional PD can be represented as a subset of outcomes from 𝞗 that is consistent with some observed outcome.\nDefinition : A PRN containing a conditional PD is given by\nwhere 𝑟(𝜔) denotes the set of relations included in the outcome (edges) and 𝑒(𝜔) denotes the set of values included in the outcome (outcome vertices).\nFrom a computational perspective, when converting 𝞗 to 𝞗|𝜔 ̌ , PDs should be normalized as follows:\nwhere 𝑍 denotes the normalization constant.\nWe can convert 𝞗|𝜔 ̌ to a network with full joint PD 𝞗 ̂ |𝜔 ̌ and then obtain conditional PDs of all variables\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1]",
+    "filename": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1].pdf",
+    "page_start": 10,
+    "page_end": 10,
+    "heading": "2.5. Factorized relation graph 𝞗 ⏞",
+    "text": "A special case of 𝞗 is a factorized PRN 𝞗 ⏞ , such that all outcomes in 𝞗 ⏞ . 𝙊 ⏞ are divided into groups (factors) 𝛷 ⊆ 𝙊 ⏞ . In this case, the following conditions are met:\nIn other words, the network 𝞗 ⏞ does not contain empty and intersecting outcomes\nwhere 𝑟 ⃡(ω) denotes the relation 𝑒1 ∩ 𝑟 𝑒2 in ω .\nIntuitively, the network 𝞗 ⏞ is a set of groups of nonintersecting (having no common edges) outcomes. Each outcome in each group will have the same set of variables 𝑉(ω) (i.e., each group or factor 𝛷 will contain a full joint PD of variables in it). Additionally, for all 𝑉 in such a group, 𝑃(𝑢) = 0 , which means that we can simply ignore the unobserved values 𝑢 . A relation network structured as such is essentially a factor graph [13].\nA pair of vertices 𝑉1, 𝑉 2 ∈ 𝙑 ⏞ of the factorized network 𝞗 ⏞ are conditionally independent (i.e., 𝑉1 ⫫ 𝑉 2 |𝑍 ) if all possible paths between 𝑉1 and 𝑉2 are blocked by observed vertices 𝑍 ∈ 𝒁 ⊆ 𝙑 ⏞ , and 𝙊 ⏞ does not contain any ω connecting vertices 𝑉 adjacent to 𝑍 on a blocked path (see Theorem B).\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1]",
+    "filename": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1].pdf",
+    "page_start": 11,
+    "page_end": 16,
+    "heading": "2.6. Two-coin toss experiment example",
+    "text": "Consider an experiment with a tossing of two coins (Figure 1). In this case, we have\nthus one random variable for each coin. The variable domains will be\nOne possible set of outcomes in this experimental setting will be\nthese outcomes can be represented graphically (see Figure 3). In this case, the type of relation 𝑟 can be, e.g., nondirected, if we are only interested in the correlation between coin tosses,\nor directed, if we want to reflect the sequence relation between coin falls,\nWe calculate the total number of possible outcomes |𝛀| when the two relations 𝙍 = {𝑟 1 , 𝑟 2 } are used. In other words, we calculate in how many ways the coins can fall (Formulas 11 and 12)\nWe toss the coins 10 times. Suppose we obtain a list of results/outcomes\nthe outcomes can be graphically presented as in Figure 4, and the relation network 𝞗 will look like in Figure 5.\nBased on the results of a series of experiments, we can calculate the probabilities of outcomes (Formula 1)\nand the rest of the 12 - 8 possible outcomes will have zero probability.\nNow, we can calculate the probabilities of each value considering them as separate events (Formula 2):\nWe can also calculate the conditional probability with respect to the relation type between events, e.g., the probability of h1 , if observed that h2 occurred after it ( 𝑟 1 relation)\nWe explored the values 𝙀 as separate events; now, we consider them as values of the variables 𝑉1: 𝙀 1 and 𝑉2: 𝙀 2 .\nIn addition to the probabilities of the values calculated earlier, we need to calculate the probabilities of the unobserved values 𝑢1 and 𝑢2 (Formula 7):\nThus, we obtain the complete distribution of variables (Formula 8):\nWe can also calculate the PD of variables without 𝑢1 and 𝑢2 values (Formula 10):\nWe also check that the probabilities of the values of the variables really sum to 1 (Formula 9)\nThe full joint PD 𝞗 ̂ for our example will be (Formula 14)\nAdditionally, if we assume a uniform PD of outcomes, we have\nthen, the variable distributions will be\nFor 𝞗 ̂ , we can construct a conditional distribution 𝞗|𝜔 ̌ , where the known outcome is 𝜔 ̌ = h1 (Formula 16)\nThen, we can also calculate the conditional PD of outcomes in 𝞗 ̂ |ω ̌ (Formula 18):\nTo make the example of a factorized network 𝞗 ⏞ intuitive, we add one more coin to our experiment. Additionally, we add an extra variable 𝑉3 to the model (Figures 6 and 7):\nIn this network, we have two factors:\n",
+    "figures": [
+      {
+        "page": 11,
+        "bbox": [
+          177.9250946044922,
+          305.5248107910156,
+          432.72821044921875,
+          249.0213623046875
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_3.png",
+        "caption": "Fig. 3 𝗢 set",
+        "description": "Here's an analysis of the image based solely on its visual content:\n\n**Image Description:**\n\nThe image depicts a diagram composed of nine circular elements arranged in a 3x3 grid. Each element is labeled with a unique alphanumeric string. The strings are as follows:\n\n*   `h_1`: Appears three times, located at the top left, center left, and bottom left positions.\n*   `t_1`: Appears three times, located at the top right, center right, and bottom right positions.\n*   `h_2`: Appears three times, located at the top middle, center middle, and bottom middle positions.\n*   `r`: Appears six times, positioned between `h_1`, `h_2`, and `t_1`, `t_2`.\n\nEach circular element is connected to its immediate neighbors by a solid black line. The arrangement forms a grid-like structure with lines connecting the elements horizontally and vertically.  The elements are uniformly spaced within their respective positions in the grid."
+      },
+      {
+        "page": 13,
+        "bbox": [
+          104.14256286621094,
+          718.6499633789062,
+          255.01365661621094,
+          478.7512512207031
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_4.png",
+        "caption": "Fig. 4 PRN as a set of outcomes",
+        "description": "Here's a detailed description of the image based on scientific/technical document analysis, using UTF-8 characters:\n\n**Image Description:**\n\nThe image depicts a schematic diagram representing a neural network architecture, specifically an Echo State Network (ESN). It consists of two primary modules labeled \"V_1\" and \"V_2,\" enclosed within dashed rectangular boxes.  Each module contains several interconnected nodes.\n\n**Module V_1 Details:**\n\n*   It contains five nodes labeled \"h_1\" (horizontal) and five nodes labeled \"t_1\" (temporal).\n*   The horizontal nodes are arranged in a vertical column on the left side of the box.\n*   The temporal nodes are arranged in a vertical column on the left side of the box, below the horizontal nodes.\n*   Connections between these nodes are represented by arrows.\n\n**Module V_2 Details:**\n\n*   It contains four nodes labeled \"h_2\" (horizontal) and four nodes labeled \"t_2\" (temporal).\n*   The horizontal nodes are arranged in a vertical column on the right side of the box.\n*   The temporal nodes are arranged in a vertical column on the right side of the box, below the horizontal nodes.\n*   Connections between these nodes are represented by arrows.\n\n**Connectivity:**\n\n*   Arrows indicate connections between nodes.\n*   There are four connection paths labeled \"r_1\" originating from V_1 and connecting to V_2.\n*   There is one connection path labeled \"r_2\" originating from V_1 and connecting to V_2.\n\n**Overall Structure:**\n\nThe network has a recurrent structure, with feedback loops indicated by the arrows returning to previous nodes within each module. The architecture appears to be a simple ESN configuration."
+      },
+      {
+        "page": 13,
+        "bbox": [
+          372.74505615234375,
+          634.8170776367188,
+          490.16064453125,
+          601.99609375
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_5.png",
+        "caption": "Fig. 5 PRN 𝝝",
+        "description": "Here's an analysis of the image based on scientific/technical document conventions:\n\n**Image Description:**\n\nThe image depicts a directed graph represented with two nodes, labeled \"V_1\" and \"V_2\", connected by two edges.\n\n*   **Nodes:** Two circular shapes are present. One is labeled \"V_1\" and the other is labeled \"V_2\".\n*   **Edges:** There are two lines connecting the nodes. The first line, labeled \"r_1\", has an arrow pointing from V_1 to V_2. The second line, labeled \"r_2\", also has an arrow pointing from V_1 to V_2. Both lines have a uniform thickness.\n*   **Labels:**  The labels \"r_1\" and \"r_2\" are positioned along the edges.\n\n**Data Points & Patterns:**\n\n*   There is one node labeled V_1.\n*   There is one node labeled V_2.\n*   There is a directed edge from V_1 to V_2, labeled r_1.\n*   There is a directed edge from V_1 to V_2, labeled r_2.\n\n**Character Encoding:** The image utilizes UTF-8 encoding as requested."
+      },
+      {
+        "page": 16,
+        "bbox": [
+          73.23155212402344,
+          527.8014221191406,
+          538.2252807617188,
+          365.921630859375
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_6.png",
+        "caption": "Fig. 6 Outcomes of factorized network ⏞ 𝝝",
+        "description": "Here's an analysis of the image based on its visual content:\n\n**Overall Description:**\n\nThe image depicts a diagram representing a \"Factorized Network θ\" as labeled in the figure caption. It's a directed graph composed of several circular nodes connected by arrows. The diagram is outlined in black and appears to be part of a technical document.\n\n**Node Details:**\n\n*   **V_1, V_2, V_3:** Three distinct circular nodes are labeled \"V_1\", \"V_2\", and \"V_3\".\n*   **h_1, h_2, h_3:** Three other circular nodes are labeled \"h_1\", \"h_2\", and \"h_3\".\n*   **r_1, r_2, r_3:** Three other circular nodes are labeled \"r_1\", \"r_2\", and \"r_3\".\n*   **l_1, l_2:** Two circular nodes are labeled \"l_1\" and \"l_2\".\n\n**Connection Details (Arrows):**\n\n*   There are a total of 7 arrows connecting the nodes.\n*   The arrows connect as follows:\n    *   V_1 -> h_1\n    *   h_1 -> r_1\n    *   r_1 -> l_1\n    *   l_1 -> V_1\n    *   V_2 -> h_2\n    *   h_2 -> r_2\n    *   r_2 -> V_3\n\n**Textual Information:**\n\n*   \"Fig. 7 Factorized network θ\" is present at the bottom-right of the image.\n*   The diagram represents a \"Factorized Network θ\".\n\n**Data Points/Patterns:**\n\n*   The graph has a cyclic structure, with arrows forming closed loops (V_1 -> h_1 -> r_1 -> l_1 -> V_1).\n*   There are three distinct sets of nodes: {V_1, h_1, r_1, l_1}, {V_2, h_2, r_2}, and {V_3, h_3, r_3}.\n\n**Note:** The image does not contain any numerical data or quantitative values. It is purely a visual representation of a network structure."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1]",
+    "filename": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1].pdf",
+    "page_start": 17,
+    "page_end": 17,
+    "heading": "3. Basic algorithms",
+    "text": "The data structure described above will not be useful without algorithms to work with it. In this study, we explore some basic algorithms that implement the minimal necessary set of actions: building relation networks and probabilistic inference.\nNotably, the algorithms described below are neither the most efficient nor the most interesting. They are added to this article merely to give the reader an intuition about what a PRN is. More advanced algorithms are topics for future works.\nNext, we describe a relation network building algorithm and algorithms for computing conditional and full joint PDs. Furthermore, we present the practice part of the algorithms in Appendix C.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1]",
+    "filename": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1].pdf",
+    "page_start": 17,
+    "page_end": 18,
+    "heading": "3.1. Building 𝞗 by adding new outcomes to an algorithm",
+    "text": "In the simplest case, network 𝞗 can be built by manually defining the variables 𝙑 and relation types 𝙍 and adding outcomes 𝜔 to the set 𝙊 as well as assigning them certain probabilities. Intuitively, you can think about it as wiring values from different variables 𝑉 .\nHowever, a more practical approach is to automatically build 𝞗 from data. This is a key feature in developing a relation network model. Particularly, it is supposed to use online learning on a certain data stream. Similar approach was used in [14, 3].\nThe online learning algorithm might be as follows:\n𝙊: {𝜔 → ℕ} = ∅ # Define empty accumulator as a map from outcomes to counts\n𝑻 = 𝑛𝑒𝑤 𝐷𝑎𝑡𝑎𝑆𝑜𝑢𝑟𝑐𝑒 # Let 𝑻 be some data source\n∀ 𝑡 ∈ 𝑻: # For each experiment result\n𝜔 = 𝑜𝑢𝑡𝑐𝑜𝑚𝑒(𝑡) # Build a new outcome base on input data\n𝑖𝑓 ω ∉ 𝙊: # If outcome is not in 𝙊\n𝙊 = 𝙊 ∪ (𝜔 → 0) # Then, add outcome\n𝙊(𝜔) = 𝙊(𝜔) + 1 # And increase its count\nIn this case, the total number of outcomes will be\nThe probability of some ω will be\nand the PD of all outcomes will be\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1]",
+    "filename": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1].pdf",
+    "page_start": 18,
+    "page_end": 18,
+    "heading": "3.2. Computation of conditional PD network 𝞗|𝝎 ̌ algorithm",
+    "text": "An algorithm that builds 𝞗|𝜔 ̌ is quite simple. In fact, we just remove from the set 𝙊 all outcomes that are known to be impossible, considering the evidence ω ̌ (outcome reduction). Algorithm for building 𝞗|𝜔 ̌ :\n(𝞗, 𝜔 ̌) → 𝞗|𝜔 ̌: # Define a function that takes 𝞗 and 𝜔 ̌ as input and returns 𝞗|𝜔 ̌\n∀ 𝜔 ∈ 𝞗. 𝙊: # Scan over each outcome\n𝑖𝑓 (𝑉(𝜔 ̌) ∩ 𝑉(𝜔) ≠ ∅) # If variables of 𝜔 ̌ intersect with variables of 𝜔\n𝑎𝑛𝑑 (𝑒̇(ω ̌) ⊈ 𝑒̇(ω)): # And values of ω ̌ is not a subset of values of ω\n𝞗. 𝙊 = 𝞗. 𝙊 - 𝜔 # Then, remove 𝜔\n𝑟𝑒𝑡𝑢𝑟𝑛 𝞗|𝜔 ̌ # At the end, return processed 𝞗 as 𝞗|𝜔 ̌\nIn fact, the algorithm goes over all outcomes 𝜔 and removes those that intersect with 𝜔 ̌ (have at least one value 𝑒 falling into the same variable 𝑉 ) and for which 𝜔 ̌ is not a subgraph.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1]",
+    "filename": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1].pdf",
+    "page_start": 18,
+    "page_end": 19,
+    "heading": "3.3. Computation of full joint PD network 𝞗 ⏞ algorithm",
+    "text": "Obtaining a full joint PD 𝞗 ̂ on an arbitrary network, 𝞗 is impossible because such a network may not contain sufficient information about the probability dependences of all values 𝑒 from all variables 𝑉 . Nevertheless, it is possible for the special case, a factorized network 𝞗 ⏞ .\nThe network 𝞗 ⏞ is essentially a factor graph, and the algorithm below implements the factor product.\nAlgorithm for building 𝞗 ̂ :\n𝞗 ⏞ →𝞗 ̂ : # Define a function that takes 𝞗 as input and returns 𝞗 ̂ .\n∀ V ∈ 𝞗 ⏞ . 𝙑 ⏞ : # For each variable in 𝞗 ⏞\n𝚽𝑉 = {𝛷 ∈ 𝚽|𝑉 ∈ 𝑉(𝛷)} # Select a subset of factors that contains this variable\n𝛷 ́ = ∅ # Create a new empty factor\n∀ 𝑒 ∈ 𝑒(V): # For each value in variable V\n∀ω1 ∈ 𝛷1 (𝑒), … , ∀ω𝑛 ∈ 𝛷𝑛 (𝑒): # From 𝚽𝑉 select ω that have 𝑒 and combine them\n𝑖𝑓 ∀ 𝑉: 𝙀 ∈ 𝑉(ω1 ) ∩ … ∩ 𝑉(ω𝑛 ) # If for each variable 𝑉 that in included in each of outcomes ω1, … , ω𝑛\n∃! 𝑒 ∈ 𝙀, 𝑒(ω 1 ), … , 𝑒(ω𝑛 ): # Exist one 𝑒 which in 𝙀 and ω1, … , ω𝑛\n𝛷 ́ = 𝛷 ́ ∪(𝜔 → 𝑐) # Then, add the joint outcome to 𝛷 ́\n𝚽 = 𝚽 - 𝚽𝑉 # Remove selected factors 𝚽𝑉 from 𝚽\n𝚽 = 𝚽 ∪ 𝛷 ́ # And instead of 𝚽𝑉 , add the joint factor 𝛷 ́\nNotably, the PD thus obtained is not the true one but is only a guess about what it might be. For example, if after conducting a series of experiments, we observe only outcomes 𝑎 ∩ 𝑟 𝑏 and 𝑏 ∩ 𝑟 𝑐 , then we can assume that there is an outcome 𝑎 ∩ 𝑟 𝑏 ∩ 𝑟 𝑐 and build it using the above algorithm. Nevertheless, we will not know for sure whether the outcome 𝑎 ∩ 𝑟 𝑏 ∩ 𝑟 𝑐 is possible and what is its true probability until we begin to observe it.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1]",
+    "filename": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1].pdf",
+    "page_start": 19,
+    "page_end": 20,
+    "heading": "3.4. Basic algorithms practice",
+    "text": "We continue with the coin tossing experiment from the previous section, extending it to three coins, e.g., 1¢, 5¢, and 25¢.\nAfter collecting data on coin tosses and applying the algorithm for constructing 𝝝 by adding new outcomes (see Appendix C), we obtained a network\nAdditionally, the PD of all outcomes was calculated manually\nUsing the same data and implementation in Python [15], we obtained the same result:\nApplying the built 𝝝 the building 𝝝|ω ̌ algorithm, we obtained a network containing a conditional PD\nAdditionally, using the Python implementation [15], we obtained the PDs of outcomes\nBecause the built 𝝝 satisfies the factorized network 𝞗 ⏞ condition (Formulas 19 and 20), we could construct the full joint PD 𝞗 ̂ by applying the corresponding algorithm\nWe also obtained 𝞗 ̂ using the Python implementation [15]:\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1]",
+    "filename": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1].pdf",
+    "page_start": 21,
+    "page_end": 21,
+    "heading": "4. Comparison with Bayesian and Markov networks",
+    "text": "To improve the comprehension of the PRN, we compare it with two well-known probabilistic graphical models: Bayesian and Markov networks.\nBecause the PRN can contain a full joint PD for all variables included in it, we can model Bayesian and Markov networks on top of it.\nFurther, we show how to represent Bayes and Markov networks as a PRN and compare them numerically. Python implementation of the comparison is presented in Appendix D.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1]",
+    "filename": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1].pdf",
+    "page_start": 21,
+    "page_end": 22,
+    "heading": "4.1. Representation of Bayesian and Markov networks as 𝞗 ⏞",
+    "text": "We consider a Markov network [4] 𝐺𝑚 and Bayes network [16] 𝐺𝑏 represented as a factor graph [13]. Each factor 𝜙(𝑉 1 , … , 𝑉 𝑛 ) can be converted into a set of outcomes 𝛷 ⊆ 𝙊 , which together form a factorized network 𝞗 ⏞ .\nFor the Markov network, nonnormalized integer values included in 𝜙(𝑉 1 : 𝙀 1 , … , 𝑉 𝑛: 𝙀𝑛 ) can be directly converted into a set of outcomes:\nThe factors of the Bayesian network are conveniently represented as conditional probability tables P(𝑉: 𝙀 | 𝑉1: 𝙀 1 , … , 𝑉 𝑛: 𝙀𝑛 ) . They can also be directly converted into a set of outcomes:\nTransforming each 𝜙(𝑉 1 , … , 𝑉 𝑛 ) into its corresponding 𝛷 , we obtain a collection of sets 𝚽 ⇔ 𝐺𝑚 and 𝚽 ⇔ 𝐺𝑏 , from which we can build a relation network:\nTo the constructed network 𝞗 ⏞ , we can apply the algorithm for calculating a conditional PD 𝞗|𝜔 ̌ and algorithm for calculating a full joint PD 𝞗 ̂ .\nCombining the algorithms 𝞗|𝜔 ̌ and 𝞗 ̂ , we can perform the simplest inference [2]:\n(𝞗 ⏞ , 𝒀, 𝑋 = 𝑒) → 𝑃(𝒀|𝑋 = 𝑒): # Define a function that takes 𝞗 ⏞ , 𝑌 and 𝐸 = 𝑒 as input and returns 𝑃(𝑌|𝐸 = 𝑒)\n∀ 𝑒 ∈ 𝑿: # For each evidence value 𝑒\n𝞗 ⏞ = 𝞗|𝜔 ̌ (𝞗 ⏞ , (𝑒)) # Calculate 𝞗|𝜔 ̌ where 𝑒 becomes a single vertex outcome 𝜔 ̌\n𝞗 ̂ = 𝞗 ̂ (𝞗 ⏞ ) # Then, calculate 𝞗 ̂\n𝑟𝑒𝑡𝑢𝑟𝑛 {𝑃(𝑌)| 𝑌 ∈ 𝒀, 𝞗 ̂ } # Return for each query variable 𝑌 a calculated distribution 𝑃(𝑌) based on 𝞗 ̂\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1]",
+    "filename": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1].pdf",
+    "page_start": 22,
+    "page_end": 23,
+    "heading": "4.2 Numerical comparison",
+    "text": "For numerical comparison, we use two well-known and fair enough complex models: students' example (Figure 8) for the Bayesian network and friends' example (Figure 9) for the Markov network.\nAs a reference implementation, we use Pgmpy [17] and compare it with the implementation of the PRN [15], for which we will write two scripts (see Appendix D): one for the Bayesian network and the other for the Markov network. Each script calculates the PD of the variables and the probabilistic inference for both implementations and then compares the results.\nBy running the first script for the Bayesian network, we obtain the following:\n[comparing_joint_probability] At key = frozenset({'S(1)', 'I(0)', 'D(0)', 'G(0)', 'L(0)'}) factor_value = 0.0006299999999999999, graph_value = 0.00063 [comparing_joint_probability] At key = frozenset({'I(0)', 'D(1)', 'S(0)', 'G(0)', 'L(0)'}) factor_value = 0.0013300000000000002, graph_value = 0.00133 [comparing_joint_probability] At key = frozenset({'S(1)', 'I(0)', 'D(1)', 'G(0)', 'L(0)'}) factor_value = 7.000000000000001e-05, graph_value = 7e-05 [comparing_joint_probability] At key = frozenset({'I(1)', 'S(0)', 'D(0)', 'G(0)', 'L(0)'}) factor_value = 0.0032400000000000007, graph_value = 0.00324 [comparing_joint_probability] At key = frozenset({'S(1)', 'I(1)', 'D(0)', 'G(0)', 'L(0)'}) factor_value = 0.012960000000000003, graph_value = 0.01296 [comparing_joint_probability] At key = frozenset({'I(1)', 'D(1)', 'S(0)', 'G(0)', 'L(0)'}) factor_value = 0.0012000000000000001, graph_value = 0.0012 [comparing_joint_probability] At key = frozenset({'S(1)', 'I(1)', 'D(1)', 'G(0)', 'L(0)'}) factor_value = 0.0048000000000000004, graph_value = 0.0048 [comparing_joint_probability] At key = frozenset({'G(1)', 'I(0)', 'S(0)', 'D(0)', 'L(0)'}) factor_value = 0.06384000000000001, graph_value = 0.06384 [comparing_joint_probability] At key = frozenset({'G(1)', 'S(1)', 'I(0)', 'D(0)', 'L(0)'}) factor_value = 0.0033600000000000006, graph_value = 0.00336 [comparing_joint_probability] At key = frozenset({'G(1)', 'I(0)', 'S(0)', 'D(1)', 'L(0)'}) factor_value = 0.0266, graph_value = 0.0266 [comparing_joint_probability] At key = frozenset({'G(1)', 'S(1)', 'I(0)', 'D(1)', 'L(0)'}) factor_value = 0.0014, graph_value = 0.0014 [comparing_joint_probability] At key = frozenset({'G(1)', 'I(1)', 'S(0)', 'D(0)', 'L(0)'}) factor_value = 0.0011519999999999998, graph_value = 0.001152 [comparing_joint_probability] At key = frozenset({'G(1)', 'S(1)', 'I(1)', 'D(0)', 'L(0)'}) factor_value = 0.004607999999999999, graph_value = 0.004608 [comparing_joint_probability] At key = frozenset({'G(1)', 'I(1)', 'S(0)', 'D(1)', 'L(0)'}) factor_value = 0.00288, graph_value = 0.00288 [comparing_joint_probability] At key = frozenset({'G(1)', 'S(1)', 'I(1)', 'D(1)', 'L(0)'}) factor_value = 0.01152, graph_value = 0.01152 [comparing_joint_probability] At key = frozenset({'I(0)', 'G(2)', 'S(0)', 'D(0)', 'L(0)'}) factor_value = 0.11850299999999997, graph_value = 0.118503 [comparing_joint_probability] At key = frozenset({'S(1)', 'I(0)', 'G(2)', 'D(0)', 'L(0)'}) factor_value = 0.0062369999999999995, graph_value = 0.006237 [comparing_joint_probability] At key = frozenset({'I(0)', 'G(2)', 'D(1)', 'S(0)', 'L(0)'}) factor_value = 0.18433799999999997, graph_value = 0.184338 [comparing_joint_probability] At key = frozenset({'S(1)', 'I(0)', 'G(2)', 'D(1)', 'L(0)'}) factor_value = 0.009702, graph_value = 0.009702 [comparing_joint_probability] At key = frozenset({'I(1)', 'G(2)', 'S(0)', 'D(0)', 'L(0)'}) factor_value = 0.0007128, graph_value = 0.0007128 [comparing_joint_probability] At key = frozenset({'S(1)', 'I(1)', 'G(2)', 'D(0)', 'L(0)'}) factor_value = 0.0028512, graph_value = 0.0028512 [comparing_joint_probability] At key = frozenset({'I(1)', 'G(2)', 'S(0)', 'D(1)', 'L(0)'}) factor_value = 0.004752000000000001, graph_value = 0.004752 [comparing_joint_probability] At key = frozenset({'S(1)', 'I(1)', 'G(2)', 'D(1)', 'L(0)'}) factor_value = 0.019008000000000004, graph_value = 0.019008 [comparing_joint_probability] At key = frozenset({'L(1)', 'I(0)', 'S(0)', 'D(0)', 'G(0)'}) factor_value = 0.10772999999999999, graph_value = 0.10773 [comparing_joint_probability] At key = frozenset({'L(1)', 'S(1)', 'I(0)', 'D(0)', 'G(0)'}) factor_value = 0.00567, graph_value = 0.00567 [comparing_joint_probability] At key = frozenset({'L(1)', 'I(0)', 'S(0)', 'D(1)', 'G(0)'}) factor_value = 0.011970000000000001, graph_value = 0.01197 [comparing_joint_probability] At key = frozenset({'L(1)', 'S(1)', 'I(0)', 'D(1)', 'G(0)'}) factor_value = 0.00063, graph_value = 0.00063 [comparing_joint_probability] At key = frozenset({'L(1)', 'I(1)', 'S(0)', 'D(0)', 'G(0)'}) factor_value = 0.029160000000000002, graph_value = 0.02916 [comparing_joint_probability] At key = frozenset({'L(1)', 'S(1)', 'I(1)', 'D(0)', 'G(0)'}) factor_value = 0.11664000000000001, graph_value = 0.11664 [comparing_joint_probability] At key = frozenset({'L(1)', 'I(1)', 'S(0)', 'D(1)', 'G(0)'}) factor_value = 0.010800000000000002, graph_value = 0.0108 [comparing_joint_probability] At key = frozenset({'L(1)', 'S(1)', 'I(1)', 'D(1)', 'G(0)'}) factor_value = 0.04320000000000001, graph_value = 0.0432 [comparing_joint_probability] At key = frozenset({'G(1)', 'L(1)', 'I(0)', 'S(0)', 'D(0)'}) factor_value = 0.09575999999999997, graph_value = 0.09576 [comparing_joint_probability] At key = frozenset({'G(1)', 'L(1)', 'S(1)', 'I(0)', 'D(0)'}) factor_value = 0.005039999999999999, graph_value = 0.00504 [comparing_joint_probability] At key = frozenset({'G(1)', 'L(1)', 'I(0)', 'S(0)', 'D(1)'}) factor_value = 0.0399, graph_value = 0.0399\n",
+    "figures": [
+      {
+        "page": 22,
+        "bbox": [
+          92.4399185180664,
+          394.6851806640625,
+          523.574462890625,
+          253.85205078125
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_7.png",
+        "caption": "Fig. 8 Students' Bayesian network",
+        "description": "Here's an analysis of the image based on scientific/technical document conventions:\n\n**Image Description:**\n\nThe image is a diagram representing a causal relationship between several variables. It consists of two distinct parts connected by arrows.\n\n**Left Side (Flow Diagram):**\n\n*   There are five circular nodes labeled as follows: \"Difficulty\", \"Intelligence\", \"Grade\", \"SAT\", and \"Letter\".\n*   Arrows connect these nodes in the following sequence:\n    *   An arrow originates from \"Difficulty\" and points to \"Intelligence\".\n    *   An arrow originates from \"Intelligence\" and points to \"Grade\".\n    *   An arrow originates from \"Grade\" and points to \"SAT\".\n    *   An arrow originates from \"SAT\" and points to \"Letter\".\n\n**Right Side (Data Points):**\n\n*   There are four circular nodes labeled: \"Alice\", \"Debbie\", \"Bob\", and \"Charles\".\n*   Each node is connected to the flow diagram on the left side by an arrow.  The arrows originate from each of the data points and point towards the corresponding node in the flow diagram. \n\n**Textual Elements:**\n\n*   All nodes are labeled with text. The labels are: \"Difficulty\", \"Intelligence\", \"Grade\", \"SAT\", \"Letter\", \"Alice\", \"Debbie\", \"Bob\", and \"Charles\".\n*   The arrows connecting the nodes are also labeled with text, indicating the direction of influence or relationship.\n\n**Patterns & Data:**\n\n*   The diagram represents a directed acyclic graph (DAG).\n*   It visually depicts a proposed causal chain: Difficulty influences Intelligence, which in turn influences Grade, which then influences SAT scores, and finally Letter grades.\n*   The right side indicates the names of four individuals are associated with the flow diagram."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1]",
+    "filename": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1].pdf",
+    "page_start": 26,
+    "page_end": 26,
+    "heading": "5. Conclusion",
+    "text": "In this work, we presented a novel approach to model probabilistic relationships of arbitrary type between random variables. We started with a simple idea and developed it to be a formal definition of PRN 𝞗 . Next, we explored basic model properties, such as full-joint PD 𝞗 ̂ and conditional PD 𝞗|𝜔 ̌ . In addition, we considered a special case of PRN-factorized relation graph 𝞗 ⏞ , which will be useful in modeling Bayesian and Markov networks.\nA given probabilistic graphical model will be useless for real-life applications, if it did not have algorithms for its construction and probabilistic inference. In this article, we talked about the simplest versions of such algorithms. Furthermore, we proposed an algorithm for constructing a full-joint PD for the factorized relation graph 𝞗 ⏞ . Although this algorithm demonstrated the fundamental possibility of building a full-joint PD, it will unlikely be used in real-life applications.\nTo show the validity and practical utility of the proposed approach, we implemented PRN and its algorithms in Python [15]. Additionally, we performed a numerical comparison of our implementation with the known implementations of Bayesian and Markov networks [17]. As examples, we have chosen well-known and simple models, Students' Bayesian network, and Friends' Markov network for comparison. For each of these models, we calculated the full-joint and conditional PDs, and it match exactly for all implementations.\nInitially, the PRN was created for a purely practical purpose, that is, to serve as a kernel of large expert and decision-making systems. Although it is too early to talk about real commercial applications at this stage, the model can be useful as a simple means to show or visualize and help to understand the joint distribution of random variables. Moreover, PRN can be a foundation for developing better learning and inference algorithms and be a starting point for the future research.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1]",
+    "filename": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1].pdf",
+    "page_start": 26,
+    "page_end": 27,
+    "heading": "6. Future work",
+    "text": "A significant drawback of the current software implementation [15] is its representation as an array of outcome graphs, which is inconvenient for organizing calculations. Collapsing the outcome graphs into a 'flat'-like structure, such as Gibbs distribution, would allow to considerably reduce the amount of machine memory occupied and parallelize the calculations of different segments of the model. For example, an interesting approach that can be used here is shown in a previous study [14]. Generally, the development of a memory-efficient digital representation of the model is an important future task.\nIn this study, we describe an algorithm for calculating a full joint PD 𝞗 ̂ for a factorized network 𝞗 ⏞ . It is obvious that the calculation of 𝞗 ⏞ for any complex model will require huge computational resources and hence is unadvisable in practice. The good news is that often in practice, we do not need 𝞗 ̂ , but it is sufficient to build just some local joint distribution for variables of interest, by manipulating a small part of the model. For example, if the model has a pair of outcomes a ∩ r b and b ∩ r c , using some heuristics, our algorithm can assume that they are interconnected and build for them a joint distribution a ∩ r b ∩ r c , which will be used in the probabilistic inference. Thus, developing an efficient algorithm for computing local joint distribution can be interesting in the future.\nAnother interesting topic for research in the future is applying continuous random variables in the PRN. Theoretically, we can think of them as having an infinite number of values, so the model must have an infinite number of outcomes, which, of course, is infeasible in practice. The idea here is to replace the set of edges connecting the values of variables with a continuous bijective function. Thus, all or part of the variables of the model, as it were, will be connected by functions.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1]",
+    "filename": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1].pdf",
+    "page_start": 28,
+    "page_end": 29,
+    "heading": "7. References",
+    "text": "Samiullah, M., Albrecht, D., Nicholson, A. E., & Ahmed, C. F.: A Review on Probabilistic Graphical Models and Tools. Dhaka University Journal of Applied Science and Engineering, 6, 82-93(2022). https://doi.org/10.3329/dujase.v6i2.59223\nKoller, D., N. Friedman, Probabilistic Graphical Models, Massachusetts: MIT Press. p. ISBN 978-0-262-01319-2, Accessed 27 April 2014.\nTripp, B.A., Hasan, H.: Out, Integration of multi-omics data using probabilistic graph models and external knowledge, Curr. Bioinform. 17, (2022).\nKindermann, Ross, Laurie Snell, J.:. Markov random fields and their applications (PDF) On 2017-08-10. American Mathematical Society. 1980 ISBN 978-0-8218-5001-5, MR0620955. Archived from the original (PDF)\nSemnani, P., Robeva, E.: Causal inference in directed, possibly cyclic, graphical models, arXiv:1302.3595v1 [cs.AI], May 2023\nTulupyev, A., Nikolenko, S.: Directed cycles in Bayesian belief networks: probabilistic semantics and consistency checking complexity, Published in MICAI 14 November, 2005\nKłopotek, M., Cyclic Bayesian network - Markov process approach. Studia Informatica Journal of Systems and Information Technology 7, 47-55 (2006)\nWang, S., Wang, S., Cheng, L., Greiner, R., Schuurmans, D.: Exploiting syntactic, semantic and lexical regularities in language modeling via directed Markov random fields, Comput. Intell. 29, 305-308 (2005)\nLi, M., Nguyen, T.: Markov random field model-based edge-directed image interpolation, IEEE Trans. Image Process. 17, 1121-1128 (2008)\nLoève, M.: Probability Theory, Vol 1. New York: D. Van Nostrand Company, 1955\nRoss, Sheldon, A First Course in Probability (8th ed.), Pearson Prentice Hall ISBN 978-013-603313-4, 2010.\nReichenbach, H.: The Theory of Probability, Berkeley, California University of California Press, 1949\nLoeliger, H.A.: An Introduction to Factor Graphs, ETH Zürich, IEEE Signal Processing Magazine, 2004\nHua, C.: Graph neural networks intersect probabilistic graphical models: a survey, arXiv:2206.06089v1 [cs.AI] Accessed on May 2022\nAlexCAB/probabilistic-relational-network https://github.com/AlexCAB/probabilisticrelational-network, Accessed on June 2023\nBen Gal, I., Bayesian Networks, Encyclopedia of Statistics in Quality and Reliability; John Wiley & Sons: Hoboken, NJ, USA, 2007.\npgmpy https://pgmpy.org, Accessed on June 2023\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1]",
+    "filename": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1].pdf",
+    "page_start": 30,
+    "page_end": 30,
+    "heading": "Appendix A - Theorem of the sum of probabilities of variable values",
+    "text": "Let (𝛀, ℱ, 𝑃) be a probability space in which the probability of each outcome is 𝑃(𝜔) =\nlim |𝑇|→∞ |𝜔(𝑇)| |𝑇| , and 𝑉: 𝛀 → 𝙀 is a random variable defined on the space (𝛀, ℱ, 𝑃) , so 𝙀 = ℱ and\nthe probability of each value 𝑃(𝑒) = { ∑ {𝜔∈𝛀|𝑒(𝜔)∋𝑒}𝑃(𝜔) ; 𝑒 ≠ 𝑢 1 - ∑ {𝑒∈𝙀|𝑒≠𝑢} 𝑃(𝑒) ; 𝑒 = 𝑢 probabilities of all values of 𝑉 wil=l be ∑ 𝑒∈𝙀 𝑃(𝑒) =  1 .\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1]",
+    "filename": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1].pdf",
+    "page_start": 30,
+    "page_end": 30,
+    "heading": "Proof:",
+    "text": "o The sum of the probabilities of all outcomes is always ∑ 𝜔∈𝛀 𝑃(𝜔) = 1\no Each outcome 𝜔 ∈ 𝛀 can contain only one 𝑒 ∈ 𝙀 : ∀𝑒1 ∈ 𝙀, 𝑒 2 ∈ 𝙀, 𝜔 ∈ 𝛀: ∄ 𝑒(𝜔) ∋ 𝑒1 ∩𝑒2, 𝑒1 ≠ 𝑒2\no Therefore, the sets of outcomes containing 𝑒 ∈ 𝙀 do not intersect: ⋂ {𝜔 ∈ 𝑒∈𝙀; 𝑒≠𝑢 𝛀|𝑒(𝜔) ∋ 𝑒} = ∅\no Thus, the sum of their probabilities: ∑ ∑ {𝜔∈𝛀|𝑒(𝜔)∋𝑒}𝑃(𝜔) 𝑒∈𝙀; 𝑒≠𝑢 ≤ 1\no Additionally, the sum of the probabilities of the values 𝑒 ∈ 𝙀 , except for the value 𝑢 ∑ 𝑃(𝑒) 𝑒∈𝙀; 𝑒≠𝑢 ≤ 1\no Considering the case 𝑒 = 𝑢 , we obtain ∑ 𝑒∈𝙀 𝑃(𝑒) = 1 - ∑ 𝑃(𝑒) 𝑒∈𝙀; 𝑒≠𝑢 + ∑ 𝑃(𝑒) 𝑒∈𝙀; 𝑒≠𝑢 = 1 o Q.E.D.\n. Then, the sum of the\n:\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1]",
+    "filename": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1].pdf",
+    "page_start": 31,
+    "page_end": 31,
+    "heading": "Appendix B - Theorem of condition independency for 𝞗 ⏞",
+    "text": "Let 𝞗 ⏞ = ⟨𝙑 ⏞ , 𝙍 ⏞ , 𝙊 ⏞ ⟩ , a factorized PRN comprising a set of variables ⏞ 𝙑 and a set of outcomes\n𝙍 ⏞ ; in this case, two arbitrary vertices 𝐴, 𝐵 ∈ 𝙑 ⏞ are conditionally independent (i.e., 𝐴 ⫫ 𝐵|𝑍 ) if and only if all possible paths 𝐴 ∩ … ∩ 𝐵 are blocked by observable vertices 𝑍 ∈ 𝒁 ⊆ 𝙑 ⏞ (i.e., 𝐴 ∩ …∩𝑍∩…∩𝐵 ) and outcome set 𝙊 ⏞ does not contain an outcome ω such that it simultaneously includes the value 𝑧 and its neighboring values lying on the path 𝐴 ∩ … ∩ 𝐵 (e.g., 𝑎 ∩ … ∩ 𝑐 ∩ 𝑧 ∩ 𝑑 ∩ … ∩ 𝑏 ) .\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1]",
+    "filename": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1].pdf",
+    "page_start": 31,
+    "page_end": 32,
+    "heading": "Proof:",
+    "text": "o Consider the simplest network 𝞗 of three variables𝐴 , 𝐵 , 𝑍 -and of two factorsΦ𝐴,𝑍 , Φ𝑍,𝐵 . The graph of which looks like 𝐴 - 𝑍 - 𝐵 .\no For the case Φ𝐴,𝑍 = ∅ or Φ𝑍,𝐵 = ∅ , the product of the factors Φ𝐴,𝑍 ∗ Φ𝑍,𝐵 = ∅ . Therefore, 𝐴 ⫫ 𝐵 , 𝐴 ⫫ 𝑍 , 𝐵 ⫫ 𝑍 .\no For the case Φ𝐴,𝑍 ≠ ∅ and Φ𝑍,𝐵 ≠ ∅ and 𝑍 = 𝑧 , all outcomes that do not include the observed value of 𝑍 = 𝑧 will be removed from the factors Φ𝐴,𝑍 |𝑍 = {ω ∈ Φ𝐴,𝑍 |𝑧 ∈ 𝑒(ω)} ; then, when the factors Φ𝐴,𝑍 |𝑍 ∗ Φ𝑍,𝐵 |𝑍 are multiplied, the probability of each of the outcomes ω𝐴,𝑍 ∈ Φ𝐴,𝑍 |𝑍 will be multiplied by the probability of each of the outcomes ω𝑍,𝐵 ∈ Φ𝑍,𝐵 |𝑍 . Thus, the probability of each value of the variables 𝐴 will be multiplied by the sum of the probabilities of the values of 𝐵 (i.e., by the same number), and vice versa. Therefore, changing the PD of values from 𝐴 will not change the PD from 𝐵 . Consequently, 𝐴 ⫫ 𝐵|𝑍 . Notably, this statement will not be true for the factor Φ𝐴,𝑍,𝐵 , i.e., the factor containing the outcomes 𝑎 ∩ 𝑧 ∩ 𝑏 that simultaneously include values from all three variables.\no Variables added to the beginning or end of the 𝑋 - ⋯- 𝐴 - 𝑍 - 𝐵 - ⋯- 𝑌 chain with 𝑍 = 𝑧 will also be probabilistically independent 𝑋 - ⋯- 𝐴 ⫫ 𝐵 - ⋯- 𝑌|𝑍 because by multiplying the factors Φ𝑋,… ∗ … ∗ Φ…,𝐴 ∗ Φ𝐴,𝑍 = Φ𝑋,…,𝑍 and Φ𝑍,𝐵 ∗ Φ𝐵,… ∗ … ∗ Φ…,𝑌 = Φ𝑍,…,𝑌 , we still get a case with two factors Φ𝑋,…,𝑍 and Φ𝑍,…,𝑌 similar to the previous one.\no Having several paths 𝐴 - 𝑍1 …𝑍𝑛 - 𝐵 between 𝐴 and 𝐵 , with 𝑍1 = 𝑧1, … , 𝑍𝑛 = 𝑧𝑛 , the same as for a single path, the outcomes of unobserved values will be removed from the\nfactors Φ𝐴,𝑍 1 |𝑍 1 ={ω∈Φ𝐴,𝑍 1 |𝑧 1∈𝑒(ω)} … Φ𝐴,𝑍𝑛 |𝑍 𝑛 ={ω∈Φ𝐴,𝑍 𝑛 |𝑧 𝑛 ∈𝑒(ω)} and Φ𝑍1,𝐵 |𝑍 1 ={ω∈Φ𝑍 1 ,𝐵 |𝑧 2 ∈𝑒(ω)} … Φ𝑍𝑛,𝐵 |𝑍 𝑛 ={ω∈Φ𝑍 𝑛 ,𝐵 |𝑧 𝑛 ∈𝑒(ω)} ; then, in each product Φ𝐴,𝑍1 |𝑍1 ∗ Φ𝑍1,𝐵 |𝑍1, … , Φ 𝐴,𝑍 𝑛 |𝑍𝑛 ∗ Φ𝑍𝑛,𝐵 |𝑍𝑛 , the probability of each value of variable 𝐴 will be multiplied by the sum of the probabilities of the values of 𝐵 (i.e., by the same number), and vice versa, which is the same as in the case of one path and will not change the PD from 𝐵 when it changes for 𝐴 , and vice versa. Therefore, 𝐴 ⫫ 𝐵|𝑍1 … 𝑍𝑛 . o Q.E.D.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1]",
+    "filename": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1].pdf",
+    "page_start": 33,
+    "page_end": 34,
+    "heading": "C.1. Building a 𝞗 algorithm by adding new outcomes:",
+    "text": "o Extend the coin toss experiment (from Section 2) to three coins, e.g., 1¢, 5¢, and 25¢.\no Imagine that we are watching a person tossing coins. Each toss is an experiment. He/she squeezes some coins (possibly none) of different denominations in his/her fist and then opens his/her fist, so the coins fall to the floor, and we write down the observed result of the experiment: what denominations the coins were, how they fell (head, tail), and in what sequence.\no Let us represent such an experiment as a model of three random variables 𝑉1, 𝑉 2 , 𝑉 3 , each of which corresponds to the denomination of a coin and the values of the variables 𝑢, 𝑡, ℎ correspond to the experiment's outcome.\no Suppose we performed 10 experiments and got a set of observations (see Table 1 column 𝑻 ).\no Using a simple function 𝑜𝑢𝑡𝑐𝑜𝑚𝑒(𝑡) , we can build a set of observed outcomes, one 𝜔 for each observation (see Table 1 column 𝜔 ).\no As outcomes are analyzed, we accumulate them in 𝙊 (see Table 1 columns 𝙊 ).\no Now, from the accumulated outcomes, we can construct 𝞗 :\no Graphically, the resulting network can be represented as in Figure 10.\no Next, we can count the number of outcomes:\no The probability of each outcome can be calculated, e.g.:\no In addition, the PD of all outcomes can be obtained:\no Python example implementation: building_net_from_coin_toss.py\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1]",
+    "filename": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1].pdf",
+    "page_start": 34,
+    "page_end": 35,
+    "heading": "C.2. Computation of conditional PD network 𝞗|𝝎 ̌ algorithm:",
+    "text": "o Continue with the built relation network (Figure 10):\no Suppose we observe evidence 𝜔 ̌ = ℎ1 ∩ 𝑟 1 ℎ2 , in this case, we remove all outcomes that contain values from 𝑉1 or 𝑉2 , except those that contain ℎ1 ∩ 𝑟 1 ℎ2 as a subgraph:\no Graphically, the resulting network can be represented as in Figure 11.\no Next, we can calculate the probability of each outcome, e.g.:\no Python example implementation: building_net_with_conditional_probability.py\n",
+    "figures": [
+      {
+        "page": 35,
+        "bbox": [
+          73.05741882324219,
+          718.8205871582031,
+          538.749267578125,
+          536.9451599121094
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_8.png",
+        "caption": "Fig. 10 Built network 𝝝",
+        "description": "Here's an analysis of the image provided, focusing on objective description:\n\n**Image Description:**\n\nThe image depicts two identical schematic diagrams representing a network labeled \"Fig. 11 θ|ω̃ network\". Both diagrams are presented side-by-side. Each diagram consists of three vertically stacked boxes labeled V_1, V_2, and V_3.  Within each vertical box, there are smaller rectangular boxes labeled with numerical subscripts (e.g., h_1, r_1, l_1).\n\n**Detailed Breakdown:**\n\n*   **Boxes:** There are a total of nine rectangular boxes within the diagram.\n*   **Labels:** The boxes are labeled as follows:\n    *   V_1: Contains two boxes labeled h_1 and r_1.\n    *   V_2: Contains two boxes labeled h_2 and r_2.\n    *   V_3: Contains one box labeled l_3.\n*   **Connections:** Solid lines connect the boxes within each vertical stack.  Dashed lines connect the boxes between the vertical stacks.\n*   **Text:** The text \"Fig. 11 θ|ω̃ network\" is present at the bottom center of both diagrams.\n\n**Data Points and Patterns:**\n\nThe diagram represents a layered network structure with three levels (V_1, V_2, V_3).  There are specific numerical labels assigned to each box within this structure. The connections between boxes indicate data flow or processing steps within the network."
+      }
+    ],
+    "tables": [
+      {
+        "page": 34,
+        "bbox": [
+          66.92382049560547,
+          433.6125183105469,
+          544.5509033203125,
+          213.0235595703125
+        ],
+        "markdown": "Table 1. Two-coin-toss experiment\n\n| 𝑻             | 𝜔                    | 𝙊                                                                                                                     |\n|---------------|----------------------|-----------------------------------------------------------------------------------------------------------------------|\n| 5¢ H          | 𝜔 1 = h 2            | [(h 2 ) 1 ]                                                                                                           |\n| 1¢ H          | 𝜔 2 = h 1            | [(h 2 ) 1 , (h 1 ) 1 ]                                                                                                |\n| 5¢ H          | 𝜔 3 = h 2            | [(h 2 ) 2 , (h 1 ) 1 ]                                                                                                |\n| 25¢ T         | 𝜔 4 = 𝑡 3            | [(h 2 ) 2 , (h 1 ) 1 , (𝑡 3 ) 1 ]                                                                                     |\n| 1¢ H          | 𝜔 5 = h 1            | [(h 2 ) 2 , (h 1 ) 2 , (𝑡 3 ) 1 ]                                                                                     |\n| 5¢ H          | 𝜔 6 = h 2            | [(h 2 ) 3 , (h 1 ) 2 , (𝑡 3 ) 1 ]                                                                                     |\n| 5¢ H then 25¢ | 𝜔 7 = h 2 ∩ 𝑟 1 h 3  | [(h 2 ) 3 , (h 1 ) 2 , (𝑡 3 ) 1 , (h 2 ∩ 𝑟 1 h 3 ) 1 ]                                                                |\n| 1¢ H then 5¢  | 𝜔 8 = h 1 ∩ 𝑟 1 h 2  | [(h 2 ) 3 , (h 1 ) 2 , (𝑡 3 ) 1 , (h 2 ∩ 𝑟 1 h 3 ) 1 , (h 1 ∩ 𝑟 1 h 2 ) 1 ]                                           |\n| 25¢ T then    | 𝜔 9 = 𝑡 2 ∩ 𝑟 2 𝑡 3  | [(h 2 ) 3 , (h 1 ) 2 , (𝑡 3 ) 1 , (h 2 ∩ 𝑟 1 h 3 ) 1 , (h 1 ∩ 𝑟 1 h 2 ) 1 , (𝑡 2 ∩ 𝑟 2 𝑡 3 ) 1 ]                      |\n| 1¢ T then 5¢  | 𝜔 10 = 𝑡 1 ∩ 𝑟 1 𝑡 2 | [(h 2 ) 3 , (h 1 ) 2 , (𝑡 3 ) 1 , (h 2 ∩ 𝑟 1 h 3 ) 1 , (h 1 ∩ 𝑟 1 h 2 ) 1 , (𝑡 2 ∩ 𝑟 2 𝑡 3 ) 1 , (𝑡 1 ∩ 𝑟 1 𝑡 2 ) 1 ] |",
+        "caption": "Table 1. Two-coin-toss experiment",
+        "summary": "Okay, let's break down this table.\n\n**Structure:**\n\nThe table is organized into three columns:\n\n*   **T (Time):** This column lists different time points or scenarios being considered.  We have single values like \"54 H\" and \"254 T\", and then combinations of those times like \"54 H then 254 H\" and \"14 T then 54 T\".\n*   **ω (Omega):** This column represents a set of variables or expressions. The notation `[(h₂)²]` indicates a square of the variable 'h₂'.  The table seems to be defining relationships between these variables at each time point.\n*   **σ (Sigma):** This column also contains sets of variables/expressions, likely representing some kind of logical or mathematical operation related to the other columns. The notation `(h₁ ∩ h₂)` indicates an intersection of the variables 'h₁' and 'h₂'.\n\n**Key Information Represented:**\n\nThe table appears to be documenting a system where:\n\n*   **Time is Divided into Scenarios:** It's tracking changes or states at specific time points (54, 14, 254).\n*   **Variables are Defined and Related:**  'h₁', 'h₂', and 't₁', 't₂' are variables that are being used to define relationships. The square brackets `[]` suggest a squaring operation, while the \"∩\" symbol suggests an intersection (logical AND) of sets or values.\n*   **Combinations Matter:**  The rows with combined times (\"54 H then 254 H\") show how these variables interact *over time*.  It's not just about individual states but how they change in relation to each other.\n\n**In essence, this table is likely a representation of a formal system (possibly related to logic, set theory, or perhaps even a computational model) where the values of 'h₁', 'h₂', and 't₁', 't₂' are defined at different times, and their relationships are tracked.** \n\n**To give you a more precise interpretation, I would need context about what this table is *for*. What problem is it trying to solve or model?**",
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_tables/table_1.png"
+      }
+    ],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1]",
+    "filename": "Cyclic Directed Probabilistic Graphical Model A Proposal Based on Structured Outcomes [arXiv 2310.16525v1].pdf",
+    "page_start": 35,
+    "page_end": 36,
+    "heading": "C.3. Computation of joint distribution network 𝞗 ̂ algorithm:",
+    "text": "o The network 𝞗 we got satisfies the condition of a factorized network 𝞗 ⏞ (Formula 14), so we can use it to construct a network 𝞗 ̂ containing the full joint PD.\no Let us split the set of outcomes of the network 𝞗 ⏞ : 𝙊 ⏞ = [(ℎ1 ) 2 , (ℎ 2 ) 3 , (𝑡 3 ) 1 , (ℎ2 ∩ 𝑟 1 ℎ3 ) 1 , (ℎ1 ∩ 𝑟 1 ℎ2 ) 1 , (𝑡2 ∩ 𝑟 2 𝑡 3 ) 1 , (𝑡1 ∩ 𝑟 1 𝑡 2 ) 1 ] On the set of factors,\no For each network variable from ⏞ 𝙑 ,\nV1 :\nFor each value from the V1 domain,\nV2 :\nV3 :\nFor each value from the V1 domain,\n·\n·\nℎ1\n:\n𝜔1 = (ℎ1 ∩\n(ℎ1 ∩\n𝑟 1 ℎ2 ∩\n𝑟 1\n𝑟 1\nℎ2 ) 2\nℎ3 ) 6\n𝑡\n1\n:\n𝜔2 = (𝑡1 ∩\n𝑟 1\n𝑡\n2\n𝚽 = 𝚽 - 𝚽𝑉 ∪ {𝜔1,𝜔2 } =\nFor each value from the V1 domain,\n·\n𝑡\n1\n:\n𝜔2 = (𝑡1 ∩\n𝑟 1 𝑡2 ∩\n𝑟 2\n𝑡\n3\n𝚽 = 𝚽 - 𝚽𝑉 ∪ {𝜔1,𝜔2 } = {𝛷7 =\n[(ℎ1 ∩\n𝑟 1\no Thus, we obtain\no Python example implementation: building_net_with_joint_probability.py\n𝑟 1 ℎ2 ∩\nℎ3 ) 6\n,\n(𝑡1 ∩\n𝑟 1 𝑡2 ∩\n) 1\n𝑟 2\n∗ (𝑡\n3\n𝑡\n3\n) 1\n) 1\n]}\n∗ (ℎ\n2\n) 3\n∗ (𝑡2 ∩\n𝑟 2\n∗ (ℎ2 ∩\n𝑟 1\nℎ3 ) 1 =\n𝑡\n3\n) 1\n= (𝑡1 ∩\n𝑟 1 𝑡2 ∩\n) 1\n= (𝑡1 ∩\n𝑟 1 𝑡2 ∩\n𝑟 2\n𝑟 2\n𝑡\n3\n𝑡\n3\n) 1\n) 1\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  }
+]

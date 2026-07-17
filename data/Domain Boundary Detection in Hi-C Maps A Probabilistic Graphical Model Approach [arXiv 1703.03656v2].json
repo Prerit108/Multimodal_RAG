@@ -1,0 +1,184 @@
+[
+  {
+    "doc_id": "Domain Boundary Detection in Hi-C Maps A Probabilistic Graphical Model Approach [arXiv 1703.03656v2]",
+    "filename": "Domain Boundary Detection in Hi-C Maps A Probabilistic Graphical Model Approach [arXiv 1703.03656v2].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "Domain Boundary Detection in Hi-C Maps: A Probabilistic Graphical Model Approach",
+    "text": "Andreas Hofmann, Fatema Zahra Rashid, Fr´ ed´ eric Cr´ emazy, Remus T. Dame, Dieter W. Heermann\nSeptember 23, 2019\nTo understand the nature of a cell, one needs to understand the structure of its genome. For this purpose, experimental techniques such as Hi-C detecting chromosomal contacts are used to probe the three-dimensional genomic structure. These experiments yield topological information, consistently showing a hierarchical subdivision of the genome into self-interacting domains across many organisms. Current methods for detecting these domains using the Hi-C contact matrix, i.e. a doubly-stochastic matrix, are mostly based on the assumption that the domains are distinct, thus non-overlapping. For overcoming this simplification and for being able to unravel a possible nested domain structure, we developed a probabilistic graphical model that makes no a priori assumptions on the domain structure. Within this approach, the Hi-C contact matrix is analyzed using an Ising like probabilistic graphical model whose coupling constant is proportional to each lattice point (entry in the contact matrix). The results show clear boundaries between identified domains and the background. These domain boundaries are dependent on the coupling constant, so that one matrix yields several clusters of different sizes, which show the self-interaction of the genome on different scales.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Domain Boundary Detection in Hi-C Maps A Probabilistic Graphical Model Approach [arXiv 1703.03656v2]",
+    "filename": "Domain Boundary Detection in Hi-C Maps A Probabilistic Graphical Model Approach [arXiv 1703.03656v2].pdf",
+    "page_start": 1,
+    "page_end": 2,
+    "heading": "1 Introduction",
+    "text": "Early work using optical microscopy with fluorescent markers established that chromosomes are not randomly organized in the nucleus [1]. Exactly how the chromosomes are organized could not be further revealed by this method, even though multi-color experiments pushed the experimental boundary [2]. At this stage several models have been proposed how the genome is physically organized in space [3, 4, 5, 6, 7, 8, 9]. With the chromosome conformation capture technology (3C) [10] new data on the organization became available. Whereas the information coming from the microscopy experiments gives a physical relationship between between points in space, i.e., Euclidean distances on single cell data, the 3C (and later the Hi-C data [11]) yields topological information loosing the embedding into euclidean space, i.e., only neighborhood relationships are revealed attached with a certain probability. Furthermore the information represents an average over many cells. In a way this is very much information one would classify as of mean-field type. Thus the challenge is to develop a model that is consistent with the mean-field result in the sense that it succeeds to re-embed the topological information into euclidean space, i.e., geometrical information and topological information need to be reconciled.\nA crucial part of this process is to identify the structures and substructures that appear in Hi-C heatmap data. Most prominently are the TADs (topologically associated domains). Their defining characteristic is that the interaction frequency within domains is much higher as opposed to that across domains, i.e. the contact matrix resembles a block-diagonal matrix.\nThere are various different methodological approaches identifying the domain structure in Hi-C contact maps.\nA first attempt was presented in Dixon et al. [12] and is based on a two-step strategy. Firstly, the 2D contact information is condensed to the directionality index, a 1D measure encoding both downstream and upstream chromatin interactions. In the second step, a hidden Markov model (HMM) is applied to this data to retrieve the segmentation into domains. Instead of a HMM, it is also possible to translate the directionality index into a test statistics in order to identify significant domain boundaries [13].\nL´ evy-Leduc et al. [14] developed a 2D model that fits a block diagonal matrix to observed contacts using maximum likelihood.\nFilippova et al. [15] use dynamic programing to find domains with maximal intra-domain contact frequency.\nWeinreb et al. [16] developed a method to find an optimal TAD hierarchy via dynamic programing.\nChen et al. [17] present a method for identifying topological domains based on the spectral decomposition of the graph Laplacian of the Hi-C matrix.\nComplementary to the above outlined heuristic and mostly image analysis motivated approaches, one can interpret the Hi-C data as interactions and treat them on this level. Following this idea leads naturally to probabilistic graphical models. In the following section we develop the approach.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Domain Boundary Detection in Hi-C Maps A Probabilistic Graphical Model Approach [arXiv 1703.03656v2]",
+    "filename": "Domain Boundary Detection in Hi-C Maps A Probabilistic Graphical Model Approach [arXiv 1703.03656v2].pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "heading": "2 Approach",
+    "text": "The main idea is to use an energy based probabilistic graphical model. In fact we will construct a log linear model over a Markov network. For the energy function a possible choice is to use the pair interactions (pairwise node potential) that are defined by the Hi-C heatmap together with feature variables between which the interaction is defined. The energy of the pairs is symmetric. Now rather than learning parameters we sample the feature variables as a function of control parameters. If there is a strong interaction between a pair of nodes than we construct the energy function to favor the feature variables to be similar. On the other hand if there is only a weak interaction between nodes then the feature variables will be uncorrelated. Assume that the feature variables take value ± 1. Within a domain, where the interaction is strong, the feature variables will all have nearly identical average values. Where there is a very weak or no interaction the feature variable will average to zero. Within this scheme domains can be identified by the boundary from values above a certain threshold and zero.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Domain Boundary Detection in Hi-C Maps A Probabilistic Graphical Model Approach [arXiv 1703.03656v2]",
+    "filename": "Domain Boundary Detection in Hi-C Maps A Probabilistic Graphical Model Approach [arXiv 1703.03656v2].pdf",
+    "page_start": 3,
+    "page_end": 3,
+    "heading": "3 Methods",
+    "text": "Let C be the matrix containing the raw counts from the Hi-C experiment\nwhere c ij ≥ 0 for i, j : 1 , . . . , n . This symmetric non-negative matrix can be normalized [18] such that the row/column sums in the euclidean norm || · || 2 is one\nFor our approach, the matrix does not need to be doubly stochastic. It rather is convenient to compare later results with respect to the parameters that control coupling strengths. The model and the algorithm presented below just rests on the fact the matrix describes a network where the entries in the matrix represent values for the edges of the network.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Domain Boundary Detection in Hi-C Maps A Probabilistic Graphical Model Approach [arXiv 1703.03656v2]",
+    "filename": "Domain Boundary Detection in Hi-C Maps A Probabilistic Graphical Model Approach [arXiv 1703.03656v2].pdf",
+    "page_start": 3,
+    "page_end": 4,
+    "heading": "3.1 The Model",
+    "text": "We define feature variables s i that can take on values ± 1 that are associated with the nodes of a network (of which we have N = n 2 ) which in fact has a simple square lattice structure. The network is defined by the Hi-C matrix presented above where the edges of the network are the entries of the matrix η ij and the nodes carry the feature variables. For convenience we restrict ourselves here to just two features. In principle the feature set can be a set { 0 , ...q } with q ∈ N . Let s = ( s 1 , ..., s N ) be a specific feature configuration. Based on the pair-interaction specified by the normalized Hi-C matrix and the feature configuration we specify a symmetric energy function. The idea being\ni.e., that if two nodes (here we restrict ourselves to nearest neighbor nodes) have a high value in the normalized Hi-C matrix then the feature variable should tend to be similar. If the next-nearest neighbor nodes have in turn similar Hi-C entries the feature would be propagated depending on a control parameter that governs the relative strength. The simplest ansatz in this direction is a log-linear model. In this scheme the probability for a specific configuration s is\nand ϵ ( s , η, α, β ) being the energy function. Assuming symmetric pairwise interaction between the nodes with the interaction given by the values of the normalized Hi-C matrix and a possible local bias we use the following form for the energy function\nwhere α and β are control parameters for the strength of the coupling between pairwise nodes ( α ) and β controlling the bias. Note that we restrict the pairwise interaction to nearest-neighbor nodes, as depicted in figure 1, denoted by the symbol 〈 ij 〉 .\nIn the above scheme we are using free boundary conditions. For nodes that have no nearest neighbors in one of the directions that interaction for this direction is taken to be zero.\nwith the normalization\n",
+    "figures": [
+      {
+        "page": 4,
+        "bbox": [
+          151.00123596191406,
+          426.114990234375,
+          442.9631652832031,
+          280.971435546875
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_1.png",
+        "caption": "Figure 1: feature lattice carrying the variables s i = ± 1",
+        "description": "Here's an analysis of the image based on a scientific/technical document context:\n\n**Image Description:**\n\nThe image consists of two diagrams depicting crystal lattice structures within a cubic lattice framework. Both diagrams are drawn on a white background with a grid pattern of interconnected circles representing atoms in a cubic arrangement.\n\n**Diagram 'a':**\n\n*   A central point is marked with a red circle.\n*   Four lines extend outwards from the central point, each terminating in another small circle. These lines are colored black.\n*   The overall lattice consists of a 3D cubic structure.\n\n**Diagram 'b':**\n\n*   Eight points are arranged in a square formation. Each point is marked with the number \"1\".\n*   Lines connect adjacent numbered points, forming a two-dimensional square grid. The lines connecting these points are colored blue.\n\n**Common Elements:**\n\n*   Both diagrams utilize a cubic lattice structure.\n*   The circles represent individual atoms or units within the crystal.\n*   The line colors (black and blue) differentiate between the two distinct arrangements.\n\n**Data Points & Patterns:**\n\n*   Diagram 'a' represents a point atom arrangement in a cubic lattice.\n*   Diagram 'b' depicts a face-centered cubic (FCC) lattice structure, where atoms are located at each corner of the cube and at the center of each face. The number \"1\" indicates the location of these atoms.\n\n**Note:** No text or numerical data is present within the diagrams themselves."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Domain Boundary Detection in Hi-C Maps A Probabilistic Graphical Model Approach [arXiv 1703.03656v2]",
+    "filename": "Domain Boundary Detection in Hi-C Maps A Probabilistic Graphical Model Approach [arXiv 1703.03656v2].pdf",
+    "page_start": 5,
+    "page_end": 5,
+    "heading": "3.2 Algorithm",
+    "text": "Given the above model, we sample the feature variables using the Metropolis Monte Carlo method [19]. The goal is identify the domains that have on average equal feature. Since strong interaction favor a like feature, i.e. the Hi-C showed a high probability for the connection between the nodes, with the parameter α we can control the relative strength of the interaction. Since this in turn influences the correlation between the nodes, large values of α will incorporate into domains of like feature also nodes that have a relative lower probability of connectivity. We can thus control how much of a domain structure one wants to explore.\nAt the start of the algorithm all feature variables are set to +1. Because the Hi-C interaction is non-negative, this ensures equilibrium in the sampling using MCMC [19]. The sampling is set to last up to a maximum number of iterations or terminates if the moving average of the overall feature variable has changed less than a given value.\nTo define the border between domains, we use a threshold c above which the average value of the feature at node i belongs to a domain, i.e. we define a characteristic function\nwhere 〈 s i 〉 is the average value of the feature variable s . For those nodes that are not strongly connected the average in the MCMC process will tend to zero, whereas those that are strongly connect tend to +1 given the initial condition of all nodes having +1.\nThis yields a configuration that has only 0 or 1 for each node. To detect the boundaries we delete all nodes where at least one of the nearest neighbor nodes has feature value 0. Connecting those nodes left hat have characteristic values of 1 along the diagonal define the border between the domains. With this algorithm, we are able to identify non-rectangular domains as we will shown below.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Domain Boundary Detection in Hi-C Maps A Probabilistic Graphical Model Approach [arXiv 1703.03656v2]",
+    "filename": "Domain Boundary Detection in Hi-C Maps A Probabilistic Graphical Model Approach [arXiv 1703.03656v2].pdf",
+    "page_start": 5,
+    "page_end": 5,
+    "heading": "Algorithm 1:",
+    "text": "using χ project the average feature variable to 0 or 1 delete all nodes that have at least one nearest neighbor with 0\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Domain Boundary Detection in Hi-C Maps A Probabilistic Graphical Model Approach [arXiv 1703.03656v2]",
+    "filename": "Domain Boundary Detection in Hi-C Maps A Probabilistic Graphical Model Approach [arXiv 1703.03656v2].pdf",
+    "page_start": 5,
+    "page_end": 6,
+    "heading": "3.3 Validation of the Algorithm",
+    "text": "The above outlined algorithm was tested using synthetic data. Three cases were considered. First in line is the square domain with sharp and with fuzzy boundary. The result of the domain identification is shown in Figure 2 (top panel). In both cases the same control parameters α = 10000 and β = 0 were used. In both cases the square domain is correctly identified. The dashed lines give the horizontal (vertical) identification line of the domain boundary.\nThe middle panel shows the results of the domain identification against a noisy background and have noise also inside of the domain with varying degree of intensity. In Figure 2 c the interaction β was slightly twice higher than in Figure 2 d.\nThe bottom panel shows that also non-square domains can be identified which are associated with loops in the chromosome conformations.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Domain Boundary Detection in Hi-C Maps A Probabilistic Graphical Model Approach [arXiv 1703.03656v2]",
+    "filename": "Domain Boundary Detection in Hi-C Maps A Probabilistic Graphical Model Approach [arXiv 1703.03656v2].pdf",
+    "page_start": 6,
+    "page_end": 7,
+    "heading": "4 Results: Domain Detection within Hi-C contact maps",
+    "text": "As discussed in the introduction, existing methods for domain detection assume that the domains are distinct, contiguous blocks of increased contact probability. In order to detect both domains and more complex structures including loops or loop domains without bias, we developed our probabilistic graphical model that makes no a priori assumptions on the domain structure. Since our approach is relying on the graph theoretic interpretation of Hi-C matrices, it does not yield domain boundaries, but rather a contour separating contact probabilities of an adjustable strength from the background. This iso-strength contour allows identification and characterization of compartments irrespective of whether or not there are contiguous domains in the form of squares.\nIn order to illustrate and visually compare the results of our approach and that based on the directionality index, we used the Hi-C contact maps of C. crescentus. The contiguous domain structure computed on the basis of the directionality index as well as the iso-strength contour yielded by our method permit characterization of the compartmentalization of the wild-type C. crescentus chromosome (see Figure 3).\ndiag\n",
+    "figures": [
+      {
+        "page": 7,
+        "bbox": [
+          88.04778289794922,
+          742.8300704956055,
+          503.9117431640625,
+          490.6177978515625
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_2.png",
+        "caption": "",
+        "description": "Okay, here's a detailed analysis of the image provided, focusing solely on describing the visual elements without adding interpretations:\n\n**Overall Structure:**\n\nThe image consists of three subplots (A, B, and C), displayed in a stacked arrangement. The x-axis ranges from approximately 0 to 100. The y-axis for plots A and B ranges from approximately 0 to 20. Plot C's y-axis ranges from approximately 0 to 50.\n\n**Plot A:**\n\n*   **Type:** Line graph\n*   **Lines:** Two lines are present, one in blue (darker) and one in red.\n*   **Data Points:** The lines exhibit a cyclical pattern with multiple peaks and troughs.  The data points appear to be discrete and regularly spaced along the x-axis.\n*   **Trend:** Both lines show similar oscillatory behavior.\n\n**Plot B:**\n\n*   **Type:** Line graph\n*   **Lines:** Two lines are present, one in blue (darker) and one in red.\n*   **Data Points:** The lines exhibit a cyclical pattern with a more pronounced single large peak and several smaller peaks and troughs.  The data points appear to be discrete and regularly spaced along the x-axis.\n*   **Trend:** Both lines show similar oscillatory behavior, but the blue line has a larger amplitude.\n\n**Plot C:**\n\n*   **Type:** Heatmap/Raster Plot\n*   **Color Gradient:** The plot uses a gradient from dark blue to light blue.\n*   **Data Points:**  The heatmap displays a dense pattern of small squares (or cells) filled with varying shades of blue, indicating the intensity of the color within each cell. The density of the darker blue areas is highest in the central region of the plot.\n\n**Text/Labels:**\n\n*   The subplots are labeled A, B, and C.\n*   There is no other text present in the image.\n\n**Additional Notes:**\n\n*   The x-axis labels appear to be numerical values (0, 1, 2,...).\n*   The y-axis scales for plots A and B are consistent.\n*   Plot C's scale appears to be based on a linear range.\n\n---\n\nIf you'd like me to analyze another image or provide further details about specific aspects of this one, just let me know!"
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Domain Boundary Detection in Hi-C Maps A Probabilistic Graphical Model Approach [arXiv 1703.03656v2]",
+    "filename": "Domain Boundary Detection in Hi-C Maps A Probabilistic Graphical Model Approach [arXiv 1703.03656v2].pdf",
+    "page_start": 7,
+    "page_end": 7,
+    "heading": "5 Discussion",
+    "text": "We have developed a probabilistic graphical model to study the domains structure visible in Hi-C heat maps. This model is based on a symmetric energy model where the interaction parameters come from the normalized entries of the heat map. Here the heat map is interpreted as a graph with N = n 2 nodes each node having a feature variable. Already a model where the feature variable has just two values is sufficient to identify synthetic domains. This domains incorporate partial noise as would be expected to the noise in the actual heat maps. The domains themselves are set against a background of noise. The model is able to identify the noise through the average feature variable which is clearly distinct to the one in the domain. Within the domain, depending on the strength of the control parameter, the average value of the feature variable is homogeneous. This leads to the clear identification of the domain boundary as those nodes that have at least one of the nearest neighbors having a feature value different from the others.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Domain Boundary Detection in Hi-C Maps A Probabilistic Graphical Model Approach [arXiv 1703.03656v2]",
+    "filename": "Domain Boundary Detection in Hi-C Maps A Probabilistic Graphical Model Approach [arXiv 1703.03656v2].pdf",
+    "page_start": 8,
+    "page_end": 8,
+    "heading": "Acknowledgments",
+    "text": "We would like to thank Remus Dame for the very stimulating discussions.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Domain Boundary Detection in Hi-C Maps A Probabilistic Graphical Model Approach [arXiv 1703.03656v2]",
+    "filename": "Domain Boundary Detection in Hi-C Maps A Probabilistic Graphical Model Approach [arXiv 1703.03656v2].pdf",
+    "page_start": 8,
+    "page_end": 8,
+    "heading": "Funding",
+    "text": "HFSP Leiden / Birmingham / Heidelberg as well as the Heidelberg Graduate School of Mathematical and Computational Methods in the Sciences (HGSMathComp)\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Domain Boundary Detection in Hi-C Maps A Probabilistic Graphical Model Approach [arXiv 1703.03656v2]",
+    "filename": "Domain Boundary Detection in Hi-C Maps A Probabilistic Graphical Model Approach [arXiv 1703.03656v2].pdf",
+    "page_start": 8,
+    "page_end": 10,
+    "heading": "References",
+    "text": "Mariliis Tark-Dame, Roel van Driel, and Dieter W. Heermann. Chromatin folding -from biology to polymer models and back. Journal of Cell Science , 124(6):839, 03 2011.\nJulie A. Cass, Nathan J. Kuwada, Beth Traxler, and Paul A. Wiggins. Escherichia coli chromosomal loci segregate from midcell with universal dynamics. Biophysical Journal , 110(12):2597-2609, 2017/02/26.\nP. Hahnfeldt, J. E. Hearst, D. J. Brenner, R. K. Sachs, and L. R. Hlatky. Polymer models for interphase chromosomes. PNAS , 90:7854-7858, August 1993.\nH Yokota, G van den Engh, JE Hearst, RK Sachs, and BJ Trask. Evidence for the organization of chromatin in megabase pair-sized loops arranged along a random walk path in the human G0/G1 interphase nucleus. J. Cell Biol. , 130(6):1239-1249, 1995.\nR K Sachs, G van den Engh, B Trask, H Yokota, and J E Hearst. A randomwalk/giant-loop model for interphase chromosomes. Proc Natl Acad Sci U S A , 92(7):2710-4, Mar 1995.\nH. Yokota, M.J. Singer, G.J. van den Engh, and B.J. Trask. Regional differences in the compaction of chromatin in human G 0/G 1 interphase nuclei. Chromosome Research , 5:157-166, 1997.\nManfred Bohn and Dieter W Heermann. Diffusion-driven looping provides a consistent framework for chromatin organization. PLoS One , 5(8), 2010.\nDieter W Heermann. Physical nuclear organization: loops and entropy. Curr Opin Cell Biol , 23(3):332-7, Jun 2011.\nLeonid A Mirny. The fractal globule as a model of chromatin architecture in the cell. Chromosome Res , 19(1):37-51, Jan 2011.\nJob Dekker. A closer look at long-range chromosomal interactions. Trends Biochem Sci , 28(6):277-80, Jun 2003.\nErez Lieberman-Aiden, Nynke L van Berkum, Louise Williams, Maxim Imakaev, Tobias Ragoczy, Agnes Telling, Ido Amit, Bryan R Lajoie, Peter J Sabo, Michael O Dorschner, Richard Sandstrom, Bradley Bernstein, M A Bender, Mark Groudine, Andreas Gnirke, John Stamatoyannopoulos, Leonid A Mirny, Eric S Lander, and Job Dekker. Comprehensive mapping of long-range interactions reveals folding principles of the human genome. Science , 326(5950):289-93, Oct 2009.\nJesse R. Dixon, Siddarth Selvaraj, Feng Yue, Audrey Kim, Yan Li, Yin Shen, Ming Hu, Jun S. Liu, and Bing Ren. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature , 485(7398):376-380, 2012.\nTung B. K. Le, Maxim V. Imakaev, Leonid A. Mirny, and Michael T. Laub. HighResolution Mapping of the Spatial Organization of a Bacterial Chromosome. Science , 342(6159):731-734, 2013.\nCeline L´ evy-Leduc, M. Delattre, T. Mary-Huard, and S. Robin. Two-dimensional segmentation for analyzing Hi-C data. Bioinformatics , 30(17):i386-i392, 2014.\nDarya Filippova, Rob Patro, Geet Duggal, and Carl Kingsford. Identification of alternative topological domains in chromatin. Algorithms for Molecular Biology , 9:14, 2014.\nCaleb Weinreb and Benjamin J. Raphael. Identification of hierarchical chromatin domains. Bioinformatics , 32(11):1601-1609, June 2016.\nJie Chen, Alfred O. Hero, and Indika Rajapakse. Spectral identification of topological domains. Bioinformatics , 32(14):2151-2158, July 2016.\nRichard Sinkhorn and Paul Knopp. Concerning nonnegative matrices and doubly stochastic matrices. Pacific J. Math. , pages 343-348, 1967.\nK. Binder and D.W. Heermann. Monte Carlo Simulation in Statistical Physics . Springer-Verlag (5th edition 2010), 2010.\n",
+    "figures": [
+      {
+        "page": 10,
+        "bbox": [
+          150.16632080078125,
+          740.1041259765625,
+          444.1697998046875,
+          263.52679443359375
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_3.png",
+        "caption": "Figure 2: Test cases for the algorithm: a) simple square with no background noise and α = 10000, b) simple square with diffuse boundary and no background noise α = 10000, c) domains within domains with background noise α = 25000, d) domains within domains with background noise e) and f) static loop polymer with parameters: t = 1000 and t = 16000 respectively. All results are averages over 10000 Monte Carlo Steps. Dashed lines represent the horizontal (vertical lines identified by the algorithm belonging to a domain.",
+        "description": "Here's an analysis of the image content based on a scientific/technical document perspective:\n\n**Overall Description:**\n\nThe image presents four distinct panels (a, b, c, d) illustrating arrangements of colored squares overlaid on a grid background.  Below these panels are two graph representations (e, f).\n\n**Panel Descriptions (a-d):**\n\n*   **Panel a:** Contains a single large blue square positioned within a white grid. A red border outlines the perimeter of the blue square.\n*   **Panel b:** Displays a single large blue square, covering the entire grid area. The red border is absent.\n*   **Panel c:** Shows a complex arrangement of colored squares: blue and white.  The blue squares are arranged within a larger white area, also bounded by a red outline. There are multiple blue squares of varying sizes.\n*   **Panel d:** Presents a similar arrangement to panel c but with the blue squares positioned in a different configuration. The blue squares are again surrounded by a red border.\n\n**Graph Descriptions (e & f):**\n\n*   **Graph e:** Represents a linear graph with a positive slope. The line passes through the points (0, 0) and (1, 1).\n*   **Graph f:**  Represents a linear graph with a positive slope. The line passes through the points (0, 0) and (1, 2).\n\n**Grid & Color Information:**\n\n*   The grid is composed of equally sized horizontal and vertical lines.\n*   The colors used are blue and white. Blue squares are shaded; white areas are unshaded.\n*   A red border outlines the perimeter of the blue squares in panels a, b, c, and d.\n\n**Character Encoding:** UTF-8 characters have been utilized throughout this description."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  }
+]

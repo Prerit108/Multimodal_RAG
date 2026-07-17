@@ -1,0 +1,657 @@
+[
+  {
+    "doc_id": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1]",
+    "filename": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "Drawing Lines in Psychological Space: What K-means Clustering Reveals in Simulated and Real Psychometric Data",
+    "text": "Pedro Henrique Ramos Pinto ¹ , Maria Jullyanna Ferreira Marques ², Luiz Carlos Serramo Lopez ¹\n¹ Postgraduate Program in Cognitive and Behavioral Neuroscience (PPGNeC) - Federal University of Paraíba (UFPB) - João Pessoa, PB - Brazil\n² Center for Health Sciences (CCS) - Federal University of Paraíba (UFPB) - João Pessoa, PB - Brazil\nAbstract. K-means  clustering  is  widely  used  in  psychological  and  psychometric research  to  identify  profiles,  subgroups,  and  potential  typologies,  yet  its  classical formulation does not test whether such groups  exist  as  latent  psychological categories. Instead, K-means partitions multidimensional space into regions around centroids, favoring compact, approximately spherical clusters defined by geometric distance. In this paper, we examine this limitation through a sequence of controlled simulated  datasets.  We  then extend the analysis to the SMARVUS dataset, a large international  psychometric  dataset  comprising  survey  responses  from  university students  across  35  countries,  to  evaluate  whether  similar  geometric  partitioning patterns  emerge  in  empirical  psychological  data.  By  contrasting  simulated  and empirical  data,  this  paper  argues  that  K-means  can  produce  stable  and  visually coherent clustering solutions even in continuous Gaussian latent spaces without true subgroup structure.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1]",
+    "filename": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1].pdf",
+    "page_start": 1,
+    "page_end": 2,
+    "heading": "1 Introduction",
+    "text": "K-means  is  one  of  the  most  widely  used  unsupervised  learning  algorithms  because  it  is intuitive, computationally efficient, and easy to interpret [Chong, 2021; Steinley, 2006]. This makes K-means especially attractive for person-centered analyses in psychology, psychiatry, education, and psychometrics, where researchers often aim to identify profiles, subgroups, or clinically  relevant  classifications  [Gao  et  al., 2023]. For example, de la Fuente-Tomás et al. [2019]  used  K-means  to  develop  a  severity-based  classification  of  patients  with  bipolar disorder, integrating cognition, functioning, physical health, and quality-of-life indicators into clinically  interpretable  profiles.  Other  studies  have  combined  K-means with dimensionality reduction methods, generalized low-rank models, or Self-Organizing Maps (SOM) to explore psychopathology and behavioral heterogeneity [Grant et al., 2020; Croci et al., 2026].\nNevertheless, the interpretive status of K-means solutions remains a central methodological concern for nearly seven decades [Chong, 2021; Steinley, 2006]. Additionally, K-means does not  test  whether  psychological  types  exist.  It  does  not  estimate  latent  categories,  provide probabilistic  class  membership,  or  distinguish  between  discrete  subgroups and continuous variation. Instead, it imposes a hard partition on a feature space by minimizing within-cluster distances around centroids [Raykov et al. 2016]. This is the basic assumption underlying the method:  that  useful  partitions  can  be  obtained  by  reducing  within-cluster  variance,  not necessarily by demonstrating the existence of natural or latent categories.\nThis concern is particularly important because the accessibility and ease of implementation of K-means  have  contributed  to  its  frequent  use  in  applied  research,  sometimes  without equivalent attention to its assumptions and limitations. Chen and Witten [2023] demonstrated that  when groups are first created through K-means, classical post hoc comparisons such as ANOVA can produce inflated Type I error because the same data are used both to define and test  the  clusters.  Their  findings  suggest  that  substantial  between-group  differences  may emerge  even  in  the  absence  of  true  population  categories,  precisely  because  clustering algorithms  are  designed  to  maximize  separation in the observed data. This issue is highly relevant  to  psychological  research,  where  cluster-derived  groups  are  often  subsequently compared  using  inferential procedures and interpreted as psychologically meaningful profiles,  as  seen  in  applied  studies  using  clustering  approaches  in  psychopathology  and psychological assessment [Erridge et al., 2026; Orchard et al., 2024; Liu et al., 2022].\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1]",
+    "filename": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1].pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "heading": "1.1 Objectives",
+    "text": "The  present  article  therefore  offers  a  constructive  methodological  critique  of  classical  and spherical K-means clustering in psychometric research. We do not argue that K-means should be avoided.  On  the  contrary,  K-means  can  be  a  valuable  exploratory  tool  when  its assumptions,  limitations,  and  descriptive  nature  are  made  explicit.  Our  concern  is  with interpretation: the tendency to treat K-means partitions as if they were direct and even better evidence  of  psychological  phenotypes  or  naturally  occurring  profiles.  The  analyses  are organized around the following questions:\nCan K-means produce interpretable clusters even when no true group structure exists?\nDoes classical K-means transform continuous psychometric variation into artificial categories?\nHow does correlation among psychological variables affect K-means solutions?\nDoes spherical K-means reveal profile-shape differences that are not captured by classical K-means?\nHow should an 'optimal' value of k be interpreted when silhouette values are low?\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1]",
+    "filename": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1].pdf",
+    "page_start": 2,
+    "page_end": 3,
+    "heading": "2 Methodology",
+    "text": "This study was designed to examine how K-means-based clustering behaves when applied to psychological data with different underlying structures. To examine this issue, we combine controlled  simulations  with  real  psychometric  data.  The  simulations  include random data, ideal  Gaussian  data,  multimodal  Gaussian  data,  and  correlated  Gaussian  data  designed to approximate  common  structures  in  psychological  measurement. We then evaluate whether similar  partitioning  patterns  emerge  in  the SMARVUS dataset, using its large, multilingual, cross-cultural structure as an empirical test case.\nFinally,  to  contrast  these  psychometric  scenarios  with  a  setting  in  which clustering is more naturally  expected,  we  also  simulated  a  flow-cytometry-like  dataset,  approximating  the everyday  analytical  context of biomedical laboratory work, where distinct cell populations are often visually and statistically identifiable.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1]",
+    "filename": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1].pdf",
+    "page_start": 3,
+    "page_end": 3,
+    "heading": "2.1 Data Analysis",
+    "text": "All analyses were conducted in Python using the scikit-learn library [Pedregosa et al., 2011]. Classical K-means was used to assess partitions based on Euclidean proximity and overall score magnitude, whereas spherical K-means was used as a contrastive approach emphasizing angular  similarity  and  relative  response  profiles  [Hornik  et  al.,  2012;  Dhillon  and  Modha, 2001]. For both methods, the selected features were standardized using StandardScaler , and no missing values were present.\nCandidate solutions were explored across a range of k values, typically from 2 to 10. For each value  of k ,  the  algorithm  was  initialized  multiple  times  using  K-means++,  and  the  best solution  was  retained  according  to  the  optimization  criterion.  This  procedure  was  adopted because K-means is sensitive to initial starting points and may converge to local rather than global optima, a problem highlighted by Steinley [2006].\nThree  quantitative  criteria  were  used  to  evaluate  the  clustering  results:  the  silhouette coefficient, inertia, and the adjusted Rand index (ARI). The silhouette coefficient was used to guide the choice of k by estimating how well each observation fit within its assigned cluster relative  to  the  nearest  alternative  solution.  Higher  silhouette  values  indicate  more  compact and better-separated clusters, whereas low values suggest weak or ambiguous structure, even when a mathematical partition can still be produced  [Gao et al., 2023; Steinley, 2006].\nInertia, or within-cluster sum of squares (SSE), was also examined through the elbow method to evaluate whether increasing k produced a meaningful reduction in within-cluster dispersion or  merely incremental gains from subdividing the data. Finally, the ARI was used to assess reproducibility across repeated  runs  by  quantifying  the  agreement  between  clustering partitions obtained from different random initializations of the same data and the same value of k .  ARI  values  close  to  1  indicate  highly  consistent  partitions,  whereas  lower  values indicate that  the  solution  depends  more  strongly  on  initialization and may therefore be less stable [Gao et al., 2023; Steinley, 2006].\nIn addition to the quantitative criteria, Principal Component Analysis (PCA) projections and cluster plots were used as visual diagnostic tools throughout the project. PCA was applied to reduce the original multidimensional feature space to two or three dimensions, allowing the clustering solutions to be inspected graphically. PCA was used only for visualization and not as  a  feature-extraction  step  for  clustering.  This  choice  was  made  because PCA emphasizes variance rather than cluster structure, and recent evidence shows that clustering on principal components  can  be  problematic,  particularly  when  subgroup  structure  is  nonlinear  or  not linearly separable [Lötsch & Ultsch, 2024].\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1]",
+    "filename": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1].pdf",
+    "page_start": 4,
+    "page_end": 4,
+    "heading": "2.2 Datasets",
+    "text": "Five  synthetic  datasets  and  one  empirical  dataset  were  analyzed.  Each  simulated  dataset contained 2,000 observations and 6 continuous variables. The same dimensionality was used across simulations to ensure that differences in clustering behavior reflected the structure of the data rather than sample size or number of features in the model space.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1]",
+    "filename": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1].pdf",
+    "page_start": 4,
+    "page_end": 4,
+    "heading": "2.2.1 Dataset 1: Random Data",
+    "text": "The first dataset consisted of fully random data generated without any latent group structure (Figure  1).  The  purpose  of  this  condition  was  to  demonstrate  that  clustering  algorithms, especially K-means, can always return a partition even when no meaningful structure exists in  the  data.  If  K-means  produces  apparently  interpretable  centroids  in  random  data,  this illustrates that the existence of a clustering solution is not, by itself, evidence of psychological subgroups.\nfeature_01\n",
+    "figures": [
+      {
+        "page": 4,
+        "bbox": [
+          77.43718719482422,
+          452.45648193359375,
+          518.7564086914062,
+          217.7607421875
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_1.png",
+        "caption": "",
+        "description": "Okay, here's a detailed analysis of the image as a scientific/technical document component, adhering to your specifications:\n\n**Image Description:**\n\nThe image is a scatter plot displayed on a white background with a dark gray border. The plot represents data points plotted against two axes. \n\n*   **X-Axis:**  The x-axis ranges from approximately 0 to 60, marked with integer values.\n*   **Y-Axis:** The y-axis ranges from approximately 0 to 100, marked with integer values in increments of 10. The axis label is \"Score (z)\".\n\n**Data Points:**\n\nThe plot contains a large number of data points represented as small purple dots.  These points are distributed across the entire range of both axes. There appears to be no discernible pattern or clustering of points within specific regions of the graph. \n\n**Density and Distribution:**\n\nThe density of points is relatively uniform across the plotted area, with approximately equal point concentrations in each quadrant defined by the axis values.  There does not appear to be any obvious gaps or areas with significantly fewer data points.\n\n**Overall Appearance:**\n\nThe plot appears to represent a dataset where two variables are being compared, and the relationship between them is visualized through the distribution of these points. The lack of clear trends suggests that there may not be a strong correlation between the x and y variables in this particular dataset."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1]",
+    "filename": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1].pdf",
+    "page_start": 4,
+    "page_end": 5,
+    "heading": "2.2.2 Dataset 2: Unimodal Gaussian Data",
+    "text": "The second dataset consisted of variables generated from an ideal Gaussian distribution, but with no discrete latent classes (Figure 2). This condition was designed to mimic a common psychometric  situation:  individuals  vary continuously along psychological dimensions, but there are no psychological associations between the constructs measured.\nfeature_01\n",
+    "figures": [
+      {
+        "page": 5,
+        "bbox": [
+          80.13442993164062,
+          766.1515808105469,
+          510.9859924316406,
+          532.8167724609375
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_2.png",
+        "caption": "",
+        "description": "Here's an analysis of the image based solely on its visual content:\n\n**Image Description:**\n\nThe image depicts a scatter plot generated using a graphical software. The plot displays two numerical variables represented along Cartesian axes.\n\n*   **X-axis:**  Ranges from approximately 0 to 58. The axis is labeled \"X\".\n*   **Y-axis:** Ranges from approximately 10 to 60. The axis is labeled \"Residual (CD)\".\n*   **Data Points:** Numerous, small purple dots represent individual data points. These points are densely clustered across the plot area.\n*   **Trend:** A positive linear trend is visually apparent. As the X-value increases, the Y-value (Residual (CD)) generally also increases. The points form a roughly upward sloping line.\n*   **Density:**  The density of data points appears relatively uniform across the plotted area, with no obvious clusters or gaps beyond minor scatter.\n\n**Note:** There is no visible title, axis labels other than those provided, or any additional annotations within the image itself."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1]",
+    "filename": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1].pdf",
+    "page_start": 5,
+    "page_end": 5,
+    "heading": "2.2.3 Dataset 3: Unimodal Correlated Gaussian Data",
+    "text": "The third dataset consisted of correlated Gaussian variables. This condition was designed to approximate  a  common  structure  in  psychological  measurement,  where  features  are often intercorrelated (Figure 3).\n",
+    "figures": [
+      {
+        "page": 5,
+        "bbox": [
+          80.2861557006836,
+          413.6366882324219,
+          513.7844848632812,
+          176.6749267578125
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_3.png",
+        "caption": "Figure 3. Pairwise comparison of features 1 and 2 in dataset 3.",
+        "description": "Here's an analysis of the image based solely on its visual content:\n\n**Image Description:**\n\nThe image is a scatter plot displayed on a white background. The plot represents a two-dimensional dataset visualized using Cartesian coordinates.\n\n*   **Axes:** The x-axis ranges from approximately 30 to 85, labeled \"Insulin (mg/dL)\". The y-axis ranges from approximately 20 to 80, labeled \"Glucose (mg/dL)\".\n*   **Data Points:** Numerous small, purple dots represent individual data points. The density of the dots is relatively uniform across the plot area.\n*   **Trend:** A clear positive linear trend is visible. As the x-axis value (Insulin) increases, the y-axis value (Glucose) also tends to increase.  The points generally cluster around a line that slopes upwards from left to right.\n*   **No Text or Labels Beyond Axes:** There are no other text labels, titles, or annotations present within the plot area itself.\n\n**Technical Details (Inferred):**\n\n*   **Plot Type:** Scatter Plot\n*   **Color:** Purple\n*   **Data Representation:** Individual data points representing a correlation between two variables: Insulin and Glucose."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1]",
+    "filename": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1].pdf",
+    "page_start": 5,
+    "page_end": 6,
+    "heading": "2.2.4 Dataset 4: Multimodal Gaussian Data",
+    "text": "The  fourth  dataset  consisted  of  data  generated  from  multiple  Gaussian  distributions.  This condition served as a positive control ( k = 5) because it represents an idealized case in which true  group  structure  is  present  and  approximately  compatible  with  the  assumptions  of classical K-means (Figure 4).\n",
+    "figures": [
+      {
+        "page": 6,
+        "bbox": [
+          82.34818267822266,
+          731.666862487793,
+          502.032470703125,
+          501.31005859375
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_4.png",
+        "caption": "Figure 4. Pairwise comparison of features 1 and 2 in dataset 4.",
+        "description": "Here's an analysis of the image based solely on its visual content:\n\n**Image Description:**\n\nThe image depicts three scatter plots displayed in a grid format. Each plot represents a relationship between two variables. The x-axis is labeled \"Glucose (mg/dL)\" and the y-axis is labeled \"Risk (%).\"\n\n*   **Plot 1:** Contains approximately 60 purple data points scattered across the graph. The points are distributed relatively evenly across the range of glucose values and risk percentages shown.\n*   **Plot 2:** Contains approximately 80 purple data points. These points exhibit a positive linear trend, with an upward sloping line passing through the center of the data cloud.\n*   **Plot 3:** Contains approximately 150 purple data points. This plot also exhibits a strong positive linear trend, with a more pronounced upward slope compared to Plot 2. The data points are clustered closely around this line.\n\nThe background of each plot is white, and a grid overlay is visible.  The plots appear to be generated using statistical software."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1]",
+    "filename": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1].pdf",
+    "page_start": 6,
+    "page_end": 6,
+    "heading": "2.2.5 Dataset 5: Cytometer-like Data",
+    "text": "For  the  cytometer-like  dataset,  we  also  simulated  a  multivariate  structure  intended  to represent  a  condition  in  which  clustering  is  substantively  expected,  resembling  the  type  of population structure commonly observed in flow-cytometry data (Figure 5).\nfeature_01\nSmall  amounts  of  noise  and  partial  overlap  were  intentionally  introduced  to  avoid  an artificially perfect separation and to approximate  the  visual  appearance  of  empirical cytometry-like  measurements,  in  which  cell  populations  may  be  distinguishable  but  not completely isolated. There are five types of cells present in the dataset.\n",
+    "figures": [
+      {
+        "page": 6,
+        "bbox": [
+          79.72279357910156,
+          376.77520751953125,
+          505.0537109375,
+          144.627685546875
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_5.png",
+        "caption": "",
+        "description": "Here's an analysis of the image based on its visual content:\n\n**Image Description:**\n\nThe image depicts a scatter plot. The x-axis ranges from approximately 6 to 15, labeled with numerical values. The y-axis ranges from approximately 2 to 17, also labeled with numerical values.  Numerous small, purple dots are plotted across the graph's coordinate system.\n\n**Data Points & Trends:**\n\n*   **Scatter Distribution:** The dots form a relatively dense scatter pattern across the graph.\n*   **Negative Correlation:** There appears to be a negative correlation between the x and y values. As the x-value increases, the y-value generally decreases.\n*   **Non-Linearity:** The relationship is not linear; the rate of decrease in the y-values does not appear constant as the x-values increase.  The spread of the points indicates some variability.\n*   **Data Density:** The data appears to be concentrated towards the lower left corner of the graph, and becomes sparser as the x-value increases.\n\n**Labels (as visible):**\n\n*   X-axis label: \"StandardDev\"\n*   Y-axis label: \"Mean_SD\"\n\n**Note:**  Without additional context about the data represented by these axes, it's impossible to determine the specific variables being plotted or their units of measurement."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1]",
+    "filename": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1].pdf",
+    "page_start": 7,
+    "page_end": 8,
+    "heading": "2.2.6 Dataset 6: Empirical Data",
+    "text": "The  empirical  component  of  the  study  uses  the  SMARVUS  dataset,  an  international multicenter psychometric dataset containing survey responses from  12,570  university students from 100 universities, 35 countries, and 21 languages. Data cleaning was performed sequentially. Participants  were  excluded  if  they  failed  any  embedded  attention-check. Additional exclusions were applied to participants who failed the attention-amnesty check. This procedure reduced the dataset from 12,570 to 8,360 participants (Figure 6).\nThe  final  analytical  sample  was  predominantly  composed  of  women.  Among participants with available gender information, 6,727 identified as female/woman, 1509 as male/man, and 81  as  another  gender.  The  sample  was  also  concentrated  in  younger  age  ranges:  6,166 participants  were  aged  18-21  years, 1,450 were aged 22-25 years, and 494 were aged 26 years or older.\nFollowing  the  same  feature-dimensionality  used  in  the  other  controlled  examples,  six psychometric features were retained in the empirical model space: STARS, R-TAS, BFNE-S, LSAS-SR, CAS, and IUS-SF (Figure 7). These features were selected to provide a compact and  interpretable  psychological  space  for  comparing  whether K-means partitions reflected meaningful profiles or broader dimensional gradients:\nThe Statistics Anxiety Rating Scale (STARS) , developed by Cruise et al. [1985], is a  self-report  psychometric instrument designed to assess individuals' anxiety related to  statistics,  particularly  in  academic  contexts.  It  comprises  multiple  dimensions\ncapturing both emotional reactions to statistical tasks and attitudes toward statistics, although many  studies distinguish between  its anxiety-specific and attitudinal components [Hanna et al., 2008; Papousek et al., 2012].\nThe  Revised  Test  Anxiety  Scale  (R-TAS) ,  developed  by  Benson  and  El-Zahhar [1994], is a self-report measure designed to assess test anxiety as a multidimensional construct,  comprising four correlated dimensions: worry, tension, bodily symptoms, and test-irrelevant thinking.\nThe Brief Fear of Negative Evaluation Scale - Straightforward Items (BFNE-S) , derived from the original BFNE [Leary, 1983], is a self-report measure designed to assess fear of negative evaluation, a core component of social anxiety [Rodebaugh et al., 2004].\nThe Liebowitz  Social  Anxiety  Scale  -  Self-Report  (LSAS-SR) is  a  self-report instrument  evaluated  by  Baker  et  al.  [2002],  demonstrating  good  reliability  and validity for assessing social anxiety, although its factor structure remains debated. It is based on the original clinician-administered  LSAS  developed  by  Michael  R. Liebowitz [1987], which served as the foundation for its structure and content.\nThe Creativity  Anxiety  Scale  (CAS) ,  developed  by  Daker  et  al.  [2019],  is  a self-report instrument designed to assess anxiety specifically associated with engaging in creative thinking across domains.\nThe  Intolerance  of  Uncertainty  Scale  -  Short  Version  (IUS-SF) ,  developed  by Carleton et al. [2007] as a reduced form of the original scale by Freeston et al. [1994], is  a  self-report  psychometric  instrument  designed  to  assess  individuals'  tendency to perceive uncertain situations as distressing and unacceptable.\nSTARS\n",
+    "figures": [
+      {
+        "page": 7,
+        "bbox": [
+          72.40635681152344,
+          499.21484375,
+          517.9895629882812,
+          249.6622314453125
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_6.png",
+        "caption": "Figure 6. Participants density around the world.",
+        "description": "Okay, here's a detailed analysis of the image based solely on its visual content, using UTF-8 characters:\n\n**Image Description:**\n\nThe image is a world map rendered in shades of blue and black. It represents population density data for countries worldwide. A legend is present at the bottom right corner of the image.\n\n**Map Features:**\n\n*   **Color Coding:** The map utilizes a color gradient to represent population density ranges:\n    *   White: 0-100 people per square kilometer\n    *   Light Blue: 100-200 people per square kilometer\n    *   Medium Blue: 300-400 people per square kilometer\n    *   Dark Blue: 400-500 people per square kilometer\n    *   Black: +500 people per square kilometer\n\n**Country Distribution (Based on Color):**\n\n*   **High Density (Black):**  The following countries are colored black, indicating a population density of over 500 people per square kilometer:\n    *   Belgium\n    *   Netherlands\n    *   United Kingdom\n    *   Portugal\n    *   Monaco\n    *   Singapore\n    *   Bahrain\n    *   Malta\n    *   Iceland\n    *   Luxembourg\n    *   Liechtenstein\n\n*   **Medium-High Density (Dark Blue):** The following countries are colored dark blue, indicating a population density of 400-500 people per square kilometer:\n    *   Japan\n    *   Germany\n    *   Switzerland\n    *   Canada\n    *   United States\n    *   Australia\n    *   China\n    *   Italy\n    *   Austria\n    *   France\n\n*   **Medium Density (Medium Blue):** The following countries are colored medium blue, indicating a population density of 300-400 people per square kilometer:\n    *   Spain\n    *   Russia\n    *   Brazil\n    *   Argentina\n    *   Greece\n    *   Turkey\n    *   South Korea\n    *   Ukraine\n\n*   **Low Density (Light Blue):** The following countries are colored light blue, indicating a population density of 100-200 people per square kilometer:\n    *   Many smaller nations in Europe and the Caribbean.  (Specific examples are difficult to list due to visual resolution"
+      },
+      {
+        "page": 8,
+        "bbox": [
+          80.15384674072266,
+          380.06768798828125,
+          503.5655517578125,
+          149.1241455078125
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_7.png",
+        "caption": "",
+        "description": "Here's an analysis of the image based solely on its visual content:\n\n**Image Description:**\n\nThe image depicts a scatter plot graph. The x-axis is labeled \"Amount\" with values ranging from approximately 10 to 120. The y-axis is labeled \"Percent\" with values ranging from approximately 0 to 35.  Numerous data points, represented by small purple dots, are plotted across the graph.\n\n**Data Points & Trends:**\n\n*   The data points form a generally upward sloping trend.\n*   There is a dense cluster of data points concentrated in the lower left quadrant (small x-values and low y-values).\n*   As the x-value increases, the density of data points also increases.\n*   The highest concentration of data points occurs around x=80 and y=25.\n*   There are a few isolated data points at higher x-values (above 110) with corresponding high y-values (close to 35).\n*   The graph appears to be continuous, showing no gaps in the plotted data.\n\n**Other Observations:**\n\n*   The background of the graph is a light gray color.\n*   The axis lines are dark gray.\n*   The dots are purple."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1]",
+    "filename": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1].pdf",
+    "page_start": 9,
+    "page_end": 9,
+    "heading": "3 Results",
+    "text": "Datasets 1, 2, 3, 4, and the cytometer-like dataset generated and used in the simulations are publicly available in the project repository, as are details of the analyses performed:\nhttps://osf.io/dtbxw/overview?view_only=b040b4a9458b43439cdc189a5745d3f9\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1]",
+    "filename": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1].pdf",
+    "page_start": 9,
+    "page_end": 11,
+    "heading": "3.1 Clustering Random Data",
+    "text": "For the random-data condition, the choice of k illustrates the ambiguity of cluster selection when no true underlying structure is present (Figure 8). The silhouette curve shows uniformly low values across all tested solutions, ranging only around 0.12-0.135. Although the highest silhouette  value  occurs  at k =  10,  this  should  not  be  interpreted  as  evidence  for  ten meaningful clusters. The increase is very small and likely reflects the tendency of K-means to impose increasingly fine geometric partitions on noise.\nk\nk\nThe elbow plot suggests a possible bend around k = 4, where the reduction in inertia begins to slow.  However,  this  elbow  is  also  weak  and  gradual  rather  than  sharply  defined.  This indicates that  additional  clusters  continue  to  reduce  within-cluster  variance  simply  because K-means is subdividing the feature space, not because the data contain well-separated groups. Thus, in random  data,  neither  criterion  provides  strong  evidence  for  a  substantively meaningful cluster solution.\nHowever, the profile plot itself does not provide clear evidence that the clustering solution is invalid (Figure 9). Visually, the algorithm still produces differentiated average profiles across clusters, which can easily create the impression of meaningful subgroup structure. The main indication that the solution may not reflect stable underlying groups emerges only from the reproducibility  analysis.  Specifically,  the  ARI  across  different  K-means  initializations  was moderate  (ARI  =  0.330,  SD  =  0.061),  indicating  that  different  random  starts  frequently produced different partitions for the same dataset.\nIn addition to classical K-means, we applied spherical K-means to the random-data condition. Even in random data, spherical K-means produced a visually structured multi-cluster solution (Figure 10).\nk\nk\nIn the 2D PCA projection, the clusters appear distributed across the projected space, but with substantial  overlap  and  no  clearly  isolated  regions,  suggesting  that  the  algorithm  imposed angular partitions on a continuous cloud (Figure 11). This interpretation is supported by the stability  analysis,  indicating  that  different  random  starts  produced  partially  inconsistent partitions for the same data (ARI = 0.342, SD = 0.075).\nPC1\n",
+    "figures": [
+      {
+        "page": 9,
+        "bbox": [
+          76.16607666015625,
+          529.8154907226562,
+          512.2975463867188,
+          401.9927978515625
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_8.png",
+        "caption": "",
+        "description": "Okay, here's a detailed analysis of the image provided, focusing solely on the visual elements within the graph:\n\n**Overall Structure:**\n\nThe image displays two separate line graphs presented side by side.  Both graphs are grayscale with a dark background. The graphs appear to be generated using a plotting library (likely matplotlib).\n\n**Left Graph - Silhouette vs. k:**\n\n*   **X-axis Label:** \"k\"\n*   **Y-axis Label:** \"Silhouette\"\n*   **Data Points:**  The graph displays a series of data points connected by lines. The x-values range from 1 to 10. The y-values range approximately from 0.2200 to 0.3300.\n*   **Trend:** The silhouette value increases initially with increasing values of 'k', reaching a peak around k=9, then decreases slightly as 'k' continues to increase towards 10.\n*   **Annotation:**  A text annotation \"best = 9\" is present on the left side of the graph.\n\n**Right Graph - Elbow (inertia):**\n\n*   **X-axis Label:** \"inertia (SSE)\"\n*   **Y-axis Label:** \"elbow (SSE)\"\n*   **Data Points:** The graph displays a series of data points connected by lines. The x-values range from 1 to 10. The y-values range approximately from 7000 to 12000.\n*   **Trend:**  The elbow value (SSE) decreases steadily with increasing 'k' values, eventually leveling off.\n*   **Annotation:** A text annotation \"elbow=4\" is present on the right side of the graph.\n\n**General Notes:**\n\n*   Both graphs have a linear scale for their respective axes.\n*   The y-axis ticks are evenly spaced and labeled with numerical values.\n*   The graphs appear to be generated using a plotting library, likely matplotlib, given the style and annotation conventions."
+      },
+      {
+        "page": 10,
+        "bbox": [
+          80.435302734375,
+          761.299072265625,
+          513.4960327148438,
+          522.0610961914062
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_9.png",
+        "caption": "Figure 9. Cluster profile plot for random data  ( k = 10).",
+        "description": "Okay, here's a detailed analysis of the image provided, focusing solely on observable elements without interpretation:\n\n**Image Description:**\n\nThe image is a line graph representing data for ten clusters (labeled `cluster_0` through `cluster_9`) plotted against nine features (`feature_01` through `feature_06`). The y-axis represents \"Z-scores,\" ranging from approximately -1.0 to +1.0.  The x-axis is labeled with the feature names.\n\n**Specific Observations:**\n\n*   **Data Series:** There are ten distinct line series, each representing a different cluster.\n*   **Line Colors:** Each line series is assigned a unique color: red, dark blue, light blue, orange, yellow, green, purple, gray, brown and gold.\n*   **Feature Labels:** The x-axis contains nine labels: \"feature_01\", \"feature_02\", \"feature_03\", \"feature_04\", \"feature_05\", \"feature_06\".\n*   **Z-Score Values:**  The y-axis values for each line represent Z-scores. The Z-score is calculated as (value - mean) / standard deviation.\n*   **General Trends:**\n    *   `cluster_0` and `cluster_8` exhibit positive Z-scores across all nine features, generally clustering around +0.7 to +1.0.\n    *   `cluster_1` shows a negative Z-score for most features, with values ranging from -0.5 to -0.8.\n    *   `cluster_2` and `cluster_3` display fluctuating Z-scores, often near zero, with some positive and some negative values.\n    *   `cluster_4`, `cluster_5`, `cluster_6`, `cluster_7` show a general trend of negative Z-scores.\n    *   `cluster_9` shows a generally positive Z-score for most features but has a large variance in the data points.\n\n**Additional Notes:**\n\n*   The graph is plotted with a linear scale on both axes.\n*   There are no explicit titles or axis labels beyond those already mentioned.\n*   The data points appear to be connected by lines, indicating a continuous relationship between each cluster and each feature.\n\nLet me know if you would like me to focus on any particular aspect of the image!"
+      },
+      {
+        "page": 10,
+        "bbox": [
+          78.95045471191406,
+          409.206787109375,
+          515.6890258789062,
+          280.44854736328125
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_10.png",
+        "caption": "",
+        "description": "Okay, here's a detailed analysis of the image provided, focusing solely on the visual elements within the graph:\n\n**Overall Structure:**\n\nThe image contains two separate line graphs displayed side by side. Each graph represents a different clustering evaluation metric used in unsupervised machine learning. The graphs are labeled \"Silhouette vs k\" and \"Elbow (inertia)\".\n\n**Graph 1: Silhouette vs k**\n\n*   **X-axis:**  Integer values ranging from 1 to 10.\n*   **Y-axis:** Values ranging approximately from 0.120 to 0.135. The y-axis is labeled \"Silhouette\".\n*   **Line:** A blue line representing the silhouette score plotted against the x-axis value (k).\n*   **Trend:**  The line exhibits a general upward trend initially, reaching a peak around k=8 or 9, then decreases sharply as k increases further. The maximum silhouette score observed is approximately 0.135 at k=8.\n\n**Graph 2: Elbow (inertia)**\n\n*   **X-axis:** Integer values ranging from 1 to 10.\n*   **Y-axis:** Values ranging approximately from 7000 to 12600. The y-axis is labeled \"Inertia (SSE)\".\n*   **Line:** A purple line representing the inertia value plotted against the x-axis value (k).\n*   **Trend:**  The line exhibits a general downward trend, decreasing steadily as k increases from 1 to 10. The minimum inertia value observed is approximately 7000 at k=8. The label \"elbow-4\" is noted on the graph near k=4.\n\n**Additional Notes:**\n\n*   Both graphs utilize a linear scale for their respective axes.\n*   The y-axis labels include units: \"Silhouette\" and \"Inertia (SSE)\".\n*   The graphs are presented with minimal visual styling, primarily consisting of axis labels and the lines themselves."
+      },
+      {
+        "page": 11,
+        "bbox": [
+          75.7696762084961,
+          759.5056228637695,
+          523.3525390625,
+          537.7160949707031
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_11.png",
+        "caption": "",
+        "description": "Here's an analysis of the image based solely on its visual content:\n\n**Image Description:**\n\nThe image is a scatter plot displayed on a Cartesian coordinate system. The x-axis ranges from approximately -0.9 to 0.05, and the y-axis ranges from approximately -0.8 to 0.8.  There are 136 data points plotted as colored circles.\n\n**Data Points & Color Coding:**\n\n*   The data points are color-coded by cluster. There are clusters identified as \"Cluster_1\", \"Cluster_2\", \"Cluster_3\", \"Cluster_4\", \"Cluster_5\", and \"Cluster_6\".\n*   Each cluster contains a varying number of points:\n    *   Cluster_1: 20 points (green)\n    *   Cluster_2: 27 points (orange)\n    *   Cluster_3: 28 points (blue)\n    *   Cluster_4: 21 points (brown)\n    *   Cluster_5: 21 points (purple)\n    *   Cluster_6: 25 points (gray)\n\n**Trends & Patterns:**\n\n*   The data points are distributed across the entire coordinate system.\n*   There is no clear linear trend or pattern visible in the plotted data. The points appear to be randomly scattered within the defined ranges of the axes.\n*   The density of points varies between clusters, with Cluster_3 having the highest number of points and Cluster_1 having the lowest.\n\n**Text:**\n\nA legend is present at the top right corner of the image: \"Cluster_\" followed by numbers 1 through 6."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1]",
+    "filename": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1].pdf",
+    "page_start": 11,
+    "page_end": 13,
+    "heading": "3.2 Clustering Unimodal Gaussian Data",
+    "text": "The  second  simulation  used  unimodal  Gaussian  data.  As  in  the  random-data  condition, K-means  still  returned  a  cluster  solution  (Figure  12).  Classical  K-means  selected k =  7 according to the silhouette criterion. However, the absolute silhouette value was extremely low, reaching only approximately 0.115 with no plateau, which indicates very weak cluster separation. The inertia curve was similarly inconclusive.\nAs  in  the  random-data  condition,  the  cluster-profile  plot  alone  does  not  provide  a  clear indication that the clustering solution is unstable (Figure 13). Although the profiles appear differentiated across  features,  such  visual  separation  can  still  create  the  impression  of meaningful  subgroup  structure.  The instability of the solution only becomes evident when examining the reproducibility analysis (ARI = 0.343, SD = 0.133), indicating that different random starts frequently generated different partitions for the same dataset.\nSpherical  K-means was also applied to the same Gaussian dataset. In this case, the cosine silhouette  curve  continued  to  increase  across  much  of  the  tested  range  and  selected approximately k =  7  as  the  best  solution,  with  a  maximum  cosine  silhouette  around  0.23 (Figure 14).\nAlthough this value is higher than the classical Euclidean silhouette, the PCA projection still shows extensive overlap among clusters, with colored points dispersed throughout the same continuous cloud rather than forming clearly isolated regions (Figure 15). Thus, the spherical solution  appears  to  capture  angular  subdivisions  of  the  Gaussian  distribution  rather  than meaningful cluster structure. The stability analysis again supports this interpretation (ARI = 0.401, SD = 0.101).\nImportantly, this value was comparable to the cosine silhouette observed in the random-data condition, indicating that the apparent improvement in visual separation does not necessarily reflect  a  stronger  or more meaningful latent structure. Rather, spherical K-means appears to impose a directional partition on the Gaussian space, producing a visually coherent division even when the underlying data-generating process remains continuous and unimodal.\n",
+    "figures": [
+      {
+        "page": 11,
+        "bbox": [
+          79.1583251953125,
+          376.529296875,
+          515.5771484375,
+          246.2464599609375
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_12.png",
+        "caption": "Figure 12. Silhouette and SSE vs k for unimodal Gaussian data.",
+        "description": "Here's an analysis of the image based solely on its visual content:\n\n**Overall Structure:**\n\nThe image displays two separate line graphs presented side by side. Both graphs have a horizontal x-axis representing the number of clusters (k) and a vertical y-axis representing a numerical value. The x-axis ranges from 1 to 10.\n\n**Left Graph - Silhouette vs. k:**\n\n*   **Title:** \"Silhouette vs k\"\n*   **Y-Axis Label:** \"Silhouette\" with values ranging from approximately 0.290 to 0.113.\n*   **Line:** A blue line representing the silhouette score as a function of 'k'.\n*   **Data Points (approximate):**\n    *   k=2: Silhouette ≈ 0.290\n    *   k=3: Silhouette ≈ 0.305\n    *   k=4: Silhouette ≈ 0.315\n    *   k=5: Silhouette ≈ 0.320\n    *   k=6: Silhouette ≈ 0.113\n    *   k=7: Silhouette ≈ 0.113\n    *   k=8: Silhouette ≈ 0.113\n    *   k=9: Silhouette ≈ 0.112\n    *   k=10: Silhouette ≈ 0.113\n\n**Right Graph - Elbow (Inertia) vs. k:**\n\n*   **Title:** \"Elbow (inertia)\"\n*   **Y-Axis Label:** \"Inertia (SSD)\" with values ranging from approximately 7,000 to 105,000.\n*   **Line:** A purple line representing the inertia (Sum of Squared Differences) as a function of 'k'.\n*   **Data Points (approximate):**\n    *   k=2: Inertia ≈ 7,000\n    *   k=3: Inertia ≈ 8,500\n    *   k=4: Inertia ≈ 12,000\n    *   k=5: Inertia ≈ 16,000\n    *   k=6: Inertia ≈ 20,000\n    *   k=7: Inertia ≈ 23,000\n    *"
+      },
+      {
+        "page": 12,
+        "bbox": [
+          80.64765167236328,
+          761.1012344360352,
+          520.4627075195312,
+          518.0453796386719
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_13.png",
+        "caption": "Figure 13. Cluster-profile plot for unimodal Gaussian data  ( k = 7).",
+        "description": "Okay, here's a detailed analysis of the image provided, focusing solely on observable elements without interpretation:\n\n**Image Description:**\n\nThe image is a line graph presented within a white background. The graph displays Z-scores plotted against six features labeled \"feature_01\", \"feature_02\", \"feature_03\", \"feature_04\", \"feature_05\", and \"feature_06\".  Six distinct colored lines represent different clusters, identified as \"cluster_0\", \"cluster_1\", \"cluster_2\", \"cluster_3\", \"cluster_4\", and \"cluster_6\".\n\n**Data Points & Trends:**\n\n*   **X-axis:** The x-axis represents six features.\n*   **Y-axis:** The y-axis represents Z-scores, ranging from approximately -1.0 to 1.0.\n*   **Cluster Colors and Lines:**\n    *   \"cluster_0\" (represented by a maroon line) generally exhibits negative Z-scores across all six features, with the largest negative values around feature_03.\n    *   \"cluster_1\" (green line) shows positive Z-scores for \"feature_01\" and \"feature_02\", transitioning to negative Z-scores for the remaining features.\n    *   \"cluster_2\" (yellow line) displays a fluctuating pattern with Z-scores ranging from approximately -0.5 to 0.5 across all features.\n    *   \"cluster_3\" (orange line) shows positive Z-scores for \"feature_01\", \"feature_02\", and \"feature_03\".\n    *   \"cluster_4\" (purple line) exhibits a pattern of negative Z-scores, with the largest negative values around feature_05.\n    *   \"cluster_5\" (teal line) shows positive Z-scores for \"feature_01\", \"feature_02\", and \"feature_03\".\n    *   \"cluster_6\" (dark green line) displays a pattern of fluctuating Z-scores, with the largest negative values around feature_04.\n\n**Overall Graph Characteristics:**\n\n*   The graph is linear.\n*   Each cluster has its own distinct line representing its Z-score distribution for each feature.\n*   The lines do not intersect.\n*   The scale of the axes appears to be uniform.\n\n---"
+      },
+      {
+        "page": 12,
+        "bbox": [
+          78.88336944580078,
+          401.1985168457031,
+          515.5250854492188,
+          270.89654541015625
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_14.png",
+        "caption": "Figure 14. Silhouette (cosine) and SSE (L2) vs k for unimodal Gaussian data.",
+        "description": "Okay, here's a detailed analysis of the image provided, focusing solely on the visual elements within the graph:\n\n**Overall Structure:**\n\nThe image contains two separate line graphs displayed side-by-side. Each graph is labeled with its corresponding metric and the parameter being tested (\"K\"). The graphs utilize a linear x-axis ranging from 1 to 10.\n\n**Left Graph - Silhouette Cosine per K:**\n\n*   **Y-Axis Label:** \"Silhouette (cosine)\"\n*   **X-Axis Range:** Values from 1 to 10.\n*   **Line Data Points:**\n    *   K=2:  Approximately 0.205\n    *   K=3: Approximately 0.210\n    *   K=4: Approximately 0.218\n    *   K=5: Approximately 0.220\n    *   K=6: Approximately 0.221\n    *   K=7: Approximately 0.223\n    *   K=8: Approximately 0.223\n    *   K=9: Approximately 0.223\n    *   K=10: Approximately 0.223\n*   **Trend:** The silhouette cosine value increases from K=2 to K=7, then remains relatively constant at approximately 0.223 for values of K from 8 to 10.\n\n**Right Graph - Elbow (Inertia L2) per K:**\n\n*   **Y-Axis Label:** \"Elbow (inertia L2)\"\n*   **X-Axis Range:** Values from 1 to 10.\n*   **Line Data Points:**\n    *   K=2: Approximately 1180\n    *   K=3: Approximately 1250\n    *   K=4: Approximately 1350\n    *   K=5: Approximately 1450\n    *   K=6: Approximately 1550\n    *   K=7: Approximately 1650\n    *   K=8: Approximately 1700\n    *   K=9: Approximately 1720\n    *   K=10: Approximately 1730\n*   **Trend:** The inertia L2 value increases steadily from K=2"
+      },
+      {
+        "page": 13,
+        "bbox": [
+          76.05845642089844,
+          757.5029067993164,
+          522.9005126953125,
+          541.1343994140625
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_15.png",
+        "caption": "Figure 15. 2D PCA projection for unimodal Gaussian data  ( k = 7).",
+        "description": "Okay, here's a detailed analysis of the image you provided, focusing solely on observable elements within the scientific/technical document:\n\n**Image Description:**\n\nThe image is a scatter plot generated using a data visualization tool (likely MATLAB or similar). It displays two dimensions of data represented by an x-axis and a y-axis. The scale of both axes appears to be approximately -1 to 1.\n\n**Data Points & Clusters:**\n\n*   There are a large number of data points plotted, estimated to be over 200.\n*   The data points are colored according to five distinct clusters, labeled as \"cluster_1\", \"cluster_2\", \"cluster_3\", \"cluster_4\" and \"cluster_5\".\n*   **Cluster 1 (Blue):**  This cluster constitutes the largest number of points and is distributed relatively evenly across the plot. The points are concentrated in the upper left quadrant.\n*   **Cluster 2 (Orange):** This cluster has a moderate number of points, and it's located primarily in the lower right quadrant.\n*   **Cluster 3 (Green):**  This cluster contains a smaller number of points, and they are distributed across the plot with some concentration near the x-axis.\n*   **Cluster 4 (Yellow):** This cluster has a small number of points and is located in the upper right quadrant.\n*   **Cluster 5 (Red):**  This cluster contains the fewest points and is concentrated in the lower left quadrant.\n\n**Trends & Patterns:**\n\n*   The data points are generally scattered across the plot, with no clear linear trend or correlation visible between the x and y axes.\n*   Each cluster appears to be somewhat isolated from the others, although there is some overlap between clusters, particularly between Cluster 1 and Cluster 2.\n*   The density of points varies significantly across the different clusters.\n\n**Textual Elements:**\n\n*   A legend is present at the top right corner of the image. It identifies each cluster by its corresponding color (blue, orange, green, yellow, red) and assigns a label (\"cluster_1\", \"cluster_2\", \"cluster_3\", \"cluster_4\" and \"cluster_5\") to each.\n\n**Coordinate System:**\n\n*   The x-axis ranges from approximately -0.9 to 0.9.\n*   The y-axis ranges from approximately 0.5 to"
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1]",
+    "filename": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1].pdf",
+    "page_start": 13,
+    "page_end": 15,
+    "heading": "3.3 Clustering Unimodal Correlated Gaussian Data",
+    "text": "For the unimodal correlated Gaussian dataset, the application of K-means clustering with k = 2  (best)  resulted  in  a  highly  stable  partitioning  of  the  data (Figure 16). The Adjusted Rand Index (ARI) reached 1.00 with a standard deviation of 0.00 across runs, indicating complete consistency in the clustering solution regardless of initialization. The average silhouette value was  slightly  above  0.26,  suggesting  only  modest  separation  between  clusters  despite  the stability of results.\nk\nk\nGiven  that  the  data  were  generated  from  unimodal  Gaussian  distribution  with  correlated features, the algorithm effectively split an elongated, continuous structure into two elongated halves  (Figure  17).  Thus,  the  identified  clusters  should  be  interpreted  not  as  meaningful subpopulations, but as an artificial partition of a continuous, anisotropic distribution.\nThe  application  of  spherical  K-means  clustering  with k =  2  also  produced  a  highly  stable partitioning  of  the  data  (Figure  18).  The  Adjusted  Rand Index (ARI) reached 0.999, with a standard  deviation  of  0.001  across  runs,  indicating  that  the  solution  was  almost  perfectly reproducible despite random initialization. The cosine silhouette analysis also selected k = 2 as  the  best  solution,  with  a  silhouette  value  around  0.46,  which  is  higher  than  the  value obtained with classical K-means.\nk\nk\nHowever,  this  result  should  not  be  interpreted  as  evidence  for  two  genuine  psychological phenotypes.  In  the  PCA  projection,  this  produced  a  clear  left-versus-right  division  of  the same continuous elliptical structure, almost as if the Gaussian cloud had been cut into two hemispheres (Figure 19). Therefore, although the solution was highly stable and showed a better cosine silhouette than classical K-means, it still reflects an artificial geometric partition imposed by the algorithm rather than the discovery of meaningful subpopulations.\n",
+    "figures": [
+      {
+        "page": 13,
+        "bbox": [
+          79.28964233398438,
+          279.4931640625,
+          515.5103149414062,
+          150.6385498046875
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_16.png",
+        "caption": "",
+        "description": "Here's a detailed analysis of the image provided, focusing solely on the visual elements:\n\n**Overall Structure:**\n\nThe image is a two-panel graph presented within a scientific document. It displays results related to clustering analysis, likely using K-means or a similar algorithm.\n\n**Left Panel (Silhouette vs. k):**\n\n*   **Type:** Line Graph\n*   **X-axis:** Integer values from 1 to 10.\n*   **Y-axis:** Values ranging from approximately 0.13 to 0.26. The axis is labeled \"Silhouette\".\n*   **Line:** A purple line represents the silhouette score plotted against the value of 'k' (the number of clusters).\n*   **Data Points:**  The line passes through the following approximate points:\n    *   k=1: 0.13\n    *   k=2: 0.24\n    *   k=3: 0.23\n    *   k=4: 0.20\n    *   k=5: 0.18\n    *   k=6: 0.17\n    *   k=7: 0.16\n    *   k=8: 0.16\n    *   k=9: 0.16\n    *   k=10: 0.16\n*   **Trend:** The silhouette score decreases as 'k' increases, starting at a high value (0.24) and approaching a minimum around 0.16.\n\n**Right Panel (Elbow vs. Inertia):**\n\n*   **Type:** Line Graph\n*   **X-axis:** Integer values from 1 to 10.\n*   **Y-axis:** Values ranging from approximately 8000 to 4500. The axis is labeled \"Inertia (SSE)\".\n*   **Line:** A gray line represents the sum of squared errors (inertia) plotted against the value of 'k'.\n*   **Data Points:** The line passes through the following approximate points:\n    *   k=1: 8000\n    *   k=2: 6500\n    *   k=3: 5000\n    *   k=4: 4000\n    *   k="
+      },
+      {
+        "page": 14,
+        "bbox": [
+          80.44599914550781,
+          718.2284622192383,
+          515.72509765625,
+          474.7315368652344
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_17.png",
+        "caption": "Figure 17. Profile-plot for unimodal correlated Gaussian data  ( k = 2).",
+        "description": "Here's a detailed analysis of the image based on its visual content:\n\n**Image Description:**\n\nThe image is a line graph presented within a scientific document. It displays Z-scores for three distinct clusters, labeled \"cluster_0,\" \"cluster_1,\" and \"cluster_2\" (though cluster_2 isn't visually represented). The x-axis represents feature values, labeled as \"feature_01,\" \"feature_02,\" \"feature_03,\" \"feature_04,\" \"feature_05,\" and \"feature_06.\"  The y-axis displays Z-scores.\n\n**Data Points & Trends:**\n\n*   **Cluster 0 (Red Line):** The red line shows a generally upward trend across all six feature values. It begins at approximately 0.6, rises to a peak of around 0.65 at \"feature_01\" and \"feature_02\", then decreases slightly to end at approximately 0.6.\n\n*   **Cluster 1 (Green Line):** The green line exhibits a downward trend across all six feature values. It starts at approximately -0.6, reaches a minimum of around -0.75 at \"feature_05\" and \"feature_06\", then rises to end at approximately -0.6.\n\n*   **Feature Values:**  The x-axis represents six distinct features, each labeled with a numerical identifier (\"feature_XX\"). The spacing between the feature labels is consistent.\n\n*   **Z-Scores:** The y-axis displays Z-scores. These scores likely represent standardized values (mean = 0, standard deviation = 1) for each cluster across the given feature set.  The absolute value of the Z-score indicates the number of standard deviations a data point is from the mean.\n\n**Overall Appearance:**\n\n*   The graph uses a muted color palette with shades of red and green.\n*   The lines are solid and have no markers or symbols along their length.\n*   The axes are labeled clearly. \n*   A title is not visible in this image excerpt."
+      },
+      {
+        "page": 14,
+        "bbox": [
+          78.98257446289062,
+          327.08294677734375,
+          515.3859252929688,
+          198.1519775390625
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_18.png",
+        "caption": "",
+        "description": "Here's a detailed analysis of the image, focusing solely on the visual elements presented:\n\n**Overall Structure:**\n\nThe image contains two separate line graphs displayed side by side within a dark background. Each graph is labeled with its title and units.\n\n**Left Graph (Silhouette Cosine per K):**\n\n*   **Title:** \"Silhouette Cosine per K\"\n*   **Y-Axis Label:** \"Silhouette (cosine)\" with values ranging from 0.25 to 0.45. The scale is linear.\n*   **X-Axis Label:** \"K\" with integer values from 2 to 10.\n*   **Data Points & Trends:**\n    *   At K=2, the silhouette cosine value is approximately 0.42.\n    *   The silhouette cosine value decreases steadily as K increases from 2 to 10.\n    *   The silhouette cosine value reaches a minimum of approximately 0.25 at K=9 and K=10.\n    *   The curve is relatively smooth with minor fluctuations in the data points.\n\n**Right Graph (Elbow (Inertia L2) per K):**\n\n*   **Title:** \"Elbow (Inertia L2) per K\"\n*   **Y-Axis Label:** \"Inertia (L2)\" with values ranging from 700 to 1300. The scale is linear.\n*   **X-Axis Label:** \"K\" with integer values from 2 to 10.\n*   **Data Points & Trends:**\n    *   At K=2, the inertia value is approximately 750.\n    *   The inertia value increases rapidly until K=4.\n    *   At K=4, the inertia value reaches a peak of approximately 1300.\n    *   After K=4, the inertia value decreases gradually towards a plateau around 800 at K=10.\n\n**Additional Elements:**\n\n*   A vertical dashed line is drawn at K=4 on both graphs, indicating a specific point of interest.\n*   The graph titles are in black font. The axis labels and data points are in black."
+      },
+      {
+        "page": 15,
+        "bbox": [
+          75.98257446289062,
+          716.7774963378906,
+          522.23046875,
+          494.80462646484375
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_19.png",
+        "caption": "Figure 19. 2D PCA projection for unimodal correlated Gaussian data  ( k = 2).",
+        "description": "Here's an analysis of the image based on its visual content:\n\n**Image Description:**\n\nThe image is a two-dimensional scatter plot generated by a data visualization tool. It displays a large number of points, approximately 200-300, plotted against two axes labeled \"X\" and \"Y\". The axes range from roughly -1 to 1 on both the x and y scales.\n\n**Data Points & Clustering:**\n\n*   **Color Coding:** The data points are colored differently to represent clusters:\n    *   Purple points constitute one cluster. This cluster forms a distinct, elongated oval shape.\n    *   Green points constitute another cluster. This cluster is located in the upper right quadrant of the plot and also exhibits an oval shape, overlapping significantly with the purple cluster.\n\n*   **Cluster Shape:** Both clusters appear to be ellipsoidal or oval-shaped. The green cluster appears slightly more elongated than the purple cluster.\n\n*   **Density:**  The density of points is highest within both clusters. There are relatively few isolated data points outside of these two main groupings.\n\n*   **Overlapping Clusters:** The two clusters significantly overlap in their spatial distribution, indicating a degree of similarity between the data points belonging to each cluster.\n\n**Legend:**\n\nA legend at the bottom-right corner of the image identifies the colors as representing \"Cluster_1\" (purple) and \"Cluster_2\" (green).\n\n**Note:** The image does not contain any text other than the legend."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1]",
+    "filename": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1].pdf",
+    "page_start": 15,
+    "page_end": 17,
+    "heading": "3.4 Clustering Multimodal Gaussian Data",
+    "text": "For the multimodal Gaussian dataset, both criteria supported k = 5 (Figure 20). The silhouette reached  its  highest  value  around  0.82,  indicating  compact  and  well-separated  clusters.  The elbow  plot  showed  a  sharp  reduction  in  inertia  up  to k =  5,  followed  by  a  clear  plateau, suggesting that  additional  clusters  produced  little  improvement.  Therefore,  unlike  the correlated Gaussian-data condition, this dataset showed a clear clustering structure, with five distinguishable groups providing the most defensible K-means solution.\nk\nk\nNevertheless, the cluster-profile plot  for  the  multimodal  Gaussian  dataset  is  visually comparable to several other clustering solutions presented throughout the study (Figure 21).\nSpherical K-means produced the same optimal solution (Figure 22). Therefore, both classical and  spherical  K-means  converged  on  the  same  five-cluster  structure,  reinforcing  that  this simulated dataset contained a clear multivariate clustering pattern.\nk\nk\nThe  3D  PCA  projection  further  reveals  that  this  solution  did  not  simply  draw  boundaries across  continuous  space  (Figure  23).  Instead,  spherical  K-means  subdivided  the  data into multiple angular regions, effectively splitting the multimodal structure into smaller directional subclusters.\n",
+    "figures": [
+      {
+        "page": 15,
+        "bbox": [
+          78.81716918945312,
+          317.15667724609375,
+          515.4336547851562,
+          186.89312744140625
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_20.png",
+        "caption": "",
+        "description": "Okay, here's a detailed analysis of the image provided, focusing solely on the visual elements:\n\n**Overall Structure:**\n\nThe image is a two-panel graph presented within a scientific document. It displays results related to clustering analysis, likely using the Silhouette method and Elbow method for determining the optimal number of clusters.\n\n**Left Panel (Silhouette vs. k):**\n\n*   **X-axis:** Represents the value of 'k', the number of clusters being tested. The values range from 2 to 10.\n*   **Y-axis:** Represents the Silhouette coefficient, a metric used in cluster analysis to measure how well each data point is clustered.  The scale ranges from approximately 0.3 to 0.8.\n*   **Line Graph:** A blue line depicts the Silhouette coefficient plotted against 'k'. The graph shows a distinct peak at k=5. The silhouette values are relatively high (around 0.7) for k values of 2, 3, 4 and 6.  The value decreases sharply after k=6.\n*   **Vertical Line:** A vertical dashed line is drawn at k=5, indicating a specific value being investigated.\n\n**Right Panel (Elbow Inertia):**\n\n*   **X-axis:** Represents the number of clusters 'k', ranging from 2 to 10.\n*   **Y-axis:** Represents \"Inertia,\" which is a measure of within-cluster variance or sum of squared distances. The scale ranges from approximately 1000 to 8000.\n*   **Line Graph:** A dark gray line depicts the inertia plotted against 'k'.  The graph shows a decreasing trend in inertia as 'k' increases, with a noticeable dip around k=3 and k=5.\n*   **Horizontal Lines:** Two horizontal lines are drawn at approximately 3000 and 6000.\n*   **Vertical Line:** A vertical dashed line is drawn at k=5, coinciding with the vertical line in the left panel.\n\n**Key Observations & Correlations:**\n\n*   The Silhouette coefficient peaks at k=5 on the left panel.\n*   The inertia value also shows a minimum around k=5 on the right panel.\n*   Both graphs have a vertical dashed line at k=5, visually highlighting this point of convergence. \n\n**Note:** The image is a static representation of data; it does not"
+      },
+      {
+        "page": 16,
+        "bbox": [
+          80.75738525390625,
+          764.4063873291016,
+          517.7167358398438,
+          523.316162109375
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_21.png",
+        "caption": "Figure 21. Profile-plot for multimodal Gaussian data  ( k = 5).",
+        "description": "Here's a detailed analysis of the image based solely on its visual content:\n\n**Image Description:**\n\nThe image is a line graph depicting Z-scores for five clusters (cluster_0 through cluster_4) across six features (feature_01 through feature_06). \n\n**Axes:**\n\n*   **Y-axis:**  Labeled \"Z-scores\". The scale ranges from approximately -1.2 to 1.2.\n*   **X-axis:** Labeled \"Feature_01\" through \"Feature_06\". There are six distinct data points along the x-axis, representing the features.\n\n**Lines and Data Points:**\n\n*   There are five distinct lines, each representing a different cluster:\n    *   **cluster_0:**  A light orange line that generally trends upwards from -1.0 to 1.0 across all six features. The data points on this line are consistently near the top of the graph's Y-axis range.\n    *   **cluster_1:** A pink line that fluctuates significantly around zero, with values ranging from approximately -1.0 to 0.8.\n    *   **cluster_2:**  A green line that generally trends downwards from 0.5 to -1.0 across all six features. The data points on this line are consistently near the bottom of the graph's Y-axis range.\n    *   **cluster_3:** A yellow line that fluctuates around zero, with values ranging from approximately -0.8 to 0.6.\n    *   **cluster_4:** An orange line that generally trends upwards from -1.0 to 1.0 across all six features. The data points on this line are consistently near the top of the graph's Y-axis range.\n\n**Overall Pattern:**\n\nThe Z-scores for each cluster vary significantly across the six features, indicating differences in the relationship between the features and each cluster.  There is a clear visual separation between the clusters based on their respective Z-score values."
+      },
+      {
+        "page": 16,
+        "bbox": [
+          78.84466552734375,
+          422.44677734375,
+          515.37646484375,
+          292.08184814453125
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_22.png",
+        "caption": "",
+        "description": "Okay, here's a detailed analysis of the image provided, focusing solely on the visual elements within the graph:\n\n**Left Graph (Silhouette Cosine per K)**\n\n*   **Type:** Line graph\n*   **X-axis:** Integer values from 1 to 10.\n*   **Y-axis:** Values ranging from approximately 0.3 to 0.9, labeled \"Silhouette (Coefficient)\".\n*   **Line:** A dark purple line representing the silhouette cosine value for each 'K' value.\n*   **Data Points:** The line exhibits a distinct sinusoidal pattern.  The values start at approximately 0.3 at K=1 and K=10, rise to a peak of approximately 0.8 at K=4 and K=5, and then decrease back to approximately 0.3 at K=6, K=7, K=8, and K=9.\n*   **Title:** \"Silhouette Cosine por K\" (translated: Silhouette Coefficient per K)\n*   **Legend:**  \"S-H2-S\" is present as a legend item.\n\n**Right Graph (Elbow (Inertia L2) per K)**\n\n*   **Type:** Line graph\n*   **X-axis:** Integer values from 1 to 10.\n*   **Y-axis:** Values ranging from approximately 180 to 1200, labeled \"Elbow (Inertia L2)\".\n*   **Line:** A light purple line representing the elbow inertia L2 value for each 'K' value.\n*   **Data Points:** The line is relatively flat and constant across all K values from 1 to 10.  The value remains approximately 500.\n*   **Title:** \"Elbow (Inertia L2) por K\" (translated: Elbow (Inertia L2) per K)\n*   **Annotation:** A vertical dashed line is present at K=5, labeled \"elbow-5\".\n\n---\n\n**Overall Notes:**\n\n*   Both graphs use the same X-axis scale (1 to 10).\n*   The graphs are displayed side by side.\n*   The document appears to be related to clustering analysis, as indicated by the terms \"Silhouette Cosine\" and \"Elbow\"."
+      },
+      {
+        "page": 17,
+        "bbox": [
+          182.61900329589844,
+          750.8470916748047,
+          388.138671875,
+          575.2306518554688
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_23.png",
+        "caption": "Figure 23. 3D PCA projection for multimodal Gaussian data  ( k = 5).",
+        "description": "Here's an analysis of the image based solely on its visual content:\n\n**Image Description:**\n\nThe image is a three-dimensional scatter plot representing data points in a Principal Component Analysis (PCA) projection. The axes are labeled \"PC1\" and \"PC2,\" indicating the first and second principal components, respectively.  \"PC3\" represents the third principal component.\n\n**Data Points & Clusters:**\n\n*   There are six distinct clusters of data points represented by different colored circles: yellow, red, green, blue, orange, and purple.\n*   The yellow cluster is located in the upper-left region of the plot, with a relatively high PC1 value and a negative PC2 value.\n*   The red cluster is positioned in the upper-right quadrant, exhibiting a positive PC1 value and a negative PC2 value.\n*   The green cluster occupies the center-upper portion of the plot, characterized by a negative PC1 value and a positive PC2 value.\n*   The blue cluster is located in the lower-left region with a negative PC1 value and a negative PC2 value.\n*   The orange cluster is situated near the yellow cluster, exhibiting similar values for PC1 and PC2.\n*   The purple cluster is positioned in the lower-right quadrant, characterized by a positive PC1 value and a positive PC2 value.\n\n**Axes & Scale:**\n\n*   The y-axis (PC2) ranges from approximately -0.65 to 0.65.\n*   The x-axis (PC1) ranges from approximately -0.65 to 0.65.\n*   The z-axis (PC3) ranges from approximately -0.65 to 0.65.\n\n**Overall Appearance:**\n\nThe plot appears to demonstrate a clear separation of data points based on the variance captured by the first two principal components. The clusters are not perfectly spherical, suggesting that the underlying data has non-linear relationships within the original feature space."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1]",
+    "filename": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1].pdf",
+    "page_start": 17,
+    "page_end": 19,
+    "heading": "3.5 Clustering Empirical Data",
+    "text": "For the empirical dataset, classical K-means clustering indicated k =  2  as  the  best solution according to the silhouette criterion (Figure 24). The  average silhouette value  was approximately 0.31, suggesting a modest but interpretable separation between clusters. The solution  was  also  highly  stable  across  runs,  with  a  mean  ARI  of  0.999  and  a  standard deviation  of  0.001,  indicating  that  the  same  partition  was  almost  always  recovered  despite random initialization.\nThe cluster profiles showed a clear and consistent difference in overall standardized scores across  all  selected  psychological  measures  (Figure  25).  Cluster  0  presented  systematically lower scores across STARS, R-TAS, LSAS-SR, CAS, IUS-SF, and BFNE, whereas cluster 1 presented  systematically  higher  scores  across  the  same  variables.  The  two  clusters  were nearly  equal in size,  with  4,237  participants  in  cluster  0  (50.6%)  and  4,123  participants  in cluster 1  (49.4%).  This  pattern  suggests  that  the  empirical  solution  reflects  a  broad low-symptom versus high-symptom profile, rather than highly specific subtypes or psychological phenomena.\ndutr3\ncluster_2\ncluster_0\ncluster_4\nFor  the  empirical  dataset,  spherical  K-means  clustering  also  selected  k  =  2  as  the  best solution (Figure 26). The cosine silhouette value was approximately 0.51, indicating a clearer angular  separation  than that observed with classical K-means. The solution was extremely stable across runs, with a mean ARI of 1.00 and a standard deviation of 0.000.\nk\nk\nAgain,  these  clusters  should  not  be  interpreted  as  natural  psychological  profiles  in  a  strict taxonomic sense, as revealed by the 2D PCA projection (Figure 27). Rather, they represent geometric boundaries drawn within a latent continuous psychological space. For this reason, the resulting groups are partly artificial: they are useful for summarizing patterns in the data, but they do not necessarily correspond to discrete, naturally occurring subpopulations.\nThis interpretation is reinforced by the silhouette results and PCA projection for k = 2, 3, 4. Although k =  2  was  selected  as  the  best  solution,  additional  partitions  still  produced reasonably  comparable  silhouette  values,  suggesting  that  the  psychological  space  can  be subdivided  in  several  geometrically  plausible  ways  (Figure  28).  This  is  exactly  what  was observed in the simulation with unimodal correlated Gaussian dataset.\n",
+    "figures": [
+      {
+        "page": 17,
+        "bbox": [
+          79.01930236816406,
+          397.0896911621094,
+          515.3372192382812,
+          265.90533447265625
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_24.png",
+        "caption": "Figure 24. Silhouette and SSE vs k for empirical data.",
+        "description": "Here's an analysis of the image based solely on its visual content:\n\n**Overall Structure:**\n\nThe image is a two-panel plot displaying results from a clustering analysis, likely using K-means or a similar algorithm. The left panel shows a line graph and the right panel displays a scatter plot.\n\n**Left Panel (Silhouette vs. k):**\n\n*   **X-axis:** Represents the number of clusters, 'k', ranging from 2 to 10.\n*   **Y-axis:** Represents the silhouette score for each value of 'k'. The scale is from 0.3 to 0.35.\n*   **Line Graph:**  The line shows a downward trend in silhouette scores as 'k' increases from 2 to 10. The silhouette score decreases consistently across this range. At k=10, the silhouette score is approximately 0.34.\n\n**Right Panel (Elbow [Inertia]):**\n\n*   **X-axis:** Represents the number of clusters, 'k', ranging from 2 to 10.\n*   **Y-axis:** Represents inertia (sum of squared distances between data points and cluster centers), measured in units of SSE (Sum of Squared Errors). The scale is from 18000 to 30000.\n*   **Scatter Plot:**  The plot shows a downward trend in inertia as 'k' increases. A vertical line is marked at k=5, indicating an \"elbow\" point. The inertia value at this point is approximately 24000. The data points for k values greater than 5 are clustered around the horizontal line at y = 18000.\n\n**Text Annotations:**\n\n*   \"Silhouette vs k\" is written above the left panel.\n*   \"Elbow [Inertia]\" is written above the right panel.\n*   The point \"elbow=5\" is marked on the right panel, indicating a value of 24000 for inertia at k=5.\n\n**Data Points:**\n\n*   At k=2, Silhouette = 0.31 and Inertia = 27000\n*   At k=3, Silhouette = 0.33 and Inertia = 22000\n*   At k=4, Silhouette = 0.35 and Inertia = 1800"
+      },
+      {
+        "page": 18,
+        "bbox": [
+          80.15137481689453,
+          762.2277603149414,
+          515.7003173828125,
+          529.4847412109375
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_25.png",
+        "caption": "Figure 25. Profile-plot for empirical data  ( k = 2).",
+        "description": "Okay, here's a detailed analysis of the image provided, focusing solely on the visual elements and avoiding interpretation:\n\n**Image Description:**\n\nThe image is a line graph presented in a scientific document. It displays Z-scores for two clusters (labeled \"cluster_0\" and \"cluster_1\") across six different test names: STAR*, R-TAS, BFREE, LSAS-SR, CAS, and iUS-SF.\n\n**Axes:**\n\n*   **X-axis:**  Labeled with the names of the tests in order: \"STAR\", \"R-TAS\", \"BFREE\", \"LSAS-SR\", \"CAS\", \"iUS-SF\".\n*   **Y-axis:** Labeled with \"Z-scores\" ranging from approximately -1.0 to 1.0, marked in increments of 0.2.\n\n**Lines and Data Points:**\n\n*   **cluster_0 (Red):** A continuous line representing the Z-scores for cluster 0. The data points along this line are as follows:\n    *   STAR: -0.6\n    *   R-TAS: 0.7\n    *   BFREE: -0.6\n    *   LSAS-SR: -0.6\n    *   CAS: -0.6\n    *   iUS-SF: -0.6\n\n*   **cluster_1 (Green):** A continuous line representing the Z-scores for cluster 1. The data points along this line are as follows:\n    *   STAR: 0.7\n    *   R-TAS: 0.7\n    *   BFREE: -0.6\n    *   LSAS-SR: 0.7\n    *   CAS: 0.6\n    *   iUS-SF: 0.6\n\n**Overall Trends:**\n\n*   Both lines exhibit a relatively consistent trend across the tests, with slight variations in their respective Z-score values.\n*   The Z-scores for both clusters are generally positive for STAR and R-TAS, and negative for BFREE, LSAS-SR, CAS, and iUS-SF.\n*   The Z-score value for cluster 0 is consistently lower than the Z-score value for cluster 1 across all tests.\n\n**Additional Notes:**\n\n*   The graph uses a standard line chart format with a grid background."
+      },
+      {
+        "page": 18,
+        "bbox": [
+          78.92928314208984,
+          413.7828369140625,
+          515.5518798828125,
+          284.9688720703125
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_26.png",
+        "caption": "",
+        "description": "Okay, here's a detailed analysis of the image you provided, focusing solely on the visual elements within the graph:\n\n**Overall Structure:**\n\nThe image contains two separate line graphs displayed side by side. Each graph is labeled with its title and axis labels. The graphs are presented in a grayscale color scheme.\n\n**Graph 1: Silhouette Cosine per K**\n\n*   **Title:** \"Silhouette Cosine per K\"\n*   **X-axis:**  Integer values from 2 to 10.\n*   **Y-axis:** Values ranging from approximately 0.30 to 0.50, labeled as \"(Silhouette)\"\n*   **Line:** A solid blue line representing the Silhouette Cosine value for each 'K' (cluster number).\n*   **Data Points & Trends:** The line begins at a low value around 0.30 at K=2 and increases steadily to a peak value of approximately 0.45 at K=6. After K=6, the line decreases sharply back down to approximately 0.30 at K=10.\n\n**Graph 2: Elbow (Inertia L2) per K**\n\n*   **Title:** \"Elbow (Inertia L2) per K\"\n*   **X-axis:** Integer values from 2 to 10.\n*   **Y-axis:** Values ranging from approximately 3500 to 5000, labeled as \"(Inertia L2)\"\n*   **Line:** A solid blue line representing the Inertia L2 value for each 'K' (cluster number).\n*   **Data Points & Trends:** The line begins at a low value around 3500 at K=2 and increases steadily to a peak value of approximately 4500 at K=7. After K=7, the line decreases gradually back down to approximately 4000 at K=10.\n\n**Annotations:**\n\n*   A point is marked on Graph 2 with the label \"elbow-4\".\n*   Text labels are present for both graphs: \"Silhouette Cosine\" and \"Elbow (Inertia L2)\".\n\nLet me know if you would like a description of any specific aspect in more detail."
+      },
+      {
+        "page": 19,
+        "bbox": [
+          76.0100326538086,
+          760.636344909668,
+          522.3922729492188,
+          542.9951171875
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_27.png",
+        "caption": "Figure 27. 2D PCA projection for empirical data  ( k = 2).",
+        "description": "Okay, here's a detailed analysis of the image based solely on its visual content, using UTF-8 characters:\n\n**Image Description:**\n\nThe image is a scatter plot generated within a scientific document or report. It displays data points in a two-dimensional Cartesian coordinate system.\n\n**Axes:**\n\n*   **X-axis:** The x-axis ranges from approximately -6.0 to 0.5.\n*   **Y-axis:** The y-axis ranges from approximately -0.8 to 0.8.\n\n**Data Points & Clusters:**\n\n*   The plot contains a large number of data points, visually estimated to be over 10,000.\n*   The points are colored according to two clusters identified as \"cluster_1\" and \"cluster_2\".\n    *   \"cluster_1\" is represented by green dots. The majority of the green points are concentrated in the upper-left quadrant of the plot (positive x, positive y).\n    *   \"cluster_2\" is represented by purple dots.  The majority of the purple points are clustered in the lower-right quadrant of the plot (negative x, positive y).\n*   A significant portion of the data points (purple) extends beyond the primary cluster, forming a more diffuse area around the lower right corner.\n\n**Labels & Title:**\n\n*   At the top left of the image, there is text: \"Cluster\".\n*   Below the title, there are two labels: \"cluster_1\" and \"cluster_2\".\n*   The plot appears to be generated using a software package that supports clustering analysis. The visual style (color palette, axis labeling) suggests a common data visualization tool.\n\n**Overall Pattern:**\n\nThe data points exhibit a clear separation into two distinct clusters based on their x and y coordinates.  There is a noticeable spatial relationship between the cluster assignments and the location of the data points within the 2D space."
+      },
+      {
+        "page": 19,
+        "bbox": [
+          74.5773696899414,
+          412.6650695800781,
+          524.7317504882812,
+          151.88482666015625
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_28.png",
+        "caption": "Figure 28. PCA projections for empirical data (k = 2, 3, 4).",
+        "description": "Okay, here's a detailed analysis of the image provided, focusing solely on observable elements without interpretation:\n\n**Overall Structure:**\n\nThe image displays four scatter plots arranged in a grid format.  Each plot is overlaid with a color gradient representing different categories or groups. The x-axis and y-axis are unlabeled.\n\n**Plot 1 (Top Left):**\n\n*   **Shape:** Circular\n*   **Color Palette:** Purple, Green, Blue, Yellow\n*   **Data Points:** Numerous small dots distributed within the circular area.  The purple region is the largest. The green region is smaller than the purple and blue regions. The blue region is smaller than the green region. The yellow region is the smallest.\n*   **Scale Bar:** A vertical scale bar is present on the right side of the plot, ranging from 0 to 100.\n\n**Plot 2 (Top Right):**\n\n*   **Shape:** Circular\n*   **Color Palette:** Purple, Green, Blue, Yellow\n*   **Data Points:** Numerous small dots distributed within the circular area. The purple region is the largest. The green region is smaller than the purple and blue regions. The blue region is smaller than the green region. The yellow region is the smallest.\n*   **Scale Bar:** A vertical scale bar is present on the right side of the plot, ranging from 0 to 100.\n\n**Plot 3 (Bottom Left):**\n\n*   **Shape:** Oval/Elliptical\n*   **Color Palette:** Yellow, Purple, Green\n*   **Data Points:** Numerous small dots distributed within the oval area. The yellow region is the largest. The purple region is smaller than the yellow region. The green region is smaller than the purple region.\n*   **Scale Bar:** A vertical scale bar is present on the right side of the plot, ranging from 0 to 100.\n\n**Plot 4 (Bottom Right):**\n\n*   **Shape:** Oval/Elliptical\n*   **Color Palette:** Yellow, Purple, Green\n*   **Data Points:** Numerous small dots distributed within the oval area. The yellow region is the largest. The purple region is smaller than the yellow region. The green region is smaller than the purple region.\n*   **Scale Bar:** A vertical scale bar is present on the right side of the plot, ranging from 0 to 100.\n\n**Additional"
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1]",
+    "filename": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1].pdf",
+    "page_start": 20,
+    "page_end": 22,
+    "heading": "3.6 Clustering Cytometer-like Data",
+    "text": "For the simulated flow-cytometry-like dataset, classical K-means selected k = 2 as the best solution according to the silhouette criterion (Figure 29). Unlike the random and unimodal Gaussian conditions, this result was supported by a relatively high silhouette value, reaching approximately 0.52, which  indicates a much  stronger degree of separation  between observations  and  their  assigned  clusters.  The  clustering  solution  was  also  perfectly  stable across  repeated  runs  (ARI  =  1.000;  SD  =  0.000),  showing  that  the  same  partition  was consistently recovered despite different random initializations.\nk\nk\nHowever, the silhouette and inertia criteria did not fully converge: while the silhouette curve favored k = 2, the inertia curve suggested a more plausible elbow around k = 4 (Figure 29). This  discrepancy  indicates  that  the  strongest  global  separation  in  the  dataset  occurred  at  a broad two-cluster level (Figure 30), whereas additional internal structure was still present and became more visible through the reduction in SSE.\nWhen  spherical  K-means  was  applied  to  the  same  simulated  cytometry  data,  the  cosine silhouette  criterion  selected k  = 4 as the best solution (Figure 31). This solution was highly stable,  with  a  mean  ARI  of  0.996  and  a standard deviation of 0.003. The inertia curve also supported the presence of meaningful structure, although it did not point to exactly the same value of k .  In  this  sense, the spherical K-means result suggests that the dataset contains not only a dominant global separation, but also finer internal subdivisions that can be recovered depending on the distance geometry and the criterion used to select k .\nk\nk\nIn  the  PCA  projection,  spherical  K-means  revealed  clearly  distinguishable  clusters  in  the two-dimensional  space  (Figure  32).  Unlike  the  random-data  condition  and  the  Gaussian simulations,  whether  correlated  or  uncorrelated,  the  projected  groups  did  not  appear  as arbitrary subdivisions of a continuous cloud. Instead, the clusters occupied relatively distinct regions of the PCA space, with only limited overlap between some groups.\nPC1\nEven so, this example also shows that the choice of k remains partly interpretive even under favorable simulation conditions. Although the dataset was generated to imitate five cell-like populations in a flow-cytometry context, the statistical criteria did not fully recover all five intended  groups  as  the  single  optimal  solution.  Instead,  the  classical  K-means  solution emphasized  a  broader  two-group  separation,  whereas  spherical  K-means  captured  a  more fine-grained  four-cluster  structure.  This  discrepancy  illustrates  that  the  'best'  value  of k depends not only on the presence of underlying structure, but also on the geometric criterion used by the algorithm and on the level of resolution considered meaningful by the researcher The intended five-cluster structure becomes clearer in the 3D PCA projection (Figure 33).\nIn this case, the failure to recover exactly five clusters should not be interpreted as an error of the  method. Two simulated cell populations were intentionally placed close to one another, making them statistically and geometrically similar. As a result, a generic clustering criterion could reasonably merge them, even though they were defined as separate populations in the data-generating process.\n",
+    "figures": [
+      {
+        "page": 20,
+        "bbox": [
+          79.39984130859375,
+          618.8935546875,
+          515.4014282226562,
+          488.8211975097656
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_29.png",
+        "caption": "",
+        "description": "Here's an analysis of the image based on its visual content:\n\n**Main Plot (Silhouette vs. k)**\n\n*   **Type:** Line graph.\n*   **X-axis:** Represents the number of clusters, 'k', ranging from 2 to 10. The axis is labeled \"k\".\n*   **Y-axis:** Represents the silhouette score, with values ranging approximately from 0.25 to 0.50. The axis is labeled \"Silhouette\".\n*   **Line:** A purple line traces the silhouette score against increasing values of 'k'.\n*   **Data Points (Approximate):**\n    *   k=2: Silhouette = 0.48\n    *   k=3: Silhouette = 0.49\n    *   k=4: Silhouette = 0.47\n    *   k=5: Silhouette = 0.46\n    *   k=6: Silhouette = 0.45\n    *   k=7: Silhouette = 0.43\n    *   k=8: Silhouette = 0.29\n    *   k=9: Silhouette = 0.28\n    *   k=10: Silhouette = 0.28\n\n**Secondary Plot (Elbow - Inertia)**\n\n*   **Type:** Line graph.\n*   **X-axis:** Represents the number of clusters, 'k', ranging from 2 to 30. The axis is labeled \"k\".\n*   **Y-axis:** Represents inertia (within-cluster sum of squares), with values ranging approximately from 3000 to 5800. The axis is labeled \"Inertia (1000)\".\n*   **Line:** A purple line traces the inertia against increasing values of 'k'.\n*   **Data Points (Approximate):**\n    *   k=2: Inertia = 6000\n    *   k=3: Inertia = 5800\n    *   k=4: Inertia = 4000\n    *   k=5: Inertia = 3100\n    *   k=6: Inertia = 2700\n    *   k=7: Inertia = 2900\n    *   k=8: Inertia = 3"
+      },
+      {
+        "page": 20,
+        "bbox": [
+          80.53596496582031,
+          354.47418212890625,
+          517.41015625,
+          112.77215576171875
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_30.png",
+        "caption": "Figure 30. Profile-plot for cytometer-like data ( k = 2).",
+        "description": "Here's an analysis of the image based solely on its visual content:\n\n**Image Description:**\n\nThe image is a line graph presented within a scientific document. It displays two sets of data, represented by differently colored lines.\n\n*   **X-Axis Labels:** The x-axis is labeled with six discrete values: \"feature_01\", \"feature_02\", \"feature_03\", \"feature_04\", \"feature_05\", and \"feature_06\". These appear to be labels for different features or variables.\n\n*   **Y-Axis:** The y-axis is labeled \"Z-scores\" with a range from -1.0 to 2.0.  The units are not explicitly stated but are clearly Z-scores.\n\n*   **Data Series:**\n    *   **Cluster_0 (Red Line):** This line represents data for \"cluster_0\". It starts at approximately -0.8 on the y-axis, rises to approximately 1.6, and then declines back to approximately -0.2.\n    *   **Cluster_1 (Green Line):** This line represents data for \"cluster_1\".  It begins at approximately 0.5 on the y-axis, increases to approximately 1.8, and then rises to approximately 1.7.\n\n*   **Legend:** The legend identifies the red line as \"cluster_0\" and the green line as \"cluster_1\".\n\n*   **Graph Style:** The graph uses a simple, minimalist style with a white background and gray gridlines.  The lines are solid.\n\n**Overall Pattern:**\n\nBoth data series exhibit an upward trend from \"feature_01\" to \"feature_04\", followed by a downward trend from \"feature_04\" to \"feature_06\". The Z-score values for \"cluster_1\" generally remain higher than those of \"cluster_0\" across all features."
+      },
+      {
+        "page": 21,
+        "bbox": [
+          78.75519561767578,
+          644.4473266601562,
+          515.7044677734375,
+          514.8131103515625
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_31.png",
+        "caption": "",
+        "description": "Here's an analysis of the image provided, focusing on precise details:\n\n**Overall Structure:**\n\nThe image contains two separate line graphs displayed side by side within a black background. Each graph is labeled with its title and axis labels. The graphs are presented in a grayscale format.\n\n**Left Graph (Silhouette Cosine per K):**\n\n*   **Title:** \"Silhouette Cosine per K\"\n*   **X-axis:** Integer values from 2 to 10.\n*   **Y-axis:** Values ranging from approximately 0.34 to 0.54, labeled \"Silhouette (index recta)\".\n*   **Line:** A solid black line representing the silhouette cosine value plotted against the x-axis.\n*   **Data Points:** The following data points are visible on the line: (2, 0.52), (3, 0.52), (4, 0.52), (5, 0.52), (6, 0.52), (7, 0.52), (8, 0.44), (9, 0.44), (10, 0.44).\n\n**Right Graph (Elbow Inertia L2 per K):**\n\n*   **Title:** \"Elbow (inertia L2) per K\"\n*   **X-axis:** Integer values from 2 to 10.\n*   **Y-axis:** Values ranging from approximately 500 to 1200, labeled \"Inertia (L2)\".\n*   **Line:** A solid black line representing the inertia value plotted against the x-axis.\n*   **Data Points:** The following data points are visible on the line: (2, 970), (3, 680), (4, 510), (5, 400), (6, 350), (7, 300), (8, 280), (9, 270), (10, 260).\n\n**Annotations:**\n\n*   A white vertical line is present on the right graph at x=3 and labeled \"elbow-5\".\n*   A white point is present on both graphs. The left graph has a point at x=4 and y=0.52. The right graph has a point at x"
+      },
+      {
+        "page": 21,
+        "bbox": [
+          76.18429565429688,
+          378.8584899902344,
+          522.447021484375,
+          157.9830322265625
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_32.png",
+        "caption": "",
+        "description": "Here's an analysis of the image based on its visual content:\n\n**Image Description:**\n\nThe image is a 3D scatter plot generated using a data visualization tool. It displays data points in three dimensions, represented by Cartesian coordinates (x, y, z). The axes are labeled as \"x\", \"y\", and \"z\".\n\n**Data Points & Clustering:**\n\n*   There are approximately 200 data points plotted.\n*   The points are colored according to clusters identified within the dataset. Specifically:\n    *   Blue points represent Cluster 1.\n    *   Yellow points represent Cluster 2.\n    *   Green points represent Cluster 3.\n    *   Cyan points represent Cluster 4.\n\n**Cluster Distribution:**\n\n*   Cluster 1 (blue) occupies a large portion of the space, forming a dense cluster near the origin (0,0,0).\n*   Cluster 2 (yellow) is concentrated in the positive x-axis region, extending outwards from the origin.\n*   Cluster 3 (green) is distributed across the negative x-axis and extends towards the positive y-axis.\n*   Cluster 4 (cyan) is scattered throughout the space, with a higher density near the origin.\n\n**Spatial Relationships:**\n\n*   The clusters exhibit distinct spatial arrangements. There appears to be minimal overlap between the clusters in terms of their positions within the three-dimensional coordinate system.\n*   The points within each cluster are relatively close to each other, indicating that the clustering algorithm has successfully grouped similar data points together based on these x, y, and z coordinates.\n\n**Legend:**\n\nA legend is present at the bottom right corner of the plot. It clearly labels each color with its corresponding cluster identifier (Cluster 1, Cluster 2, Cluster 3, Cluster 4)."
+      },
+      {
+        "page": 22,
+        "bbox": [
+          167.20489501953125,
+          654.8308715820312,
+          435.4798583984375,
+          363.5465087890625
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_33.png",
+        "caption": "Figure 33. 3D PCA projection for cytometer-like data ( k =5).",
+        "description": "Here's an analysis of the image based on its visual content:\n\n**Overall Description:**\n\nThe image is a three-dimensional scatter plot representing data points projected onto three Principal Components (PC1, PC2, and PC3). The plot uses color to differentiate groups within the dataset.\n\n**Axes & Data Points:**\n\n*   **X-axis:** Represents PC2, with values ranging approximately from -0.8 to 0.4.\n*   **Y-axis:** Represents PC1, with values ranging approximately from -0.7 to 0.6.\n*   **Z-axis:** Represents PC3, with values ranging approximately from -0.9 to 0.6.\n\nThe plot contains numerous data points colored as follows:\n\n*   **Purple:** Approximately 250 points clustered tightly around the origin of the coordinate system and extending towards positive values on PC3.\n*   **Green:** Approximately 180 points distributed across the space, with a concentration in the upper-right quadrant (positive PC1 and PC2) and some points near the negative PC3 axis.\n*   **Blue:** Approximately 450 points clustered tightly around the origin of the coordinate system and extending towards negative values on PC1.\n*   **Yellow:** Approximately 600 points distributed across the space, with a high concentration in the upper-right quadrant (positive PC1 and PC2).\n*   **Red:** Approximately 350 points clustered tightly around the origin of the coordinate system and extending towards positive values on PC2.\n\n**Text Labels:**\n\nThe plot includes text labels along the axes:\n\n*   \"PC1\" is labeled on the horizontal axis.\n*   \"PC2\" is labeled on the vertical axis.\n*   \"PC3\" is labeled on the z-axis.\n\n**Patterns & Trends:**\n\n*   A clear separation of data points into distinct clusters based on color.\n*   The purple and red groups are tightly clustered around the origin, suggesting a strong correlation with the principal components.\n*   The green, blue, and yellow groups are more dispersed across the space, indicating weaker correlations with these components.\n*   The yellow group appears to be the largest cluster.\n\n**Note:** The image is a static representation of data; it does not convey any dynamic information or statistical measures (e.g., variance explained by each principal component)."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1]",
+    "filename": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1].pdf",
+    "page_start": 22,
+    "page_end": 24,
+    "heading": "4 Discussions",
+    "text": "The present analyses show that K-means can produce visually coherent and statistically stable clusters  across  very  different  data-generating  conditions,  but  that  the  meaning  of  those clusters depends strongly on the structure of the data. In the random and unimodal Gaussian simulations, the algorithm still returned partitions that could be described as profiles, even though  no  true  subgroup  structure  was  present. This is a central limitation of K-means in psychological research: the method will always divide the feature space when asked to do so. Stability, therefore, is not equivalent to validity.\nA solution can be also highly reproducible across random initializations and still represent only  a  geometric  segmentation  of  continuous  variation,  as  portrayed  in  the  unimodal correlated  Gaussian  data  clustering.  When  variables  were  correlated,  the  data  formed  an elongated  latent  structure  rather  than  compact,  naturally  separated  groups.  These  results illustrate  how  K-means  can  transform  continuous  psychometric  variation  into  artificial categories. Because many psychological variables reflect the aggregate influence of multiple partially  independent  factors,  approximately  continuous  Gaussian  latent  spaces  may  be statistically  expected,  consistent  with  the  logic  of  the  Central  Limit  Theorem 1 .  A  cluster solution  may  look  like  a  'low  profile'  and  a  'high  profile,'  but  this  does  not  necessarily mean  that  the  sample contains two natural psychological phenotypes. It may simply mean that the algorithm has drawn a boundary through a continuous psychological gradient.\nThe  multimodal  Gaussian  simulation  provided  the  opposite  case.  Here,  K-means  was not misleading:  the  data  were generated from two distinct Gaussian components, and classical K-means recovered this structure almost perfectly. This demonstrates that the critique is not that  K-means  is  inherently  invalid.  Rather,  K-means  is  most  interpretable  when  the  data resemble its implicit assumptions: compact groups, relatively clear separation, and meaningful differences in Euclidean position [Steinley, 2006]. In this context, clustering can also  be  useful  because  multimodality can distort standard statistical summaries. Moreover, strong multimodality violates the usual expectation of approximately unimodal and normally distributed variables or residuals in many parametric analyses.\nThe  comparison  between  classical  and  spherical  K-means  further  shows  that  different clustering  algorithms  answer  different  geometric questions. Classical K-means emphasizes Euclidean distance and therefore tends to separate observations according to overall level or position in the feature space. Spherical K-means, by contrast, emphasizes cosine similarity and is more sensitive to direction or profile shape [Hornik et al., 2012; Dhillon and Modha, 2001].  This  can  be  useful  when  the  substantive  question  concerns  relative  configurations across  variables  rather  than  absolute  severity.  However,  the  simulations  also  show  that spherical  K-means  can  subdivide  the  same  latent  space  into  additional  angular  regions, producing  stable  solutions  that  are  not  necessarily  more  natural.  A  higher  or  comparable silhouette  value  alone  should  therefore  not  be  treated  as  automatic  evidence  of  better psychological  validity,  even  when  the  result  is  perfectly  reproducible  across  initializations (ARI = 1.000; SD = 0.000).\nThe  simulated  cytometry  dataset  helps  clarify  this  distinction.  In  a  flow-cytometry-like context,  clustering  is  often  applied  to  data  where  biologically  meaningful  populations  are expected. In that scenario, K-means behaves much like a trained human observer would when visually inspecting a cytometry plot: it identifies dense regions and separates known cell-like populations.  This  is  important  because,  despite  the  recent  popularization  of  Artificial Intelligence  (AI)  through  Large  Language  Models  (LLMs)  such  as  ChatGPT,  many machine-learning methods still approximate basic forms of pattern recognition that humans routinely perform in applied settings. Historically, several computational methods, including neural networks, were inspired by attempts to imitate aspects of human cognition [Hassabis et al., 2017]. K-means is much simpler than a neural network, but in a laboratory-like cytometry setting  it  captures  a  similar  intuition: nearby events with similar multivariate measurements are grouped together.\nAt the same time, the cytometry simulation also shows that even under ideal conditions the choice of k remains partly subjective. The dataset was generated to imitate five cell types, but the  silhouette criterion did not necessarily recover all five intended populations. Instead, the best  solution  merged two highly similar cell types, which was intentional in the simulation. This  reflects  a  realistic  biomedical  situation:  some  cell  populations  are  known  to  be biologically  distinct  but  occupy  neighboring  regions  of  the  measurement space [Lötsch & Ultsch,  2024].  A  generic  clustering  index  may  reasonably  merge them, whereas a trained biomedical  analyst  may  separate  them  because  of  prior  biological  knowledge.  Thus,  the 'optimal' k is  not  only  a  statistical  question.  It  also  depends  on  the  level  of  resolution required by the scientific context.\nThe  empirical  SMARVUS  results  should  be  interpreted  with  this  caution  in  mind.  Both classical  and  spherical K-means produced highly stable two-cluster solutions, with balanced groups and coherent low-versus-high profiles across psychological measures. This suggests that  the  algorithms  identified  a  robust  organization  of  the  sample.  However,  the  profile structure resembles a broad severity gradient more  than a set of sharply  bounded psychological subtypes. The clusters are therefore better understood as lines drawn through a latent  psychological  space  than  as  natural  categories.  Dividing  the  sample  further  would likely  produce additional interpretable profiles, and some of these solutions could still show acceptable or comparable silhouette values.\nThis is exactly what the correlated Gaussian simulation demonstrated: continuous structures can be partitioned repeatedly into stable, visually meaningful, but ultimately artificial regions. A very similar pattern also emerged in our analyses using the SMARVUS educational-context  dataset,  where  K-means  consistently  produced high-versus-low profile solutions resembling those  commonly  reported  in  the  psychopathology  literature.  For example, Croci et al. [2026] reported a two-cluster solution for NSSI profiles composed of approximately  equally  sized  groups,  essentially  splitting  the  sample  into  high  and  low symptom configurations, with a silhouette coefficient around 0.31; remarkably similar to the solution obtained in our analyses with the SMARVUS dataset.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": [
+      {
+        "page": 23,
+        "text": "1 The  Central  Limit  Theorem  states  that  when  a  variable  reflects  the  combined  influence  of  many  partially independent  factors,  the resulting distribution tends to approximate a Gaussian form [Kwak & Kim, 2017]. In psychological  measurement,  where  traits  and  symptoms  often  emerge  from  multiple  biological,  cognitive, social,  and  environmental  influences,  approximately continuous and correlated latent spaces may therefore be statistically expected."
+      }
+    ]
+  },
+  {
+    "doc_id": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1]",
+    "filename": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1].pdf",
+    "page_start": 24,
+    "page_end": 25,
+    "heading": "5 Conclusion",
+    "text": "The  present  study  shows  that  K-means  can  generate  stable  and  visually  interpretable partitions even when  the underlying  data  do  not  contain  true  latent  groups.  Across simulations, the algorithm performed as expected when the data were genuinely multimodal or  clearly  separated,  as  in  the  multimodal  Gaussian  and  simulated  cytometry  conditions.\nHowever,  when  applied  to  random,  unimodal,  or  correlated  Gaussian  data,  K-means  still produced  apparently  coherent  clusters  by  imposing  artificial  boundaries  on  continuous multivariate  spaces.  This  demonstrates  that  stability,  interpretability,  and  even  acceptable silhouette values are not sufficient evidence that clusters correspond to natural psychological profiles.\nIn  the  empirical  SMARVUS  data,  both  classical  and  spherical  K-means  identified  highly stable two-cluster solutions, with balanced  group  sizes  and  coherent  low-versus-high psychological profiles. Nevertheless, these results are better  interpreted  as  geometric stratifications  of  a  latent  psychological  continuum  rather  than  as  evidence  for  discrete subtypes.  The  simulations  showed  that  similar  partitions  can  emerge  from  continuous correlated  data,  meaning  that  empirical  cluster  solutions  must  be  interpreted  cautiously, especially in psychometric datasets composed of linear associations.\nK-means remains useful as an exploratory and descriptive tool. It can summarize complex data, reveal broad regions of multivariate space, and support hypothesis generation. However, it should not be treated as a method for validating latent psychological categories on its own. Researchers  using  clustering  in  psychological  and  social-determinant  data  should  report cluster  sizes,  model-selection  indices  across  multiple  values  of  k,  and  visualizations  of  the data structure, while avoiding circular post-clustering inference.  Ultimately,  K-means clustering  within  linear  data  should  be  understood  less  as  a  discovery  machine  for  natural subtypes and more as a way of drawing interpretable, but artificial, lines through complex psychological space.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1]",
+    "filename": "Drawing Lines in Psychological Space What K-means Clustering Reveals in Simulated and Real Psychometric Data [arXiv 2605.06989v1].pdf",
+    "page_start": 25,
+    "page_end": 27,
+    "heading": "References",
+    "text": "Baker,  S.  L.,  Heinrichs,  N.,  Kim,  H.-J.,  &  Hofmann,  S.  G.  (2002).  The  Liebowitz  Social Anxiety Scale as a self-report instrument: A preliminary psychometric analysis. Behaviour Research and Therapy, 40 (6), 701-715. DOI: 10.1016/s0005-7967(01)00060-2\nBenson, J., & El-Zahhar, N. (1994). Further refinement and validation of the Revised Test Anxiety Scale. Structural Equation Modeling: A Multidisciplinary Journal, 1 (3), 203-221.\nCarleton, R. N., Norton, M. A. P. J., & Asmundson, G. J. G. (2007). Fearing the unknown: A short version of the Intolerance of Uncertainty Scale. Journal of Anxiety Disorders, 21 (1), 105-117. DOI: 10.1016/j.janxdis.2006.03.014\nChen, Y. T., & Witten, D. M. (2023). Selective inference for K-means clustering. Journal of Machine Learning Research, 24 .\nChong,  B.  (2021).  K-means  clustering  algorithm:  A  brief  review. Academic  Journal  of Computing & Information Science, 4 (5), 37-40. DOI: 10.25236/AJCIS.2021.040506\nDhillon,  I.  S.,  &  Modha,  D.  S.  (2001).  Concept  decompositions for large sparse text data using clustering. Machine Learning, 42 , 143-175.  DOI: 10.1023/A:1007612920971\nErridge, S., Clarke, E., McLachlan, K., Coomber, R., Beri, S., Khan, S., Weatherall, M. W., Platt,  M.  W.,  Rucker,  J.  J.,  Mediano,  P.  A.  M.,  &  Sodergren,  M.  H.  (2026).  Clinical outcomes  and  patient  profiles  in  the  UK  Medical  Cannabis  Registry:  A  K-means clustering  analysis. The Journal of Clinical Pharmacology, 66 (1),  Article  e70151.  DOI: 10.1002/jcph.70151\nCruise,  R.  J.,  Cash,  R.  W.,  &  Bolton,  D.  L.  (1985).  Development  and  validation  of  an instrument  to  measure  statistical  anxiety.  In Proceedings  of  the  American  Statistical Association, Section on Statistical Education (pp. 92-97).\nCroci, M. S., Brañas, M. J. A. A., Finch, E. F., Ren, B., Uh, S., Dalmaijer, E. S., Caye, A., Salum,  G.  A.,  Rohde,  L. A. P., Miguel, E. C., Pan, P. M., & Choi-Kain, L. W. (2026). Psychopathology profiles and longitudinal correlates of nonsuicidal self-injury in youth: A machine-learning approach. Translational Psychiatry, 16 , Article 99. DOI: 10.1038/s41398-026-03832-x\nDaker, R. J., Cortes, R. A., Lyons, I. M., & Green, A. E. (2020). Creativity anxiety: Evidence for  anxiety  that  is  specific  to  creative  thinking,  from  STEM  to  the  arts. Journal  of Experimental Psychology: General, 149 (1), 42-57. DOI: 10.1037/xge0000630.\nde la Fuente-Tomás, L., Arranz, B., Safont, G., Sierra, P., Sánchez-Autet, M., García-Blanco, A.,  &  García-Portilla,  M. P. (2019). Classification of patients with bipolar disorder using K-means clustering. PLOS ONE, 14 (1), Article e0210314. DOI: 10.1371/journal.pone.0210314.\nGrant, R. W., McCloskey, J., Hatfield, M., Uratsu, C., Ralston, J. D., Bayliss, E., & Kennedy, C.  J.  (2020).  Use  of  latent  class  analysis  and  K-means  clustering  to  identify  complex patient profiles. JAMA Network Open, 3 (12), Article e2029068. DOI: 10.1001/jamanetworkopen.2020.29068\nHanna,  D.,  Shevlin,  M.,  &  Dempster,  M.  (2008).  The  structure  of  the  Statistics  Anxiety Rating Scale: A confirmatory factor analysis using UK psychology students. Personality and Individual Differences, 45 (1), 68-74. DOI: 10.1016/j.paid.2008.02.021\nHassabis, D., Kumaran, D., Summerfield, C., & Botvinick, M. (2017). Neuroscience-inspired artificial intelligence. Neuron, 95(2), 245-258. DOI: 10.1016/j.neuron.2017.06.011\nHornik,  K.,  Feinerer,  I.,  Kober,  M.,  &  Buchta,  C.  (2012).  Spherical  K-means  clustering. Journal of Statistical Software, 50 (10), 1-22. DOI: 10.18637/jss.v050.i10\nLiebowitz,  M.  R.  (1987).  Social  phobia. Modern  Problems  in  Pharmacopsychiatry,  22 , 141-173.\nLiu, F., Yang, D., Liu, Y., Zhang, Q., Chen, S., Li, W., Ren, J., Tian, X., & Wang, X. (2022). Use of latent profile analysis and K-means clustering to identify student anxiety profiles. BMC Psychiatry, 22 , Article 12. DOI: 10.1186/s12888-021-03648-7\nLötsch, J., & Ultsch, A. (2024). Comparative assessment of projection and clustering method combinations in the analysis of biomedical data. Informatics in Medicine Unlocked, 50 , 101573. DOI: 10.1016/j.imu.2024.101573\nOrchard C., Lin E., Rosella L., Smith P. M. (2024). Using unsupervised clustering approaches to  identify  common mental health profiles and associated mental health-care service-use patterns in Ontario, Canada, American Journal of Epidemiology, Volume 193, Issue 7, July 2024, Pages 976-986. DOI: 10.1093/aje/kwae030\nPapousek, I., Ruggeri, K., Macher, D., Paechter, M., Heene, M., Weiss, E. M., Schulter, G., & Freudenthaler, H. H. (2012). Psychometric evaluation and experimental validation of the Statistics  Anxiety  Rating  Scale. Journal of Personality Assessment, 94 (1),  82-91.  DOI: 10.1080/00223891.2011.627959\nPedregosa,  F.  et  al.  (2011).  Scikit-learn:  Machine  Learning  in  Python.  Journal  of  Machine Learning Research, 12, 2825-2830.\nRaykov, Y. P., Boukouvalas, A., Baig, F., & Little, M. A. (2016). What to do when K-means clustering fails:  A  simple  yet principled alternative algorithm. PLOS ONE, 11 (9), Article e0162259. DOI: https://doi.org/10.1371/journal.pone.0162259\nRodebaugh,  T.  L.,  Woods,  C.  M.,  &  Heimberg,  R.  G.  (2004).  The  factor  structure  and dimensional  scoring of the Brief Fear of Negative Evaluation Scale. Journal of Anxiety Disorders, 18 (6), 845-861. DOI: 10.1037/1040-3590.16.2.169\nSteinley, D. (2006),  K-means  clustering:  A  half-century  synthesis.  British  Journal  of Mathematical and Statistical Psychology, 59: 1-34. DOI: 10.1348/000711005X48266\nTerry,  J.,  Ross,  R.  M.,  Nagy,  T., Salgado, M., Garrido-Vásquez, P., Sarfo, J. O., Cooper, S., Buttner, A. C., Lima, T. J. S., Öztürk, İ., Akay, N., Santos, F. H., Artemenko, C., Copping, L.  T.,  Elsherif,  M. M., Milovanović, I., Cribbie, R. A., Drushlyak, M. G., Swainston, K., Shou, Y., Leongómez, J. D., Palena, N., Abidin, F. A., Reyes-Rodríguez, M. F., He, Y., Abraham,  J.,  Vatakis,  A.,  Jankowsky,  K.,  Schmidt,  S. N. L., Grimm, E., González, D., Schmid,  P.,  Ferreira,  R.  A.,  Rozgonjuk,  D.,  Özhan,  N.,  O'Connor, P. A., Zsido, A. N., Stiglic,  G.,  Rhodes,  D.,  Rodríguez,  C., Ropovik, I., Enea, V ., Nurwanti, R., Estudillo, A. J.,  Beribisky,  N.,  Himawan,  K.  K.,  Geven,  L.  M.,  van  Hoogmoed,  A.  H.,  Bret,  A., Chapman, J. E., Alter, U., Flack, Z. M., Hanna, D., Soltanlou, M., Banik, G., Adamkovič, M., van der Ven, S. H. G., Mosbacher, J. A., Şen, H. H., Anderson, J. R., Batashvili, M., de Groot, K., Parker, M. O., Helmy, M., Ostroha, M. M., Gilligan-Lee, K. A., Egara, F. O., Barwood, M. J., Thomas, K., McMahon, G., Griffin, S. M., Nuerk, H.-C., Counsell, A., Lindemann,  O.,  Van  Rooy,  D.,  Wege,  T.  E.,  Lewis,  J.  E.,  Aczel,  B.,  Monaghan,  C., Al-Hoorie, A. H., Huber, J. F., Yapan, S., Garrido Vásquez, M. E., Callea, A., Ergiyen, T., Clay, J. M., Mertens, G., Topçu, F., Tutlu, M. G., Täht, K., Mikkor, K., Caso, L., Karner, L.,  Storm,  M.  M. C., Daroczy, G., Zein, R. A., Greco, A., Buchanan, E. M., Schmid, K., Hunt, T. E., De keersmaecker, J., Branney, P. E., Randell, J., Clark, O. J., Steltenpohl, C. N., Malu, B., Tekeş, B., Ramis, T., Agrigoroaei, S., Badcock, N. A., McAloney-Kocaman, K., Semenikhina, O. V., Graf, E. W., Lea, C., Ogba, K. T. U., Guppy, F. M., Warhurst, A. C.,  Lindsay,  S.,  Al  Khateeb,  A.,  Scharnowski,  F.,  de  Kwaadsteniet,  L.,  Francis,  K.  B., Lecompte, M., Webster, L. A. D., Morsanyi, K., Forwood, S. E., Walters, E. R., Tip, L. K., Wagge, J. R., Lai, H. Y., Crossland, D. S., Darda, K. M., Flack, T. R., Leviston, Z., Brolly, M., Hills, S. P.,  Collins,  E.,  Roberts,  A.  J.,  Cheung,  W.-Y .,  Leonard,  S.,  Verschuere, B., Stanley, S. K., Xenidou-Dervou, I., Ghasemi, O., Liew, T., Ansari, D., Guilaran, J., Penny, S. G., Bahnmueller, J., Hand, C. J., Rahajeng, U. W., Peterburg, D., Takacs, Z. K., Platow, M. J., & Field, A. P. (2023). Data from an international multi-centre study of statistics and mathematics  anxieties  and  related  variables  in  university  students  (the  SMARVUS dataset). Journal of Open Psychology Data, 11 , Article 8. DOI: 10.5334/jopd.80\nKwak, S. G., & Kim, J. H. (2017). Central limit theorem: the cornerstone of modern statistics. Korean J Anesthesiol. 2017 Apr;70(2):144-156. DOI: 10.4097/kjae.2017.70.2.144\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  }
+]

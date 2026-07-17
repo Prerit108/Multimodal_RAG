@@ -1,0 +1,182 @@
+[
+  {
+    "doc_id": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1]",
+    "filename": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "AUTOPILOT VQA: Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding",
+    "text": "Siddharth Damodharan University of Colorado Colorado Springs Radhika Gupta\nAli Alshami University of Colorado Colorado Springs University of Michigan Ryan Rabinowitz University of Notre Dame\nJugal Kalita University of Colorado Colorado Springs\nmodal sensor data while responding to dynamic and uncertain conditions, including surrounding traffic behavior, road geometry, pedestrians, obstacles, and weather or visibility changes. Errors in scene understanding can propagate to planning and control, leading to unsafe or incorrect driving decisions. Consequently, robust perception and contextual reasoning remain central challenges in autonomous vehicle\n",
+    "figures": [
+      {
+        "page": 1,
+        "bbox": [
+          318.2816467285156,
+          506.90936279296875,
+          565.6914672851562,
+          261.5382080078125
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_1.png",
+        "caption": "Figure 1. Overview of the VQA-Autopilot dataset annotation schema. The visualization illustrates the hierarchical structure of annotation categories, including environmental conditions, traffic context, incident types, outcomes, and associated attributes. This figure provides a high-level conceptual summary of the dataset design.",
+        "description": "Here's an analysis of the image based solely on its visual content:\n\n**Overall Description:**\n\nThe image is a circular diagram (a radar chart or spider chart) presented as part of a technical document, likely related to computer vision and/or artificial intelligence. It displays multiple thumbnail images arranged radially around a central text element.\n\n**Central Text Element:**\n\n*   Text: \"VQA Autopilot Dataset\"\n*   Font:  A sans-serif font is used.\n*   Position: Centered within the circle.\n*   Below Text: \"of [unspecified entity]\"\n\n**Radial Images (Slices):**\n\nThere are 24 thumbnail images arranged in a radial pattern emanating from the center. Each image occupies a slice of the circular diagram. The slices appear to be equally sized.\n\n**Image Content (Examples - representative samples):**\n\nThe images within the slices depict various scenes and environments, including:\n\n*   Urban streetscapes with buildings\n*   Outdoor landscapes featuring greenery (trees, grass)\n*   Indoor spaces (rooms, hallways)\n*   Scenes with vehicles (cars, trucks)\n*   Images depicting natural elements like water or sky.\n\n**Color Palette:**\n\nThe images are presented in a range of colors including:\n\n*   Orange\n*   Blue\n*   Green\n*   Brown/Tan\n*   Purple\n*   Red\n*   Gray\n\n**Data Points (Implied):**\n\nWhile there is no explicit numerical data, the diagram suggests that each image represents a sample or instance within a dataset. The radial arrangement implies a categorization or grouping of these samples based on some underlying criteria. \n\n**Pattern:**\n\nThe images are arranged in a circular pattern with equal-sized slices."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1]",
+    "filename": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "Abstract",
+    "text": "Recent advances in Vision-Language Models, Large Language Models, and Multimodal Large Language Models have improved autonomous driving tasks such as scene understanding, decision making, trajectory prediction, and visual question answering. However, evaluating whether these models can reliably reason about safety-critical incidents remains challenging. To address this gap, we present AUTOPILOT-VQA, an incident-centric visual question answering benchmark for dashcam video understanding. The dataset evaluates different systems through structured questions designed around real-world driving incidents and near-incidents. The benchmark covers diverse safety-relevant categories, including weather and lighting conditions, traffic environment, road layout, road surface state, signage, involved entities, accident occurrence, impact location, and avoidability-related reasoning. By requiring models to answer grounded questions about both contextual scene properties and event-level incident details, AUTOPILOT-VQA moves beyond object recognition toward temporally grounded, safety-aware reasoning. The dataset is released as part of the AUTOPILOT CVPR 2026 competition and provides a standardized benchmark for assessing the reliability of autonomous driving systems in different scenarios. Our benchmark support developments for more interpretable, robust, and safety-conscious vision-language systems for real-world autonomous driving.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1]",
+    "filename": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1].pdf",
+    "page_start": 1,
+    "page_end": 2,
+    "heading": "1. Introduction",
+    "text": "Autonomous vehicles rely on accurate interpretation of complex traffic scenes to ensure safe and reliable operation in real-world environments. In everyday driving, autonomous systems must process large volumes of multi- development [1, 6, 7].\nSubstantial progress has been made in autonomous driving over the past decade, largely driven by large-scale public datasets and standardized benchmarks. Open-source resources such as KITTI [6], Cityscapes [4], BDD100K [12], nuScenes [1], Argoverse [2], and the Waymo Open Dataset [10] have accelerated research in object detection, tracking, lane understanding, localization, and trajectory forecasting. These benchmarks have enabled modern autonomous systems to achieve strong performance under routine driving conditions and structured urban environments.\nDespite these advances, rare safety-critical incidents remain among the most challenging scenarios for autonomous driving systems. Accidents, near-misses, and other hazardous events often arise from multiple interacting factors rather than a single perception failure. Understanding such scenes requires more than detecting visible objects or classifying an event from video alone. A system must reason about the surrounding context, identify the entities involved, interpret road-user behavior, assess severity, and infer factors relevant to emergency response or preventive action. In addition, accident understanding often benefits from language-based information, such as natural-language scene descriptions or police-report-style summaries, which can provide details about fault, severity, involved parties, and incident progression. Because these events are infrequent but disproportionately consequential, structured accident-scene understanding remains an important open challenge in autonomous driving [5, 9].\nTo address this challenge, we introduce Autopilot VQA , a benchmark for structured accident-scene understanding in autonomous driving. The dataset contains more than 600 dashcam video clips spanning collisions, near-misses, and no-incident baseline sequences. Each clip is annotated through six semantic groups, resulting in more than 6,000 question-answer pairs that cover environmental conditions, road configuration, involved-entity behavior, incident category, fault attribution, and impact characterization. The benchmark is designed to evaluate whether models can reason beyond low-level perception and produce structured answers about safety-critical driving scenarios.\nWe further establish a public evaluation framework through a Kaggle competition, enabling participants to develop and compare diverse modeling pipelines under a shared scoring protocol. This setting supports reproducible evaluation while encouraging progress on multimodal reasoning for accident analysis.\nOverall, our contributions are threefold. First, we introduce an accident-centric visual question answering benchmark with structured annotations for safety-critical traffic scenes. Second, we provide an open and competitive evaluation platform for reproducible comparison across methods.\nThird, we present empirical results that highlight the limitations of current models in contextual and safety-critical reasoning for autonomous driving.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1]",
+    "filename": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1].pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "heading": "2. Related Work",
+    "text": "Large-scale datasets and standardized benchmarks have been crucial to advancing computer vision for autonomous driving systems, particularly in perception, tracking, localization, and traffic scene understanding [7]. However, many of these tasks focus only on routine driving conditions, while higher-level reasoning in complex, safety-critical environments remains unexplored. Furthermore, understanding agentic interactions, hazardous behaviors, and incident context requires capabilities beyond those provided by common perception frameworks.\nRecent work has begun to explore the application of VLMs to drive specific contexts through structured evaluation frameworks. For example, DrivingVQA introduces a visual question-answering data set designed to evaluate the reasoning of the model in real-world driving scenarios, highlighting that current models struggle with multimodal reasoning and rely heavily on salient visual cues [3]. Furthermore, MetaVQA proposes a benchmark for evaluating spatial reasoning and scene understanding in autonomous driving, demonstrating that advanced models exhibit limited spatial awareness and difficulty reasoning about dynamic environments [11].\nMore recent benchmarks, such as NuPlanQA, provide large-scale evaluation frameworks to drive scene understanding by decomposing tasks into perception, spatial reasoning, and decision-making components. These works highlight that current vision-language models struggle to generalize to complex driving environments, particularly for tasks requiring structured reasoning and contextual understanding [8].\nWhile prior work primarily focuses on model development or static benchmark evaluation, our work develops a structured dataset focused on accident scenarios. It evaluates performance through a competitive, open benchmarking framework. By leveraging a Kaggle competition, we obtain diverse modeling approaches and gain broader insights into how different methods perform on safety-critical driving tasks.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1]",
+    "filename": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1].pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "heading": "3.1. Source Material",
+    "text": "Our evaluation is built on the VQA-Autopilot dataset, which contains over 600 dashcam video clips capturing a wide range of driving scenarios, from uneventful highway driving to multi-vehicle collisions. Critically, the dataset covers the full incident severity spectrum: approximately 27% of clips involve direct collisions, 11% near-misses, 17% sit- uations where a hazard was avoided in advance, and 27% no-incident baseline sequences (see Figure 1). This balanced coverage prevents models from achieving high accuracy through class prior exploitation alone.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1]",
+    "filename": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1].pdf",
+    "page_start": 3,
+    "page_end": 3,
+    "heading": "3.2. Annotation Schema",
+    "text": "Each video was labeled by human annotators across nine structured question groups (A-I), yielding 28 sub-questions in total. The categories span environmental conditions (weather, time of day, lighting), road context (traffic environment, road configuration, lane structure, road surface, traffic control presence), and incident characterization (incident category, primary and secondary entity identity and behavior, fault attribution, prevention measures, and impact location). In total, this produces over 6,000 annotated question-answer pairs across the dataset.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1]",
+    "filename": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1].pdf",
+    "page_start": 3,
+    "page_end": 3,
+    "heading": "3.3. Dataset Statistics",
+    "text": "As shown in Figures A-F, the dataset captures realistic diversity across all annotation dimensions. The majority of incidents occur during daytime (70%) under clear or partly cloudy conditions (68%), reflecting naturalistic dashcam deployment. Highway and intersection scenarios together account for 65% of the dataset. Primary incident entities include other vehicles (31%), animals (16%), ego-vehicle fault scenarios (13%), and vulnerable road users, including cyclists and pedestrians (18%). Road surfaces are predominantly dry (83%), with wet conditions present in 17% of clips, predominantly in rainy weather sequences.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1]",
+    "filename": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1].pdf",
+    "page_start": 3,
+    "page_end": 3,
+    "heading": "4.1. Task Definition",
+    "text": "The Hosted Kaggle Competition is formatted as a structured Visual Question Answering (VQA) task on dashcam video data. Within a given driving video, depicting both nearindecent and incident scenarios, participants are required to predict answers to a predefined set of questions that capture specific aspects of the scene.\nThe questions participants are given span different dimensions within the driving context, including environmental conditions (weather and time), scene context (traffic environment and road configuration), and incident-specific attributes (e.g., involved parties, incident behaviors, and causes of incidents). In addition to the included tasks, there are higher-level reasoning tasks, such as identifying potential incident-prevention measures and specific impact points.\nFor each video, participants must output a set of fixed, integer-valued predictions corresponding to a predefined answer category. This structure enables consistency across submissions and ensures fine-grained evaluation of model performance and understanding Overall, the task is designed to evaluate both perceptual capabilities and higher-level reasoning in safety-centered driving scenarios, with an emphasis on accident understanding.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1]",
+    "filename": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1].pdf",
+    "page_start": 3,
+    "page_end": 3,
+    "heading": "4.2. Evaluation Metrics",
+    "text": "Submissions are evaluated using mean per-question accuracy across all visual question answering (VQA) fields. For each question, accuracy is calculated as the proportion of correct predictions across the test set.\nLet Q denote the total number of questions and let Acc q represent the accuracy for question q . The final score is computed as:\nEach question is weighted equally in the final score, this allow for a balanced evaluation across different aspects of scene understanding. Predictions correspond to predefined answer categories, allowing for consistent comparison across various models and approaches.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1]",
+    "filename": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1].pdf",
+    "page_start": 3,
+    "page_end": 3,
+    "heading": "4.3. Leaderboard Overview",
+    "text": "The AUTOPILOT VQA challenge attracted strong community participation, with 224 registered entrants, 73 active participants, 59 teams, and 686 total submissions. This level of engagement indicates substantial interest in safetycentered multimodal reasoning tasks.\nAt the close of the public leaderboard phase, the topperforming team achieved a score of 0.65835, with the next two teams scoring 0.65505 and 0.65371 respectively. The narrow margin separating the top submissions suggests that performance gains near the leaderboard ceiling were increasingly difficult to obtain and likely required careful optimization, ensembling, or stronger multimodal representations.\nAbroader review of the leaderboard reveals a long-tailed distribution of scores. While several teams exceeded 0.60 accuracy, many submissions clustered near 0.39-0.40, indicating that naive baselines or partially optimized systems struggled to generalize across the full question set.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1]",
+    "filename": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1].pdf",
+    "page_start": 3,
+    "page_end": 4,
+    "heading": "4.4. Error Analysis",
+    "text": "Despite competitive leaderboard performance, the moderate top score indicates that many question categories remain challenging. Errors are likely concentrated in tasks requiring causal inference or fine-grained relational reasoning rather than simple perception.\nFor example, identifying weather, time of day, or broad traffic environment may be solvable through strong visual recognition alone. In contrast, predicting which entity could have prevented the incident, determining fault-relevant behaviors, or estimating likely impact regions requires tempo- Total Clips\n(a) Incident category\nMulti-vehicle\n19 (3%)\nBarriers\nLoss of control\nEnvironmental\nPedestrian/VRU\nAnimals/Objects\nVehicle-to-vehicle\nNo collision\n16 (2%)\n40 (6%)\n56 (8%)\n50\n100\n112 (17%)\n112 (17%)\n127 (19%)\n178 (27%)\n150\n200\n250\n50\n(c) Primary incident entity\nAnnotation Dims\nUnknown\n85 (13%)\nObject/Other\nPedestrian\nCyist\nEgo-car\nAnimal\nAnother vehicle\n0\n56 (8%)\n56 (8%)\n64 (10%)\n87(13%)\n106 (16%)\n100\n150\n206 (31%)\n200\n250\n300\nCount Count\nral understanding and reasoning over interactions between multiple agents.\nThe benchmark also includes unknown and nonapplicable classes, which introduce additional complexity. Models must learn not only to classify visible evidence, but also to recognize when insufficient information is present or when a question does not apply to the scenario.\n",
+    "figures": [
+      {
+        "page": 4,
+        "bbox": [
+          59.005130767822266,
+          443.2837219238281,
+          553.0291137695312,
+          246.8907470703125
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_2.png",
+        "caption": "Figure 2. Environmental context statistics of the VQA-Autopilot dataset. This figure summarizes distributions across time of day, weather conditions, road surface state, road configuration, traffic control presence, and their co-occurrence. These distributions reflect realistic driving conditions and highlight the diversity required for evaluating contextual scene understanding.",
+        "description": "Okay, here's a detailed analysis of the image provided, focusing solely on describing the content as it appears in the image using UTF-8 characters:\n\n**Overall Structure:**\n\nThe image is a stacked bar chart presented within a scientific document. It consists of three panels arranged vertically, labeled (A), (B), and (C).  Each panel displays data related to fault attribution analysis. The chart spans from 0 to 150 on the horizontal axis.\n\n**Panel (A): Fault Attribution - Primary Entity**\n\n*   **Title:** \"Fault attribution - primary entity\"\n*   **X-Axis Label:** \"Number of Clips\"\n*   **Y-Axis Label:** \"Entity Type\"\n*   **Bar Categories:** The chart displays the following categories represented by colored bars:\n    *   \"Non-expendable\":  A bar with a height of 86 (187% opacity)\n    *   \"Unremarkable\": A bar with a height of 39 (30% opacity)\n    *   \"Could have been avoided (but did not)\" : A bar with a height of 108 (245% opacity)\n    *   \"No fault - could not prevent\" : A bar with a height of 132 (269% opacity)\n    *   \"Unpredictable or indefinite violation\": A bar with a height of 99 (247% opacity)\n    *   \"No secondary entity involved\": A bar with a height of 25 (28% opacity)\n\n**Panel (B): Fault Attribution - Secondary Entity**\n\n*   **Title:** \"Fault attribution - secondary entity\"\n*   **X-Axis Label:** \"Number of Clips\"\n*   **Y-Axis Label:** \"Entity Type\"\n*   **Bar Categories:** The chart displays the following categories represented by colored bars:\n    *   \"Simply behavior/graphic violation\": A bar with a height of 185 (269% opacity)\n    *   \"No secondary entity involved\": A bar with a height of 94 (237% opacity)\n    *   \"No fault - could not prevent\" : A bar with a height of 132 (269% opacity)\n\n**Panel (C): Annotation Coverage per Dimension**\n\n*   **Title:** \"Annotation coverage per dimension\"\n*"
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1]",
+    "filename": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1].pdf",
+    "page_start": 4,
+    "page_end": 5,
+    "heading": "4.5. Observed Trends",
+    "text": "Several trends emerge from the leaderboard results. First, there appears to be a clear separation between highly competitive systems and the remainder of the field, with only a limited number of teams surpassing 0.60 mean accuracy. This suggests that strong performance likely depends on advanced model adaptation rather than direct zero-shot prompting.\nCollision Rate Avoided Near-miss\n(b) Incident outcome\n34%\nCollision (224)\nAvoided (112)\nNo collision (224)\n11%\nPrimary Fault: Unsafe\n17%\n34%\nNear-miss (72)\nOther (12)\nChain reaction (16)\nSecond, the dense clustering among top teams implies diminishing returns near current performance limits. Small leaderboard improvements may correspond to significant engineering effort, indicating that the benchmark remains challenging even for strong methods.\nThird, the wide score variance across teams suggests that model selection, preprocessing strategy, and handling of structured outputs play an important role. Since submissions require multiple synchronized predictions per video, robust output formatting and task decomposition may materially affect final results.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1]",
+    "filename": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1].pdf",
+    "page_start": 5,
+    "page_end": 5,
+    "heading": "4.6. Conclusion",
+    "text": "The AUTOPILOT VQA competition demonstrates both the promise and current limitations of multimodal models for autonomous driving understanding. While top systems achieved meaningful performance, no method approached near-human reliability, particularly given the safety-critical nature of the task.\nThese results suggest that current VLM pipelines remain stronger at perception than at structured reasoning. Future progress may require methods that explicitly model temporal causality, agent interactions, uncertainty calibration, and hierarchical decision-making.\nAdditionally, competitive benchmark settings such as Kaggle provide a valuable mechanism for rapidly evaluating diverse approaches from the broader research community. By combining open participation with safety-relevant tasks, such challenges can accelerate progress toward more robust autonomous driving intelligence.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1]",
+    "filename": "AUTOPILOT VQA Benchmarking Vision-Language Models for Incident-Centric Dashcam Understanding [2607.08745v1].pdf",
+    "page_start": 5,
+    "page_end": 5,
+    "heading": "References",
+    "text": "Holger Caesar, Varun Bankiti, Alex H. Lang, et al. nuscenes: A multimodal dataset for autonomous driving. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 11621-11631, 2020. 2\nMing-Fang Chang, John Lambert, Patsorn Sangkloy, et al. Argoverse: 3d tracking and forecasting with rich maps. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 8748-8757, 2019. 2\nCharles Corbi` ere, Simon Roburin, Syrielle Montariol, Antoine Bosselut, and Alexandre Alahi. Drivingvqa: A dataset for interleaved visual chain-of-thought in real-world driving scenarios. In Findings of the Association for Computational Linguistics: EACL 2026 , pages 3309-3333, 2026. 2\nMarius Cordts, Mohamed Omran, Sebastian Ramos, et al. The cityscapes dataset for semantic urban scene understanding. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition , pages 3213-3223, 2016. 2\nJianwu Fang, Jiahuan Qiao, Jianru Xue, and Zhengguo Li. Vision-based traffic accident detection and anticipation: A survey. IEEE Transactions on Circuits and Systems for Video Technology , 34(4):1983-1999, 2023. 2\nAndreas Geiger, Philip Lenz, and Raquel Urtasun. Are we ready for autonomous driving? the kitti vision benchmark\nsuite. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition , pages 3354-3361, 2012. 2\nJoel Janai, Fatma G¨ uney, Aaditya Behl, and Andreas Geiger. Computer vision for autonomous vehicles: Problems, datasets and state of the art. Foundations and Trends in Computer Graphics and Vision , 12(1-3):1-308, 2017. 2\nSung-Yeon Park, Can Cui, Yunsheng Ma, Ahmadreza Moradipari, Rohit Gupta, Kyungtae Han, and Ziran Wang. Nuplanqa: A large-scale dataset and benchmark for multiview driving scene understanding in multi-modal large language models. In Proceedings of the IEEE/CVF International Conference on Computer Vision , pages 8066-8076, 2025. 2\nVasili Ramanishka, Yi-Ting Chen, Teruhisa Misu, and Kate Saenko. Toward driving scene understanding: A dataset for learning driver behavior and causal reasoning. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition , pages 7699-7707, 2018. 2\nPei Sun, Henrik Kretzschmar, Xavier Dotiwalla, et al. Scalability in perception for autonomous driving: Waymo open dataset. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 24462454, 2020. 2\nWeizhen Wang, Chenda Duan, Zhenghao Peng, Yuxin Liu, and Bolei Zhou. Embodied scene understanding for vision language models via metavqa. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , 2025. 2\nFisher Yu, Haofeng Chen, Xin Wang, et al. Bdd100k: A diverse driving dataset for heterogeneous multitask learning. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 2636-2645, 2020. 2\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  }
+]

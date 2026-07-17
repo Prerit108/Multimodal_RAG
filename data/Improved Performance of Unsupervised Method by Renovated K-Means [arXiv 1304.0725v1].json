@@ -1,0 +1,523 @@
+[
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "Improved Performance of Unsupervised Method by Renovated K-Means",
+    "text": "P.Ashok Research Scholar, Bharathiar University, Coimbatore Tamilnadu, India. ashokcutee@gmail.com Dr.G.M Kadhar Nawaz Department of Computer Application Sona College of Technology, Salem, Tamilnadu, India nawazse@yahoo.co.in E.Elayaraja Department of Computer Periyar University, Salem-11 Tamilnadu, India elayarajaphd.e@gmail.com\nAbstract: Clustering  is  a  separation  of  data  into  groups  of similar objects. Every group called cluster consists of objects that are  similar  to  one  another  and  dissimilar  to  objects  of  other groups. In this paper, the K-Means algorithm is implemented by three  distance  functions  and  to  identify  the  optimal  distance function for clustering methods. The proposed K-Means algorithm is  compared  with  K-Means,  Static  Weighted  K-Means  (SWKMeans) and Dynamic Weighted K-Means (DWK-Means) algorithm  by  using  Davis  Bouldin  index,  Execution  Time  and Iteration  count  methods.  Experimental  results  show  that  the proposed K-Means algorithm performed better on Iris and Wine dataset when compared with other three clustering methods.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "I. INTRODUCTION",
+    "text": "Science V.Vadivel Department of Computer Science Periyar University, Salem-11 Tamilnadu, India v.vadivelmsc@gmail.com\nwords,  objects  are  grouped  according  to  their  relevance  to descriptive concepts, not according to simple similarity measures.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "B. Goals of Clustering",
+    "text": "The  goal  of clustering is to  determine the intrinsic grouping in a set of unlabeled data.  The main requirements that a clustering algorithm should satisfy are:\nscalability\nDealing with different types of attributes.\nDiscovering clusters with arbitrary shape.\nAbility to deal with noise and outliers.\nInsensitivity to order of input records.\nHigh dimensionality and\nInterpretability and usability.\nClustering  has  number  of  problems.  Few  among  them  are listed below.\nCurrent clustering techniques do not address all the requirements adequately (and concurrently).\nThe  effectiveness  of  the  method  depends  on  the definition of 'distance' (for distance-based clustering) and\nDealing with large number of dimensions and large number of data items can be problematic because of time complexity.\nIf  an  obvious  distance  measure  doesn't  exist  we must 'define' it, which is not always easy, especially in multi-dimensional spaces.\nA  large  number  of  techniques  have  been  proposed  for forming clusters from distance matrices. Hierarchical techniques,  optimization  techniques  and  mixture  model  are the most important types. We discuss the first two types here. We  will  discuss  mixture  models  in  a  separate  note  that includes their use in classification and regression as well as clustering.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "heading": "A. Clustering",
+    "text": "Clustering  [9]  is  a  technique  to  group  together  a  set  of items having similar characteristics. Clustering can be considered the most important unsupervised learning problem. Like every other problem of this kind, it deals with finding  a structure in  collection  of  unlabeled  data.  A  loose definition  of  clustering  could  be  'the  process  of  organizing objects  into  groups  whose  members  are  similar  in  some way'. A cluster is therefore a collection of objects which are 'similar'  between  them  and  are  'dissimilar'  to  the  objects belonging to other clusters. We can show this with a simple graphical example.\n",
+    "figures": [
+      {
+        "page": 1,
+        "bbox": [
+          64.04237365722656,
+          303.7120361328125,
+          299.31353759765625,
+          191.91693115234375
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_1.png",
+        "caption": "",
+        "description": "Here's an analysis of the image based on a scientific/technical document context:\n\n**Image Description:**\n\nThe image is a scatter plot depicting two sets of data points plotted against a horizontal axis labeled \"X\" and a vertical axis labeled \"Y\". The axes appear to be linear. \n\n**Data Points:**\n\n*   **Left Panel:** Contains approximately 30 data points clustered in the upper-left quadrant of the graph.  The points are represented as small circles.\n*   **Right Panel:** Contains four distinct clusters of data points. The largest cluster consists of approximately 15 points, and there are three smaller clusters with varying numbers of points (approximately 7, 6, and 8). All points are represented by small circles.\n*   **Arrow:** A black arrow indicates a direction of change or progression from the left panel to the right panel.\n\n**Trends & Patterns:**\n\nThe data point density appears to have increased significantly as the value on the X-axis increases. The number of data points in the left panel is lower than that in the right panel.  There's a noticeable shift in the distribution of data points from a more dispersed pattern in the left panel to a more concentrated, clustered pattern in the right panel."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 1,
+    "page_end": 2,
+    "heading": "Figure 1. cluster analysis",
+    "text": "In this case, we easily identify the 4 clusters into which the data can be divided. The similarity criterion is distance of two  or  more  objects  belong  to  the  same  cluster  if  they  are 'close' according to a given distance (in the case of geometrical distance). This is called the distance-based clustering. Another kind of clustering is conceptual clustering. Two or more objects belong to the same cluster if it  defines  a  concept  common  to  all  that  objects.  In  other At a high level, we can divide clustering algorithms into two broad classes as mentioned in the below section.\n",
+    "figures": [
+      {
+        "page": 2,
+        "bbox": [
+          74.1429214477539,
+          795.0292816162109,
+          288.5763854980469,
+          614.0538024902344
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_2.png",
+        "caption": "Figure2. Taxonomy of Clustering Approaches",
+        "description": "Here's an analysis of the image based on its visual content:\n\n**Image Description:**\n\nThe image is a dendrogram representing a hierarchical clustering method. It's a tree-like diagram illustrating relationships between different clustering algorithms.\n\n**Text and Labels:**\n\n*   **\"Clustering\"**: This is the root node of the dendrogram, indicating the overall topic.\n*   **\"Hierarchical\"**:  This branch represents hierarchical clustering methods.\n    *   \"Simple Link\"\n    *   \"Complete Link\"\n*   **\"Partitional\"**: This branch represents partition-based clustering methods.\n    *   \"Square Error\"\n    *   \"Graph Theoretical\"\n    *   \"Minimun Reachinng\"\n    *   \"Mode Seeking\"\n*   **\"Criteria\"**:  This node branches out from \"Partitional\".\n    *   \"Expectation Maximization\"\n\n**Trends and Data Points (Dendrogram Structure):**\n\n*   The dendrogram is structured as a binary tree. Each branch represents a decision or comparison between two algorithms.\n*   Branches are connected at nodes where the distance between the algorithms is minimized, resulting in shorter branches. The length of each branch visually represents the dissimilarity between the clustered items.\n*   \"Simple Link\" and \"Complete Link\" are positioned as children of \"Hierarchical\".\n*   \"Square Error\", \"Graph Theoretical\", \"Minimum Reachinng\", and \"Mode Seeking\" are children of \"Partitional\".\n*  \"Expectation Maximization\" is a child of \"Criteria.\"\n\n**Overall Pattern:**\n\nThe image visually represents a taxonomy or classification of clustering algorithms based on their approach (hierarchical vs. partition-based) and specific criteria used within those approaches. The branching pattern reflects the hierarchical relationships between these algorithms."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "heading": "1) Hierarchical Clustering [3]",
+    "text": "We begin assuming that each point is a cluster by itself. We repeatedly merge nearby clusters, using some measure of how  close  two  clusters  are  (e.g.,  distance  between  their centroids), or how good a cluster the resulting group would be (e.g., the average distance of points in the cluster from the resulting centroids).\nA hierarchical algorithm [8] yields a dendogram, representing  the  nested  grouping  of  patterns  and  similarity levels  at  which  groupings  change.  The  dendogram  can  be broken at different levels to yield different clustering of the data.  Most hierarchical clustering algorithms are variants of the single-link, complete-link, and minimum-variance algorithms. The single-link and complete link algorithms are most  popular.  These  two  algorithms  differ  in  the  way  they characterize the similarity between a pair of clusters. In the single-link  method, the distance between two clusters is the minimum of the distances between all pairs of patterns drawn from the two clusters (one pattern from the first cluster, the other  from  the  second).  In  the  complete-link  algorithm,  the distance between two clusters is the minimum of all pair wise distances between patterns in the two clusters. In either case, two  clusters  are  merged  to  form  a  larger  cluster  based  on minimum  distance  criteria. The  complete-link algorithm produces tightly  bound  or  compact  clusters.  The  single-link algorithm, by contrast, suffers from a chaining effect. It has a tendency  to  produce  clusters  that  are  straggly  or  elongated. The  clusters  obtained  by  the  complete  link  algorithm  are more compact than those obtained by the single-link algorithm.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "heading": "2) Partitional Clustering",
+    "text": "A Partitional clustering [9] algorithm obtains a single  partition  of  the  data  instead  of  a  clustering  structure, such  as  dendogram  produced  by  a  hierarchical  technique. Partitional methods have advantages in applications involving  large  data  sets  for  which  the  construction  of  a dendogram is computationally prohibitive. A problem accompanying the use of a Partitional algorithm is the choice of  the  number  of  desired  output  clusters.  The  Partitional technique usually produce clusters by optimizing a criterion function defined either locally (on a subset of the patterns) or globally  (defined  over  all  of  the  patterns).  Combinatorial search of the set of possible labeling for an optimum value of a criterion is clearly computationally prohibitive. In practice, therefore,  the  algorithm  is  typically  run  multiple  times  with different  starting  states,  and  the  best  configuration  obtained from all of the runs issued as the output clustering.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "heading": "D. Applications of Clustering",
+    "text": "Clustering algorithms can be applied in many fields, such as the ones that are described below\nMarketing: Finding groups of customers with similar behavior gives a large database of customer data  containing  their  properties  and  past  buying records.\nLibraries: Book ordering\nBiology: Classification of plants and animals given their features given.\nInsurance:  Identifying  groups  of  motor  insurance policy holders with a high average claim cost frauds.\nEarthquake studies: Clustering observed earthquake epicenters to identify dangerous zones and\nCity-planning:  Identify  groups  of  houses  according to their house type, value and geographical location.\nWWW: Document classification, clustering weblog data to discover groups of similar access patterns.\nThe rest of this paper is organized as follows:  section II describes three different Distance functions, Execution Time method  and  the  clustering  algorithms  viz.  for  K-Means, Weighted K-Means and Proposed K-Means Clustering algorithms  have  been  studied  and  implemented.  Section  III presents the experimental analysis conducted on various data sets  of  UCI  data  repository  and  section  IV  concludes  the paper.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "heading": "A. K-Means Algorithm",
+    "text": "The K-Means [2] algorithm is an iterative procedure for clustering  which  requires  an  initial  classification  of  data.  It computes the center of each cluster, and then computes new partitions  by  assigning  every  object  to  the  cluster  whose center  is  the  closest  to  that  object.  This  cycle  is  repeated during  a  given  number  of  iterations  or  until  the  assignment has not changed during one iteration. This algorithm is based on    an  approach  where  a  random  set  of  cluster  base  is selected  from  the  original  dataset,  and  each  element  update the  nearest  element  of  the  base  with  the  average  of  its attributes. The K-Means is possibly the most commonly-used clustering algorithm. It is most effective for relatively smaller data  sets.  The  K-Means  finds  a  locally  optimal  solution  by minimizing  a  distance  measure  between  each  data  and  its nearest cluster  center.  The  basic  K-Means  algorithm  is commonly  measured  by  any  of  intra-cluster  or  inter-cluster criterion. A typical intra-cluster criterion is the squared-error criterion. It is the most commonly used and a good measure of  the  within-cluster  variation  across  all  the  partitions.  The process iterates through the following steps:\nAssignment  of  data  to  representative  centers  upon minimum distance and\nComputation of the new cluster centers.\nK-Means clustering is computationally efficient for large data sets with both numeric and categorical [3] attributes.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 3,
+    "page_end": 3,
+    "heading": "1) Working Principle",
+    "text": "The  K-Means  [9]  algorithm  works  as  follows.  First,  it iteratively  selects  k  of  the  objects,  each  of  which  initially represents a cluster mean or center. For each of the remaining objects, an object is assigned to the cluster to which it is the most  similar,  based  on  the  distance  between  the  object  and the  cluster  mean.  It  then  computes  the  new  mean  for  each cluster.  This  process  iterates  until the  criterion  function converges. Typically, the Euclidean distance is used.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 3,
+    "page_end": 3,
+    "heading": "Algorithm 1: K-Means",
+    "text": "Initialize the number of clusters k.\nRandomly selecting the centroids in the given dataset ( . C2,\nCompute the distance between the centroids and objects using the Euclidean Distance equation.\nUpdate the centroids.\nStop the process when the new centroids are nearer to old one.   Otherwise, go to step-3.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 3,
+    "page_end": 3,
+    "heading": "B. Weighted K-Means Clustering Algorithm",
+    "text": "Weighted K-Means [9] algorithm is one of the clustering algorithms, based on the K-Means algorithm calculating with weights. This algorithm is same as normal K-Means algorithm  just  adding  with  weights.  Weighted  K-Means attempts to decompose a set of objects into a set of disjoint clusters taking into consideration the fact that the numerical attributes  of  objects  in  the  set  often  do  not  come  from independent identical normal distribution. Weighted  KMeans algorithms are iterative and use hill-climbing to find an optimal solution (clustering) and thus usually gives converge to a local minimum.\nFirst, calculate the weights for the corresponding centroids  in  the  data  set  and  then  calculate  the  distance between the object and the centroid with the weights of the centroids.  This  method  is  called  the  Weighted  K-Means algorithm.\nIn  the  Weighted  K-Means  algorithm  the  weights  can  be classified into two types as follows.\nDynamic  Weights: In  the  dynamic  weights,  the weights are determined during the execution time which can be changed at runtime.\nStatic  Weights: In  the  static  weights,  the  weights are not changed during the runtime.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 3,
+    "page_end": 3,
+    "heading": "2) Working Principle",
+    "text": "The Weighted K-Means [9] algorithm  works as defined below.  First,  it  iteratively  selects  K  of  the  objects,  each  of which  initially  represents  a  cluster  mean  or  center.  In  the selecting centroids we calculate the weights using the Weighted  K-Means  algorithm.  For  each  of  the  remaining objects, an object is assigned to the cluster to which it is the most  similar,  based  on  the  distance  between  objects  and centroids  with  weights  of  the  corresponding  object.  It  then computes the new mean for each cluster. This process iterates until the criterion function converge. Typically, the Euclidean  distance  is  used  in  the  clustering  process.  In  the Euclidean  distance,  we  can  calculate  the  Dynamic  weights based on the particular centroids.\nUsing this equation we can calculate the distance between the centroids and  the weights.\nThe weighted K-Means clustering algorithms are explained in the following section. In the static weighted KMeans, the  weight is  fixed  1.5  as  constant  but  the  dynamic weight is calculated by the above equation and the weighted K-Means clustering algorithm is explained in algorithm 2.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 3,
+    "page_end": 3,
+    "heading": "Steps:",
+    "text": "Initialize the number of clusters k.\nRandomly selecting the centroids ( in the data set.\nCalculating the weights of the corresponding centroids ).\nCalculate Sum and where j=1, 2… n. Where is corresponding weight vector to the . k 2\nFind the distance between the centroids using the Euclidean Distance equation\nUpdate the centroids Stop the process when the new centroids are nearer to old one. Otherwise, go to step-4.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 3,
+    "page_end": 3,
+    "heading": "C. Proposed K-Means",
+    "text": "In the proposed method, first, it determines the initial cluster centroids  by  using  the  equation  which  is  given  in  the following algorithm 3. The Proposed K-Means algorithm is improved by selecting the initial centroids manually instead of  selecting  centroids  by  randomly.  It  selects  'K'  objects and  each  of  which  initially  represents  a  cluster  mean  or centroids.  For  each  of  the  remaining  objects,  an  object  is assigned to the cluster to which it is the most similar based on the distance between the object and the cluster mean. It then computes the new mean for each cluster. This process iterates until the criterion function converges. In this paper the Proposed K-Means algorithm is implemented instead of traditional K-Means as explained in the algorithm 3.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 3,
+    "page_end": 4,
+    "heading": "Steps:",
+    "text": "Using Euclidean distance as a dissimilarity measure, compute  the  distance  between  every  pair  of  all objects as follow.\nCalculate Mij to make an initial guess at the centres of the clusters\neach object and sort them in ascending order.\nAssign  each  point d i to  the  cluster  which  has  the closest centroid.\nSelect  K objects  having  the  minimum value as initial cluster centroids which are determined by the above  equation.  Arbitrarily  choose k data  points from D as initial centroids.\nCalculate the new mean for each cluster.\nRepeat step 5 and step 6 until convergence criteria is met.\n",
+    "figures": [
+      {
+        "page": 4,
+        "bbox": [
+          91.26943969726562,
+          791.0910606384277,
+          288.7359924316406,
+          746.0658569335938
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_3.png",
+        "caption": "",
+        "description": "Here's a detailed analysis of the image content, adhering to your specifications:\n\n**Image Description:**\n\nThe image displays a mathematical equation presented in a scientific document style. The following elements are present:\n\n*   **Text:** The equation is written as follows:\n    `dq = √Σ (Xta - Xpj)² t&j=1...n; (1)`\n*   **Symbols:**  The symbols used include:\n    *   `d_q`: A variable, likely representing a quantity.\n    *   `Σ`: The summation symbol.\n    *   `√`: The square root symbol.\n    *   `Xta`: A variable, potentially representing a data point or measurement.\n    *   `Xpj`: Another variable, also representing a data point or measurement.\n    *   `t & j`:  Indicates the index of summation for 'j' ranging from 1 to 'n'.\n*   **Formatting:** The equation is formatted with a square root symbol above the summation and numbered as \"(1)\". The text is in black, and the symbols are highlighted in green.\n\n**Data Points/Patterns:**\n\nThe equation involves a summation over 'n' terms. Each term within the summation consists of the squared difference between two variables, `Xta` and `Xpj`.  The index `t & j` iterates from 1 to 'n', indicating that there are 'n' data points being considered in the calculation."
+      }
+    ],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 4,
+    "page_end": 4,
+    "heading": "D. Cluster validity Measure",
+    "text": "Many  criteria have been developed for determining cluster validity all of which have a common goal to find the clustering  which  results  in  compact  clusters  which  are  well separated.  Clustering  validity  is  a  concept  that  is  used  to evaluate  the  quality  of  clustering  results.  The  clustering validity index may also be used to find the optimal number of clusters  and  measure  the  compactness  and  separation  of clusters.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 4,
+    "page_end": 4,
+    "heading": "1) Davies-Bouldin  Index",
+    "text": "In  this  paper, DAVIS  BOULDIN index  [1  and  6]  has been  chosen  as  the  cluster  validity  measure  because  it  has been  shown  to  be  able  to  detect  the  correct  number  of clusters in several experiments. Davis Bouldin validity is the combination of two functions. First, calculates the compactness  of  data  in  the  same  cluster  and  the  second, computes the separateness of data in different clusters.\nThis  index  (Davies  and  Bouldin,  1979)  is  a  function  of the  ratio  of  the  sum  of  within-cluster  scatter  to  betweencluster separation. If dp i is  the    dispersion of the cluster Pi, and dvij denotes the dissimilarity between two clusters P i and Pj , then a  cluster similarity matrix FR = { FR ij , (i, j) = 1. 2 …..C} is defined as:\nThe dispersion dpi can be seen as a measure of the radius of Pi ,\nWhere   ni is the number of objects in the i th cluster. V i is the centroid of the i th cluster. dv ij describes the dissimilarity between Pi and Pj,\nThe corresponding DB index is defined as:\nc is the number of cluster.  Hence the ratio is small if the clusters  are  compact and far from each other. Consequently Davies-Bouldin  index  will  have  a  small  value  for  a  good clustering.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 4,
+    "page_end": 4,
+    "heading": "E. Distance Measures",
+    "text": "Many  clustering  methods  use  distance  measures  [7]  to determine the similarity or dissimilarity between any pair of objects.  It  is  useful  to  denote  the  distance  between  two instances xi and xj as: d  ( xi , xj ). A  valid  distance  measure should be symmetric and obtains its minimum value (usually zero) in case of identical vectors. The distance functions are classified into 3 types.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 4,
+    "page_end": 4,
+    "heading": "1) Manhattan Distance",
+    "text": "The  Minkowski  distance  or  the L 1  distance is  called  the Manhattan distance [5] and is described in the below equation.\nIt  is  also  known  as  the City  Block  distance .  This  metric assumes that in going from one pixel to the other, it is only possible  to  travel  directly  along  pixel  grid  lines.  Diagonal moves are not allowed.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 4,
+    "page_end": 4,
+    "heading": "2) Euclidian Distance[5]",
+    "text": "This is the most familiar distance that we use. To find the shortest distance between two points ( x 1 , y 1 ) and ( x 2 , y 2 ) in a two dimensional space that is\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 4,
+    "page_end": 4,
+    "heading": "3) Chebyshev Distance",
+    "text": "The  Chebyshev  [10]  distance  between  two  vectors  or points p and q , with standard coordinates pi and qi , respectively.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 4,
+    "page_end": 4,
+    "heading": "III. EXPERIMENTAL ANALYSIS AND DISCUSSION",
+    "text": "This  section  describes,  the  data  sets  used  to  analyze  the methods studied in sections II and III, which are arranged in the form of a list in Table1.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 4,
+    "page_end": 4,
+    "heading": "1) Iris",
+    "text": "The  iris  dataset  contains  the  information  about  the  iris flower. The data set contains 150 samples with four attributes. The dataset is collected from the location which is given  in  the  link. http://archive.ics.uci.edu/ml/  machinelearning-databases /iris/ iris.data\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 5,
+    "page_end": 5,
+    "heading": "2) Ecoli",
+    "text": "The Ecoli dataset contains protein localization sites having 350 samples with 8 attributes. The dataset is collected from the location which is given in the link. http://archive.ics.uci.edu/ml/machine-learning-databases /ecoli/ecoli.data\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 5,
+    "page_end": 5,
+    "heading": "3) Yeast",
+    "text": "The yeast dataset contains 1400 samples with 8 attributes. The dataset is collected from the location which is given in the link. http://archive.ics.uci.edu/ml/machine-learningdatabases /yeast/yeast.data\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 5,
+    "page_end": 5,
+    "heading": "4) Wine",
+    "text": "The dataset contains the  information  about  to  determine the origin of wines. It contains 200 samples with 13 attributes and the dataset is collected from the location which is given in the link. http://archive.ics.uci.edu/ml/machine-learningdatabases/ yeast/wine.data\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 5,
+    "page_end": 5,
+    "heading": "B. Comparative Study and Performance analysis",
+    "text": "The four clustering algorithms are K-Means, Static Weighted  K-Means (SWK-Means), Dynamic  Weighted  KMeans (DWK-Means) and Proposed K-Means that are used to  clustering  the  data  sets.  To  access  the  quality  of  the clusters, the Davis Bouldin measure has been used.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 5,
+    "page_end": 5,
+    "heading": "1) Performance of Distance functions",
+    "text": "The  K-Means  clustering  method  is  executed  by  three different  distance  functions  are  Manhattan,  Euclidean  and chebyshev with iris dataset  are  used  and  select  the  centroid value (K) from 2 to 10. The obtained results are listed in the table I given below.\nFrom  the  figure  4  shows  that,  the  various  distance functions  for  K-Means  are  studied  and  compared  with  the dataset 'Ecoli'. The K-Means  clustering methods are executed with varying cluster centroids K from 2 to 10 with the  data  set.  It  clearly  shows  that  the  Euclidean  distance function obtained the minimum index values for most of the different clusters values.  Hence  the  Euclidean  distance function is better for clustering algorithms than other distance functions.\n",
+    "figures": [
+      {
+        "page": 5,
+        "bbox": [
+          319.8932189941406,
+          792.1793479919434,
+          543.2693481445312,
+          589.8760375976562
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_4.png",
+        "caption": "Figure4. Distance functions analysis chart for K-Means",
+        "description": "Here's an analysis of the image based on its visual content:\n\n**Image Description:**\n\nThe image is a line graph presented within a scientific document, titled \"Distance Functions.\" The graph displays three distance functions - Manhattan, Euclidean, and Chebyshev - plotted against clusters numbered from 2 to 10.\n\n**Axes & Data Points:**\n\n*   **X-axis (Horizontal):** Represents the number of clusters, ranging from 2 to 10.\n*   **Y-axis (Vertical):**  Represents a value labeled \"DB index,\" ranging from approximately 0.2 to 1.2.\n*   **Lines:** Three distinct colored lines represent the different distance functions:\n    *   **Blue Line:** Represents the Manhattan distance function.\n    *   **Red Line:** Represents the Euclidean distance function.\n    *   **Green Line:** Represents the Chebyshev distance function.\n\n**Specific Data Points (Approximate):**\n\nThe graph shows the following approximate values for the DB index across the clusters:\n\n| Cluster | Manhattan (Blue) | Euclidean (Red) | Chebyshev (Green) |\n| :------ | :--------------- | :-------------- | :---------------- |\n| 2       | 0.54             | 0.63            | 0.71              |\n| 3       | 0.61             | 0.68            | 0.73              |\n| 4       | 0.70             | 0.72            | 0.75              |\n| 5       | 0.89             | 0.88            | 0.91              |\n| 6       | 0.93             | 0.94            | 0.95              |\n| 7       | 0.94             | 0.95            | 0.96              |\n| 8       | 0.96             | 0.97            | 0.98              |\n| 9       | 0.97             | 0.98            | 0.99              |\n| 10      | 0.98             | 0.99            | 1.00              |\n\n**Trends & Patterns:**\n\n*   All three distance functions exhibit a generally increasing trend as the"
+      }
+    ],
+    "tables": [
+      {
+        "page": 5,
+        "bbox": [
+          70.84353637695312,
+          411.26318359375,
+          272.665771484375,
+          271.9366455078125
+        ],
+        "markdown": "TABLE I. Distance Functions\n\n|      |          | Distance Functions   | Distance Functions   | Distance Functions   |\n|------|----------|----------------------|----------------------|----------------------|\n| S.No | Clusters | Manhattan            | Euclidean            | Chebyshev            |\n| 1    | 2        | 0.510                | 0.524                | 0.658                |\n| 2    | 3        | 0.653                | 0.416                | 0.548                |\n| 3    | 4        | 0.758                | 0.634                | 0.811                |\n| 4    | 5        | 0.912                | 0.589                | 0.987                |\n| 5    | 6        | 0.933                | 0.712                | 1.023                |\n| 6    | 7        | 0.847                | 0.689                | 0.956                |\n| 7    | 8        | 0.935                | 0.881                | 1.095                |\n| 8    | 9        | 0.874                | 0.643                | 0.912                |\n| 9    | 10       | 0.901                | 0.773                | 0.845                |",
+        "caption": "TABLE I. Distance Functions",
+        "summary": "Here's a summary of the table's structure and the information it represents:\n\n**Structure:**\n\nThe table is organized into three columns:\n\n*   **S.No:** A sequential number identifying each cluster combination.\n*   **Clusters:** Lists the two clusters being compared in each row (e.g., Clusters 2 & 3).\n*   **Distance Functions:**  This column contains three distance metrics calculated between those two clusters:\n    *   **Manhattan:** Also known as city block distance - calculates the sum of absolute differences of coordinates.\n    *   **Euclidean:** The straight-line distance between two points.\n    *   **Chebyshev:** Calculates the maximum of the absolute differences of coordinates.\n\n**Key Information Represented:**\n\nThe table shows the distances between pairs of clusters, calculated using three different distance functions (Manhattan, Euclidean, and Chebyshev).  Each row represents a specific pair of clusters and provides a quantitative measure of how dissimilar they are based on each of these distance metrics. The values represent the distance in some unit (likely arbitrary, as it's not specified).\n\n**In essence, this table is likely used for clustering analysis to evaluate which distance function best separates different groups of data points.**  The lower the distance value, the more similar the clusters are.",
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_tables/table_1.png"
+      }
+    ],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 5,
+    "page_end": 6,
+    "heading": "2) Performance of Clustering Algorithms",
+    "text": "The four algorithms are studied in the section II which are implemented  by  the  software MATLAB 2012  (a). All  the methods are executed and compared by Ecoli, Iris, Yeast and Wine dataset. The Davis Bouldin index is used to determine the performance of the clustering algorithms. The results are obtained from the various clustering algorithms and are listed in the Table II below.\nFrom the figure3 shows that, the four clustering algorithms are executed by the four different data set called Ecoli, Iris, Yeast, Wine with the constant Cluster Centroid (K)  whose  value  is  5.  The  proposed  K-Means  algorithm obtained the minimum DB index values for the Ecoli, Wine data  set  also  obtained  next  minimum  index  which  is  more than  that  of  other  algorithm.  Hence  the  proposed  K-Means clustering algorithm obtained good clustering results.\n",
+    "figures": [
+      {
+        "page": 6,
+        "bbox": [
+          63.321102142333984,
+          792.0363235473633,
+          284.6095275878906,
+          619.7571411132812
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_5.png",
+        "caption": "Figure3. Clustering methods chart for various dataset",
+        "description": "Here's a detailed analysis of the image based on its visual content:\n\n**Image Description:**\n\nThe image is a bar chart presented within a scientific document, likely related to clustering algorithms. The title of the chart is \"Clustering Methods.\"  Below the title, there are five different colored bars representing different clustering methods. The colors and their corresponding labels are as follows:\n\n*   Blue: \"Kmeans\"\n*   Red: \"SW Kmeans\"\n*   Olive Green: \"DW Kmeans\"\n*   Purple: \"Proposed Kmeans\"\n\nThe x-axis of the chart is labeled \"Dataset,\" with five distinct dataset names listed horizontally: \"Ecoli\", \"Iris\", \"Yeast\", and \"Wine\". The y-axis is labeled \"DBIndex.\"\n\n**Data Points:**\n\nThe chart displays DBIndex values for each clustering method across the four datasets.  Here's a breakdown of the data points (approximate, based on visual estimation):\n\n*   **Ecoli Dataset:**\n    *   Kmeans: 0.72\n    *   SW Kmeans: 0.91\n    *   DW Kmeans: 0.86\n    *   Proposed Kmeans: 0.75\n*   **Iris Dataset:**\n    *   Kmeans: 0.73\n    *   SW Kmeans: 0.78\n    *   DW Kmeans: 0.71\n    *   Proposed Kmeans: 0.72\n*   **Yeast Dataset:**\n    *   Kmeans: 0.65\n    *   SW Kmeans: 0.83\n    *   DW Kmeans: 0.80\n    *   Proposed Kmeans: 0.68\n*   **Wine Dataset:**\n    *   Kmeans: 0.62\n    *   SW Kmeans: 0.79\n    *   DW Kmeans: 0.75\n    *   Proposed Kmeans: 0.64\n\n**Trends and Patterns:**\n\n*   **SW Kmeans consistently performs best:** The \"SW Kmeans\" method demonstrates the highest DBIndex values across all four datasets.\n*   **DW Kmeans is generally high:**  The \"DW Kmeans\" method also shows relatively high DBIndex values, though typically lower than SW Kmeans.\n*   **Proposed"
+      }
+    ],
+    "tables": [
+      {
+        "page": 5,
+        "bbox": [
+          322.56219482421875,
+          307.30169677734375,
+          539.7427368164062,
+          184.55908203125
+        ],
+        "markdown": "TABLE II. Davis Bouldin index analysis\n\n|      |          | Davis Bouldin Index   | Davis Bouldin Index    | Davis Bouldin Index    | Davis Bouldin Index   |\n|------|----------|-----------------------|------------------------|------------------------|-----------------------|\n| S.No | Data set | K- Means              | Static Weight K- Means | Dynamic Weight K-Means | Proposed K-Means      |\n| 1    | Ecoli    | 0.71                  | 0.95                   | 0.84                   | 0.65                  |\n| 2    | Iris     | 0.65                  | 0.49                   | 0.53                   | 0.73                  |\n| 3    | Yeast    | 0.86                  | 0.79                   | 0.84                   | 0.66                  |\n| 4    | Wine     | 0.55                  | 0.74                   | 0.68                   | 0.45                  |",
+        "caption": "TABLE II. Davis Bouldin index analysis",
+        "summary": "Here's a summary of the table's structure and the information it represents:\n\n**Structure:**\n\nThe table is organized into a grid with four columns and four rows:\n\n*   **S.No:**  A sequential number identifying each row (1-4).\n*   **Data set:** Lists four different datasets used for testing - \"Ecoli\", \"Iris\", \"Yeast\", and \"Wine\".\n*   **Davis Bouldin Index:** This column contains the calculated Davis Bouldin Index values. The Davis Bouldin Index is a clustering metric that measures the average similarity between clusters. A lower value indicates better cluster quality (meaning clusters are more compact and well-separated).\n*   **K-Means Variants:**  This column shows the results of applying different variations of the K-means algorithm to each dataset:\n    *   \"K-Means\" - Standard K-means clustering.\n    *   \"Static Weight K-Means\" - K-means with a fixed weighting scheme.\n    *   \"Dynamic Weight K-Means\" - K-means where weights are adjusted dynamically during the process.\n    *   \"Proposed K-Means\" -  A specific K-means algorithm (details of which aren't provided in this table)\n\n**Key Information:**\n\nThe table presents the Davis Bouldin Index scores achieved by each K-means variant when applied to each of the four datasets. This allows for a comparison of how well each clustering method performs on different data sets and with different weighting strategies.  It suggests that the \"Proposed K-Means\" algorithm generally achieves better results (lower Davis Bouldin Index) than the standard K-means or the other variations, particularly on the \"Ecoli\" and \"Iris\" datasets.\n\nLet me know if you'd like a deeper dive into any aspect of this table!",
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_tables/table_2.png"
+      }
+    ],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 6,
+    "page_end": 6,
+    "heading": "3) Execution Time Measure",
+    "text": "Different  Clustering  algorithms  are  compared  for  their performances using the time  required to cluster  the  dataset. The execution time is varying while selecting the number of initial  cluster  centroids.  The  execution  time  is  increased when  the  number  of  cluster  centroid is increased.  The obtained results are depicted in the following Table III\nFrom the figure5 shows that, the performance of the four clustering  algorithms  are  executed  by  the  Iris  dataset  with varying the cluster centroids from 3 to 15. The proposed KMeans algorithm obtained  the  minimum  execution  time  for most of the clustering centroids. The SWK-Means clustering algorithm does not produce minimum execution time for all various  K  values,  but  the  other  two  algorithms  produce minimum execution time for some K centroids values. Hence the  proposed  K-Means  clustering  executed  in  the  minimum execution time and performed better than other 3 algorithms.\n",
+    "figures": [
+      {
+        "page": 6,
+        "bbox": [
+          58.616817474365234,
+          232.94171142578125,
+          284.7723083496094,
+          93.36956787109375
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_6.png",
+        "caption": "Figure5. Execution Time chart for clustering algorithms",
+        "description": "Here's an analysis of the image based on its visual content:\n\n**Image Description:**\n\nThe image is a line graph presented within a white background with a dark gray border. The title of the graph is \"Execution Time\" in black capital letters.  The y-axis (vertical axis) represents execution time in seconds, ranging from 0 to 8. The x-axis (horizontal axis) represents the number of clusters, ranging from 3 to 15.\n\n**Data Points & Lines:**\n\n*   **Kmeans:** Represented by a blue line.\n    *   At 3 clusters: Approximately 1.5 seconds.\n    *   At 6 clusters: Approximately 2.5 seconds.\n    *   At 9 clusters: Approximately 4 seconds.\n    *   At 12 clusters: Approximately 4.5 seconds.\n    *   At 15 clusters: Approximately 6.5 seconds.\n\n*   **SWKmeans:** Represented by a red line.\n    *   At 3 clusters: Approximately 1 second.\n    *   At 6 clusters: Approximately 2 seconds.\n    *   At 9 clusters: Approximately 3.5 seconds.\n    *   At 12 clusters: Approximately 4.5 seconds.\n    *   At 15 clusters: Approximately 6 seconds.\n\n*   **DWKmeans:** Represented by a green line.\n    *   At 3 clusters: Approximately 2 seconds.\n    *   At 6 clusters: Approximately 3 seconds.\n    *   At 9 clusters: Approximately 4.5 seconds.\n    *   At 12 clusters: Approximately 5 seconds.\n    *   At 15 clusters: Approximately 6 seconds.\n\n*   **Proposed Kmeans:** Represented by a purple line.\n    *   At 3 clusters: Approximately 3 seconds.\n    *   At 6 clusters: Approximately 4 seconds.\n    *   At 9 clusters: Approximately 4.5 seconds.\n    *   At 12 clusters: Approximately 5.5 seconds.\n    *   At 15 clusters: Approximately 6 seconds.\n\n**Trends & Patterns:**\n\n*   All four algorithms (Kmeans, SWKmeans, DWKmeans, and Proposed Kmeans) exhibit a general upward trend in execution time as the number of"
+      }
+    ],
+    "tables": [
+      {
+        "page": 6,
+        "bbox": [
+          66.65628814697266,
+          360.9431457519531,
+          276.8282470703125,
+          249.0010986328125
+        ],
+        "markdown": "TABLE III. Execution Time\n\n|      |         | Execution Time (in sec)   | Execution Time (in sec)   | Execution Time (in sec)   | Execution Time (in sec)   |\n|------|---------|---------------------------|---------------------------|---------------------------|---------------------------|\n| S.No | Cluster | K- Means                  | Static Weight K- Means    | Dynamic Weight K- Means   | Refined K- Means          |\n| 1    | 3       | 1.54                      | 1.66                      | 1.45                      | 1.31                      |\n| 2    | 6       | 1.95                      | 2.87                      | 2.28                      | 2.05                      |\n| 3    | 9       | 3.78                      | 4.15                      | 3.94                      | 3.45                      |\n| 4    | 12      | 4.45                      | 5.12                      | 4.18                      | 3.94                      |\n| 5    | 15      | 5.7                       | 6.45                      | 5.48                      | 4.71                      |",
+        "caption": "TABLE III. Execution Time",
+        "summary": "Here's a summary of the table's structure and the information it represents:\n\n**Structure:**\n\nThe table is organized into three main sections, separated by horizontal lines:\n\n*   **Top-Level Header:**  It has a header row with \"S.No,\" \"Cluster,\" and \"Execution Time (in sec)\"\n*   **Second Level Header:** It contains three columns labeled \"K-Means\", \"Static Weight K-Means\", \"Dynamic Weight K-Means\" and \"Refined K-Means\". \n*   **Data Rows:**  Each row represents a different experiment or run of the K-means clustering algorithm.\n\n**Key Information Represented:**\n\nThe table shows the execution time (in seconds) for several variations of the K-means clustering algorithm:\n\n*   **S.No:** A sequential number identifying each test run.\n*   **Cluster:** The cluster number being tested (3, 6, 9, 12, or 15).\n*   **Execution Time:**  The time taken to complete the K-means clustering process for that specific cluster and algorithm variation. There are four different variations of the K-Means algorithm:\n    *   **K-Means:** The standard K-means algorithm.\n    *   **Static Weight K-Means:** A variant with a fixed weight assigned to each data point.\n    *   **Dynamic Weight K-Means:**  A variant where the weights are adjusted dynamically during the clustering process.\n    *   **Refined K-Means:** A refined version of the algorithm, likely incorporating some optimization or adjustment technique.\n\n**In essence, the table is a comparative performance test of different K-means algorithms on datasets with varying cluster numbers.** It allows you to see how the execution time changes based on the specific algorithm and the characteristics of the data being clustered.",
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_tables/table_3.png"
+      }
+    ],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 6,
+    "page_end": 7,
+    "heading": "4) Iteration Count Analysis",
+    "text": "The  four  Clustering  algorithms  are  compared  for  their performance  using  Iteration  count  method  with  the  Wine dataset. The Iteration count is defined as that the number of times the clustering algorithm is executed until the convergence criteria is met. The cluster centres are increased each  time  by  3  and  the  number  of  iterations for  each clustering  algorithms  are  obtained  and  listed  in  the  below Table IV.\nFrom the figure6, the iteration levels are identified by the four algorithms by setting  the cluster centroid from 2 to 10 with the yeast dataset. The K-Means and proposed K-Means clustering  methods  performed  well  in  minimum  iterations.\nThe  Proposed  K-Means  method  performed  better  than  KMeans for most of the Clustering centroids (K) values.\n",
+    "figures": [
+      {
+        "page": 6,
+        "bbox": [
+          315.9488830566406,
+          353.2840270996094,
+          546.9957885742188,
+          134.83416748046875
+        ],
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_images/picture_7.png",
+        "caption": "Figure6. Iteration levels chart for Clustering Algorithms",
+        "description": "Okay, here's a detailed analysis of the image provided, focusing solely on the observable elements within the graph:\n\n**Image Description:**\n\nThe image is a line graph representing iteration levels for different clustering algorithms. The x-axis represents the number of clusters (ranging from 2 to 10). The y-axis represents the number of iterations required for each algorithm to converge.  Multiple lines represent the performance of different clustering methods.\n\n**Line Data & Trends:**\n\n*   **\"Kmeans\" (Blue):** This line shows a fluctuating pattern. It starts at approximately 8 iterations for 2 clusters, decreases to around 6 iterations for 3-5 clusters, increases sharply to about 18 iterations for cluster 7, and then declines again to approximately 12 iterations for cluster 10.\n\n*   **\"SWKmeans\" (Green):** This line exhibits a generally upward trend. It begins at approximately 9 iterations for 2 clusters, rises steadily to around 16 iterations for cluster 7, and then plateaus around 14 iterations for cluster 10.\n\n*   **\"DWKkmeans\" (Teal/Light Green):** This line shows a relatively stable pattern. It starts at approximately 9 iterations for 2 clusters, remains consistently around 10-12 iterations across most cluster numbers from 3 to 8, and then increases sharply to about 16 iterations for cluster 10.\n\n*   **\"Proposed Kmeans\" (Purple):** This line demonstrates a highly variable pattern. It begins at approximately 8 iterations for 2 clusters, decreases to around 7 iterations for 3-5 clusters, rises significantly to approximately 14 iterations for cluster 7, and then drops sharply to about 6 iterations for cluster 10.\n\n**Data Points (Approximate Iterations):**\n\n| Cluster Number | Kmeans (Blue) | SWKmeans (Green) | DWKkmeans (Teal) | Proposed Kmeans (Purple) |\n|----------------|---------------|------------------|------------------|--------------------------|\n| 2              | 8             | 9                | 9                | 8                        |\n| 3              | 6             | 9                | 10               | 7                        |\n| 4              | 18            | 14               | 11               | 18                       |\n|"
+      }
+    ],
+    "tables": [
+      {
+        "page": 6,
+        "bbox": [
+          313.11053466796875,
+          511.9994812011719,
+          549.0909423828125,
+          376.5924377441406
+        ],
+        "markdown": "TABLE IV. Iteration  count Analysis\n\n|       |         | Iteration Level   | Iteration Level       | Iteration Level        | Iteration Level   |\n|-------|---------|-------------------|-----------------------|------------------------|-------------------|\n| S. No | Cluster | K- Means          | Static Weight K-Means | Dynamic Weight K-Means | Proposed K-Means  |\n| 1     | 2       | 8                 | 7                     | 11                     | 6                 |\n| 2     | 3       | 6                 | 8                     | 5                      | 7                 |\n| 3     | 4       | 14                | 18                    | 15                     | 9                 |\n| 4     | 5       | 9                 | 13                    | 11                     | 8                 |\n| 5     | 6       | 4                 | 8                     | 11                     | 6                 |\n| 6     | 7       | 15                | 13                    | 17                     | 11                |\n| 7     | 8       | 13                | 10                    | 15                     | 6                 |\n| 8     | 9       | 7                 | 6                     | 11                     | 10                |\n| 9     | 10      | 14                | 17                    | 14                     | 8                 |",
+        "caption": "TABLE IV. Iteration  count Analysis",
+        "summary": "Here's a summary of the table's structure and the information it represents:\n\n**Structure:**\n\nThe table is organized into four columns, each representing a different K-Means clustering method:\n\n*   **S. No.:**  Sequential number identifying each iteration/run of the algorithm.\n*   **Cluster:** The cluster number being assigned to each data point in that iteration.\n*   **K-Means:** The value of the K-Means algorithm's centroid (center) for that particular iteration.\n*   **Iteration Level:**  This column divides the iterations into two levels: \"Stabile Weight\" and \"Dynamic Weight.\"\n\n**Key Information Represented:**\n\nThe table shows the results of running the K-Means clustering algorithm multiple times with different parameters, specifically focusing on how the centroid (K-Means value) changes over several iterations. \n\n*   **Iteration Levels:** The \"Stabile Weight\" and \"Dynamic Weight\" columns indicate that the algorithm was run twice - once with stable weights and once with dynamic weights.\n*   **Centroid Values:**  Each cell contains the K-Means centroid value for a specific iteration (S. No.) and cluster. This shows how the centroids move towards more representative centers of the clusters as the iterations progress. \n*   **Comparison of Methods:** The table allows you to compare the convergence behavior of the standard K-Means algorithm, the \"Stabile Weight\" version, the \"Dynamic Weight\" version, and a \"Proposed\" K-Means method across different iterations.\n\nIn essence, it's a record of how each K-Means variant converges towards a stable cluster solution over multiple iterations.",
+        "image_path": "/home/preritubuntu/RAG projext/data/extracted_tables/table_4.png"
+      }
+    ],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 7,
+    "page_end": 7,
+    "heading": "IV. CONCLUSION",
+    "text": "In this paper, the four different Clustering methods in the Partitional  clustering  are  studied  by  applying  the  K-Means algorithm  with three different distance  functions  to find the optimal distance  function  for clustering process. One of the demerits of K-Means algorithm is random selection of initial centroids of desired clusters. This was overcome by proposed K-Means  with  initial  cluster  centroid  selection  process  for finding  the  initial  centroids  to  avoid  the  selecting  centroids randomly  and  it  produces  distinct  better  results.  The  four clustering algorithms are executed with four different dataset but  the  Proposed  K-Means  method  performs  very  well  and obtains  minimum  DB index  value. The Execution time and iteration count is compared with the four different clustering algorithms  and  different  cluster  values.  The  Proposed  KMeans achieved less execution time and  minimum iteration count  than  K-Means,  Static  Weighted  K-Means  ( SWKMeans ),  and  Dynamic  Weighted  K-Means  ( DWK-Means ) clustering methods. Therefore, the proposed K-Means clustering method can be applied in the application area and various cluster validity measures can be used to improve the cluster performance in our future work.\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  },
+  {
+    "doc_id": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1]",
+    "filename": "Improved Performance of Unsupervised Method by Renovated K-Means [arXiv 1304.0725v1].pdf",
+    "page_start": 7,
+    "page_end": 7,
+    "heading": "REFERENCES",
+    "text": "Davies & Bouldin, 1979. Davies, D.L., Bouldin, D.W., (2000) 'A cluster  separation  measure.'  IEEE  Trans.Pattern  Anal.  Machine Intell., 1(4), 224-227.\nHARTIGAN, J. and WONG, M. 1979. Algorithm AS136: 'A kmeans clustering algorithm'. Applied   Statistics, 28, 100-108.\nHEER, J. and CHI, E. 2001. 'Identification of Web user traffic composition using multimodal clustering and information scent.', 1st SIAM ICDM,  Workshop on Web Mining, 51-58, Chicago, IL.\nJAIN A.K, MURTY M.N.  And FLYNN P.J. Data Clustering: A Review  ACM  Computing  Surveys , Vol . 31 , No . 3 , September 1999.\nMaleq Khan -Fast Distance Metric Based Data Mining Techniques Using P-trees: k-Nearest-Neighbor Classification and k-Clustering.\nMaria  Halkidi ,  Yannis  Batistakis,  and  Michalis  Varzirgiannis, ' On  clustering validation techniques ', Journal of Intelligent Information Systems , 17(2-3 ), 107 -145 , ( 2001 ).\nRokach  L  O  Maimon  -  Data  mining  and  knowledge  discovery handbook, 2005 - Springer.\nSauravjoyti  Sarmah  and  Dhruba  K.  Bhattacharyya.  May  2010 'An Effective Technique for Clustering Incremental Gene Expression data', IJCSI International Journal of Computer Science Issues, Vol. 7, Issue 3, No. 3.\nThangadurai,  K.  e.a.  2010.  A  Study  On  Rough  Clustering.  In «Global Journal of Computer Science and Technology», Vol. 10, Issue 5.\nhttp://en.wikipedia.org/wiki/Chebyshev_distance\n",
+    "figures": [],
+    "tables": [],
+    "footnotes": []
+  }
+]

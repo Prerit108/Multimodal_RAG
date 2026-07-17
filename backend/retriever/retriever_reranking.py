@@ -1,9 +1,15 @@
 from re import search
-from langchain.retrievers import EnsembleRetriever
+import math
+try:
+    from langchain_classic.retrievers import EnsembleRetriever
+    from langchain_classic.retrievers import ContextualCompressionRetriever
+    from langchain_classic.retrievers.document_compressors import CrossEncoderReranker
+except ImportError:
+    from langchain_classic.retrievers import EnsembleRetriever
+    from langchain_classic.retrievers import ContextualCompressionRetriever
+    from langchain_classic.retrievers.document_compressors import CrossEncoderReranker
 from langchain_community.retrievers import BM25Retriever
 from langchain_community.cross_encoders import HuggingFaceCrossEncoder
-from langchain.retrievers import ContextualCompressionRetriever
-from langchain.retrievers.document_compressors import CrossEncoderReranker
 from langchain_core.prompts import PromptTemplate
 
 import os
@@ -16,23 +22,28 @@ class Retriever:
         load_dotenv(dotenv_path = "/home/preritubuntu/RAG projext/.env")
 
         # Initialize ChatOpenAI pointing to OpenRouter
+        # self.model = ChatOpenAI(
+        #     model="nvidia/nemotron-3-ultra-550b-a55b:free",
+        #     openai_api_key=os.getenv("OPENROUTER_API_KEY"),
+        #     base_url="https://openrouter.ai/api/v1",
+        # )
         self.model = ChatOpenAI(
-            model="nvidia/nemotron-3-ultra-550b-a55b:free",
-            openai_api_key=os.getenv("OPENROUTER_API_KEY"),
-            base_url="https://openrouter.ai/api/v1",
-            max_completion_tokens=512
+            base_url= "http://127.0.0.1:1234/v1",
+            openai_api_key="lm-studio",  # A placeholder key is required by LangChain
+            model= "google/gemma-3-4b",
+           
         )
 
-    def start_retriever(self,combined_documents,vector_store,query:str):
+    def start_retriever(self,combined_documents,vector_store,query:str,top_n_values:int = 15):
         # 1. Initialize your individual retrievers
         # Example: BM25 for keyword-based retrieval
         bm25_retriever = BM25Retriever.from_documents(combined_documents)   ## combined info of all docs must be passed
-        bm25_retriever.k = 5
+        bm25_retriever.k = top_n_values
 
         # Example: Vector store for semantic retrieval
         vectorstore_retriever = vector_store.as_retriever(
             search_type = "mmr",     # this enables the MMR search
-            search_kwargs = {"k":5,"lambda_mult":0.7}
+            search_kwargs = {"k":top_n_values,"lambda_mult":0.7}
         )
 
         # 2. Combine them into an EnsembleRetriever
@@ -44,7 +55,7 @@ class Retriever:
 
         # Reranker model
         # 3. Use the reranker model
-        reranker_model = HuggingFaceCrossEncoder(model_name="BAAI/bge-reranker-base", model_kwargs={"device": "cpu"})    ## for cpu only
+        reranker_model = HuggingFaceCrossEncoder(model_name="BAAI/bge-reranker-base") #,model_kwargs={"device": "cpu"})    ## for cpu only
 
         # Invoke the hybrid retriever
         documents = ensemble_retriever.invoke(query)
@@ -54,7 +65,8 @@ class Retriever:
         scores = reranker_model.score(pairs)
 
         # Taking top n results
-        compressor = CrossEncoderReranker(model=reranker_model, top_n=3)
+        top_n = math.ceil(top_n_values/2)
+        compressor = CrossEncoderReranker(model=reranker_model, top_n = top_n)
 
         # Combine them into the ContextualCompressionRetriever
         compression_retriever = ContextualCompressionRetriever(
@@ -70,7 +82,15 @@ class Retriever:
         full_text = ""
         for i,doc in enumerate(information):
             full_text += f"Information {i+1} : {doc.page_content} \n" 
-        prompt = f"Providing you the information about the {query} , and here is the Full information from which you have to answer\n {full_text} \n , do not add your own thinking in the answer , answer only on the basis of the provided info "
+        prompt = f"""You are given a user query: {query}  
+                You are also provided with supporting information: {full_text}  
+
+                Your task is to generate a clear and complete final answer to the query **only using the provided information**.  
+                - Do not add external knowledge, assumptions, or personal opinions.  
+                - Do not invent or infer beyond the given text.  
+                - If the information is insufficient to fully answer, state that explicitly.  
+                - Present the answer in a concise, well-structured manner.
+                """
         result = self.model.invoke(prompt)
         print("*****************************Final Result od model ************************************")
         print(result.content)

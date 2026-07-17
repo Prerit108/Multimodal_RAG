@@ -1,5 +1,6 @@
 #!/home/preritubuntu/miniconda3/envs/langchain_env/bin/python
 import os
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 import sys
 import uuid
 import json
@@ -50,10 +51,22 @@ class LangChainVLMClient:
             base_url=api_base,
             openai_api_key="lm-studio",  # A placeholder key is required by LangChain
             model=model,
-            temperature=0.2,
-            max_tokens=512
+            # temperature=0.2,
+            # max_tokens=512
         )
-    def describe_image(self, image_path, prompt="Please analyze this image from a scientific/technical document and provide a detailed description of its contents, including any text, trends, data points, or patterns.Do not add your own interpretation or assumptions, Please use utf-8 characters only"):
+    def describe_image(self, image_path, prompt="""You are given an image from a scientific or technical document.  
+                    Describe its contents in detail, including:  
+                    - All visible text (titles, labels, captions, annotations, legends)  
+                    - Tables (rows, columns, headers, values)  
+                    - Charts or graphs (axes, scales, data points, trends, patterns)  
+                    - Diagrams or figures (components, connections, structural layout)  
+
+                    Rules:  
+                    - Use only UTF-8 characters.  
+                    - Be precise, factual, and to the point.  
+                    - Do not add interpretation, assumptions, or external knowledge.  
+                    - Output only what is explicitly present in the image.
+                    """):
         if not os.path.exists(image_path):
             return f"[VLM Error: Image path '{image_path}' not found]"
         try:
@@ -131,17 +144,32 @@ def process_document(file_path, output_json_path, vlm_url=None, run_vlm_on_table
     # Initialize local VLM client if URL is provided
     vlm_client = LangChainVLMClient(api_base=vlm_url) if vlm_url else None
 
-    # Setup Docling converter options
+    from docling.datamodel.accelerator_options import AcceleratorDevice, AcceleratorOptions
+    
+    # Setup Docling converter options with GPU acceleration
     pipeline_options = PdfPipelineOptions()
     pipeline_options.generate_picture_images = True
     pipeline_options.generate_table_images = run_vlm_on_tables
+    pipeline_options.accelerator_options = AcceleratorOptions(device=AcceleratorDevice.CUDA)
 
     converter = DocumentConverter(
         format_options={InputFormat.PDF: PdfFormatOption(pipeline_options=pipeline_options)}
     )
 
     print(f"Converting document: {filename} with Docling...")
-    conv_res = converter.convert(str(file_path))
+    try:
+        conv_res = converter.convert(str(file_path))
+    except Exception as e:
+        err_msg = str(e).lower()
+        if "out of memory" in err_msg or "cuda" in err_msg or "oom" in err_msg:
+            print("  [VRAM Warning] CUDA Out of Memory on GPU. Falling back to CPU for this document...")
+            pipeline_options.accelerator_options = AcceleratorOptions(device=AcceleratorDevice.CPU)
+            converter = DocumentConverter(
+                format_options={InputFormat.PDF: PdfFormatOption(pipeline_options=pipeline_options)}
+            )
+            conv_res = converter.convert(str(file_path))
+        else:
+            raise e
     doc = conv_res.document
 
     # Containers for parsing
