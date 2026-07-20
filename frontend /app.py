@@ -1,205 +1,212 @@
+import subprocess
 import streamlit as st
 import requests
+import json
 import os
 
-# Set page config with a custom title and icon
+# Set page configuration with standard title
 st.set_page_config(
-    page_title="Multimodal RAG Research Assistant",
-    page_icon="📖",
+    page_title="Multimodal RAG System",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# API Base URL configuration
+# Base URL for FastAPI backend connection
 API_BASE_URL = os.getenv("RAG_API_BASE_URL", "http://127.0.0.1:8000")
 
-# Premium custom CSS styling
+# Custom CSS styling for modern UI without emojis
 st.markdown("""
 <style>
-    /* Google Fonts import */
-    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     
     html, body, [class*="css"] {
-        font-family: 'Outfit', sans-serif;
+        font-family: 'Inter', sans-serif;
     }
     
-    /* Title styling */
-    .title-container {
-        padding: 1.5rem 0rem;
-        text-align: center;
-        background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+    .main-header {
+        font-size: 2.2rem;
         font-weight: 700;
-        font-size: 3rem;
-        margin-bottom: 0.5rem;
+        color: #f8fafc;
+        margin-bottom: 0.2rem;
     }
     
-    .subtitle {
-        text-align: center;
+    .sub-header {
+        font-size: 1rem;
         color: #94a3b8;
-        font-size: 1.1rem;
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem;
     }
     
-    /* Chat layout styling */
-    .user-bubble {
-        background-color: #3b82f6;
-        color: white;
-        padding: 0.8rem 1.2rem;
-        border-radius: 15px 15px 0px 15px;
-        margin: 0.5rem 0;
+    .chat-user {
+        background-color: #2563eb;
+        color: #ffffff;
+        padding: 0.9rem 1.2rem;
+        border-radius: 12px 12px 0px 12px;
+        margin: 0.6rem 0;
         max-width: 80%;
         margin-left: auto;
-        box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.2);
     }
     
-    .assistant-bubble {
+    .chat-assistant {
         background-color: #1e293b;
-        color: #f1f5f9;
-        padding: 0.8rem 1.2rem;
-        border-radius: 15px 15px 15px 0px;
-        margin: 0.5rem 0;
-        max-width: 80%;
+        color: #f8fafc;
+        padding: 0.9rem 1.2rem;
+        border-radius: 12px 12px 12px 0px;
+        margin: 0.6rem 0;
+        max-width: 85%;
         margin-right: auto;
         border: 1px solid #334155;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
-    
-    /* Sidebar styling */
-    .sidebar-header {
-        font-weight: 600;
-        font-size: 1.2rem;
-        color: #f8fafc;
-        margin-bottom: 1rem;
+
+    .sources-box {
+        background-color: #0f172a;
+        border: 1px solid #1e293b;
+        border-radius: 8px;
+        padding: 0.8rem;
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+        color: #cbd5e1;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Main Title Display
-st.markdown('<div class="title-container">Multimodal RAG Assistant</div>', unsafe_allow_html=True)
-st.markdown('<div class="subtitle">Query over your research paper library or analyze a single document on-the-fly.</div>', unsafe_allow_html=True)
+# Application Title & Subtitle
+st.markdown('<div class="main-header">Multimodal RAG Research System</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub-header">Scalable paper retrieval, dynamic document analysis, and conversational memory.</div>', unsafe_allow_html=True)
 
-# Sidebar Navigation / Mode Selection
-with st.sidebar:
-    st.markdown('<div class="sidebar-header">⚙️ Configuration</div>', unsafe_allow_html=True)
-    mode = st.radio(
-        "Choose Mode:",
-        ["📚 Multi-Doc Library Chat", "📄 Single-Doc Deep Dive"],
-        index=0
-    )
-    
-    st.divider()
-    st.markdown("""
-    **Pipeline Status**
-    *   ⚡ **Embedding Device:** CPU
-    *   🧠 **LLM / VLM:** LM Studio (`gemma-3-4b`)
-    *   📦 **Vector DB:** Chroma
-    """)
-    
-    if st.button("Clear Chat History", use_container_width=True):
-        st.session_state.chat_history = []
-        st.rerun()
-
-# Initialize session state for chat history
+# Initialize Chat History Session State
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
-# MODE 1: Multi-Doc Library Chat
-if mode == "📚 Multi-Doc Library Chat":
-    st.subheader("📚 Query Research Paper Database")
-    st.info("This query retrieves information across all research papers currently ingested in the Chroma database.")
+# Sidebar Configuration Panel
+with st.sidebar:
+    st.header("Control Panel")
     
-    # Display Chat History
-    for chat in st.session_state.chat_history:
-        if chat["role"] == "user":
-            st.markdown(f'<div class="user-bubble">🧑‍💻 <b>You:</b><br>{chat["content"]}</div>', unsafe_allow_html=True)
-        else:
-            st.markdown(f'<div class="assistant-bubble">🤖 <b>Assistant:</b><br>{chat["content"]}</div>', unsafe_allow_html=True)
-            
-    # Input Area
-    user_query = st.chat_input("Ask a question about the papers...")
+    # 1. Search Scope Configuration
+    search_scope = st.radio(
+        "Search Target Scope:",
+        ["Database Only", "Uploaded Docs Only", "Combined Search"],
+        index=0,
+        help="Select which document collection to retrieve context from."
+    )
     
-    if user_query:
-        # Display user query
-        st.markdown(f'<div class="user-bubble">🧑‍💻 <b>You:</b><br>{user_query}</div>', unsafe_allow_html=True)
-        st.session_state.chat_history.append({"role": "user", "content": user_query})
+    # Map search scope selection to backend API key
+    search_mode_map = {
+        "Database Only": "db_only",
+        "Uploaded Docs Only": "uploaded_only",
+        "Combined Search": "combined"
+    }
+    selected_search_mode = search_mode_map[search_scope]
+    
+    st.divider()
+    
+    # 2. Parsing Speed Configuration
+    fast_mode_toggle = st.checkbox(
+        "Enable Fast Parsing Mode",
+        value=True,
+        help="When enabled, PDF parsing takes 2-5 seconds (text only). Disable for VLM table analysis."
+    )
+    
+    st.divider()
+    
+    # 3. File Upload — max_uploads=5 enforces the limit at the widget level
+    st.subheader("Document Upload")
+    uploaded_files = st.file_uploader(
+        "Upload up to 5 PDF Documents",
+        type=["pdf"],
+        accept_multiple_files=True,
+        help="Upload user documents for dynamic analysis. Maximum 5 PDFs."
+    )
+    if uploaded_files and len(uploaded_files) > 5:
+        uploaded_files = uploaded_files[:5]
+
+# Display Past Chat History
+for chat in st.session_state.chat_history:
+    if chat["role"] == "user":
+        st.markdown(f'<div class="chat-user"><b>User:</b><br>{chat["content"]}</div>', unsafe_allow_html=True)
+    else:
+        st.markdown(f'<div class="chat-assistant"><b>Assistant:</b><br>{chat["content"]}</div>', unsafe_allow_html=True)
         
-        with st.spinner("Analyzing papers and generating response..."):
-            try:
+        # Display Sources if present in message data — [Source N] matches LLM citation numbers
+        if "sources" in chat and chat["sources"]:
+            with st.expander("References and Sources"):
+                for src in chat["sources"]:
+                    src_num = src.get("source_number", "?")
+                    pg_str = f" — Page {src['page']}" if src.get("page") else ""
+                    st.write(f"[Source {src_num}] {src['filename']}{pg_str}")
+
+# Query Input Area
+user_input = st.chat_input("Enter your question here...")
+
+if user_input:
+    # Render user prompt in UI
+    st.markdown(f'<div class="chat-user"><b>User:</b><br>{user_input}</div>', unsafe_allow_html=True)
+    
+    # Build conversation history payload for API
+    formatted_history = [
+        {"role": item["role"], "content": item["content"]}
+        for item in st.session_state.chat_history
+    ]
+    
+    # Save user message to session state
+    st.session_state.chat_history.append({"role": "user", "content": user_input})
+    
+    with st.spinner("Processing request and retrieving context..."):
+        try:
+            # Handle API routing based on mode selection
+            if selected_search_mode == "db_only" and not uploaded_files:
+                # Direct JSON payload for database-only search
+                payload = {
+                    "query": user_input,
+                    "history": formatted_history
+                }
+                response = requests.post(f"{API_BASE_URL}/chat", json=payload, timeout=180)
+            else:
+                # Multipart form payload for upload/combined search modes
+                files_payload = []
+                if uploaded_files:
+                    for f in uploaded_files:
+                        files_payload.append(
+                            ("documents", (f.name, f.getvalue(), "application/pdf"))
+                        )
+                
+                form_data = {
+                    "query": user_input,
+                    "fast_mode": str(fast_mode_toggle),
+                    "search_mode": selected_search_mode,
+                    "history_json": json.dumps(formatted_history)
+                }
+                
                 response = requests.post(
-                    f"{API_BASE_URL}/chat",
-                    params={"query": user_query},
-                    timeout=180
+                    f"{API_BASE_URL}/query_from_doc",
+                    data=form_data,
+                    files=files_payload if files_payload else None,
+                    timeout=300
                 )
-                if response.status_code == 200:
-                    answer = response.text
-                    # Strip wrapping quotes if return string has them
-                    if answer.startswith('"') and answer.endswith('"'):
-                        answer = answer[1:-1].replace('\\n', '\n')
-                    
-                    st.markdown(f'<div class="assistant-bubble">🤖 <b>Assistant:</b><br>{answer}</div>', unsafe_allow_html=True)
-                    st.session_state.chat_history.append({"role": "assistant", "content": answer})
-                else:
-                    st.error(f"API Error ({response.status_code}): {response.text}")
-            except Exception as e:
-                st.error(f"Failed to connect to the backend API: {e}")
-
-# MODE 2: Single-Doc Deep Dive
-else:
-    st.subheader("📄 Dynamic Document Analysis")
-    st.info("Upload a PDF to parse it, index it in a temporary local store, and run queries strictly on this file.")
-    
-    # File Uploader
-    uploaded_file = st.file_uploader("Upload PDF Document", type=["pdf"])
-    
-    if uploaded_file:
-        st.success(f"✓ '{uploaded_file.name}' ready for processing.")
-        
-        # Input Area for single-doc queries
-        doc_query = st.text_input("Ask a question about this document:")
-        
-        if st.button("Submit Query", type="primary") and doc_query:
-            with st.spinner("Processing document (parsing tables/figures & generating search index)..."):
-                try:
-                    # Prepare file payload
-                    files = {
-                        "document": (uploaded_file.name, uploaded_file.getvalue(), "application/pdf")
-                    }
-                    
-                    response = requests.post(
-                        f"{API_BASE_URL}/query_from_doc",
-                        params={"query": doc_query},
-                        files=files,
-                        timeout=300
-                    )
-                    
-                    if response.status_code == 200:
-                        try:
-                            res_json = response.json()
-                        except Exception:
-                            res_json = response.text
-
-                        st.write("---")
-                        st.markdown(f"### 🤖 Response for: *{uploaded_file.name}*")
-                        
-                        if isinstance(res_json, dict):
-                            if "error" in res_json:
-                                st.error(res_json["error"])
-                            else:
-                                # Retrieve answer from response or content key
-                                answer = res_json.get("response", res_json.get("content", str(res_json)))
-                                st.markdown(answer)
-                                
-                                if "chunks_count" in res_json:
-                                    with st.expander("🔍 Show Metadata Details"):
-                                        st.write(f"**Extracted Text Chunks:** {res_json['chunks_count']}")
-                        else:
-                            answer = str(res_json)
-                            if answer.startswith('"') and answer.endswith('"'):
-                                answer = answer[1:-1].replace('\\n', '\n')
-                            st.markdown(answer)
-                    else:
-                        st.error(f"API Error ({response.status_code}): {response.text}")
-                except Exception as e:
-                    st.error(f"An error occurred while connecting to the backend: {str(e)}")
+                
+            if response.status_code == 200:
+                res_data = response.json()
+                answer_text = res_data.get("answer", "")
+                source_list = res_data.get("sources", [])
+                
+                # Render Assistant Response
+                st.markdown(f'<div class="chat-assistant"><b>Assistant:</b><br>{answer_text}</div>', unsafe_allow_html=True)
+                
+                # Render Sources — [Source N] label matches the citation number in the LLM answer
+                if source_list:
+                    with st.expander("References and Sources"):
+                        for src in source_list:
+                            src_num = src.get("source_number", "?")
+                            pg_str = f" — Page {src['page']}" if src.get("page") else ""
+                            st.write(f"[Source {src_num}] {src['filename']}{pg_str}")
+                            
+                # Save assistant response to session state history
+                st.session_state.chat_history.append({
+                    "role": "assistant",
+                    "content": answer_text,
+                    "sources": source_list
+                })
+            else:
+                st.error(f"API Error ({response.status_code}): {response.text}")
+                
+        except Exception as e:
+            st.error(f"Failed to connect to the backend API: {str(e)}")

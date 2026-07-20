@@ -5,13 +5,16 @@ from langchain_chroma import Chroma
 class Embedder:
 
     def model_loader():
-        # Initialize a free local embedding model running on CPU
+        """
+        Loads the nomic-embed-text-v1.5 embedding model on CPU.
+        Embedding runs on CPU to avoid CUDA OOM when the 7B VLM is loaded in GPU VRAM.
+        CPU embedding is fast enough and avoids any conflict with LM Studio.
+        """
         embedding = HuggingFaceEmbeddings(
             model_name="nomic-ai/nomic-embed-text-v1.5",
             model_kwargs={"device": "cpu", "trust_remote_code": True}
-        ) 
+        )
         return embedding
-
 
     # 3. Initialize Chroma
     def vector_db_creator(embedding):

@@ -1,0 +1,1 @@
+LM_STUDIO_MODEL = "ornith-1.0-9b"

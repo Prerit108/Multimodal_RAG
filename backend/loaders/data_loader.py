@@ -24,7 +24,11 @@ def load_docling_json(json_path, chunk_size=1000, chunk_overlap=150):
         chunk_overlap=chunk_overlap
     )
     
-    for section in sections:
+    global_text_counter = 0
+    global_table_counter = 0
+    global_figure_counter = 0
+    
+    for section_idx, section in enumerate(sections):
         doc_id = section.get("doc_id", "")
         filename = section.get("filename", "")
         heading = section.get("heading", "")
@@ -36,6 +40,7 @@ def load_docling_json(json_path, chunk_size=1000, chunk_overlap=150):
         if section_text:
             text_chunks = text_splitter.split_text(section_text)
             for idx, chunk in enumerate(text_chunks):
+                global_text_counter += 1
                 metadata = {
                     "type": "text",
                     "doc_id": doc_id,
@@ -43,12 +48,13 @@ def load_docling_json(json_path, chunk_size=1000, chunk_overlap=150):
                     "heading": heading,
                     "page_start": page_start,
                     "page_end": page_end,
-                    "chunk_id": f"{doc_id}_sec_{heading.replace(' ', '_')}_txt_{idx+1}"
+                    "chunk_id": f"{doc_id}_txt_{global_text_counter}"
                 }
                 documents.append(Document(page_content=chunk, metadata=metadata))
                 
         # 2. Add Tables as standalone Documents (keeps structure intact)
-        for idx, table in enumerate(section.get("tables", [])):
+        for table in section.get("tables", []):
+            global_table_counter += 1
             caption = table.get("caption", "").strip()
             markdown = table.get("markdown", "").strip()
             summary = table.get("summary", "").strip()
@@ -67,12 +73,13 @@ def load_docling_json(json_path, chunk_size=1000, chunk_overlap=150):
                 "heading": heading,
                 "page": page,
                 "image_path": image_path,
-                "chunk_id": f"{doc_id}_table_{idx+1}_page_{page}"
+                "chunk_id": f"{doc_id}_tbl_{global_table_counter}_pg_{page}"
             }
             documents.append(Document(page_content=table_content, metadata=metadata))
             
         # 3. Add Figures as standalone Documents (keeps VLM description intact)
-        for idx, figure in enumerate(section.get("figures", [])):
+        for figure in section.get("figures", []):
+            global_figure_counter += 1
             caption = figure.get("caption", "").strip()
             description = figure.get("description", "").strip()
             page = figure.get("page", page_start)
@@ -89,7 +96,7 @@ def load_docling_json(json_path, chunk_size=1000, chunk_overlap=150):
                 "heading": heading,
                 "page": page,
                 "image_path": image_path,
-                "chunk_id": f"{doc_id}_figure_{idx+1}_page_{page}"
+                "chunk_id": f"{doc_id}_fig_{global_figure_counter}_pg_{page}"
             }
             documents.append(Document(page_content=figure_content, metadata=metadata))
             

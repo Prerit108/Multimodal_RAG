@@ -24,6 +24,10 @@ except ImportError as e:
     print("  /home/preritubuntu/miniconda3/envs/langchain_env/bin/python backend/utils/doc_processor.py\n")
     sys.exit(1)
 
+# Dynamically add the project root directory to python path
+# sys.path.append(str(Path(__file__).resolve().parents[2]))
+
+from backend.llms.models import LM_STUDIO_MODEL
 
 import base64
 import os
@@ -45,14 +49,12 @@ def clean_unicode_text(text: str) -> str:
     return text.translate(unicode_map)
 
 class LangChainVLMClient:
-    def __init__(self, api_base="http://127.0.0.1:1234/v1", model="google/gemma-3-4b"):
+    def __init__(self, api_base="http://127.0.0.1:1234/v1", model = LM_STUDIO_MODEL):
         # We use ChatOpenAI because LM Studio is OpenAI-compatible
         self.llm = ChatOpenAI(
             base_url=api_base,
             openai_api_key="lm-studio",  # A placeholder key is required by LangChain
-            model=model,
-            # temperature=0.2,
-            # max_tokens=512
+            model=model
         )
     def describe_image(self, image_path, prompt="""You are given an image from a scientific or technical document.  
                     Describe its contents in detail, including:  
@@ -70,9 +72,15 @@ class LangChainVLMClient:
         if not os.path.exists(image_path):
             return f"[VLM Error: Image path '{image_path}' not found]"
         try:
-            # Encode image to base64
-            with open(image_path, "rb") as f:
-                img_bytes = f.read()
+            # Resize image to max 1024x1024 and compress as JPEG to avoid LM Studio VRAM OOM & Vision Context Overflow
+            from PIL import Image
+            import io
+            with Image.open(image_path) as img:
+                img = img.convert("RGB")
+                img.thumbnail((1024, 1024), Image.Resampling.LANCZOS)
+                buffer = io.BytesIO()
+                img.save(buffer, format="JPEG", quality=85)
+                img_bytes = buffer.getvalue()
             img_base64 = base64.b64encode(img_bytes).decode("utf-8")
         except Exception as e:
             return f"[VLM Error: Failed to encode image: {e}]"
@@ -83,8 +91,7 @@ class LangChainVLMClient:
                 {
                     "type": "image_url",
                     "image_url": {
-                        # Pass base64 data inline using the data URI scheme
-                        "url": f"data:image/png;base64,{img_base64}"
+                        "url": f"data:image/jpeg;base64,{img_base64}"
                     }
                 }
             ]
@@ -125,7 +132,7 @@ def resolve_reference_text(doc, ref):
     return ""
 
 
-def process_document(file_path, output_json_path, vlm_url=None, run_vlm_on_tables=False):
+def process_document(file_path, output_json_path, vlm_url=None, run_vlm_on_tables=False,run_vlm_on_images = False):
     """
     Parses a PDF using Docling, extracts tables as Markdown, crops figures,
     groups items under parent headings, runs the VLM if active, and saves to JSON.
@@ -146,30 +153,18 @@ def process_document(file_path, output_json_path, vlm_url=None, run_vlm_on_table
 
     from docling.datamodel.accelerator_options import AcceleratorDevice, AcceleratorOptions
     
-    # Setup Docling converter options with GPU acceleration
+    # Setup Docling converter options on CPU to preserve 100% of GPU VRAM for the 7B VLM
     pipeline_options = PdfPipelineOptions()
-    pipeline_options.generate_picture_images = True
+    pipeline_options.generate_picture_images = run_vlm_on_images
     pipeline_options.generate_table_images = run_vlm_on_tables
-    pipeline_options.accelerator_options = AcceleratorOptions(device=AcceleratorDevice.CUDA)
+    pipeline_options.accelerator_options = AcceleratorOptions(device=AcceleratorDevice.CPU)
 
     converter = DocumentConverter(
         format_options={InputFormat.PDF: PdfFormatOption(pipeline_options=pipeline_options)}
     )
 
     print(f"Converting document: {filename} with Docling...")
-    try:
-        conv_res = converter.convert(str(file_path))
-    except Exception as e:
-        err_msg = str(e).lower()
-        if "out of memory" in err_msg or "cuda" in err_msg or "oom" in err_msg:
-            print("  [VRAM Warning] CUDA Out of Memory on GPU. Falling back to CPU for this document...")
-            pipeline_options.accelerator_options = AcceleratorOptions(device=AcceleratorDevice.CPU)
-            converter = DocumentConverter(
-                format_options={InputFormat.PDF: PdfFormatOption(pipeline_options=pipeline_options)}
-            )
-            conv_res = converter.convert(str(file_path))
-        else:
-            raise e
+    conv_res = converter.convert(str(file_path))
     doc = conv_res.document
 
     # Containers for parsing
@@ -334,6 +329,13 @@ if __name__ == "__main__":
     parser.add_argument("--output", required=True, help="Path to output JSON file.")
     parser.add_argument("--vlm-url", default=None, help="Base API URL for local LM Studio VLM (e.g. http://localhost:1234/v1).")
     parser.add_argument("--run-vlm-on-tables", action="store_true", help="Generate table image crops and ask local VLM to summarize them.")
+    parser.add_argument("--run-vlm-on-images", action="store_true", help="Generate figure image crops and ask local VLM to describe them.")
     
     args = parser.parse_args()
-    process_document(args.input, args.output, vlm_url=args.vlm_url, run_vlm_on_tables=args.run_vlm_on_tables)
+    process_document(
+        args.input,
+        args.output,
+        vlm_url=args.vlm_url,
+        run_vlm_on_tables=args.run_vlm_on_tables,
+        run_vlm_on_images=args.run_vlm_on_images
+    )

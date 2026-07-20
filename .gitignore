@@ -19,6 +19,8 @@ langsmith/
 # (Prevents committing heavy local embedding/index files to GitHub)
 .chroma/
 chroma/
+chroma_db_vectorstore/
+uploads/
 faiss_index/
 .faiss/
 qdrant_storage/
@@ -114,3 +116,7 @@ papers/
 papers_old/
 user_data/
 data/
+core_ml_papers.py
+notebook.ipynb
+notebook2.ipynb
+
