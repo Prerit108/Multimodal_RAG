@@ -196,24 +196,20 @@ def document_chat(
     # Step 3: Index uploaded document chunks into IN-MEMORY Chroma vector store (Only if querying Uploaded Docs)
     uploaded_vector_store = None
     if parsed_docs and search_mode in ["uploaded_only", "combined"]:
-        uploaded_vector_store = Chroma(
-            collection_name="User_personal_doc",
-            embedding_function=embedding_model
-        )
-
         # Deduplicate chunk IDs to avoid database insert errors
         seen_ids = set()
         unique_docs = []
-        unique_ids = []
         for d in parsed_docs:
-            cid = d.metadata.get("chunk_id")
-            if cid and cid not in seen_ids:
+            cid = d.metadata.get("chunk_id") or d.page_content[:50]
+            if cid not in seen_ids:
                 seen_ids.add(cid)
                 unique_docs.append(d)
-                unique_ids.append(cid)
 
         if unique_docs:
-            uploaded_vector_store.add_documents(unique_docs, ids=unique_ids)
+            uploaded_vector_store = Chroma.from_documents(
+                documents=unique_docs,
+                embedding=embedding_model
+            )
 
     # Step 4: Execute retrieval based on selected search_mode
     rag_retriever = Retriever()
@@ -223,14 +219,14 @@ def document_chat(
         retrieved_docs = rag_retriever.start_retriever(main_docs, main_vector_store, query)
     elif search_mode == "uploaded_only":
         if uploaded_vector_store and parsed_docs:
-            retrieved_docs = rag_retriever.start_retriever(parsed_docs, uploaded_vector_store, query)
+            retrieved_docs = rag_retriever.start_retriever(parsed_docs, uploaded_vector_store, query,top_n_values = 5)
         else:
             retrieved_docs = []
     else:  # Combined search
         docs_db = rag_retriever.start_retriever(main_docs, main_vector_store, query)
         docs_up = []
         if uploaded_vector_store and parsed_docs:
-            docs_up = rag_retriever.start_retriever(parsed_docs, uploaded_vector_store, query)
+            docs_up = rag_retriever.start_retriever(parsed_docs, uploaded_vector_store, query,top_n_values = 5)
 
         # Merge results from both pools without duplicates
         seen_contents = set()
